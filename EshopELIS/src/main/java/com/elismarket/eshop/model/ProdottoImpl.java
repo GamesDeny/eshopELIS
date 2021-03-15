@@ -3,30 +3,24 @@ package com.elismarket.eshop.model;
 import com.elismarket.eshop.interfaces.Prodotto;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@ToString
 public class ProdottoImpl implements Prodotto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
     private String nome, descrizione;
-
-    @Getter
-    @Setter
     private Float prezzo;
-
-    @Getter
-    @Setter
     //sconto è percentuale, esempio 55%
     private Integer minOrd, maxOrd, sconto;
 
@@ -54,7 +48,5 @@ public class ProdottoImpl implements Prodotto {
 
     @ManyToMany
     @JoinTable (name = "prodotto_ordini", joinColumns = @JoinColumn(name = "ordine_id"), inverseJoinColumns = @JoinColumn(name = "prodotto_id"))
-    @Getter
-    @Setter
     private List<OrdineImpl> ordini = new ArrayList<>();
 }

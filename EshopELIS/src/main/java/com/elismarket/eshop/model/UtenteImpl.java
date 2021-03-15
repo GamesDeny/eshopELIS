@@ -4,6 +4,7 @@ import com.elismarket.eshop.interfaces.Pagamento;
 import com.elismarket.eshop.interfaces.Utente;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,24 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@ToString
 public class UtenteImpl implements Utente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
-    @Getter
-    @Setter
+
     private String mail, password, nome, cognome;
-
-    @Getter
-    @Setter
     private Integer siglaResidenza;
-
-    @Getter
-    @Setter
     private LocalDate dataDiNascita;
 
     public UtenteImpl() {
@@ -44,14 +39,10 @@ public class UtenteImpl implements Utente {
     }
 
     @JoinColumn(name = "utenti")
-    @Getter
-    @Setter
     @OneToMany
     private List<PagamentoImpl> pagamenti = new ArrayList<>();
 
     @JoinTable (name = "prodotto_ordini", joinColumns = @JoinColumn(name = "ordine_id"), inverseJoinColumns = @JoinColumn(name = "prodotto_id"))
-    @Getter
-    @Setter
     @OneToMany
     private List<OrdineImpl> ordini = new ArrayList<>();
 }
