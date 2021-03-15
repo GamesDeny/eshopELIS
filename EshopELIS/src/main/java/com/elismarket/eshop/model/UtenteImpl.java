@@ -3,6 +3,7 @@ package com.elismarket.eshop.model;
 import com.elismarket.eshop.interfaces.Pagamento;
 import com.elismarket.eshop.interfaces.Utente;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class UtenteImpl implements Utente {
 
     @Id
@@ -25,9 +27,6 @@ public class UtenteImpl implements Utente {
     private String mail, password, nome, cognome;
     private Integer siglaResidenza;
     private LocalDate dataDiNascita;
-
-    public UtenteImpl() {
-    }
 
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza, LocalDate dataDiNascita) {
         this.mail = mail;

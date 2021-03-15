@@ -2,6 +2,7 @@ package com.elismarket.eshop.model;
 
 import com.elismarket.eshop.interfaces.Prodotto;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class ProdottoImpl implements Prodotto {
 
     @Id
@@ -24,8 +26,6 @@ public class ProdottoImpl implements Prodotto {
     //sconto è percentuale, esempio 55%
     private Integer minOrd, maxOrd, sconto;
 
-    public ProdottoImpl() {
-    }
 
     public ProdottoImpl(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto) {
         this.nome = nome;

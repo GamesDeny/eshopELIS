@@ -2,6 +2,7 @@ package com.elismarket.eshop.model;
 
 import com.elismarket.eshop.interfaces.Pagamento;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class PagamentoImpl implements Pagamento {
 
     @Id

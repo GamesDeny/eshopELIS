@@ -2,6 +2,7 @@ package com.elismarket.eshop.model;
 
 import com.elismarket.eshop.interfaces.Ordine;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 public class OrdineImpl implements Ordine {
 
     @Id
@@ -22,9 +24,6 @@ public class OrdineImpl implements Ordine {
 
     private Boolean evaso;
     private LocalDate dataEvasione;
-
-    public OrdineImpl() {
-    }
 
     public OrdineImpl(Boolean evaso, LocalDate dataEvasione) {
         this.evaso = evaso;
