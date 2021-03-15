@@ -1,0 +1,20 @@
+
+nav{
+    align-items: center;
+    text-align: center;
+    align-items: center;
+}
+
+img{
+    padding: 10px;
+}
+
+.card{
+    border-radius: 5px;
+    align-items: center;
+    text-align: center;
+}
+
+.cart-icon{
+    padding-top: 5px;
+}

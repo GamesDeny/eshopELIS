@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/catalog.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <!--
+            Header bar
+        -->
+        <div class="row">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                  <div class="navbar-header">
+                    <a class="navbar-brand" href="#">
+                        Eshop ELIS
+                    </a>
+                  </div>
+                  <ul class="nav navbar-nav">
+                     
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a>Categoria 1</a></li>
+                    <li><a>Categoria 3</a></li>
+                    <li><a>Categoria 2</a></li>
+                    <li style="padding: 8px;">
+                        <form class="form-inline">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </li>
+                    <li style="padding: 8px;">
+                        <form class="form-inline">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Cart</button>
+                        </form>
+                    </li>
+                    <li style="padding: 8px;">
+                        <span class="material-icons outlined cart-icon">shopping_cart</span>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+        </div>
+
+        <!--
+            Content
+        -->
+        <div class="row">
+            <!--
+                Card to reproduce with img, name and price
+            -->
+            <div class="col-12 col-md-4">
+                <div class="row card">
+                    <div class="col-12">
+                        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP._jxDD-MyeXR0GydzazpNHwAAAA%26pid%3DApi&f=1" alt="" srcset="">
+                    </div>
+                    <div class="col-6 col-md-9">
+                        Cagnolone bobbe malle
+                        <input type="submit" value="Add to Cart">
+                    </div>
+                    <div class="col-3 col-md-3">
+                        <span class="material-icons outlined add-cart-icon">add_shopping_cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!--BOOTSTRAP IMPORT-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>
