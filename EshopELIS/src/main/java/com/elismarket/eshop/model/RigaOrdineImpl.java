@@ -25,8 +25,8 @@ public class RigaOrdineImpl {
     private Float prezzoTotale, sconto;
     private Integer quantitaProdotto;
 
-    @OneToMany(mappedBy = "rigaOrdine")
-    private List<OrdineImpl> ordini;
+    @ManyToOne
+    private OrdineImpl ordine;
 
     @OneToMany(mappedBy = "rigaOrdine")
     private List<ProdottoImpl> prodotti;

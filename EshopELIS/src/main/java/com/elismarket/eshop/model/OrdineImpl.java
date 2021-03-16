@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,8 +31,8 @@ public class OrdineImpl implements Ordine {
         this.dataEvasione = dataEvasione;
     }
 
-    @ManyToOne
-    private RigaOrdineImpl rigaOrdine;
+    @OneToMany(mappedBy = "ordine")
+    private List<RigaOrdineImpl> righeOrdine;
 
     @ManyToOne
     private MetodoPagamentoImpl pagamento;
