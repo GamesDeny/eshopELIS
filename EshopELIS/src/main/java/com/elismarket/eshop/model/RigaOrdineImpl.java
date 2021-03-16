@@ -28,7 +28,7 @@ public class RigaOrdineImpl {
     @ManyToOne
     private OrdineImpl ordine;
 
-    @OneToMany(mappedBy = "rigaOrdine")
-    private List<ProdottoImpl> prodotti;
+    @ManyToOne
+    private ProdottoImpl prodotto;
 
 }

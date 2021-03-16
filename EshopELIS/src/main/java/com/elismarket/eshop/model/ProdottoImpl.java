@@ -38,6 +38,6 @@ public class ProdottoImpl implements Prodotto {
         this.sconto = sconto;
     }
 
-    @ManyToOne
-    private RigaOrdineImpl rigaOrdine;
+    @OneToMany(mappedBy = "prodotto")
+    private List<RigaOrdineImpl> righeOrdine;
 }
