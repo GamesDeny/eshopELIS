@@ -26,16 +26,17 @@ public class ProdottoImpl implements Prodotto {
     private String nome, descrizione, nomeCategoria;
     private Float prezzo;
     //sconto è percentuale, esempio 55%
-    private Integer minOrd, maxOrd, sconto;
+    private Integer minOrd, maxOrd, sconto, quantita;
 
 
-    public ProdottoImpl(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto) {
+    public ProdottoImpl(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Integer quantita) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
         this.minOrd = minOrd;
         this.maxOrd = maxOrd;
         this.sconto = sconto;
+        this.quantita = quantita;
     }
 
     @OneToMany(mappedBy = "prodotto")

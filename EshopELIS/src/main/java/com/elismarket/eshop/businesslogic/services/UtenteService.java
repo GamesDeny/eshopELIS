@@ -14,12 +14,16 @@ public class UtenteService {
     @Autowired
     private UtenteCrud utenteCrud;
 
-    public List<Utente> getAllUtenti(String user, String pass) {
+    public List<Utente> getAll(){
+        return  utenteCrud.findAllBy();
+    }
+
+    public List<Utente> getUtente(String user, String pass) {
         return utenteCrud.findAllByUsernameAndPassword(user, pass);
     }
     
     public Boolean insertUtente(String cognome, LocalDate dataNascita, String mail, String nome, String password, Integer siglaResidenza, String username){
-        if(getAllUtenti(username, password).size() > 0)
+        if(getUtente(username, password).size() > 0)
             return false;
         utenteCrud.insertUser(cognome, dataNascita, mail, nome, password, siglaResidenza, username);
         return true;

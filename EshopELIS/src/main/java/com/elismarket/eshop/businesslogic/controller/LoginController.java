@@ -23,7 +23,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@RequestParam("username") String user, @RequestParam("password") String pass, Model model){
-        List<Utente> utenti = utenteService.getAllUtenti(user, pass);
+        List<Utente> utenti = utenteService.getUtente(user, pass);
 
         if(utenti.size() == 1) {
             (utenti.get(0)).setLogged();

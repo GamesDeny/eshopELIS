@@ -25,20 +25,37 @@ public class UtenteImpl implements Utente {
     private Long id;
 
 
-    private String mail, password, nome, cognome, username;
+    @Column(unique = true)
+    private String mail;
+
+    @Column(unique = true)
+    private String username;
+
+    @Column(unique = true)
+    private String password;
+
+    private String nome, cognome;
+
+    @Column(name = "sigla_residenza")
     private Integer siglaResidenza;
-    private LocalDate dataDiNascita;
+
+    @Column(name = "data_nascita")
+    private LocalDate dataNascita;
     private Boolean logged;
 
-    public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza, LocalDate dataDiNascita, String username) {
+    private Boolean isAdmin;
+
+    public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,
+                      LocalDate dataNascita, String username) {
         this.mail = mail;
         this.password = password;
         this.nome = nome;
         this.cognome = cognome;
         this.siglaResidenza = siglaResidenza;
-        this.dataDiNascita = dataDiNascita;
+        this.dataNascita = dataNascita;
         this.username = username;
         this.logged = false;
+        this.isAdmin = false;
     }
 
     @OneToMany(mappedBy = "utente")
@@ -47,5 +64,9 @@ public class UtenteImpl implements Utente {
     @Override
     public void setLogged(){
         this.logged = !(this.logged);
+    }
+
+    public void setIsAdmin(){
+        this.isAdmin = !(this.isAdmin);
     }
 }

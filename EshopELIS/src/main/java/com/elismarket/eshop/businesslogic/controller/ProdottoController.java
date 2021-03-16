@@ -3,15 +3,18 @@ package com.elismarket.eshop.businesslogic.controller;
 import com.elismarket.eshop.businesslogic.services.ProdottoService;
 import com.elismarket.eshop.interfaces.Prodotto;
 import com.elismarket.eshop.model.ProdottoImpl;
+import com.elismarket.eshop.model.UtenteImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@SessionAttributes({"utente"})
+@RequestMapping(path="/rest/prodotti", produces = "application/json")
+@CrossOrigin(origins = "*")
 public class ProdottoController {
     @Autowired
     private ProdottoService prodottoService;
@@ -22,21 +25,17 @@ public class ProdottoController {
     }
 
     @GetMapping("/aggiungiProdotto")
-    public String aggiungiProdotto(ProdottoImpl prodotto, Model model){
+    public String aggiungiProdotto(@RequestBody ProdottoImpl prodotto, @RequestParam("utente")UtenteImpl utente, Model model){
         //se va a buon fine, aggiunta corre, altrimento errore
-        model.addAttribute("esito", prodottoService.saveProdotto(prodotto)?"Prodotto aggiunto correttamente":"Errore nell'aggiunta");
+        if(utente.getIsAdmin())
+            model.addAttribute("esito", prodottoService.saveProdotto(prodotto)?"Prodotto aggiunto correttamente":"Errore nell'aggiunta");
+        else
+            model.addAttribute("esito", "Non sei amministratore!");
         return "esito";
     }
 
-    @GetMapping("/aggiungiProdotto")
-    public String aggiungiProdotto(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Model model){
-        //se va a buon fine, aggiunta corre, altrimento errore
-        ProdottoImpl prodotto = new ProdottoImpl(nome,descrizione,prezzo,minOrd, maxOrd, sconto);
-        model.addAttribute("esito", prodottoService.saveProdotto(prodotto)?"Prodotto aggiunto correttamente":"Errore nell'aggiunta");
-        return "esito";
-    }
-
-    @GetMapping("/cercaProdotto")
+    @GetMapping(path = "/cerca/prodotto",consumes = "application/json" )
+    @ResponseStatus( HttpStatus.CREATED )
     public String cercaProdotto(String nome, Model model){
         List<Prodotto> prodotti = prodottoService.findAllByNome(nome);
 
@@ -48,4 +47,16 @@ public class ProdottoController {
         model.addAttribute("prodotti", prodotti);
         return "risultatiRicercaProdotti";
     }
+
+    /*
+    * try{
+            PersonaBean personaBean = ricercaPerId(id);
+
+            HttpStatus httpStatus = personaBean != null? HttpStatus.OK : HttpStatus.NOT_FOUND;
+            return new ResponseEntity<PersonaBean>(personaBean, httpStatus);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<PersonaBean>(new PersonaBean(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    * */
 }
