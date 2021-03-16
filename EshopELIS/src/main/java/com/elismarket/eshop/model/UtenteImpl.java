@@ -11,6 +11,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ *
+ * User class with lombok methods (getter, setter, NAC, ToString)
+ * The class is used as an entity for the DB
+ * The class contains all users' information to register and login
+ *
+ */
 @Entity
 @Getter
 @Setter
@@ -26,7 +33,7 @@ public class UtenteImpl implements Utente {
 
 
     @Column(unique = true)
-    private String mail,  username;
+    private String mail, username;
 
     @Column(unique = false)
     private String password, nome, cognome;
@@ -39,6 +46,8 @@ public class UtenteImpl implements Utente {
     private Boolean logged;
 
     private Boolean isAdmin;
+    @OneToMany(mappedBy = "utente")
+    private List<MetodoPagamentoImpl> pagamenti = new ArrayList<>();
 
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,
                       LocalDate dataNascita, String username) {
@@ -53,15 +62,12 @@ public class UtenteImpl implements Utente {
         this.isAdmin = false;
     }
 
-    @OneToMany(mappedBy = "utente")
-    private List<MetodoPagamentoImpl> pagamenti = new ArrayList<>();
-
     @Override
-    public void setLogged(){
+    public void setLogged() {
         this.logged = !(this.logged);
     }
 
-    public void setIsAdmin(){
+    public void setIsAdmin() {
         this.isAdmin = !(this.isAdmin);
     }
 }

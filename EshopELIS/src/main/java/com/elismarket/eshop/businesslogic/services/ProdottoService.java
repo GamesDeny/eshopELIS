@@ -8,6 +8,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/*
+ *
+ * Service class for CRUD operations and control of Product
+ *
+ */
+
 @Service
 public class ProdottoService {
 
@@ -22,7 +28,7 @@ public class ProdottoService {
         try {
             prodottoCrud.save(prodotto);
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;

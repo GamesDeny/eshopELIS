@@ -8,7 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+/*
+ *
+ * Login controller for redirect to login and register pages
+ *
+ */
+
 
 @Controller
 @SessionAttributes({"utente"})
@@ -17,15 +23,15 @@ public class LoginController {
     private UtenteService utenteService;
 
     @ModelAttribute("utente")
-    public Utente createUtente(){
+    public Utente createUtente() {
         return new UtenteImpl();
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String user, @RequestParam("password") String pass, Model model){
+    public String login(@RequestParam("username") String user, @RequestParam("password") String pass, Model model) {
         Utente utente = utenteService.getUtente(user, pass);
 
-        if(utente != null) {
+        if (utente != null) {
             utente.setLogged();
             model.addAttribute("utente", utente);
             return "homeInterna";
@@ -35,8 +41,13 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String logout(Model model, @ModelAttribute("utente") Utente utente){
+    public String logout(Model model, @ModelAttribute("utente") Utente utente) {
         utente.setLogged();
         return "login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
     }
 }

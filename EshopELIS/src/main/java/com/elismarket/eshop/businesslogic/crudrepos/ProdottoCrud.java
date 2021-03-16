@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/*
+ *
+ * CRUD class for Products
+ *
+ */
+
 @Repository
 public interface ProdottoCrud extends CrudRepository<ProdottoImpl, Long> {
     List<Prodotto> findAllByNome(String nome);

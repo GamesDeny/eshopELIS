@@ -10,6 +10,12 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/*
+ *
+ * Order class with lombok methods (getter, setter, NAC, ToString)
+ * The class is used as an entity for the DB
+ * The class contains all orders informations
+ */
 @Entity
 @Getter
 @Setter
@@ -25,15 +31,13 @@ public class OrdineImpl implements Ordine {
 
     private Boolean evaso;
     private LocalDate dataEvasione;
+    @OneToMany(mappedBy = "ordine")
+    private List<RigaOrdineImpl> righeOrdine;
+    @ManyToOne
+    private MetodoPagamentoImpl pagamento;
 
     public OrdineImpl(Boolean evaso, LocalDate dataEvasione) {
         this.evaso = evaso;
         this.dataEvasione = dataEvasione;
     }
-
-    @OneToMany(mappedBy = "ordine")
-    private List<RigaOrdineImpl> righeOrdine;
-
-    @ManyToOne
-    private MetodoPagamentoImpl pagamento;
 }

@@ -1,13 +1,21 @@
 package com.elismarket.eshop.model;
 
-import com.sun.xml.bind.v2.model.core.ID;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
+
+/*
+ *
+ * Order Row class with lombok methods (getter, setter, NAC, ToString)
+ * The class is used as an entity for the DB
+ * The class contains all rows of an order related to an user
+ * When user X makes an order, he can buy many objects
+ * When this happens we store all rows (all different products) in this class
+ *
+ */
 
 @Entity
 @Getter

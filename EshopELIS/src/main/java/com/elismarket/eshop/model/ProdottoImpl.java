@@ -7,9 +7,16 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
+
+/*
+ *
+ * Product class with lombok methods (getter, setter, NAC, ToString)
+ * The class is used as an entity for the DB
+ * The class contains all product informations
+ *
+ */
 @Entity
 @Getter
 @Setter
@@ -27,7 +34,8 @@ public class ProdottoImpl implements Prodotto {
     private Float prezzo;
     //sconto è percentuale, esempio 55%
     private Integer minOrd, maxOrd, sconto, quantita;
-
+    @OneToMany(mappedBy = "prodotto")
+    private List<RigaOrdineImpl> righeOrdine;
 
     public ProdottoImpl(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Integer quantita) {
         this.nome = nome;
@@ -38,7 +46,4 @@ public class ProdottoImpl implements Prodotto {
         this.sconto = sconto;
         this.quantita = quantita;
     }
-
-    @OneToMany(mappedBy = "prodotto")
-    private List<RigaOrdineImpl> righeOrdine;
 }
