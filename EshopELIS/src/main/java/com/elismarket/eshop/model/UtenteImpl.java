@@ -24,17 +24,20 @@ public class UtenteImpl implements Utente {
     private Long id;
 
 
-    private String mail, password, nome, cognome;
+    private String mail, password, nome, cognome, username;
     private Integer siglaResidenza;
     private LocalDate dataDiNascita;
+    private Boolean logged;
 
-    public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza, LocalDate dataDiNascita) {
+    public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza, LocalDate dataDiNascita, String username) {
         this.mail = mail;
         this.password = password;
         this.nome = nome;
         this.cognome = cognome;
         this.siglaResidenza = siglaResidenza;
         this.dataDiNascita = dataDiNascita;
+        this.username = username;
+        this.logged = false;
     }
 
     @JoinColumn(name = "utenti")
@@ -44,4 +47,9 @@ public class UtenteImpl implements Utente {
     @JoinTable (name = "prodotto_ordini", joinColumns = @JoinColumn(name = "ordine_id"), inverseJoinColumns = @JoinColumn(name = "prodotto_id"))
     @OneToMany
     private List<OrdineImpl> ordini = new ArrayList<>();
+
+    @Override
+    public void setLogged(){
+        this.logged = !(this.logged);
+    }
 }

@@ -1,6 +1,7 @@
 package com.elismarket.eshop.interfaces;
 
-import java.time.LocalDate;
-
 public interface Utente {
+    public String getUsername();
+    public String getPassword();
+    public void setLogged();
 }

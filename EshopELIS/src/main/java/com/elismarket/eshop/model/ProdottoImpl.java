@@ -1,5 +1,6 @@
 package com.elismarket.eshop.model;
 
+import com.elismarket.eshop.interfaces.Categoria;
 import com.elismarket.eshop.interfaces.Prodotto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -49,4 +50,7 @@ public class ProdottoImpl implements Prodotto {
     @ManyToMany
     @JoinTable (name = "prodotto_ordini", joinColumns = @JoinColumn(name = "ordine_id"), inverseJoinColumns = @JoinColumn(name = "prodotto_id"))
     private List<OrdineImpl> ordini = new ArrayList<>();
+
+    @ManyToOne
+    private CategoriaImpl categoria;
 }
