@@ -11,8 +11,8 @@ import java.util.List;
 
 @Repository
 public interface ProdottoCrud extends CrudRepository<ProdottoImpl, Long> {
-    public List<Prodotto> findAllByNome(String nome);
+    List<Prodotto> findAllByNome(String nome);
 
     @Query("SELECT p FROM ProdottoImpl p WHERE p.categoria.nome = :nomeCat")
-    public List<Prodotto> findByNomeCategoria(@Param("nomeCat") String nomeCat);
+    List<Prodotto> findByNomeCategoria(@Param("nomeCat") String nomeCat);
 }
