@@ -8,8 +8,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface OrdineCrud extends CrudRepository<OrdineImpl, Long> {
-
-    @Transactional
-    @Query(value = "INSERT INTO (data_evasione, evaso) VALUES ()", nativeQuery = true)
-    public void insert();
 }

@@ -14,5 +14,5 @@ public interface ProdottoCrud extends CrudRepository<ProdottoImpl, Long> {
     List<Prodotto> findAllByNome(String nome);
 
     @Query("SELECT p FROM ProdottoImpl p WHERE p.nomeCategoria = :nomeCategoria")
-    List<Prodotto> findByNomeCategoria(@Param("nomeCategoria") String nomeCategoria);
+    List<Prodotto> findAllByNomeCategoria(@Param("nomeCategoria") String nomeCategoria);
 }
