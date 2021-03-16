@@ -8,8 +8,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -31,17 +29,9 @@ public class OrdineImpl implements Ordine {
         this.dataEvasione = dataEvasione;
     }
 
-    public OrdineImpl(Boolean evaso, LocalDate dataEvasione, List<ProdottoImpl> prodotti, UtenteImpl utente) {
-        this.evaso = evaso;
-        this.dataEvasione = dataEvasione;
-        this.prodotti = prodotti;
-        this.utente = utente;
-    }
-
-    @ManyToMany
-    private List<ProdottoImpl> prodotti = new ArrayList<>();
+    @ManyToOne
+    private RigaOrdineImpl rigaOrdine;
 
     @ManyToOne
-    @JoinColumn(name = "id_utente")
-    private UtenteImpl utente = null;
+    private MetodoDiPagamentoImpl pagamento;
 }

@@ -1,6 +1,5 @@
 package com.elismarket.eshop.model;
 
-import com.elismarket.eshop.interfaces.Pagamento;
 import com.elismarket.eshop.interfaces.Utente;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,13 +40,8 @@ public class UtenteImpl implements Utente {
         this.logged = false;
     }
 
-    @JoinColumn(name = "utenti")
-    @OneToMany
-    private List<PagamentoImpl> pagamenti = new ArrayList<>();
-
-    @JoinTable (name = "prodotto_ordini", joinColumns = @JoinColumn(name = "ordine_id"), inverseJoinColumns = @JoinColumn(name = "prodotto_id"))
-    @OneToMany
-    private List<OrdineImpl> ordini = new ArrayList<>();
+    @OneToMany(mappedBy = "utente")
+    private List<MetodoDiPagamentoImpl> pagamenti = new ArrayList<>();
 
     @Override
     public void setLogged(){

@@ -31,7 +31,7 @@ public class ProdottoController {
     @GetMapping("/aggiungiProdotto")
     public String aggiungiProdotto(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Model model){
         //se va a buon fine, aggiunta corre, altrimento errore
-        ProdottoImpl prodotto = new ProdottoImpl(nome,descrizione,prezzo,minOrd, maxOrd, sconto, null);
+        ProdottoImpl prodotto = new ProdottoImpl(nome,descrizione,prezzo,minOrd, maxOrd, sconto);
         model.addAttribute("esito", prodottoService.saveProdotto(prodotto)?"Prodotto aggiunto correttamente":"Errore nell'aggiunta");
         return "esito";
     }
