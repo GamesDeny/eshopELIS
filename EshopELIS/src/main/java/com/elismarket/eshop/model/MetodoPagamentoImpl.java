@@ -1,6 +1,7 @@
 package com.elismarket.eshop.model;
 
 import com.elismarket.eshop.interfaces.Pagamento;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +14,8 @@ import javax.persistence.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@Table(name = "metodo_di_pagamento")
-public class MetodoDiPagamentoImpl implements Pagamento {
+@Table(name = "metodo_pagamento")
+public class MetodoPagamentoImpl implements Pagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +26,4 @@ public class MetodoDiPagamentoImpl implements Pagamento {
 
     @ManyToOne
     private UtenteImpl utente;
-
-    @ManyToOne
-    private RigaOrdineImpl lineaOrdine;
 }

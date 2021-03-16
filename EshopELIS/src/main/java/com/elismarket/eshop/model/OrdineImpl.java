@@ -33,5 +33,5 @@ public class OrdineImpl implements Ordine {
     private RigaOrdineImpl rigaOrdine;
 
     @ManyToOne
-    private MetodoDiPagamentoImpl pagamento;
+    private MetodoPagamentoImpl pagamento;
 }

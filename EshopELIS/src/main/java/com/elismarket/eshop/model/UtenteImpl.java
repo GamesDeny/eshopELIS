@@ -41,7 +41,7 @@ public class UtenteImpl implements Utente {
     }
 
     @OneToMany(mappedBy = "utente")
-    private List<MetodoDiPagamentoImpl> pagamenti = new ArrayList<>();
+    private List<MetodoPagamentoImpl> pagamenti = new ArrayList<>();
 
     @Override
     public void setLogged(){

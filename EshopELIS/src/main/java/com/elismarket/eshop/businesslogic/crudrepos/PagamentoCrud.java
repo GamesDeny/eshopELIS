@@ -1,9 +1,9 @@
 package com.elismarket.eshop.businesslogic.crudrepos;
 
-import com.elismarket.eshop.model.MetodoDiPagamentoImpl;
+import com.elismarket.eshop.model.MetodoPagamentoImpl;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PagamentoCrud extends CrudRepository<MetodoDiPagamentoImpl, Long> {
+public interface PagamentoCrud extends CrudRepository<MetodoPagamentoImpl, Long> {
 }
