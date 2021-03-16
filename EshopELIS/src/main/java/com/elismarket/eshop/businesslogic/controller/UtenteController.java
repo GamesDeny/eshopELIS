@@ -19,4 +19,11 @@ public class UtenteController {
     public List<Utente> getAll(){
         return utenteService.getAll();
     }
+
+    @GetMapping("/getUser/{username}/{password}")
+    public Utente getByUsername(@PathVariable("username")String username, @PathVariable("password")String password){
+        return utenteService.getUtente(username, password);
+    }
+
+
 }

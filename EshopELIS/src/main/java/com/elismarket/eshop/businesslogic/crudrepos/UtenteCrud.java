@@ -16,7 +16,7 @@ public interface UtenteCrud extends CrudRepository<UtenteImpl, Long> {
 
     List<Utente> findAllBy();
 
-    List<Utente> findAllByUsernameAndPassword(String username, String password);
+    Utente findAllByUsernameAndPassword(String username, String password);
 
     @Transactional
     @Query(value = "INSERT INTO UtenteImpl (cognome, data_di_nascita, logged, mail, nome, password, sigla_residenza, username, is_admin)" +

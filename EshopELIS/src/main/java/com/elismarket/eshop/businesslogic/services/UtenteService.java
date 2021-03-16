@@ -2,6 +2,7 @@ package com.elismarket.eshop.businesslogic.services;
 
 import com.elismarket.eshop.businesslogic.crudrepos.UtenteCrud;
 import com.elismarket.eshop.interfaces.Utente;
+import com.elismarket.eshop.utilities.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,18 @@ public class UtenteService {
         return  utenteCrud.findAllBy();
     }
 
-    public List<Utente> getUtente(String user, String pass) {
+    public Utente getUtente(String user, String pass) {
         return utenteCrud.findAllByUsernameAndPassword(user, pass);
     }
     
     public Boolean insertUtente(String cognome, LocalDate dataNascita, String mail, String nome, String password, Integer siglaResidenza, String username){
-        if(getUtente(username, password).size() > 0)
+        if(getUtente(username, password) == null)
             return false;
-        utenteCrud.insertUser(cognome, dataNascita, mail, nome, password, siglaResidenza, username);
-        return true;
+
+        if(Checkers.passwordChecker(password) && Checkers.mailChecker(mail)) {
+            utenteCrud.insertUser(cognome, dataNascita, mail, nome, password, siglaResidenza, username);
+            return true;
+        }
+        return false;
     }
 }

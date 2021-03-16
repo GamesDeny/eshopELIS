@@ -23,11 +23,11 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@RequestParam("username") String user, @RequestParam("password") String pass, Model model){
-        List<Utente> utenti = utenteService.getUtente(user, pass);
+        Utente utente = utenteService.getUtente(user, pass);
 
-        if(utenti.size() == 1) {
-            (utenti.get(0)).setLogged();
-            model.addAttribute("utente", utenti.get(0));
+        if(utente != null) {
+            utente.setLogged();
+            model.addAttribute("utente", utente);
             return "homeInterna";
         }
         model.addAttribute("messaggio", "Utente non trovato!");

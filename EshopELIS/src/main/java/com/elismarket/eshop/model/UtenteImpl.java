@@ -26,15 +26,10 @@ public class UtenteImpl implements Utente {
 
 
     @Column(unique = true)
-    private String mail;
+    private String mail,  username;
 
-    @Column(unique = true)
-    private String username;
-
-    @Column(unique = true)
-    private String password;
-
-    private String nome, cognome;
+    @Column(unique = false)
+    private String password, nome, cognome;
 
     @Column(name = "sigla_residenza")
     private Integer siglaResidenza;
