@@ -12,7 +12,7 @@ import java.util.List;
 
 @Controller
 @SessionAttributes({"utente"})
-public class LoginServlet {
+public class LoginController {
     @Autowired
     private UtenteService utenteService;
 
@@ -31,12 +31,12 @@ public class LoginServlet {
             return "homeInterna";
         }
         model.addAttribute("messaggio", "Utente non trovato!");
-        return "paginaLogin";
+        return "login";
     }
 
     @GetMapping("/logout")
     public String logout(Model model, @ModelAttribute("utente") Utente utente){
         utente.setLogged();
-        return "paginaLogin";
+        return "login";
     }
 }
