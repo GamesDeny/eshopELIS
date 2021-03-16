@@ -17,6 +17,7 @@ import javax.persistence.*;
 @Table(name = "metodo_pagamento")
 public class MetodoPagamentoImpl implements Pagamento {
 
+    //settings
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
