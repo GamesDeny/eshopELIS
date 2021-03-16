@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@Table(name = "ordine")
 public class OrdineImpl implements Ordine {
 
     @Id

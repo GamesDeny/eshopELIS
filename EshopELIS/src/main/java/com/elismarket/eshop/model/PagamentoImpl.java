@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @NoArgsConstructor
+@Table(name = "pagamento")
 public class PagamentoImpl implements Pagamento {
 
     @Id

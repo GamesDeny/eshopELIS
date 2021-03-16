@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@Table(name = "prodotto")
 public class ProdottoImpl implements Prodotto {
 
     @Id

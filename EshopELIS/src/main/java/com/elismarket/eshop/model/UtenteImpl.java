@@ -17,6 +17,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@Table(name = "utente")
 public class UtenteImpl implements Utente {
 
     @Id
