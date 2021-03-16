@@ -20,6 +20,7 @@ public class ProdottoImpl implements Prodotto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
 
     private String nome, descrizione, nomeCategoria;

@@ -19,6 +19,7 @@ public class RigaOrdineImpl {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
 
     private Float prezzoTotale, sconto;

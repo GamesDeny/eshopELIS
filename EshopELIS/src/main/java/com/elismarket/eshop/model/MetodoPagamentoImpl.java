@@ -19,6 +19,7 @@ public class MetodoPagamentoImpl implements Pagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
     //tipo is an enum
     private String tipo, descrizione, paypalMail;

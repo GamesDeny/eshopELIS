@@ -5,6 +5,7 @@ import com.elismarket.eshop.interfaces.Utente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,5 +16,12 @@ public class UtenteService {
 
     public List<Utente> getAllUtenti(String user, String pass) {
         return utenteCrud.findAllByUsernameAndPassword(user, pass);
+    }
+    
+    public Boolean insertUtente(String cognome, LocalDate dataNascita, String mail, String nome, String password, Integer siglaResidenza, String username){
+        if(getAllUtenti(username, password).size() > 0)
+            return false;
+        utenteCrud.insertUser(cognome, dataNascita, mail, nome, password, siglaResidenza, username);
+        return true;
     }
 }

@@ -21,6 +21,7 @@ public class UtenteImpl implements Utente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private Long id;
 
 
