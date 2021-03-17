@@ -31,8 +31,10 @@ public class OrdineImpl implements Ordine {
 
     private Boolean evaso;
     private LocalDate dataEvasione;
+
     @OneToMany(mappedBy = "ordine")
     private List<RigaOrdineImpl> righeOrdine;
+
     @ManyToOne
     private MetodoPagamentoImpl pagamento;
 
