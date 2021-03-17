@@ -29,6 +29,7 @@ public class OrdineImpl implements Ordine {
     @Column(unique = true, nullable = false)
     private Long id;
 
+
     private Boolean evaso;
     private LocalDate dataEvasione;
 

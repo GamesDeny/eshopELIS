@@ -5,8 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"com.elismarket.eshop.controller",
-        "com.elismarket.eshop.crudrepos", "com.elismarket.eshop.services"})
+@SpringBootApplication(scanBasePackages = {"com.elismarket.eshop.*", "META-INF.views"})
 
 @EnableJpaRepositories(basePackages = {"com.elismarket.eshop.crudrepos"})
 

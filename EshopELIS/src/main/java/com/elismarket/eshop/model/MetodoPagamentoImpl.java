@@ -28,6 +28,7 @@ public class MetodoPagamentoImpl implements Pagamento {
     @Column(unique = true, nullable = false)
     private Long id;
     //tipo is an enum
+
     private String tipo, descrizione, paypalMail;
     private Integer contanti;
 

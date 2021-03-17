@@ -56,10 +56,4 @@ public class LoginController {
         model.addAttribute("a", "a");
         return "index";
     }
-
-    /*@GetMapping("/error")
-    public String error(){
-        return "index";
-    }
-    */
 }

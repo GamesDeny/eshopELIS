@@ -1,6 +1,7 @@
 package com.elismarket.eshop.model;
 
 import com.elismarket.eshop.interfaces.Prodotto;
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,10 +31,16 @@ public class ProdottoImpl implements Prodotto {
     @Column(unique = true, nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     private String nome, descrizione, nomeCategoria;
+
+
+    @Column(nullable = false)
     private Float prezzo;
+
     //sconto è percentuale, esempio 55%
     private Integer minOrd, maxOrd, sconto, quantita;
+
     @OneToMany(mappedBy = "prodotto")
     private List<RigaOrdineImpl> righeOrdine;
 
