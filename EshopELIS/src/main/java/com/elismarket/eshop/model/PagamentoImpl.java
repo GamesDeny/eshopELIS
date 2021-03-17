@@ -20,7 +20,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @Table(name = "metodo_pagamento")
-public class MetodoPagamentoImpl implements Pagamento {
+public class PagamentoImpl implements Pagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +34,8 @@ public class MetodoPagamentoImpl implements Pagamento {
     @ManyToOne
     private UtenteImpl utente;
 
-    public static MetodoPagamentoImpl of(MetodoPagamentoDTO metodoPagamentoDTO){
-        return MetodoPagamentoImpl.builder()
+    public static PagamentoImpl of(MetodoPagamentoDTO metodoPagamentoDTO) {
+        return PagamentoImpl.builder()
                 .tipo(metodoPagamentoDTO.tipo)
                 .descrizione(metodoPagamentoDTO.descrizione)
                 .paypalMail(metodoPagamentoDTO.paypalMail)

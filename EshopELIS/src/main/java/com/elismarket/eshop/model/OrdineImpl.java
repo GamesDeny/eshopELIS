@@ -36,14 +36,14 @@ public class OrdineImpl implements Ordine {
     private List<RigaOrdineImpl> righeOrdine;
 
     @ManyToOne
-    private MetodoPagamentoImpl pagamento;
+    private PagamentoImpl pagamento;
 
     public OrdineImpl(Boolean evaso, LocalDate dataEvasione) {
         this.evaso = evaso;
         this.dataEvasione = dataEvasione;
     }
 
-    public static OrdineImpl of(OrdineDTO ordineDTO){
+    public static OrdineImpl of(OrdineDTO ordineDTO) {
         return OrdineImpl.builder()
                 .evaso(ordineDTO.evaso)
                 .dataEvasione(ordineDTO.dataEvasione)

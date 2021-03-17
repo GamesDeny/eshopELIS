@@ -34,9 +34,7 @@ public class UtenteImpl implements Utente {
     @Column(unique = true)
     private String mail, username;
 
-    @Column(unique = false)
     private String password, nome, cognome;
-
     @Column(name = "sigla_residenza")
     private Integer siglaResidenza;
 
@@ -46,7 +44,7 @@ public class UtenteImpl implements Utente {
 
     private Boolean isAdmin;
     @OneToMany(mappedBy = "utente")
-    private List<MetodoPagamentoImpl> pagamenti = new ArrayList<>();
+    private List<PagamentoImpl> pagamenti = new ArrayList<>();
 
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,
                       LocalDate dataNascita, String username) {

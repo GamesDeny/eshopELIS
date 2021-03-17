@@ -21,8 +21,28 @@ public class ProdottoService {
     @Autowired
     private ProdottoCrud prodottoCrud;
 
+    public List<ProdottoImpl> getAll() {
+        return prodottoCrud.findAll();
+    }
+
     public List<Prodotto> findAllByNome(String nome) {
         return prodottoCrud.findAllByNome(nome);
+    }
+
+    public List<Prodotto> findAllByCategoria(String categoria) {
+        return prodottoCrud.findAllByNomeCategoria(categoria);
+    }
+
+    public List<Prodotto> findByQuantitaMaggiore(Integer quantita) {
+        return prodottoCrud.findAllByQuantitaGreaterThanEqual(quantita);
+    }
+
+    public List<Prodotto> findByQuantitaMinore(Integer quantita) {
+        return prodottoCrud.findAllByQuantitaLessThanEqual(quantita);
+    }
+
+    public List<Prodotto> getProdottoByCategoria(ProdottoDTO prodottoDTO) {
+        return prodottoCrud.findAllByNomeCategoria(prodottoDTO.nomeCategoria);
     }
 
     public boolean saveProdotto(ProdottoDTO prodotto) {

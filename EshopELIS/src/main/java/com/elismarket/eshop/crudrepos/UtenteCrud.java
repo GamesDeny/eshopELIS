@@ -23,6 +23,9 @@ public interface UtenteCrud extends CrudRepository<UtenteImpl, Long> {
 
     List<Utente> findAllBy();
 
+    List<Utente> findAllByIsAdmin(Boolean isAdmin);
+
+
     Utente findAllByUsernameAndPassword(String username, String password);
 
     @Transactional

@@ -8,7 +8,6 @@ import com.elismarket.eshop.utilities.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,11 +23,19 @@ public class UtenteService {
     @Autowired
     private UtenteCrud utenteCrud;
 
-    public List<Utente> getAll() {
-        return utenteCrud.findAllBy();
+    public List<Utente> getAll(String findby) {
+        switch (findby) {
+            case "":
+                return utenteCrud.findAllBy();
+            case "admin":
+                return utenteCrud.findAllByIsAdmin(true);
+            case "user":
+                return utenteCrud.findAllByIsAdmin(false);
+        }
+        throw new RuntimeException("Missing param");
     }
 
-    public Utente getUtente(UtenteDTO utenteDTO) {
+    public Utente getUtente(UtenteDTO utenteDTO, String username) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
             throw new RuntimeException("Missing parameters!");
         return utenteCrud.findAllByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
