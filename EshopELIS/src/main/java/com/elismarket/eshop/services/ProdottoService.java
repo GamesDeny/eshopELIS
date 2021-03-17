@@ -1,6 +1,7 @@
 package com.elismarket.eshop.services;
 
 import com.elismarket.eshop.crudrepos.ProdottoCrud;
+import com.elismarket.eshop.dto.ProdottoDTO;
 import com.elismarket.eshop.interfaces.Prodotto;
 import com.elismarket.eshop.model.ProdottoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,10 @@ public class ProdottoService {
         return prodottoCrud.findAllByNome(nome);
     }
 
-    public boolean saveProdotto(ProdottoImpl prodotto) {
+    public boolean saveProdotto(ProdottoDTO prodotto) {
+        ProdottoImpl prod = ProdottoImpl.of(prodotto);
         try {
-            prodottoCrud.save(prodotto);
+            prodottoCrud.save(prod);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,8 @@
 package com.elismarket.eshop.controller;
 
-import com.elismarket.eshop.services.UtenteService;
+import com.elismarket.eshop.dto.UtenteDTO;
 import com.elismarket.eshop.interfaces.Utente;
+import com.elismarket.eshop.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +30,9 @@ public class UtenteController {
         return utenteService.getAll();
     }
 
-    @GetMapping("/getUser/{username}/{password}")
-    public Utente getByUsername(@PathVariable("username") String username, @PathVariable("password") String password) {
-        return utenteService.getUtente(username, password);
+    @GetMapping("/getUser")
+    public Utente getByUsername(@RequestBody UtenteDTO utenteDTO) {
+        return utenteService.getUtente(utenteDTO);
     }
 
 

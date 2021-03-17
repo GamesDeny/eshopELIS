@@ -1,10 +1,8 @@
 package com.elismarket.eshop.model;
 
+import com.elismarket.eshop.dto.OrdineDTO;
 import com.elismarket.eshop.interfaces.Ordine;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +15,7 @@ import java.util.List;
  * The class contains all orders informations
  */
 @Entity
+@Builder
 @Getter
 @Setter
 @ToString
@@ -42,5 +41,12 @@ public class OrdineImpl implements Ordine {
     public OrdineImpl(Boolean evaso, LocalDate dataEvasione) {
         this.evaso = evaso;
         this.dataEvasione = dataEvasione;
+    }
+
+    public static OrdineImpl of(OrdineDTO ordineDTO){
+        return OrdineImpl.builder()
+                .evaso(ordineDTO.evaso)
+                .dataEvasione(ordineDTO.dataEvasione)
+                .build();
     }
 }

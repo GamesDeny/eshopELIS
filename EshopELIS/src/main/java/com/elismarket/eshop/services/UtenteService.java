@@ -1,13 +1,16 @@
 package com.elismarket.eshop.services;
 
 import com.elismarket.eshop.crudrepos.UtenteCrud;
+import com.elismarket.eshop.dto.UtenteDTO;
 import com.elismarket.eshop.interfaces.Utente;
+import com.elismarket.eshop.model.UtenteImpl;
 import com.elismarket.eshop.utilities.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 /*
  *
@@ -25,16 +28,18 @@ public class UtenteService {
         return utenteCrud.findAllBy();
     }
 
-    public Utente getUtente(String user, String pass) {
-        return utenteCrud.findAllByUsernameAndPassword(user, pass);
+    public Utente getUtente(UtenteDTO utenteDTO) {
+        if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
+            throw new RuntimeException("Missing parameters!");
+        return utenteCrud.findAllByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
     }
 
-    public Boolean insertUtente(String cognome, LocalDate dataNascita, String mail, String nome, String password, Integer siglaResidenza, String username) {
-        if (getUtente(username, password) == null)
+    public Boolean insertUtente(UtenteDTO utenteDTO) {
+        if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
             return false;
 
-        if (Checkers.passwordChecker(password) && Checkers.mailChecker(mail)) {
-            utenteCrud.insertUser(cognome, dataNascita, mail, nome, password, siglaResidenza, username);
+        if (Checkers.passwordChecker(utenteDTO.password) && Checkers.mailChecker(utenteDTO.mail)) {
+            utenteCrud.save(UtenteImpl.of(utenteDTO));
             return true;
         }
         return false;

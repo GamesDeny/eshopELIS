@@ -1,9 +1,7 @@
 package com.elismarket.eshop.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.elismarket.eshop.dto.RigaOrdineDTO;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -18,6 +16,7 @@ import javax.persistence.*;
  */
 
 @Entity
+@Builder
 @Getter
 @Setter
 @ToString
@@ -39,4 +38,11 @@ public class RigaOrdineImpl {
     @ManyToOne
     private ProdottoImpl prodotto;
 
+    public static RigaOrdineImpl of(RigaOrdineDTO rigaOrdineDTO){
+        return RigaOrdineImpl.builder()
+                .prezzoTotale(rigaOrdineDTO.prezzoTotale)
+                .sconto(rigaOrdineDTO.sconto)
+                .quantitaProdotto(rigaOrdineDTO.quantitaProdotto)
+                .build();
+    }
 }

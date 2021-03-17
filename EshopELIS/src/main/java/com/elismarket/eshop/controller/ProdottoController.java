@@ -1,9 +1,10 @@
 package com.elismarket.eshop.controller;
 
-import com.elismarket.eshop.services.ProdottoService;
+import com.elismarket.eshop.dto.ProdottoDTO;
 import com.elismarket.eshop.interfaces.Prodotto;
 import com.elismarket.eshop.model.ProdottoImpl;
 import com.elismarket.eshop.model.UtenteImpl;
+import com.elismarket.eshop.services.ProdottoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ public class ProdottoController {
     }
 
     @GetMapping("/aggiungiProdotto")
-    public String aggiungiProdotto(@RequestBody ProdottoImpl prodotto, @RequestParam("utente") UtenteImpl utente, Model model) {
+    public String aggiungiProdotto(@RequestBody ProdottoDTO prodotto, @RequestParam("utente") UtenteImpl utente, Model model) {
         //se va a buon fine, aggiunta corre, altrimento errore
         if (utente.getIsAdmin())
             model.addAttribute("esito", prodottoService.saveProdotto(prodotto) ? "Prodotto aggiunto correttamente" : "Errore nell'aggiunta");
@@ -43,6 +44,7 @@ public class ProdottoController {
         return "esito";
     }
 
+    //other way to do it
     @GetMapping(path = "/cerca/prodotto", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public String cercaProdotto(String nome, Model model) {
@@ -56,16 +58,4 @@ public class ProdottoController {
         model.addAttribute("prodotti", prodotti);
         return "risultatiRicercaProdotti";
     }
-
-    /*
-    * try{
-            PersonaBean personaBean = ricercaPerId(id);
-
-            HttpStatus httpStatus = personaBean != null? HttpStatus.OK : HttpStatus.NOT_FOUND;
-            return new ResponseEntity<PersonaBean>(personaBean, httpStatus);
-        } catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<PersonaBean>(new PersonaBean(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    * */
 }

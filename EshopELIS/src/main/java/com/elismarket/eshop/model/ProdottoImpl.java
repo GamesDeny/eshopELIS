@@ -1,11 +1,8 @@
 package com.elismarket.eshop.model;
 
+import com.elismarket.eshop.dto.ProdottoDTO;
 import com.elismarket.eshop.interfaces.Prodotto;
-import com.sun.istack.NotNull;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,6 +20,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@Builder
 @Table(name = "prodotto")
 public class ProdottoImpl implements Prodotto {
 
@@ -52,5 +50,19 @@ public class ProdottoImpl implements Prodotto {
         this.maxOrd = maxOrd;
         this.sconto = sconto;
         this.quantita = quantita;
+    }
+
+    public static ProdottoImpl of(ProdottoDTO prodotto) {
+        return ProdottoImpl.builder()
+                .id(prodotto.id)
+                .nome(prodotto.nome)
+                .descrizione(prodotto.descrizione)
+                .nomeCategoria(prodotto.nomeCategoria)
+                .prezzo(prodotto.prezzo)
+                .minOrd(prodotto.minOrd)
+                .maxOrd(prodotto.maxOrd)
+                .sconto(prodotto.sconto)
+                .quantita(prodotto.quantita)
+                .build();
     }
 }

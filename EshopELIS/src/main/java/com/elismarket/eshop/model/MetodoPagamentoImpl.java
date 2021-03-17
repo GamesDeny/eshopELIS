@@ -1,10 +1,8 @@
 package com.elismarket.eshop.model;
 
+import com.elismarket.eshop.dto.MetodoPagamentoDTO;
 import com.elismarket.eshop.interfaces.Pagamento;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -16,6 +14,7 @@ import javax.persistence.*;
  *
  */
 @Entity
+@Builder
 @Getter
 @Setter
 @ToString
@@ -34,4 +33,13 @@ public class MetodoPagamentoImpl implements Pagamento {
 
     @ManyToOne
     private UtenteImpl utente;
+
+    public static MetodoPagamentoImpl of(MetodoPagamentoDTO metodoPagamentoDTO){
+        return MetodoPagamentoImpl.builder()
+                .tipo(metodoPagamentoDTO.tipo)
+                .descrizione(metodoPagamentoDTO.descrizione)
+                .paypalMail(metodoPagamentoDTO.paypalMail)
+                .contanti(metodoPagamentoDTO.contanti)
+                .build();
+    }
 }

@@ -1,10 +1,8 @@
 package com.elismarket.eshop.model;
 
+import com.elismarket.eshop.dto.UtenteDTO;
 import com.elismarket.eshop.interfaces.Utente;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +17,7 @@ import java.util.List;
  *
  */
 @Entity
+@Builder
 @Getter
 @Setter
 @ToString
@@ -60,6 +59,20 @@ public class UtenteImpl implements Utente {
         this.username = username;
         this.logged = false;
         this.isAdmin = false;
+    }
+
+    public static UtenteImpl of(UtenteDTO utenteDTO) {
+        return UtenteImpl.builder()
+                .mail(utenteDTO.mail)
+                .username(utenteDTO.username)
+                .password(utenteDTO.password)
+                .nome(utenteDTO.nome)
+                .cognome(utenteDTO.cognome)
+                .siglaResidenza(utenteDTO.siglaResidenza)
+                .dataNascita(utenteDTO.dataNascita)
+                .logged(false)
+                .isAdmin(false)
+                .build();
     }
 
     @Override
