@@ -1,14 +1,14 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="eshopelis:war">
+  <artifact type="war" name="EshopELIS:war">
     <output-path>$PROJECT_DIR$/EshopELIS/target</output-path>
     <properties id="maven-jee-properties">
       <options>
-        <module>eshopelis</module>
+        <module>EshopELIS</module>
         <packaging>war</packaging>
       </options>
     </properties>
     <root id="archive" name="eshopelis-0.0.1-SNAPSHOT.war">
-      <element id="artifact" artifact-name="eshopelis:war exploded" />
+      <element id="artifact" artifact-name="EshopELIS:war exploded" />
     </root>
   </artifact>
 </component>

@@ -1,10 +1,10 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="eshopelis:war exploded">
+  <artifact type="exploded-war" name="EshopELIS:war exploded">
     <output-path>$PROJECT_DIR$/EshopELIS/target/eshopelis-0.0.1-SNAPSHOT</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
-        <module>eshopelis</module>
+        <module>EshopELIS</module>
         <packaging>war</packaging>
       </options>
     </properties>
@@ -88,6 +88,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-websocket:5.3.4" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.23" />
           <element id="library" level="project" name="Maven: jakarta.annotation:jakarta.annotation-api:1.3.5" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-core:9.0.43" />
           <element id="library" level="project" name="Maven: com.jayway.jsonpath:json-path:2.4.0" />
           <element id="library" level="project" name="Maven: net.minidev:json-smart:2.3" />
           <element id="library" level="project" name="Maven: net.minidev:accessors-smart:1.2" />
@@ -96,6 +97,11 @@
           <element id="library" level="project" name="Maven: jakarta.activation:jakarta.activation-api:1.2.2" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.4" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.3.4" />
+          <element id="library" level="project" name="Maven: javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1" />
+          <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-jasper:9.0.43" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.43" />
+          <element id="library" level="project" name="Maven: org.eclipse.jdt:ecj:3.18.0" />
         </element>
       </element>
       <element id="directory" name="META-INF">

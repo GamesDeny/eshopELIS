@@ -1,6 +1,5 @@
-package com.elismarket.eshop.businesslogic.crudrepos;
+package com.elismarket.eshop.crudrepos;
 
-import com.elismarket.eshop.model.OrdineImpl;
 import com.elismarket.eshop.model.RigaOrdineImpl;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

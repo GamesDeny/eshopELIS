@@ -1,6 +1,6 @@
-package com.elismarket.eshop.businesslogic.controller;
+package com.elismarket.eshop.controller;
 
-import com.elismarket.eshop.businesslogic.services.UtenteService;
+import com.elismarket.eshop.services.UtenteService;
 import com.elismarket.eshop.interfaces.Utente;
 import com.elismarket.eshop.model.UtenteImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,14 @@ public class LoginController {
     }
 
     @GetMapping("/index")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("a", "a");
         return "index";
     }
+
+    /*@GetMapping("/error")
+    public String error(){
+        return "index";
+    }
+    */
 }

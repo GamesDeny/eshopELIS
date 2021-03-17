@@ -1,6 +1,6 @@
-package com.elismarket.eshop.businesslogic.controller;
+package com.elismarket.eshop.controller;
 
-import com.elismarket.eshop.businesslogic.services.ProdottoService;
+import com.elismarket.eshop.services.ProdottoService;
 import com.elismarket.eshop.interfaces.Prodotto;
 import com.elismarket.eshop.model.ProdottoImpl;
 import com.elismarket.eshop.model.UtenteImpl;
