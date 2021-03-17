@@ -50,4 +50,9 @@ public class LoginController {
     public String register() {
         return "register";
     }
+
+    @GetMapping("/index")
+    public String index() {
+        return "index";
+    }
 }
