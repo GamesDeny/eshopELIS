@@ -1,6 +1,7 @@
 package com.elismarket.eshop.model;
 
 import com.elismarket.eshop.dto.RigaOrdineDTO;
+import com.elismarket.eshop.interfaces.RigaOrdine;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @Table(name = "riga_ordine")
-public class RigaOrdineImpl {
+public class RigaOrdineImpl implements RigaOrdine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,7 @@ public class RigaOrdineImpl {
     @ManyToOne
     private ProdottoImpl prodotto;
 
-    public static RigaOrdineImpl of(RigaOrdineDTO rigaOrdineDTO){
+    public static RigaOrdineImpl of(RigaOrdineDTO rigaOrdineDTO) {
         return RigaOrdineImpl.builder()
                 .prezzoTotale(rigaOrdineDTO.prezzoTotale)
                 .sconto(rigaOrdineDTO.sconto)
