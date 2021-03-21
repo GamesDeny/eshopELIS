@@ -46,6 +46,9 @@ public class UtenteImpl implements Utente {
     @OneToMany(mappedBy = "utente")
     private List<PagamentoImpl> pagamenti = new ArrayList<>();
 
+    //need to convert to Base64
+    private String profileImage;
+
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,
                       LocalDate dataNascita, String username) {
         this.mail = mail;

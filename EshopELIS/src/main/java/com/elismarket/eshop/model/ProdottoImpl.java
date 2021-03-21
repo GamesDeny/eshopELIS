@@ -42,6 +42,9 @@ public class ProdottoImpl implements Prodotto {
     @OneToMany(mappedBy = "prodotto")
     private List<RigaOrdineImpl> righeOrdine;
 
+    //need to convert to Base64
+    private String Image;
+
     public ProdottoImpl(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Integer quantita) {
         this.nome = nome;
         this.descrizione = descrizione;

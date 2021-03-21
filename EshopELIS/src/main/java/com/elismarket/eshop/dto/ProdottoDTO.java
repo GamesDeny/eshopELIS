@@ -18,4 +18,5 @@ public class ProdottoDTO {
     public String nome, descrizione, nomeCategoria;
     public Float prezzo;
     public Integer minOrd, maxOrd, sconto, quantita;
+    public String image;
 }

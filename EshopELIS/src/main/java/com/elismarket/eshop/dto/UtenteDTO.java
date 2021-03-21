@@ -20,5 +20,6 @@ public class UtenteDTO {
     public Integer siglaResidenza;
     public LocalDate dataNascita;
     public Boolean logged;
-    private Boolean isAdmin;
+    public Boolean isAdmin;
+    public String profileImage;
 }
