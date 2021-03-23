@@ -30,12 +30,6 @@ public class PagamentoImpl implements Pagamento {
 
     private String tipo, descrizione, paypalMail;
     private Integer contanti;
-
-    enum PagamentoEnum {
-        PAYPAL,
-        CONTANTI;
-    }
-
     @ManyToOne
     private UtenteImpl utente;
 
@@ -46,5 +40,10 @@ public class PagamentoImpl implements Pagamento {
                 .paypalMail(metodoPagamentoDTO.paypalMail)
                 .contanti(metodoPagamentoDTO.contanti)
                 .build();
+    }
+
+    enum PagamentoEnum {
+        PAYPAL,
+        CONTANTI
     }
 }
