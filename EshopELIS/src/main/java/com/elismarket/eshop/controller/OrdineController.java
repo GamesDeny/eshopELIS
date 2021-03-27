@@ -1,13 +1,11 @@
 package com.elismarket.eshop.controller;
 
+import com.elismarket.eshop.dto.OrdineDTO;
 import com.elismarket.eshop.interfaces.Ordine;
 import com.elismarket.eshop.model.OrdineImpl;
 import com.elismarket.eshop.services.OrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,6 +16,17 @@ import java.util.List;
 public class OrdineController {
     @Autowired
     OrdineService ordineService;
+
+
+    @PostMapping("/add")
+    public void addOrdine(@RequestBody OrdineDTO ordineDTO) {
+        ordineService.saveOrdine(ordineDTO);
+    }
+
+    @DeleteMapping("/remove/id")
+    public void removeOrdine(@RequestParam("id") Long id) {
+        ordineService.removeOrdine(id);
+    }
 
     @GetMapping("/getall")
     public List<OrdineImpl> getAll() {

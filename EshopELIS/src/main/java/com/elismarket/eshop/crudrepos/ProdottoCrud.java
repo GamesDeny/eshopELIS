@@ -4,6 +4,7 @@ import com.elismarket.eshop.interfaces.Prodotto;
 import com.elismarket.eshop.model.ProdottoImpl;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,5 +24,5 @@ public interface ProdottoCrud extends CrudRepository<ProdottoImpl, Long> {
 
     List<Prodotto> findAllByQuantitaLessThanEqual(Integer quantita);
 
-    List<ProdottoImpl> findAll();
+    Prodotto findAllById(@RequestParam("id") Long id);
 }

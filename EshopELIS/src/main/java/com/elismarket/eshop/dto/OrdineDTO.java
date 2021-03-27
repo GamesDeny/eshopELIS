@@ -1,5 +1,6 @@
 package com.elismarket.eshop.dto;
 
+import com.elismarket.eshop.model.OrdineImpl;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class OrdineDTO {
+public class OrdineDTO extends OrdineImpl {
     public Long id;
     public Boolean evaso;
     public LocalDate dataEvasione;

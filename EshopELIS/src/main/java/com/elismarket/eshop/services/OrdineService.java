@@ -1,6 +1,7 @@
 package com.elismarket.eshop.services;
 
 import com.elismarket.eshop.crudrepos.OrdineCrud;
+import com.elismarket.eshop.dto.OrdineDTO;
 import com.elismarket.eshop.interfaces.Ordine;
 import com.elismarket.eshop.model.OrdineImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,13 @@ public class OrdineService {
 
     public List<Ordine> getDataDopo(LocalDate dataEvasione) {
         return ordineCrud.findAllByDataEvasioneAfter(dataEvasione);
+    }
+
+    public void saveOrdine(OrdineDTO ordineDTO) {
+        ordineCrud.save(ordineDTO);
+    }
+
+    public void removeOrdine(Long id) {
+        ordineCrud.deleteById(id);
     }
 }

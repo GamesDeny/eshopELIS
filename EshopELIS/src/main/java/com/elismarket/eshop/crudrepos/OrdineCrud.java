@@ -23,4 +23,6 @@ public interface OrdineCrud extends CrudRepository<OrdineImpl, Long> {
     List<Ordine> findAllByDataEvasioneAfter(LocalDate dataEvasione);
 
     List<Ordine> findAllByDataEvasioneBetween(LocalDate dataEvasione1, LocalDate dataEvasione2);
+
+    void deleteById(Long id);
 }

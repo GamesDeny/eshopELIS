@@ -19,7 +19,6 @@ import java.util.List;
  *
  */
 
-
 @RestController
 @SessionAttributes({"utente"})
 @RequestMapping(path = "/rest/prodotto", produces = "application/json")
@@ -27,6 +26,16 @@ import java.util.List;
 public class ProdottoController {
     @Autowired
     private ProdottoService prodottoService;
+
+    @PostMapping("/add")
+    public void addProduct(@RequestBody ProdottoDTO prodottoDTO) {
+        prodottoService.saveProdotto(prodottoDTO);
+    }
+
+    @DeleteMapping("/remove/id")
+    public void removeProduct(@RequestParam("id") Long id) {
+        prodottoService.remove(id);
+    }
 
     //returns all db products
     @GetMapping("/getall")
