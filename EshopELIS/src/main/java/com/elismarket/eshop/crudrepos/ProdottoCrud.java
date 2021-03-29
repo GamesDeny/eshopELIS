@@ -24,5 +24,5 @@ public interface ProdottoCrud extends CrudRepository<ProdottoImpl, Long> {
 
     List<Prodotto> findAllByQuantitaLessThanEqual(Integer quantita);
 
-    Prodotto findAllById(@RequestParam("id") Long id);
+    ProdottoImpl findAllById(@RequestParam("id") Long id);
 }

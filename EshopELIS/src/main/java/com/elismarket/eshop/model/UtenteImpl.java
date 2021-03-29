@@ -22,6 +22,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "utente")
 public class UtenteImpl implements Utente {
 
@@ -45,9 +46,6 @@ public class UtenteImpl implements Utente {
     private Boolean isAdmin;
     @OneToMany(mappedBy = "utente")
     private List<PagamentoImpl> pagamenti = new ArrayList<>();
-
-    //need to convert to Base64
-    private String profileImage;
 
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,
                       LocalDate dataNascita, String username) {

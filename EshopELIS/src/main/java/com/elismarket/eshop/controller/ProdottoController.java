@@ -34,7 +34,7 @@ public class ProdottoController {
 
     @DeleteMapping("/remove/id")
     public void removeProduct(@RequestParam("id") Long id) {
-        prodottoService.remove(id);
+        prodottoService.removeById(id);
     }
 
     //returns all db products

@@ -22,6 +22,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "riga_ordine")
 public class RigaOrdineImpl implements RigaOrdine {
 

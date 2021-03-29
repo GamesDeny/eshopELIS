@@ -21,8 +21,8 @@ public class ProdottoService {
     @Autowired
     private ProdottoCrud prodottoCrud;
 
-    public void remove(Long id) {
-        prodottoCrud.delete(prodottoCrud.findAllById(id).getId());
+    public void removeById(Long id) {
+        prodottoCrud.delete(prodottoCrud.findAllById(id));
     }
 
     public List<ProdottoImpl> getAll() {

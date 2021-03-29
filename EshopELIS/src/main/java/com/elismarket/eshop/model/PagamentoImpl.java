@@ -19,6 +19,7 @@ import javax.persistence.*;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "metodo_pagamento")
 public class PagamentoImpl implements Pagamento {
 

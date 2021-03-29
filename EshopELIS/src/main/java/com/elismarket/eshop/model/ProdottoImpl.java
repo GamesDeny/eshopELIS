@@ -16,11 +16,12 @@ import java.util.List;
  *
  */
 @Entity
+@Builder
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 @Table(name = "prodotto")
 public class ProdottoImpl implements Prodotto {
 

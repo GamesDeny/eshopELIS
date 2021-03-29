@@ -20,6 +20,7 @@ import java.util.List;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "ordine")
 public class OrdineImpl implements Ordine {
 
