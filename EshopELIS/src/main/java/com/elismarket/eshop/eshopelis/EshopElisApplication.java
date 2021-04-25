@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {"com.elismarket.eshop.*"})
-@EnableJpaRepositories(basePackages = {"com.elismarket.eshop.crudrepos"})
+@EnableJpaRepositories(basePackages = {"com.elismarket.eshop.businessLogic.crudrepos"})
 @EntityScan(basePackages = {"com.elismarket.eshop.model"})
 public class EshopElisApplication {
 
