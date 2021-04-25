@@ -18,22 +18,18 @@ public class PagamentoController {
     @Autowired
     PagamentoService pagamentoService;
 
-    @GetMapping("/getall")
-    public List<PagamentoImpl> getAll() {
+    @GetMapping("/all")
+    public Iterable<PagamentoImpl> getAll() {
         return pagamentoService.getAll();
     }
 
-    @GetMapping("/gettipo")
-    public List<Pagamento> getByTipo(String tipo) {
-        return pagamentoService.getByTipo(tipo);
-    }
 
-    @GetMapping("/getcontanti")
+    @GetMapping("/contanti")
     public List<Pagamento> getByContanti() {
         return pagamentoService.getByContanti();
     }
 
-    @GetMapping("/getmail")
+    @GetMapping("/mail")
     public List<Pagamento> getByPaypalMail() {
         return pagamentoService.getByPaypalMail();
     }

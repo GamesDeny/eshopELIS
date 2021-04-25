@@ -2,7 +2,10 @@ package com.elismarket.eshop.model.entities;
 
 import com.elismarket.eshop.model.dto.MetodoPagamentoDTO;
 import com.elismarket.eshop.model.interfaces.Pagamento;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -15,9 +18,7 @@ import javax.persistence.*;
  */
 @Entity
 @Builder
-@Getter
-@Setter
-@ToString
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "metodo_pagamento")
@@ -27,10 +28,11 @@ public class PagamentoImpl implements Pagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-    //tipo is an enum
 
+    //tipo is an enum
     private String tipo, descrizione, paypalMail;
     private Integer contanti;
+
     @ManyToOne
     private UtenteImpl utente;
 

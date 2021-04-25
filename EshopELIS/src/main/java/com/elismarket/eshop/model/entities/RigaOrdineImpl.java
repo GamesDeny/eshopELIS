@@ -31,7 +31,8 @@ public class RigaOrdineImpl implements RigaOrdine {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    private Float prezzoTotale, sconto;
+    //sconto applicato è la somma in denaro sottratta dal totale
+    private Float prezzoTotale, scontoApplicato;
     private Integer quantitaProdotto;
 
     @ManyToOne
@@ -43,7 +44,7 @@ public class RigaOrdineImpl implements RigaOrdine {
     public static RigaOrdineImpl of(RigaOrdineDTO rigaOrdineDTO) {
         return RigaOrdineImpl.builder()
                 .prezzoTotale(rigaOrdineDTO.prezzoTotale)
-                .sconto(rigaOrdineDTO.sconto)
+                .scontoApplicato(rigaOrdineDTO.scontoApplicato)
                 .quantitaProdotto(rigaOrdineDTO.quantitaProdotto)
                 .build();
     }

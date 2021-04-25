@@ -23,33 +23,33 @@ public class OrdineController {
         ordineService.saveOrdine(ordineDTO);
     }
 
-    @DeleteMapping("/remove/id")
-    public void removeOrdine(@RequestParam("id") Long id) {
+    @DeleteMapping("/remove/{id}")
+    public void removeOrdine(@PathVariable("id") Long id) {
         ordineService.removeOrdine(id);
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/all")
     public List<OrdineImpl> getAll() {
         return ordineService.getAll();
     }
 
-    @GetMapping("/getevaso")
+    @GetMapping("/evaso")
     public List<Ordine> getEvaso(Boolean evaso) {
         return ordineService.getEvaso(evaso);
     }
 
-    @GetMapping("/getdata/before")
-    public List<Ordine> getDataPrima(LocalDate dataEvasione) {
+    @GetMapping("/data/before/{data}")
+    public List<Ordine> getDataPrima(@PathVariable("data") LocalDate dataEvasione) {
         return ordineService.getDataPrima(dataEvasione);
     }
 
-    @GetMapping("/getdata/between")
-    public List<Ordine> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2) {
+    @GetMapping("/data/between/{dataInizio}/{dataFine}")
+    public List<Ordine> getDataTra(@PathVariable("dataInizio") LocalDate dataEvasione1, @PathVariable("dataFine") LocalDate dataEvasione2) {
         return ordineService.getDataTra(dataEvasione1, dataEvasione2);
     }
 
-    @GetMapping("/getdata/after")
-    public List<Ordine> getDataDopo(LocalDate dataEvasione) {
+    @GetMapping("/data/after/{data}")
+    public List<Ordine> getDataDopo(@PathVariable("data") LocalDate dataEvasione) {
         return ordineService.getDataDopo(dataEvasione);
     }
 }

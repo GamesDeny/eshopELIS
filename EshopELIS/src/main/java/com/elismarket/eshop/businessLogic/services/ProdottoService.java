@@ -30,11 +30,11 @@ public class ProdottoService {
     }
 
     public List<Prodotto> findAllByNome(String nome) {
-        return prodottoCrud.findAllByNome(nome);
+        return prodottoCrud.findAllByNomeLike(nome);
     }
 
     public List<Prodotto> findAllByCategoria(String categoria) {
-        return prodottoCrud.findAllByNomeCategoria(categoria);
+        return prodottoCrud.findAllByNomeCategoriaLike(categoria);
     }
 
     public List<Prodotto> findByQuantitaMaggiore(Integer quantita) {
@@ -46,7 +46,7 @@ public class ProdottoService {
     }
 
     public List<Prodotto> getProdottoByCategoria(ProdottoDTO prodottoDTO) {
-        return prodottoCrud.findAllByNomeCategoria(prodottoDTO.nomeCategoria);
+        return prodottoCrud.findAllByNomeCategoriaLike(prodottoDTO.nomeCategoria);
     }
 
     public boolean saveProdotto(ProdottoDTO prodotto) {

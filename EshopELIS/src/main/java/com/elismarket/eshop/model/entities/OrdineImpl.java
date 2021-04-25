@@ -2,7 +2,9 @@ package com.elismarket.eshop.model.entities;
 
 import com.elismarket.eshop.model.dto.OrdineDTO;
 import com.elismarket.eshop.model.interfaces.Ordine;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -16,10 +18,7 @@ import java.util.List;
  */
 @Entity
 @Builder
-@Getter
-@Setter
-@ToString
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Table(name = "ordine")
 public class OrdineImpl implements Ordine {

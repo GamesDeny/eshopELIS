@@ -26,41 +26,49 @@ public class UtenteController {
     private UtenteService utenteService;
 
     //returns all db users
-    @GetMapping("/getall")
+    //prima di ritornare la lista setto la password a null in modo che non sia trasportata
+    @GetMapping("/all")
     public List<Utente> getAll() {
-        return utenteService.getAll("");
+        List<Utente> result = utenteService.getAll("");
+
+        result.forEach(user -> user.setPassword(null));
+
+        return result;
     }
 
     //returns only the admins
-    @GetMapping("/getall/admin")
+    @GetMapping("/all/admin")
     public List<Utente> getAllAdmin() {
-        return utenteService.getAll("admin");
+        List<Utente> result = utenteService.getAll("admin");
+
+        result.forEach(user -> user.setPassword(null));
+
+        return result;
     }
 
     //returns only non-admin users
-    @GetMapping("/getall/user")
+    @GetMapping("/all/user")
     public List<Utente> getAllUsers() {
-        return utenteService.getAll("user");
+        List<Utente> result = utenteService.getAll("user");
+
+        result.forEach(user -> user.setPassword(null));
+
+        return result;
     }
 
     //returns a user depending on field
-    @GetMapping("/getutente/username")
-    public Utente getByUsername(@RequestBody UtenteDTO utenteDTO) {
+    @GetMapping("/utente/{username}")
+    public Utente getByUsername(@PathVariable("username") UtenteDTO utenteDTO) {
         return utenteService.getUtente(utenteDTO, UtenteFields.username.toString());
     }
 
-    @GetMapping("/getutente/mail")
-    public Utente getByMail(@RequestBody UtenteDTO utenteDTO) {
+    @GetMapping("/utente/{mail}")
+    public Utente getByMail(@PathVariable("mail") UtenteDTO utenteDTO) {
         return utenteService.getUtente(utenteDTO, UtenteFields.mail.toString());
     }
 
-    @GetMapping("/getutente/datanascita")
-    public Utente getByDataNascita(@RequestBody UtenteDTO utenteDTO) {
-        return utenteService.getUtente(utenteDTO, UtenteFields.dataNascita.toString());
-    }
-
-    @GetMapping("/getutente/siglaresidenza")
-    public Utente getBySiglaResidenza(@RequestBody UtenteDTO utenteDTO) {
+    @GetMapping("/utente/{siglaResidenza}")
+    public Utente getBySiglaResidenza(@PathVariable("siglaResidenza") UtenteDTO utenteDTO) {
         return utenteService.getUtente(utenteDTO, UtenteFields.siglaResidenza.toString());
     }
 }

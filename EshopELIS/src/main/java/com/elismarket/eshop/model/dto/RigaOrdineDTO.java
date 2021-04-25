@@ -14,6 +14,6 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RigaOrdineDTO {
     public Long id;
-    public Float prezzoTotale, sconto;
+    public Float prezzoTotale, scontoApplicato;
     public Integer quantitaProdotto;
 }

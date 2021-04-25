@@ -23,12 +23,8 @@ public class PagamentoService {
     PagamentoCrud pagamentoCrud;
 
 
-    public List<PagamentoImpl> getAll() {
-        return (List<PagamentoImpl>) pagamentoCrud.findAll();
-    }
-
-    public List<Pagamento> getByTipo(String tipo) {
-        return pagamentoCrud.findAllByTipo(tipo);
+    public Iterable<PagamentoImpl> getAll() {
+        return pagamentoCrud.findAll();
     }
 
     public List<Pagamento> getByContanti() {

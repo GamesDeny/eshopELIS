@@ -32,13 +32,13 @@ public class ProdottoController {
         prodottoService.saveProdotto(prodottoDTO);
     }
 
-    @DeleteMapping("/remove/id")
-    public void removeProduct(@RequestParam("id") Long id) {
+    @DeleteMapping("/remove/id/{id}")
+    public void removeProduct(@PathVariable("id") Long id) {
         prodottoService.removeById(id);
     }
 
     //returns all db products
-    @GetMapping("/getall")
+    @GetMapping("/all")
     public List<ProdottoImpl> getAll(Model model) {
         List<ProdottoImpl> lista = prodottoService.getAll();
         Utente u = (Utente) model.getAttribute("utente");
@@ -56,18 +56,18 @@ public class ProdottoController {
         return lista;
     }
 
-    @GetMapping("/getall/quantita/maggiore")
-    public List<Prodotto> findByQuantitaMaggiore(Integer quantita) {
+    @GetMapping("/all/quantita/maggiore/{quantita}")
+    public List<Prodotto> findByQuantitaMaggiore(@PathVariable("quantita") Integer quantita) {
         return prodottoService.findByQuantitaMaggiore(quantita);
     }
 
-    @GetMapping("/getall/quantita/minore")
-    public List<Prodotto> findByQuantitaMinore(Integer quantita) {
+    @GetMapping("/all/quantita/minore/{quantita}")
+    public List<Prodotto> findByQuantitaMinore(@PathVariable("quantita") Integer quantita) {
         return prodottoService.findByQuantitaMinore(quantita);
     }
 
-    @GetMapping("/getprodotto/categoria")
-    public List<Prodotto> getByNomeCategoria(@RequestBody ProdottoDTO prodottoDTO) {
+    @GetMapping("/prodotto/categoria/{name}")
+    public List<Prodotto> getByNomeCategoria(@PathVariable("name") ProdottoDTO prodottoDTO) {
         return prodottoService.getProdottoByCategoria(prodottoDTO);
     }
 }

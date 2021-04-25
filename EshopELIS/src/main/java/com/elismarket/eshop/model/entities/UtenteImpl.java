@@ -36,14 +36,16 @@ public class UtenteImpl implements Utente {
     private String mail, username;
 
     private String password, nome, cognome;
+
     @Column(name = "sigla_residenza")
     private Integer siglaResidenza;
 
     @Column(name = "data_nascita")
     private LocalDate dataNascita;
-    private Boolean logged;
 
+    private Boolean logged;
     private Boolean isAdmin;
+
     @OneToMany(mappedBy = "utente")
     private List<PagamentoImpl> pagamenti = new ArrayList<>();
 
@@ -74,7 +76,6 @@ public class UtenteImpl implements Utente {
                 .build();
     }
 
-    @Override
     public void setLogged() {
         this.logged = !(this.logged);
     }

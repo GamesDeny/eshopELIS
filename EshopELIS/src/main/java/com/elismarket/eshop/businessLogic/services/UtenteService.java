@@ -23,24 +23,29 @@ public class UtenteService {
     @Autowired
     private UtenteCrud utenteCrud;
 
+    //richiesta di utenti
+    //se vuoto li ritorna tutti altrimenti ritorna in base al valore di findby
+    //il valore mi serve a capire se vuole un utente normale o un admin
     public List<Utente> getAll(String findby) {
         switch (findby) {
             case "":
-                return utenteCrud.findAllBy();
+                List<Utente> lista = utenteCrud.findAllBy();
             case "admin":
                 return utenteCrud.findAllByIsAdmin(true);
             case "user":
                 return utenteCrud.findAllByIsAdmin(false);
         }
-        throw new RuntimeException("Missing param");
+        throw new RuntimeException("Missing parameters!");
     }
 
+    //ottengo il singolo utente per il login o per controllare se già presente in db
     public Utente getUtente(UtenteDTO utenteDTO, String username) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
             throw new RuntimeException("Missing parameters!");
         return utenteCrud.findAllByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
     }
 
+    //operazioni di inserimento utente nel DB
     public Boolean insertUtente(UtenteDTO utenteDTO) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
             return false;

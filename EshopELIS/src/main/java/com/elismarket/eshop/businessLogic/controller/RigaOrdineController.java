@@ -18,12 +18,12 @@ public class RigaOrdineController {
     @Autowired
     RigaOrdineService rigaOrdineService;
 
-    @GetMapping("/getall")
-    public List<RigaOrdineImpl> getAll() {
+    @GetMapping("/all")
+    public Iterable<RigaOrdineImpl> getAll() {
         return rigaOrdineService.getAll();
     }
 
-    @GetMapping("/getquantita")
+    @GetMapping("/quantita/{value}")
     public List<RigaOrdine> getByQuantita(Integer quantita) {
         return rigaOrdineService.getByQuantita(quantita);
     }

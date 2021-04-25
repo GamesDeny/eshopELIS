@@ -21,8 +21,8 @@ public class RigaOrdineService {
     @Autowired
     RigaOrdineCrud rigaOrdineCrud;
 
-    public List<RigaOrdineImpl> getAll() {
-        return (List<RigaOrdineImpl>) rigaOrdineCrud.findAll();
+    public Iterable<RigaOrdineImpl> getAll() {
+        return rigaOrdineCrud.findAll();
     }
 
     public List<RigaOrdine> getByQuantita(Integer quantita) {
