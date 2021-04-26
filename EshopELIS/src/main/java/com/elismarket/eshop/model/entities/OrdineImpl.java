@@ -5,6 +5,7 @@ import com.elismarket.eshop.model.interfaces.Ordine;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -20,6 +21,7 @@ import java.util.List;
 @Builder
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "ordine")
 public class OrdineImpl implements Ordine {
 
