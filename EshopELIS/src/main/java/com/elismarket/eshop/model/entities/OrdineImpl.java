@@ -2,9 +2,7 @@ package com.elismarket.eshop.model.entities;
 
 import com.elismarket.eshop.model.dto.OrdineDTO;
 import com.elismarket.eshop.model.interfaces.Ordine;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -18,7 +16,11 @@ import java.util.List;
  */
 @Entity
 @Builder
-@Data
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "ordine")
 public class OrdineImpl implements Ordine {
@@ -27,7 +29,6 @@ public class OrdineImpl implements Ordine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-
 
     private Boolean evaso;
     private LocalDate dataEvasione;
