@@ -1,6 +1,6 @@
 package com.elismarket.eshop.businessLogic.services;
 
-import com.elismarket.eshop.businessLogic.crudrepos.ProdottoCrud;
+import com.elismarket.eshop.businessLogic.cruderepos.ProdottoCrud;
 import com.elismarket.eshop.model.dto.ProdottoDTO;
 import com.elismarket.eshop.model.entities.ProdottoImpl;
 import com.elismarket.eshop.model.interfaces.Prodotto;

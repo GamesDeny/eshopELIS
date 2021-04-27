@@ -1,43 +1,43 @@
 package com.elismarket.eshop.model.interfaces;
 
 public interface Prodotto {
-    void setId(Long id);
-
     Long getId();
 
-    void setPrezzo(Float prezzo);
+    void setId(Long id);
 
     Float getPrezzo();
 
-    void setMinOrd(Integer minOrd);
+    void setPrezzo(Float prezzo);
 
     Integer getMinOrd();
 
-    void setMaxOrd(Integer maxOrd);
+    void setMinOrd(Integer minOrd);
 
     Integer getMaxOrd();
 
-    void setSconto(Integer sconto);
+    void setMaxOrd(Integer maxOrd);
 
     Integer getSconto();
 
-    void setQuantita(Integer quantita);
+    void setSconto(Integer sconto);
 
     Integer getQuantita();
 
-    void setImage(String Image);
+    void setQuantita(Integer quantita);
 
     String getImage();
 
-    void setNome(String nome);
+    void setImage(String Image);
 
     String getNome();
 
-    void setDescrizione(String descrizione);
+    void setNome(String nome);
 
     String getDescrizione();
 
-    void setNomeCategoria(String nomeCategoria);
+    void setDescrizione(String descrizione);
 
     String getNomeCategoria();
+
+    void setNomeCategoria(String nomeCategoria);
 }

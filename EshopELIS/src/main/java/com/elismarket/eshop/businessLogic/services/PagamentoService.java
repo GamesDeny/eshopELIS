@@ -1,6 +1,6 @@
 package com.elismarket.eshop.businessLogic.services;
 
-import com.elismarket.eshop.businessLogic.crudrepos.PagamentoCrud;
+import com.elismarket.eshop.businessLogic.cruderepos.PagamentoCrud;
 import com.elismarket.eshop.model.entities.PagamentoImpl;
 import com.elismarket.eshop.model.interfaces.Pagamento;
 import org.springframework.beans.factory.annotation.Autowired;

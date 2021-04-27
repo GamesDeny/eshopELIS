@@ -1,19 +1,19 @@
 package com.elismarket.eshop.model.interfaces;
 
 public interface RigaOrdine {
-    void setId(Long id);
-
     Long getId();
 
-    void setPrezzoTotale(Float prezzoTotale);
+    void setId(Long id);
 
     Float getPrezzoTotale();
 
-    void setScontoApplicato(Float scontoApplicato);
+    void setPrezzoTotale(Float prezzoTotale);
 
     Float getScontoApplicato();
 
-    void setQuantitaProdotto(Integer quantitaProdotto);
+    void setScontoApplicato(Float scontoApplicato);
 
     Integer getQuantitaProdotto();
+
+    void setQuantitaProdotto(Integer quantitaProdotto);
 }

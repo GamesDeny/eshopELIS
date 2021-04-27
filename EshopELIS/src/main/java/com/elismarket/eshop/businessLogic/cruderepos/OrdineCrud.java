@@ -1,4 +1,4 @@
-package com.elismarket.eshop.businessLogic.crudrepos;
+package com.elismarket.eshop.businessLogic.cruderepos;
 
 import com.elismarket.eshop.model.entities.OrdineImpl;
 import com.elismarket.eshop.model.interfaces.Ordine;

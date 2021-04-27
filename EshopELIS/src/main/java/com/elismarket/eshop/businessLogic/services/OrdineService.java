@@ -1,6 +1,6 @@
 package com.elismarket.eshop.businessLogic.services;
 
-import com.elismarket.eshop.businessLogic.crudrepos.OrdineCrud;
+import com.elismarket.eshop.businessLogic.cruderepos.OrdineCrud;
 import com.elismarket.eshop.model.dto.OrdineDTO;
 import com.elismarket.eshop.model.entities.OrdineImpl;
 import com.elismarket.eshop.model.interfaces.Ordine;

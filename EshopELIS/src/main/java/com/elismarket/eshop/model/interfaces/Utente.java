@@ -3,43 +3,43 @@ package com.elismarket.eshop.model.interfaces;
 import java.time.LocalDate;
 
 public interface Utente {
-    void setId(Long id);
-
     Long getId();
 
-    void setMail(String mail);
+    void setId(Long id);
 
     String getMail();
 
-    void setUsername(String username);
+    void setMail(String mail);
 
     String getUsername();
 
-    void setPassword(String password);
+    void setUsername(String username);
 
     String getPassword();
 
-    void setNome(String nome);
+    void setPassword(String password);
 
     String getNome();
 
-    void setCognome(String cognome);
+    void setNome(String nome);
 
     String getCognome();
 
-    void setSiglaResidenza(Integer siglaResidenza);
+    void setCognome(String cognome);
 
     Integer getSiglaResidenza();
 
-    void setDataNascita(LocalDate dataNascita);
+    void setSiglaResidenza(Integer siglaResidenza);
 
     LocalDate getDataNascita();
 
-    void setIsAdmin(Boolean isAdmin);
+    void setDataNascita(LocalDate dataNascita);
 
     Boolean getIsAdmin();
 
-    void setLogged(Boolean logged);
+    void setIsAdmin(Boolean isAdmin);
 
     Boolean getLogged();
+
+    void setLogged(Boolean logged);
 }

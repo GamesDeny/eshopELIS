@@ -16,11 +16,11 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrdineDTO extends OrdineImpl {
 
-    public OrdineDTO() {
-        super();
-    }
-
     public Long id;
     public Boolean evaso;
     public LocalDate dataEvasione;
+
+    public OrdineDTO() {
+        super();
+    }
 }

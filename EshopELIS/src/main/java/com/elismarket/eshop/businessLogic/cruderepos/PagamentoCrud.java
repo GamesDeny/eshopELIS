@@ -1,4 +1,4 @@
-package com.elismarket.eshop.businessLogic.crudrepos;
+package com.elismarket.eshop.businessLogic.cruderepos;
 
 import com.elismarket.eshop.model.entities.PagamentoImpl;
 import com.elismarket.eshop.model.interfaces.Pagamento;
@@ -17,5 +17,6 @@ import java.util.List;
 @Repository
 public interface PagamentoCrud extends CrudRepository<PagamentoImpl, Long> {
     List<Pagamento> findAllByContantiNotNull();
+
     List<Pagamento> findAllByPaypalMailNotNull();
 }

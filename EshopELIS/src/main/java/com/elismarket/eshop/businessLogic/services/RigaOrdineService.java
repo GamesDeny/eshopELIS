@@ -1,6 +1,6 @@
 package com.elismarket.eshop.businessLogic.services;
 
-import com.elismarket.eshop.businessLogic.crudrepos.RigaOrdineCrud;
+import com.elismarket.eshop.businessLogic.cruderepos.RigaOrdineCrud;
 import com.elismarket.eshop.model.entities.RigaOrdineImpl;
 import com.elismarket.eshop.model.interfaces.RigaOrdine;
 import org.springframework.beans.factory.annotation.Autowired;
