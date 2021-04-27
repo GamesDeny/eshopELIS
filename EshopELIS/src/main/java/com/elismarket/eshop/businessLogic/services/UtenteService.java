@@ -20,7 +20,7 @@ import java.util.Objects;
 @Service
 public class UtenteService {
 
-    @Autowired
+    @Autowired(required = false)
     private UtenteCrud utenteCrud;
 
     //richiesta di utenti
