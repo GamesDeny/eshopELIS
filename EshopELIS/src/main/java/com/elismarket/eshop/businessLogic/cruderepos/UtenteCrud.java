@@ -6,12 +6,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository(value = "utenteCrud")
+@Repository
 public interface UtenteCrud extends CrudRepository<Utente, Long> {
     List<Utente> findAllBy();
     List<Utente> findAllByIsAdmin(Boolean isAdmin);
     Utente findAllByUsernameAndPassword(String username, String password);
-
 
 //    @Transactional
 //    @Query(value = "INSERT INTO UtenteImpl (cognome, data_di_nascita, logged, mail, nome, password, sigla_residenza, username, is_admin)" +
