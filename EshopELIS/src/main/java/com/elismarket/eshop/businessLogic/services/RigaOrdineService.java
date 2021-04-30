@@ -19,7 +19,7 @@ import java.util.List;
 public class RigaOrdineService {
 
     @Autowired
-    RigaOrdineCrud rigaOrdineCrud;
+    private RigaOrdineCrud rigaOrdineCrud;
 
     public Iterable<RigaOrdineImpl> getAll() {
         return rigaOrdineCrud.findAll();

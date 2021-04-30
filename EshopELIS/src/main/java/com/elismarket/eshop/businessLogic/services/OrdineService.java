@@ -21,7 +21,7 @@ import java.util.List;
 public class OrdineService {
 
     @Autowired
-    OrdineCrud ordineCrud;
+    private OrdineCrud ordineCrud;
 
     public List<OrdineImpl> getAll() {
         return (List<OrdineImpl>) ordineCrud.findAll();

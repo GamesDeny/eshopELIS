@@ -20,7 +20,7 @@ import java.util.List;
 public class PagamentoService {
 
     @Autowired
-    PagamentoCrud pagamentoCrud;
+    private PagamentoCrud pagamentoCrud;
 
 
     public Iterable<PagamentoImpl> getAll() {

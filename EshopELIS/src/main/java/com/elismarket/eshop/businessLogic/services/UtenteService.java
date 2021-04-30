@@ -20,7 +20,7 @@ import java.util.Objects;
 @Service
 public class UtenteService {
 
-    @Autowired(required = false)
+    @Autowired
     private UtenteCrud utenteCrud;
 
     //richiesta di utenti
@@ -29,7 +29,7 @@ public class UtenteService {
     public List<Utente> getAll(String findby) {
         switch (findby) {
             case "":
-                List<Utente> lista = utenteCrud.findAllBy();
+                return utenteCrud.findAllBy();
             case "admin":
                 return utenteCrud.findAllByIsAdmin(true);
             case "user":
