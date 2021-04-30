@@ -1,0 +1,19 @@
+package com.elismarket.eshop.customExceptions;
+
+public class PagamentoException extends RuntimeException {
+    public enum Phrases {
+        MISSING_PARAMETERS,
+        PAYMENT_NOT_FOUND,
+        PAYMENT_ALREADY_EXISTS,
+        PAYMENT_GONE_WRONG
+    }
+
+    public PagamentoException() {
+        super("Missing parameters");
+    }
+
+    public PagamentoException(String message) {
+        super(message);
+    }
+
+}

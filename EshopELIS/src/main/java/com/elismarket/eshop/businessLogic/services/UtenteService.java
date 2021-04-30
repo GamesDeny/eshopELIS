@@ -1,6 +1,7 @@
 package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.UtenteCrud;
+import com.elismarket.eshop.customExceptions.UtenteException;
 import com.elismarket.eshop.model.dto.UtenteDTO;
 import com.elismarket.eshop.model.entities.UtenteImpl;
 import com.elismarket.eshop.model.interfaces.Utente;
@@ -35,25 +36,36 @@ public class UtenteService {
             case "user":
                 return utenteCrud.findAllByIsAdmin(false);
         }
-        throw new RuntimeException("Missing parameters!");
+        throw new UtenteException();
     }
 
     //ottengo il singolo utente per il login o per controllare se già presente in db
     public Utente getUtente(UtenteDTO utenteDTO, String username) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
-            throw new RuntimeException("Missing parameters!");
+            throw new UtenteException();
         return utenteCrud.findAllByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
     }
 
     //operazioni di inserimento utente nel DB
     public Boolean insertUtente(UtenteDTO utenteDTO) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
-            return false;
+            throw new UtenteException();
 
         if (Checkers.passwordChecker(utenteDTO.password) && Checkers.mailChecker(utenteDTO.mail)) {
             utenteCrud.save(UtenteImpl.of(utenteDTO));
             return true;
         }
         return false;
+    }
+
+    public Utente updateUtente(UtenteDTO utenteDTO) {
+        Utente u = UtenteImpl.of(utenteDTO);
+        try {
+            if (getUtente(utenteDTO, u.getUsername()) != null)
+                throw new UtenteException("User already exists!");
+            insertUtente(utenteDTO);
+        } catch (Exception e) {
+            insertUtente(utenteDTO);
+        }
     }
 }
