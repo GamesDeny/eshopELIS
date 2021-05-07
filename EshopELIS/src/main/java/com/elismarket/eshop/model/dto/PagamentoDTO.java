@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MetodoPagamentoDTO {
+public class PagamentoDTO {
     public Long id;
     public String tipo, descrizione, paypalMail;
     public Integer contanti;

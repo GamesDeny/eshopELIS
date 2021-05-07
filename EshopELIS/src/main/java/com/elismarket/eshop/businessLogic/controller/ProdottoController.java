@@ -66,8 +66,14 @@ public class ProdottoController {
         return prodottoService.findByQuantitaMinore(quantita);
     }
 
-    @GetMapping("/prodotto/categoria/{name}")
+    @GetMapping("/categoria/{name}")
     public List<Prodotto> getByNomeCategoria(@PathVariable("name") ProdottoDTO prodottoDTO) {
         return prodottoService.getProdottoByCategoria(prodottoDTO);
+    }
+
+    @PatchMapping("/update")
+    public Boolean updateProdotto(@RequestBody ProdottoDTO prodottoDTO) {
+        prodottoService.updateProdotto(prodottoDTO);
+        return true;
     }
 }

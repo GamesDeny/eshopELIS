@@ -1,13 +1,11 @@
 package com.elismarket.eshop.businessLogic.controller;
 
 import com.elismarket.eshop.businessLogic.services.RigaOrdineService;
+import com.elismarket.eshop.model.dto.RigaOrdineDTO;
 import com.elismarket.eshop.model.entities.RigaOrdineImpl;
 import com.elismarket.eshop.model.interfaces.RigaOrdine;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,16 @@ public class RigaOrdineController {
     @GetMapping("/quantita/{value}")
     public List<RigaOrdine> getByQuantita(Integer quantita) {
         return rigaOrdineService.getByQuantita(quantita);
+    }
+
+    @PatchMapping("/update")
+    public Boolean updateRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {
+        try {
+            rigaOrdineService.updateRigaOrdine(rigaOrdineDTO);
+            return true;
+        } catch (Exception e) {
+//            throw new RigaOrdineException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
+        }
+        return false;
     }
 }

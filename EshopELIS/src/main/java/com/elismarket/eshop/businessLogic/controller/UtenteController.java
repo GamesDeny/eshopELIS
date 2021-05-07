@@ -1,6 +1,7 @@
 package com.elismarket.eshop.businessLogic.controller;
 
 import com.elismarket.eshop.businessLogic.services.UtenteService;
+import com.elismarket.eshop.customExceptions.UtenteException;
 import com.elismarket.eshop.model.dto.UtenteDTO;
 import com.elismarket.eshop.model.interfaces.Utente;
 import com.elismarket.eshop.utilities.UtenteFields;
@@ -31,7 +32,11 @@ public class UtenteController {
     public List<Utente> getAll() {
         List<Utente> result = utenteService.getAll("");
 
-        result.forEach(user -> user.setPassword(null));
+        if (result.size() == 0) {
+            throw new UtenteException("Impossibile effettuare la get");
+        } else {
+            result.forEach(user -> user.setPassword(null));
+        }
 
         return result;
     }
@@ -70,5 +75,10 @@ public class UtenteController {
     @GetMapping("/utente/{siglaResidenza}")
     public Utente getBySiglaResidenza(@PathVariable("siglaResidenza") UtenteDTO utenteDTO) {
         return utenteService.getUtente(utenteDTO, UtenteFields.siglaResidenza.toString());
+    }
+
+    @PatchMapping("/utente/update}")
+    public Boolean updateUtente(@RequestBody UtenteDTO utenteDTO) {
+        return utenteService.updateUtente(utenteDTO);
     }
 }

@@ -52,4 +52,8 @@ public class OrdineController {
     public List<Ordine> getDataDopo(@PathVariable("data") LocalDate dataEvasione) {
         return ordineService.getDataDopo(dataEvasione);
     }
+
+    public Boolean updateOrdine(@RequestBody OrdineDTO ordineDTO) {
+        return ordineService.updateOrdine(ordineDTO);
+    }
 }

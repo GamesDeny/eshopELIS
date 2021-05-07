@@ -1,6 +1,6 @@
 package com.elismarket.eshop.model.entities;
 
-import com.elismarket.eshop.model.dto.MetodoPagamentoDTO;
+import com.elismarket.eshop.model.dto.PagamentoDTO;
 import com.elismarket.eshop.model.interfaces.Pagamento;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +36,7 @@ public class PagamentoImpl implements Pagamento {
     @ManyToOne
     private UtenteImpl utente;
 
-    public static PagamentoImpl of(MetodoPagamentoDTO metodoPagamentoDTO) {
+    public static PagamentoImpl of(PagamentoDTO metodoPagamentoDTO) {
         return PagamentoImpl.builder()
                 .tipo(metodoPagamentoDTO.tipo)
                 .descrizione(metodoPagamentoDTO.descrizione)

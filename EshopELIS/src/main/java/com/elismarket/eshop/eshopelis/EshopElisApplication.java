@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {"com.elismarket.eshop.*"})
 @EntityScan(basePackages = {"com.elismarket.eshop.model.*"})
-@EnableJpaRepositories(basePackages = {"com.elismarket.eshop.businessLogic.cruderepos"})
-@ComponentScan(basePackages = {"com.elismarket.eshop.businessLogic.controller", "com.elismarket.eshop.businessLogic.services"})
+@EnableJpaRepositories(basePackages = {"com.elismarket.eshop.businessLogic.*"})
+@ComponentScan(basePackages = {"com.elismarket.eshop.businessLogic.*"})
 public class EshopElisApplication {
 
     public static void main(String[] args) {

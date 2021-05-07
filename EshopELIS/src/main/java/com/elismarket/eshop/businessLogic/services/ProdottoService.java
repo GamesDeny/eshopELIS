@@ -49,7 +49,18 @@ public class ProdottoService {
         return prodottoCrud.findAllByNomeCategoriaLike(prodottoDTO.nomeCategoria);
     }
 
-    public boolean saveProdotto(ProdottoDTO prodotto) {
+    public Boolean saveProdotto(ProdottoDTO prodotto) {
+        ProdottoImpl prod = ProdottoImpl.of(prodotto);
+        try {
+            prodottoCrud.save(prod);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Boolean updateProdotto(ProdottoDTO prodotto) {
         ProdottoImpl prod = ProdottoImpl.of(prodotto);
         try {
             prodottoCrud.save(prod);

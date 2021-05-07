@@ -9,7 +9,9 @@ import java.util.List;
 
 @Repository
 public interface UtenteCrud extends CrudRepository<UtenteImpl, Long> {
-    List<Utente> findAllBy();
+
+    //    Imposta 0 di default
+    List<Utente> findAllByIdGreaterThanEqual(Long Id);
 
     List<Utente> findAllByIsAdmin(Boolean isAdmin);
 

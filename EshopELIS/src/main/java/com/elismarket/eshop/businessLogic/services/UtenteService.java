@@ -30,7 +30,7 @@ public class UtenteService {
     public List<Utente> getAll(String findby) {
         switch (findby) {
             case "":
-                return utenteCrud.findAllBy();
+                return utenteCrud.findAllByIdGreaterThanEqual(0L);
             case "admin":
                 return utenteCrud.findAllByIsAdmin(true);
             case "user":
@@ -58,14 +58,14 @@ public class UtenteService {
         return false;
     }
 
-    public Utente updateUtente(UtenteDTO utenteDTO) {
-        Utente u = UtenteImpl.of(utenteDTO);
+    public Boolean updateUtente(UtenteDTO utenteDTO) {
+        UtenteImpl u = UtenteImpl.of(utenteDTO);
         try {
-            if (getUtente(utenteDTO, u.getUsername()) != null)
-                throw new UtenteException("User already exists!");
-            insertUtente(utenteDTO);
+            utenteCrud.save(u);
+            return true;
         } catch (Exception e) {
-            insertUtente(utenteDTO);
+//            throw new UtenteException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
         }
+        return false;
     }
 }

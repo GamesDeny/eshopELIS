@@ -50,4 +50,15 @@ public class OrdineService {
     public void removeOrdine(Long id) {
         ordineCrud.deleteById(id);
     }
+
+    public Boolean updateOrdine(OrdineDTO ordineDTO) {
+        OrdineImpl u = OrdineImpl.of(ordineDTO);
+        try {
+            ordineCrud.save(u);
+            return true;
+        } catch (Exception e) {
+//            throw new OrdineException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
+        }
+        return false;
+    }
 }
