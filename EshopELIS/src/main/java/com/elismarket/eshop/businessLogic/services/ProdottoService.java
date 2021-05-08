@@ -1,6 +1,7 @@
 package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.ProdottoCrud;
+import com.elismarket.eshop.customExceptions.ProdottoException;
 import com.elismarket.eshop.model.dto.ProdottoDTO;
 import com.elismarket.eshop.model.entities.ProdottoImpl;
 import com.elismarket.eshop.model.interfaces.Prodotto;
@@ -69,5 +70,13 @@ public class ProdottoService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public void removeProdotto(Long id) {
+        try {
+            prodottoCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new ProdottoException("Cannot find Prodotto for provided item");
+        }
     }
 }

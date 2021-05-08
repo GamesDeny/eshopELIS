@@ -68,4 +68,12 @@ public class UtenteService {
         }
         return false;
     }
+
+    public void removeUtente(Long id) {
+        try {
+            utenteCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new UtenteException("Cannot find Utente for provided item");
+        }
+    }
 }

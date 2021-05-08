@@ -56,4 +56,5 @@ public class OrdineController {
     public Boolean updateOrdine(@RequestBody OrdineDTO ordineDTO) {
         return ordineService.updateOrdine(ordineDTO);
     }
+
 }

@@ -36,4 +36,10 @@ public class RigaOrdineController {
         }
         return false;
     }
+
+    @DeleteMapping("/remove/{id}")
+    public void removeRigaOrdine(@PathVariable("id") Long id) {
+        rigaOrdineService.removeRigaOrdine(id);
+    }
+
 }

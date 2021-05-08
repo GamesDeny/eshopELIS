@@ -35,4 +35,10 @@ public class PagamentoController {
     public Boolean updatePagamento(@RequestBody PagamentoDTO pagamentoDTO) {
         return pagamentoService.updatePagamento(pagamentoDTO);
     }
+
+    @DeleteMapping("/remove/{id}")
+    public void removePagamento(@PathVariable("id") Long id) {
+        pagamentoService.removePagamento(id);
+    }
+
 }

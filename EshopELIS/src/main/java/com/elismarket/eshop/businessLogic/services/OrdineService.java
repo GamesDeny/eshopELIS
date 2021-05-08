@@ -1,6 +1,7 @@
 package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.OrdineCrud;
+import com.elismarket.eshop.customExceptions.OrdineException;
 import com.elismarket.eshop.model.dto.OrdineDTO;
 import com.elismarket.eshop.model.entities.OrdineImpl;
 import com.elismarket.eshop.model.interfaces.Ordine;
@@ -47,10 +48,6 @@ public class OrdineService {
         ordineCrud.save(ordineDTO);
     }
 
-    public void removeOrdine(Long id) {
-        ordineCrud.deleteById(id);
-    }
-
     public Boolean updateOrdine(OrdineDTO ordineDTO) {
         OrdineImpl u = OrdineImpl.of(ordineDTO);
         try {
@@ -60,5 +57,13 @@ public class OrdineService {
 //            throw new OrdineException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
         }
         return false;
+    }
+
+    public void removeOrdine(Long id) {
+        try {
+            ordineCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new OrdineException("Cannot find Ordine for provided item");
+        }
     }
 }

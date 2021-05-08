@@ -81,4 +81,10 @@ public class UtenteController {
     public Boolean updateUtente(@RequestBody UtenteDTO utenteDTO) {
         return utenteService.updateUtente(utenteDTO);
     }
+
+    @DeleteMapping("/remove/{id}")
+    public void removeRigaOrdine(@PathVariable("id") Long id) {
+        utenteService.removeUtente(id);
+    }
+
 }

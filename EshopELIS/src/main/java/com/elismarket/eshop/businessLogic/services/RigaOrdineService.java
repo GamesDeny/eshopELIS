@@ -1,6 +1,7 @@
 package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.RigaOrdineCrud;
+import com.elismarket.eshop.customExceptions.RigaOrdineException;
 import com.elismarket.eshop.model.dto.RigaOrdineDTO;
 import com.elismarket.eshop.model.entities.RigaOrdineImpl;
 import com.elismarket.eshop.model.interfaces.RigaOrdine;
@@ -33,5 +34,13 @@ public class RigaOrdineService {
     public Boolean updateRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         rigaOrdineCrud.save(RigaOrdineImpl.of(rigaOrdineDTO));
         return true;
+    }
+
+    public void removeRigaOrdine(Long id) {
+        try {
+            rigaOrdineCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new RigaOrdineException("Cannot find RigaOrdine for given element");
+        }
     }
 }

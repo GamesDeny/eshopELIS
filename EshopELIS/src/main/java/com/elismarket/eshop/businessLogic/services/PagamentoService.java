@@ -1,6 +1,7 @@
 package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.PagamentoCrud;
+import com.elismarket.eshop.customExceptions.PagamentoException;
 import com.elismarket.eshop.model.dto.PagamentoDTO;
 import com.elismarket.eshop.model.entities.PagamentoImpl;
 import com.elismarket.eshop.model.interfaces.Pagamento;
@@ -44,5 +45,13 @@ public class PagamentoService {
 //            throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
         }
         return false;
+    }
+
+    public void removePagamento(Long id) {
+        try {
+            pagamentoCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new PagamentoException("Cannot find Pagamento for provided item");
+        }
     }
 }

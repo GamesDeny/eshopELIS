@@ -76,4 +76,10 @@ public class ProdottoController {
         prodottoService.updateProdotto(prodottoDTO);
         return true;
     }
+
+    @DeleteMapping("/remove/{id}")
+    public void removeProdotto(@PathVariable("id") Long id) {
+        prodottoService.removeProdotto(id);
+    }
+
 }
