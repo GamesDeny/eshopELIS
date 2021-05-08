@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class RigaOrdineController {
     @Autowired
-    RigaOrdineService rigaOrdineService;
+    private RigaOrdineService rigaOrdineService;
 
     @GetMapping("/all")
     public Iterable<RigaOrdineImpl> getAll() {

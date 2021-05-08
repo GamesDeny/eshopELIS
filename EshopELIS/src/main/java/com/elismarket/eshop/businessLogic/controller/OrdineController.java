@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class OrdineController {
     @Autowired
-    OrdineService ordineService;
+    private OrdineService ordineService;
 
 
     @PostMapping("/add")

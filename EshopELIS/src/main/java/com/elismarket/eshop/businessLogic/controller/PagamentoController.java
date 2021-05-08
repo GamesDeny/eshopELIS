@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PagamentoController {
     @Autowired
-    PagamentoService pagamentoService;
+    private PagamentoService pagamentoService;
 
     @GetMapping("/all")
     public Iterable<PagamentoImpl> getAll() {

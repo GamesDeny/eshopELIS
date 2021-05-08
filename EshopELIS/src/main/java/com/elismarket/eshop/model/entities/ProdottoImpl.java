@@ -39,12 +39,14 @@ public class ProdottoImpl implements Prodotto {
 
     //sconto è percentuale, esempio 55%
     private Integer minOrd, maxOrd, sconto, quantita;
+    //url of the product image
+    private String image;
+
+    @ManyToOne
+    private UtenteImpl utente;
 
     @OneToMany(mappedBy = "prodotto")
     private List<RigaOrdineImpl> righeOrdine;
-
-    //path to file or base64 encoder
-    private String image;
 
     public ProdottoImpl(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Integer quantita) {
         this.nome = nome;

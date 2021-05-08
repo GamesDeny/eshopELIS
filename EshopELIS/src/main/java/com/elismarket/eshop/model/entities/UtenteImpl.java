@@ -46,8 +46,14 @@ public class UtenteImpl implements Utente {
     private Boolean logged;
     private Boolean isAdmin;
 
+    @OneToMany
+    private List<PropostaImpl> proposta;
+
     @OneToMany(mappedBy = "utente")
     private List<PagamentoImpl> pagamenti = new ArrayList<>();
+
+    @OneToMany
+    private List<ProdottoImpl> prodotti = new ArrayList<>();
 
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,
                       LocalDate dataNascita, String username) {

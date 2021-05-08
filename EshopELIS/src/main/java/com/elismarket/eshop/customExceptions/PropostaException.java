@@ -1,18 +1,17 @@
 package com.elismarket.eshop.customExceptions;
 
-public class UtenteException extends RuntimeException {
+public class PropostaException extends RuntimeException {
 
-    public UtenteException() {
+    public PropostaException() {
         super("Missing parameters");
     }
 
-    public UtenteException(String message) {
+    public PropostaException(String message) {
         super(message);
     }
 
     public enum Phrases {
         MISSING_PARAMETERS,
-        USER_NOT_FOUND,
-        USER_ALREADY_EXISTS
+        PROPOSTA_ALREADY_EXISTS
     }
 }
