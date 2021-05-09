@@ -5,6 +5,7 @@ import com.elismarket.eshop.model.interfaces.Proposta;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -25,6 +26,7 @@ public class PropostaImpl implements Proposta {
     private Float prezzoProposto;
     private Integer quantita;
     private Boolean isAccettato;
+    private LocalDate submissionDate;
 
     @ManyToOne
     private UtenteImpl utente;
@@ -38,6 +40,7 @@ public class PropostaImpl implements Proposta {
                 .prezzoProposto(propostaDTO.getPrezzoProposto())
                 .quantita(propostaDTO.getQuantita())
                 .isAccettato(propostaDTO.getIsAccettato())
+                .submissionDate(propostaDTO.submissionDate)
                 .build();
     }
 }

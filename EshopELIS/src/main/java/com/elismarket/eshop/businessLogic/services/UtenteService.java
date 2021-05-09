@@ -46,6 +46,14 @@ public class UtenteService {
         return utenteCrud.findAllByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
     }
 
+    public Utente getUtente(Integer siglaResidenza) {
+        try {
+            return utenteCrud.findBySiglaResidenza(siglaResidenza);
+        } catch (Exception e) {
+            throw new UtenteException("User with this sigla doesn't exist");
+        }
+    }
+
     //operazioni di inserimento utente nel DB
     public Boolean insertUtente(UtenteDTO utenteDTO) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
@@ -58,7 +66,7 @@ public class UtenteService {
         return false;
     }
 
-    public Boolean updateUtente(UtenteDTO utenteDTO) {
+    public Boolean addUtente(UtenteDTO utenteDTO) {
         UtenteImpl u = UtenteImpl.of(utenteDTO);
         try {
             utenteCrud.save(u);
@@ -76,4 +84,5 @@ public class UtenteService {
             throw new UtenteException("Cannot find Utente for provided item");
         }
     }
+
 }

@@ -17,7 +17,6 @@ public class OrdineController {
     @Autowired
     private OrdineService ordineService;
 
-
     @PostMapping("/add")
     public void addOrdine(@RequestBody OrdineDTO ordineDTO) {
         ordineService.saveOrdine(ordineDTO);
@@ -26,6 +25,11 @@ public class OrdineController {
     @DeleteMapping("/remove/{id}")
     public void removeOrdine(@PathVariable("id") Long id) {
         ordineService.removeOrdine(id);
+    }
+
+    @PatchMapping("/update")
+    public Boolean updateOrdine(@RequestBody OrdineDTO ordineDTO) {
+        return ordineService.updateOrdine(ordineDTO);
     }
 
     @GetMapping("/all")
@@ -51,10 +55,6 @@ public class OrdineController {
     @GetMapping("/data/after/{data}")
     public List<Ordine> getDataDopo(@PathVariable("data") LocalDate dataEvasione) {
         return ordineService.getDataDopo(dataEvasione);
-    }
-
-    public Boolean updateOrdine(@RequestBody OrdineDTO ordineDTO) {
-        return ordineService.updateOrdine(ordineDTO);
     }
 
 }

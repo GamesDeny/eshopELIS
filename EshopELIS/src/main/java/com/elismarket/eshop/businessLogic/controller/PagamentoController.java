@@ -5,6 +5,7 @@ import com.elismarket.eshop.model.dto.PagamentoDTO;
 import com.elismarket.eshop.model.entities.PagamentoImpl;
 import com.elismarket.eshop.model.interfaces.Pagamento;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +32,14 @@ public class PagamentoController {
         return pagamentoService.getByPaypalMail();
     }
 
+    @PostMapping("/add")
+    public ResponseEntity addPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
+        return pagamentoService.addPagamento(pagamentoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+    }
+
     @PatchMapping("/update")
-    public Boolean updatePagamento(@RequestBody PagamentoDTO pagamentoDTO) {
-        return pagamentoService.updatePagamento(pagamentoDTO);
+    public ResponseEntity updatePagamento(@RequestBody PagamentoDTO pagamentoDTO) {
+        return pagamentoService.addPagamento(pagamentoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @DeleteMapping("/remove/{id}")

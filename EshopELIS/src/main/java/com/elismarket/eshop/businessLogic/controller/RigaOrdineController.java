@@ -5,6 +5,7 @@ import com.elismarket.eshop.model.dto.RigaOrdineDTO;
 import com.elismarket.eshop.model.entities.RigaOrdineImpl;
 import com.elismarket.eshop.model.interfaces.RigaOrdine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,20 +27,19 @@ public class RigaOrdineController {
         return rigaOrdineService.getByQuantita(quantita);
     }
 
+    @PostMapping("/add")
+    public ResponseEntity addRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {
+        return rigaOrdineService.addRigaOrdine(rigaOrdineDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+    }
+
     @PatchMapping("/update")
-    public Boolean updateRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {
-        try {
-            rigaOrdineService.updateRigaOrdine(rigaOrdineDTO);
-            return true;
-        } catch (Exception e) {
-//            throw new RigaOrdineException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
-        }
-        return false;
+    public ResponseEntity updateRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {
+        return rigaOrdineService.addRigaOrdine(rigaOrdineDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @DeleteMapping("/remove/{id}")
-    public void removeRigaOrdine(@PathVariable("id") Long id) {
-        rigaOrdineService.removeRigaOrdine(id);
+    public ResponseEntity removeRigaOrdine(@PathVariable("id") Long id) {
+        return rigaOrdineService.removeRigaOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
 }

@@ -6,6 +6,7 @@ import com.elismarket.eshop.model.dto.UtenteDTO;
 import com.elismarket.eshop.model.interfaces.Utente;
 import com.elismarket.eshop.utilities.UtenteFields;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -67,24 +68,39 @@ public class UtenteController {
         return utenteService.getUtente(utenteDTO, UtenteFields.username.toString());
     }
 
-    @GetMapping("/utente/{mail}")
+    @GetMapping("/mail/{mail}")
     public Utente getByMail(@PathVariable("mail") UtenteDTO utenteDTO) {
         return utenteService.getUtente(utenteDTO, UtenteFields.mail.toString());
     }
 
-    @GetMapping("/utente/{siglaResidenza}")
-    public Utente getBySiglaResidenza(@PathVariable("siglaResidenza") UtenteDTO utenteDTO) {
-        return utenteService.getUtente(utenteDTO, UtenteFields.siglaResidenza.toString());
+    @GetMapping("/sigla/{siglaResidenza}")
+    public Utente getBySiglaResidenza(@PathVariable("siglaResidenza") Integer siglaResidenza) {
+        return utenteService.getUtente(siglaResidenza);
     }
 
-    @PatchMapping("/utente/update}")
-    public Boolean updateUtente(@RequestBody UtenteDTO utenteDTO) {
-        return utenteService.updateUtente(utenteDTO);
+    @PostMapping("/add")
+    public ResponseEntity addUtente(@RequestBody UtenteDTO utenteDTO) {
+        try {
+            utenteService.addUtente(utenteDTO);
+            return ResponseEntity.status(200).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity updateUtente(@RequestBody UtenteDTO utenteDTO) {
+        return utenteService.addUtente(utenteDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @DeleteMapping("/remove/{id}")
-    public void removeRigaOrdine(@PathVariable("id") Long id) {
-        utenteService.removeUtente(id);
+    public ResponseEntity removeRigaOrdine(@PathVariable("id") Long id) {
+        try {
+            utenteService.removeUtente(id);
+            return ResponseEntity.status(200).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(500).build();
+        }
     }
 
 }

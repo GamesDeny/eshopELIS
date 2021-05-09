@@ -32,9 +32,15 @@ public class ProdottoController {
         prodottoService.saveProdotto(prodottoDTO);
     }
 
-    @DeleteMapping("/remove/id/{id}")
-    public void removeProduct(@PathVariable("id") Long id) {
-        prodottoService.removeById(id);
+    @PatchMapping("/update")
+    public Boolean updateProdotto(@RequestBody ProdottoDTO prodottoDTO) {
+        prodottoService.updateProdotto(prodottoDTO);
+        return true;
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public void removeProdotto(@PathVariable("id") Long id) {
+        prodottoService.removeProdotto(id);
     }
 
     //returns all db products
@@ -69,17 +75,6 @@ public class ProdottoController {
     @GetMapping("/categoria/{name}")
     public List<Prodotto> getByNomeCategoria(@PathVariable("name") ProdottoDTO prodottoDTO) {
         return prodottoService.getProdottoByCategoria(prodottoDTO);
-    }
-
-    @PatchMapping("/update")
-    public Boolean updateProdotto(@RequestBody ProdottoDTO prodottoDTO) {
-        prodottoService.updateProdotto(prodottoDTO);
-        return true;
-    }
-
-    @DeleteMapping("/remove/{id}")
-    public void removeProdotto(@PathVariable("id") Long id) {
-        prodottoService.removeProdotto(id);
     }
 
 }

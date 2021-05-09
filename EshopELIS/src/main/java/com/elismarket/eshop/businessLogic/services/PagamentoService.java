@@ -36,10 +36,9 @@ public class PagamentoService {
         return pagamentoCrud.findAllByPaypalMailNotNull();
     }
 
-    public Boolean updatePagamento(PagamentoDTO pagamentoDTO) {
-        PagamentoImpl u = PagamentoImpl.of(pagamentoDTO);
+    public Boolean addPagamento(PagamentoDTO pagamentoDTO) {
         try {
-            pagamentoCrud.save(u);
+            pagamentoCrud.save(PagamentoImpl.of(pagamentoDTO));
             return true;
         } catch (Exception e) {
 //            throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
@@ -54,4 +53,5 @@ public class PagamentoService {
             throw new PagamentoException("Cannot find Pagamento for provided item");
         }
     }
+
 }

@@ -55,6 +55,9 @@ public class UtenteImpl implements Utente {
     @OneToMany
     private List<ProdottoImpl> prodotti = new ArrayList<>();
 
+    @OneToMany
+    private List<FeedbackImpl> feedbacks = new ArrayList<>();
+
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,
                       LocalDate dataNascita, String username) {
         this.mail = mail;

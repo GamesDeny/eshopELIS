@@ -7,11 +7,9 @@ import java.time.LocalDate;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PropostaDTO {
+public class FeedbackDTO {
     public Long id;
-    public String nome, descrizione, motivoRifiuto;
-    public Float prezzoProposto;
-    public Integer quantita;
-    public Boolean isAccettato;
-    public LocalDate submissionDate;
+    public String oggetto, descrizione;
+    public Boolean isAccepted;
+    public LocalDate subscriptionDate;
 }

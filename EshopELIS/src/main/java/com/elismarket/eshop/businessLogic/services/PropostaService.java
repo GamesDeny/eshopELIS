@@ -1,7 +1,8 @@
 package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.PropostaCrud;
-import com.elismarket.eshop.customExceptions.PropostaException;
+import com.elismarket.eshop.model.dto.PropostaDTO;
+import com.elismarket.eshop.model.entities.PropostaImpl;
 import com.elismarket.eshop.model.interfaces.Proposta;
 import com.elismarket.eshop.model.interfaces.Utente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,23 @@ public class PropostaService {
         return propostaCrud.findAllByUtente(utente);
     }
 
-    public void removeProposta(Long id) {
+    public boolean removeProposta(Long id) {
         try {
             propostaCrud.deleteById(id);
+            return true;
         } catch (Exception e) {
-            throw new PropostaException("Cannot find Proposta for provided item");
+//            throw new PropostaException("Cannot find Proposta for provided item");
         }
+        return false;
+    }
+
+    public boolean addProposta(PropostaDTO propostaDTO) {
+        try {
+            propostaCrud.save(PropostaImpl.of(propostaDTO));
+            return true;
+        } catch (Exception e) {
+//            throw new PropostaException("Cannot find Proposta for provided item");
+        }
+        return false;
     }
 }
