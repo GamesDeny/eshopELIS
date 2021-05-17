@@ -59,7 +59,7 @@ public class UtenteController {
     }
 
     //returns a user depending on field
-    @GetMapping("/utente/{username}")
+    @GetMapping("/user/{username}")
     public Utente getByUsername(@PathVariable("username") UtenteDTO utenteDTO) {
         return utenteService.getUtente(utenteDTO, UtenteFields.username.toString());
     }

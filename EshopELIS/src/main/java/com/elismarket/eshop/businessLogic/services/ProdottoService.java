@@ -46,8 +46,8 @@ public class ProdottoService {
         return prodottoCrud.findAllByQuantitaLessThanEqual(quantita);
     }
 
-    public List<Prodotto> getProdottoByCategoria(ProdottoDTO prodottoDTO) {
-        return prodottoCrud.findAllByNomeCategoriaLike(prodottoDTO.nomeCategoria);
+    public List<Prodotto> getProdottoByCategoria(String categoria) {
+        return prodottoCrud.findAllByNomeCategoriaLike(categoria);
     }
 
     public Boolean saveProdotto(ProdottoDTO prodotto) {

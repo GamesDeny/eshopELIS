@@ -20,7 +20,6 @@ import java.util.List;
  */
 
 @RestController
-@SessionAttributes({"utente"})
 @RequestMapping(path = "/rest/prodotto", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class ProdottoController {
@@ -45,19 +44,13 @@ public class ProdottoController {
 
     //returns all db products
     @GetMapping("/all")
-    public List<ProdottoImpl> getAll(Model model) {
+    public List<ProdottoImpl> getAll() {
         List<ProdottoImpl> lista = prodottoService.getAll();
-        Utente u = (Utente) model.getAttribute("utente");
-
-        //if there is no user in this session
-        if (u == null)
-            throw new RuntimeException("User not in session");
 
         //removes all product with quantity=0 if is not an admin
-        if (!u.getIsAdmin())
-            for (int i = lista.size() - 1; i >= 0; i--)
-                if (lista.get(i).getQuantita() == 0)
-                    lista.remove(i);
+        for (int i = lista.size() - 1; i >= 0; i--)
+            if (lista.get(i).getQuantita() == 0)
+                lista.remove(i);
 
         return lista;
     }
@@ -73,8 +66,8 @@ public class ProdottoController {
     }
 
     @GetMapping("/categoria/{name}")
-    public List<Prodotto> getByNomeCategoria(@PathVariable("name") ProdottoDTO prodottoDTO) {
-        return prodottoService.getProdottoByCategoria(prodottoDTO);
+    public List<Prodotto> getByNomeCategoria(@PathVariable("name") String categoria) {
+        return prodottoService.getProdottoByCategoria(categoria);
     }
 
 }
