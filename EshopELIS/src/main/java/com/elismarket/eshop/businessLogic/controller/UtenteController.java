@@ -33,11 +33,7 @@ public class UtenteController {
     public List<Utente> getAll() {
         List<Utente> result = utenteService.getAll("");
 
-        if (result.size() == 0) {
-            throw new UtenteException("Impossibile effettuare la get");
-        } else {
-            result.forEach(user -> user.setPassword(null));
-        }
+        result.forEach(user -> user.setPassword(null));
 
         return result;
     }
