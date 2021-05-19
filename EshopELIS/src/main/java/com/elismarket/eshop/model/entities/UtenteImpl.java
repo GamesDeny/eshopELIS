@@ -47,15 +47,27 @@ public class UtenteImpl implements Utente {
     private Boolean isAdmin;
 
     @OneToMany
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
     private List<PropostaImpl> proposta;
 
     @OneToMany(mappedBy = "utente")
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
     private List<PagamentoImpl> pagamenti = new ArrayList<>();
 
     @OneToMany
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
     private List<ProdottoImpl> prodotti = new ArrayList<>();
 
     @OneToMany
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
     private List<FeedbackImpl> feedbacks = new ArrayList<>();
 
     public UtenteImpl(String mail, String password, String nome, String cognome, Integer siglaResidenza,

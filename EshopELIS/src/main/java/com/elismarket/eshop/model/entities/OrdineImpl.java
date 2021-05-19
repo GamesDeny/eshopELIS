@@ -2,10 +2,7 @@ package com.elismarket.eshop.model.entities;
 
 import com.elismarket.eshop.model.dto.OrdineDTO;
 import com.elismarket.eshop.model.interfaces.Ordine;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -35,6 +32,9 @@ public class OrdineImpl implements Ordine {
     private LocalDate dataEvasione;
 
     @OneToMany(mappedBy = "ordine")
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
     private List<RigaOrdineImpl> righeOrdine;
 
     @ManyToOne

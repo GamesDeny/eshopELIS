@@ -1,8 +1,8 @@
 package com.elismarket.eshop.businessLogic.controller;
 
 import com.elismarket.eshop.businessLogic.services.UtenteService;
-import com.elismarket.eshop.customExceptions.UtenteException;
 import com.elismarket.eshop.model.dto.UtenteDTO;
+import com.elismarket.eshop.model.entities.UtenteImpl;
 import com.elismarket.eshop.model.interfaces.Utente;
 import com.elismarket.eshop.utilities.UtenteFields;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /*
@@ -31,39 +32,23 @@ public class UtenteController {
     //prima di ritornare la lista setto la password a null in modo che non sia trasportata
     @GetMapping("/all")
     public List<Utente> getAll() {
-        List<Utente> result = utenteService.getAll("");
-
-        if (result.size() == 0) {
-            throw new UtenteException("Impossibile effettuare la get");
-        } else {
-            result.forEach(user -> user.setPassword(null));
-        }
-
-        return result;
+        return utenteService.getAll("");
     }
 
     //returns only the admins
     @GetMapping("/all/admin")
     public List<Utente> getAllAdmin() {
-        List<Utente> result = utenteService.getAll("admin");
-
-        result.forEach(user -> user.setPassword(null));
-
-        return result;
+        return utenteService.getAll("admin");
     }
 
     //returns only non-admin users
     @GetMapping("/all/user")
     public List<Utente> getAllUsers() {
-        List<Utente> result = utenteService.getAll("user");
-
-        result.forEach(user -> user.setPassword(null));
-
-        return result;
+        return utenteService.getAll("user");
     }
 
     //returns a user depending on field
-    @GetMapping("/utente/{username}")
+    @GetMapping("/username/{username}")
     public Utente getByUsername(@PathVariable("username") UtenteDTO utenteDTO) {
         return utenteService.getUtente(utenteDTO, UtenteFields.username.toString());
     }
@@ -78,6 +63,11 @@ public class UtenteController {
         return utenteService.getUtente(siglaResidenza);
     }
 
+    @PostMapping("/login")
+    public Utente getLoginUtente(@RequestBody UtenteImpl utente) {
+        return utenteService.getLoginUtente(utente.getUsername(), utente.getPassword());
+    }
+
     @PostMapping("/add")
     public ResponseEntity addUtente(@RequestBody UtenteDTO utenteDTO) {
         try {
@@ -88,8 +78,14 @@ public class UtenteController {
         }
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity updateUtente(@RequestBody UtenteDTO utenteDTO) {
+    @PatchMapping("/update/{id}")
+    public ResponseEntity updateUtente(@PathVariable("id") Long id, @RequestBody UtenteDTO utenteDTO) {
+        Utente u = utenteService.getUtente(id);
+
+        //TODO prendi utentem modifica parametri e invia risposta. fallo per tutti i parametri e tutti i patch delle Entities
+        //se non dovesse funzionare vai di switch senza break nel case
+        u.setUsername(Objects.isNull(utenteDTO.getUsername()) ? u.getUsername() : utenteDTO.username);
+
         return utenteService.addUtente(utenteDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 

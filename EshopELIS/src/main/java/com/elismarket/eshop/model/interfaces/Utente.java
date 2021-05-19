@@ -42,4 +42,11 @@ public interface Utente {
     Boolean getLogged();
 
     void setLogged(Boolean logged);
+
+    static Integer hashPassword(String password) {
+        //if values are changed we need to reHash all DB passwords
+        //TODO make it static or move it to Checkers class
+        return password.hashCode() * 57 * 666 * 69 * 420;
+    }
+
 }

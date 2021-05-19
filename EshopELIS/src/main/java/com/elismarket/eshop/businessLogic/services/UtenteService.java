@@ -43,7 +43,13 @@ public class UtenteService {
     public Utente getUtente(UtenteDTO utenteDTO, String username) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
             throw new UtenteException();
-        return utenteCrud.findAllByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
+        return utenteCrud.findByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
+    }
+
+    public Utente getUtente(Long id) {
+        if (Objects.isNull(id))
+            throw new UtenteException();
+        return utenteCrud.findById(id).get();
     }
 
     public Utente getUtente(Integer siglaResidenza) {
@@ -57,9 +63,10 @@ public class UtenteService {
     //operazioni di inserimento utente nel DB
     public Boolean insertUtente(UtenteDTO utenteDTO) {
         if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
-            throw new UtenteException();
+            throw new UtenteException("Missing parameters!");
 
         if (Checkers.passwordChecker(utenteDTO.password) && Checkers.mailChecker(utenteDTO.mail)) {
+            utenteDTO.setPassword((Utente.hashPassword(utenteDTO.getPassword())).toString());
             utenteCrud.save(UtenteImpl.of(utenteDTO));
             return true;
         }
@@ -68,6 +75,7 @@ public class UtenteService {
 
     public Boolean addUtente(UtenteDTO utenteDTO) {
         UtenteImpl u = UtenteImpl.of(utenteDTO);
+        u.setPassword((Utente.hashPassword(u.getPassword())).toString());
         try {
             utenteCrud.save(u);
             return true;
@@ -85,4 +93,10 @@ public class UtenteService {
         }
     }
 
+    public UtenteImpl getLoginUtente(String username, String password) {
+        if (Objects.isNull(username) || Objects.isNull(password))
+            throw new UtenteException("Missing parameters!");
+
+        return (UtenteImpl) utenteCrud.findByUsernameAndPassword(username, (Utente.hashPassword(password)).toString());
+    }
 }

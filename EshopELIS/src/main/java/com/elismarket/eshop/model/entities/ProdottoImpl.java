@@ -46,6 +46,9 @@ public class ProdottoImpl implements Prodotto {
     private UtenteImpl utente;
 
     @OneToMany(mappedBy = "prodotto")
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
     private List<RigaOrdineImpl> righeOrdine;
 
     public ProdottoImpl(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Integer quantita) {
