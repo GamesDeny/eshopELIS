@@ -54,4 +54,9 @@ public class PagamentoService {
         }
     }
 
+    public Pagamento getById(Long id) {
+        if (!pagamentoCrud.findById(id).isPresent())
+            throw new PagamentoException("Not found");
+        return pagamentoCrud.findById(id).get();
+    }
 }

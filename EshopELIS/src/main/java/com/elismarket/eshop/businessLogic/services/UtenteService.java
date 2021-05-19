@@ -48,7 +48,7 @@ public class UtenteService {
 
     public Utente getUtente(Long id) {
         if (Objects.isNull(id))
-            throw new UtenteException();
+            throw new UtenteException("Not found");
         return utenteCrud.findById(id).get();
     }
 
@@ -66,7 +66,7 @@ public class UtenteService {
             throw new UtenteException("Missing parameters!");
 
         if (Checkers.passwordChecker(utenteDTO.password) && Checkers.mailChecker(utenteDTO.mail)) {
-            utenteDTO.setPassword((Utente.hashPassword(utenteDTO.getPassword())).toString());
+            utenteDTO.setPassword((Utente.hashPassword(utenteDTO.getPassword())));
             utenteCrud.save(UtenteImpl.of(utenteDTO));
             return true;
         }
@@ -75,7 +75,7 @@ public class UtenteService {
 
     public Boolean addUtente(UtenteDTO utenteDTO) {
         UtenteImpl u = UtenteImpl.of(utenteDTO);
-        u.setPassword((Utente.hashPassword(u.getPassword())).toString());
+        u.setPassword((Utente.hashPassword(u.getPassword())));
         try {
             utenteCrud.save(u);
             return true;
@@ -97,6 +97,6 @@ public class UtenteService {
         if (Objects.isNull(username) || Objects.isNull(password))
             throw new UtenteException("Missing parameters!");
 
-        return (UtenteImpl) utenteCrud.findByUsernameAndPassword(username, (Utente.hashPassword(password)).toString());
+        return (UtenteImpl) utenteCrud.findByUsernameAndPassword(username, (Utente.hashPassword(password)));
     }
 }

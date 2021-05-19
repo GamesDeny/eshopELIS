@@ -1,5 +1,7 @@
 package com.elismarket.eshop.model.interfaces;
 
+import com.elismarket.eshop.model.entities.PagamentoImpl;
+
 import java.time.LocalDate;
 
 public interface Ordine {
@@ -14,4 +16,8 @@ public interface Ordine {
     LocalDate getDataEvasione();
 
     void setDataEvasione(LocalDate dataEvasione);
+
+    Pagamento getPagamento();
+
+    void setPagamento(PagamentoImpl pagamento);
 }

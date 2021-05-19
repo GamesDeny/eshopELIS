@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/rest/rigaordine", produces = "application/json")
@@ -28,17 +29,24 @@ public class RigaOrdineController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {
+    public ResponseEntity<Object> addRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {
         return rigaOrdineService.addRigaOrdine(rigaOrdineDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity updateRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Object> updateRigaOrdine(@PathVariable("id") Long id, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
+        RigaOrdine r = rigaOrdineService.getById(id);
+
+        rigaOrdineDTO.setId(id);
+        rigaOrdineDTO.setPrezzoTotale(Objects.isNull(rigaOrdineDTO.getPrezzoTotale()) ? r.getPrezzoTotale() : rigaOrdineDTO.prezzoTotale);
+        rigaOrdineDTO.setQuantitaProdotto(Objects.isNull(rigaOrdineDTO.getQuantitaProdotto()) ? r.getQuantitaProdotto() : rigaOrdineDTO.quantitaProdotto);
+        rigaOrdineDTO.setScontoApplicato(Objects.isNull(rigaOrdineDTO.getScontoApplicato()) ? r.getScontoApplicato() : rigaOrdineDTO.scontoApplicato);
+
         return rigaOrdineService.addRigaOrdine(rigaOrdineDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity removeRigaOrdine(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> removeRigaOrdine(@PathVariable("id") Long id) {
         return rigaOrdineService.removeRigaOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 

@@ -69,7 +69,7 @@ public class UtenteController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addUtente(@RequestBody UtenteDTO utenteDTO) {
+    public ResponseEntity<Object> addUtente(@RequestBody UtenteDTO utenteDTO) {
         try {
             utenteService.addUtente(utenteDTO);
             return ResponseEntity.status(200).build();
@@ -79,18 +79,27 @@ public class UtenteController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity updateUtente(@PathVariable("id") Long id, @RequestBody UtenteDTO utenteDTO) {
+    public ResponseEntity<Object> updateUtente(@PathVariable("id") Long id, @RequestBody UtenteDTO utenteDTO) {
         Utente u = utenteService.getUtente(id);
 
-        //TODO prendi utentem modifica parametri e invia risposta. fallo per tutti i parametri e tutti i patch delle Entities
-        //se non dovesse funzionare vai di switch senza break nel case
-        u.setUsername(Objects.isNull(utenteDTO.getUsername()) ? u.getUsername() : utenteDTO.username);
+        //cambio DTO con le informazioni aggiornate
+        utenteDTO.setId(id);
+        utenteDTO.setUsername(Objects.isNull(utenteDTO.getUsername()) ? u.getUsername() : utenteDTO.username);
+        //faccio hashing prima di aggiornare
+        utenteDTO.setPassword(Objects.isNull(utenteDTO.getPassword()) ? Utente.hashPassword(u.getPassword()) : Utente.hashPassword(utenteDTO.password));
+        utenteDTO.setNome(Objects.isNull(utenteDTO.getPassword()) ? u.getNome() : utenteDTO.nome);
+        utenteDTO.setCognome(Objects.isNull(utenteDTO.getPassword()) ? u.getCognome() : utenteDTO.cognome);
+        utenteDTO.setLogged(Objects.isNull(utenteDTO.getPassword()) ? u.getLogged() : utenteDTO.logged);
+        utenteDTO.setIsAdmin(Objects.isNull(utenteDTO.getPassword()) ? u.getIsAdmin() : utenteDTO.isAdmin);
+        utenteDTO.setMail(Objects.isNull(utenteDTO.getPassword()) ? u.getMail() : utenteDTO.mail);
+        utenteDTO.setDataNascita(Objects.isNull(utenteDTO.getDataNascita()) ? u.getDataNascita() : utenteDTO.dataNascita);
+        utenteDTO.setSiglaResidenza(Objects.isNull(utenteDTO.getSiglaResidenza()) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza);
 
         return utenteService.addUtente(utenteDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity removeRigaOrdine(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> removeRigaOrdine(@PathVariable("id") Long id) {
         try {
             utenteService.removeUtente(id);
             return ResponseEntity.status(200).build();

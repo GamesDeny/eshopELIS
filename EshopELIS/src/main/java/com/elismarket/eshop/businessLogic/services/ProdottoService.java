@@ -50,6 +50,10 @@ public class ProdottoService {
         return prodottoCrud.findAllByNomeCategoriaLike(categoria);
     }
 
+    public List<String> getAllCategoria() {
+        return prodottoCrud.findAllCategoria();
+    }
+
     public Boolean saveProdotto(ProdottoDTO prodotto) {
         ProdottoImpl prod = ProdottoImpl.of(prodotto);
         try {
@@ -78,5 +82,11 @@ public class ProdottoService {
         } catch (Exception e) {
             throw new ProdottoException("Cannot find Prodotto for provided item");
         }
+    }
+
+    public Prodotto getById(Long id) {
+        if (!prodottoCrud.findById(id).isPresent())
+            throw new ProdottoException("Not found");
+        return prodottoCrud.findById(id).get();
     }
 }

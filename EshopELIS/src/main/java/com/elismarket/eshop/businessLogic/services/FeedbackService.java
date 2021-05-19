@@ -2,6 +2,7 @@ package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.FeedbackCrud;
 import com.elismarket.eshop.customExceptions.FeedbackException;
+import com.elismarket.eshop.model.dto.FeedbackDTO;
 import com.elismarket.eshop.model.entities.FeedbackImpl;
 import com.elismarket.eshop.model.interfaces.Feedback;
 import com.elismarket.eshop.model.interfaces.Utente;
@@ -16,12 +17,14 @@ public class FeedbackService {
     @Autowired
     private FeedbackCrud feedbackCrud;
 
-    public void saveFeedback(FeedbackImpl feedback) {
+    public Boolean saveFeedback(FeedbackDTO feedback) {
         try {
-            feedbackCrud.save(feedback);
+            feedbackCrud.save(FeedbackImpl.of(feedback));
+            return true;
         } catch (Exception e) {
-            throw new FeedbackException("Cannot save Feedback");
+//            throw new FeedbackException("Cannot save Feedback");
         }
+        return false;
     }
 
     public List<FeedbackImpl> findAllByUtente(Utente utente) {

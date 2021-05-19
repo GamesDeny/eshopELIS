@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/rest/proposta", produces = "application/json")
@@ -39,17 +40,28 @@ public class PropostaController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addProposta(@RequestBody PropostaDTO propostaDTO) {
+    public ResponseEntity<Object> addProposta(@RequestBody PropostaDTO propostaDTO) {
         return propostaService.addProposta(propostaDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity updateProposta(@RequestBody PropostaDTO propostaDTO) {
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Object> updateProposta(@PathVariable("id") Long id, @RequestBody PropostaDTO propostaDTO) {
+        Proposta p = propostaService.getById(id);
+
+        propostaDTO.setId(id);
+        propostaDTO.setPrezzoProposto(Objects.isNull(propostaDTO.getPrezzoProposto()) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto);
+        propostaDTO.setNome(Objects.isNull(propostaDTO.getNome()) ? p.getNome() : propostaDTO.nome);
+        propostaDTO.setDescrizione(Objects.isNull(propostaDTO.getDescrizione()) ? p.getDescrizione() : propostaDTO.descrizione);
+        propostaDTO.setIsAccettato(Objects.isNull(propostaDTO.getIsAccettato()) ? p.getIsAccettato() : propostaDTO.isAccettato);
+        propostaDTO.setMotivoRifiuto(Objects.isNull(propostaDTO.getMotivoRifiuto()) ? p.getMotivoRifiuto() : propostaDTO.motivoRifiuto);
+        propostaDTO.setQuantita(Objects.isNull(propostaDTO.getQuantita()) ? p.getQuantita() : propostaDTO.quantita);
+        propostaDTO.setSubmissionDate(Objects.isNull(propostaDTO.getSubmissionDate()) ? p.getSubmissionDate() : propostaDTO.submissionDate);
+
         return propostaService.addProposta(propostaDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity removeProposta(@RequestParam("id") Long id) {
+    public ResponseEntity<Object> removeProposta(@RequestParam("id") Long id) {
         return propostaService.removeProposta(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 }

@@ -1,6 +1,7 @@
 package com.elismarket.eshop.businessLogic.services;
 
 import com.elismarket.eshop.businessLogic.cruderepos.RigaOrdineCrud;
+import com.elismarket.eshop.customExceptions.RigaOrdineException;
 import com.elismarket.eshop.model.dto.RigaOrdineDTO;
 import com.elismarket.eshop.model.entities.RigaOrdineImpl;
 import com.elismarket.eshop.model.interfaces.RigaOrdine;
@@ -24,6 +25,12 @@ public class RigaOrdineService {
 
     public Iterable<RigaOrdineImpl> getAll() {
         return rigaOrdineCrud.findAll();
+    }
+
+    public RigaOrdine getById(Long id) {
+        if (!rigaOrdineCrud.findById(id).isPresent())
+            throw new RigaOrdineException("Not found");
+        return rigaOrdineCrud.findById(id).get();
     }
 
     public List<RigaOrdine> getByQuantita(Integer quantita) {

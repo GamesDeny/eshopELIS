@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/rest/pagamento", produces = "application/json")
@@ -33,12 +34,20 @@ public class PagamentoController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
+    public ResponseEntity<Object> addPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
         return pagamentoService.addPagamento(pagamentoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
-    @PatchMapping("/update")
-    public ResponseEntity updatePagamento(@RequestBody PagamentoDTO pagamentoDTO) {
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<Object> updatePagamento(@PathVariable("id") Long id, @RequestBody PagamentoDTO pagamentoDTO) {
+        Pagamento p = pagamentoService.getById(id);
+
+        pagamentoDTO.setId(id);
+        pagamentoDTO.setDescrizione(Objects.isNull(pagamentoDTO.getDescrizione()) ? p.getDescrizione() : pagamentoDTO.descrizione);
+        pagamentoDTO.setContanti(Objects.isNull(pagamentoDTO.getContanti()) ? p.getContanti() : pagamentoDTO.contanti);
+        pagamentoDTO.setPaypalMail(Objects.isNull(pagamentoDTO.getPaypalMail()) ? p.getPaypalMail() : pagamentoDTO.paypalMail);
+        pagamentoDTO.setTipo(Objects.isNull(pagamentoDTO.getTipo()) ? p.getTipo() : pagamentoDTO.tipo);
+
         return pagamentoService.addPagamento(pagamentoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 

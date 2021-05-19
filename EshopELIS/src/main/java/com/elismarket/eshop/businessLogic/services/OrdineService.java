@@ -66,4 +66,10 @@ public class OrdineService {
             throw new OrdineException("Cannot find Ordine for provided item");
         }
     }
+
+    public Ordine getById(Long id) {
+        if (!ordineCrud.findById(id).isPresent())
+            throw new OrdineException("Not found");
+        return ordineCrud.findById(id).get();
+    }
 }

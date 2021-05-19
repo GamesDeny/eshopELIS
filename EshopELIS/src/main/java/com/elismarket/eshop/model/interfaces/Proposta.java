@@ -1,5 +1,7 @@
 package com.elismarket.eshop.model.interfaces;
 
+import java.time.LocalDate;
+
 public interface Proposta {
     Long getId();
 
@@ -20,4 +22,16 @@ public interface Proposta {
     Integer getQuantita();
 
     void setQuantita(Integer quantita);
+
+    LocalDate getSubmissionDate();
+
+    void setSubmissionDate(LocalDate submissionDate);
+
+    Boolean getIsAccettato();
+
+    void setIsAccettato(Boolean isAccettato);
+
+    String getMotivoRifiuto();
+
+    void setMotivoRifiuto(String motivoRifiuto);
 }

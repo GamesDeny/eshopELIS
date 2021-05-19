@@ -43,10 +43,10 @@ public interface Utente {
 
     void setLogged(Boolean logged);
 
-    static Integer hashPassword(String password) {
+    static String hashPassword(String password) {
         //if values are changed we need to reHash all DB passwords
         //TODO make it static or move it to Checkers class
-        return password.hashCode() * 57 * 666 * 69 * 420;
+        return String.valueOf(password.hashCode() * 57 * 666 * 69 * 420);
     }
 
 }
