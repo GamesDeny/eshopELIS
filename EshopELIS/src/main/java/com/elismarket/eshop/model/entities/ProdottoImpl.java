@@ -42,7 +42,7 @@ public class ProdottoImpl implements Prodotto {
     //url of the product image
     private String image;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
     private UtenteImpl utente;
 
     @OneToMany(mappedBy = "prodotto")
