@@ -4,7 +4,6 @@ import com.elismarket.eshop.businessLogic.services.UtenteService;
 import com.elismarket.eshop.model.dto.UtenteDTO;
 import com.elismarket.eshop.model.entities.UtenteImpl;
 import com.elismarket.eshop.model.interfaces.Utente;
-import com.elismarket.eshop.utilities.UtenteFields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,13 +48,13 @@ public class UtenteController {
 
     //returns a user depending on field
     @GetMapping("/username/{username}")
-    public Utente getByUsername(@PathVariable("username") UtenteDTO utenteDTO) {
-        return utenteService.getUtente(utenteDTO, UtenteFields.username.toString());
+    public Utente getByUsername(@PathVariable("username") String username) {
+        return utenteService.getByUser(username);
     }
 
     @GetMapping("/mail/{mail}")
-    public Utente getByMail(@PathVariable("mail") UtenteDTO utenteDTO) {
-        return utenteService.getUtente(utenteDTO, UtenteFields.mail.toString());
+    public Utente getByMail(@PathVariable("mail") String mail) {
+        return utenteService.getByMail(mail);
     }
 
     @GetMapping("/sigla/{siglaResidenza}")

@@ -5,10 +5,10 @@ import com.elismarket.eshop.customExceptions.UtenteException;
 import com.elismarket.eshop.model.dto.UtenteDTO;
 import com.elismarket.eshop.model.entities.UtenteImpl;
 import com.elismarket.eshop.model.interfaces.Utente;
-import com.elismarket.eshop.utilities.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +30,9 @@ public class UtenteService {
     public List<Utente> getAll(String findby) {
         switch (findby) {
             case "":
-                return utenteCrud.findAllByIdGreaterThanEqual(0L);
+                List<Utente> result = new ArrayList<>();
+                utenteCrud.findAll().forEach(result::add);
+                return result;
             case "admin":
                 return utenteCrud.findAllByIsAdmin(true);
             case "user":
@@ -39,15 +41,22 @@ public class UtenteService {
         throw new UtenteException();
     }
 
-    //ottengo il singolo utente per il login o per controllare se già presente in db
-    public Utente getUtente(UtenteDTO utenteDTO, String username) {
-        if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
-            throw new UtenteException();
-        return utenteCrud.findByUsernameAndPassword(utenteDTO.username, utenteDTO.password);
+    public Utente getByMail(String mail) {
+        Utente u = utenteCrud.findByMail(mail);
+        if (Objects.isNull(u))
+            throw new UtenteException("Not found");
+        return u;
+    }
+
+    public Utente getByUser(String username) {
+        Utente u = utenteCrud.findByMail(username);
+        if (Objects.isNull(u))
+            throw new UtenteException("Not found");
+        return u;
     }
 
     public Utente getUtente(Long id) {
-        if (Objects.isNull(id))
+        if (utenteCrud.findById(id).isPresent())
             throw new UtenteException("Not found");
         return utenteCrud.findById(id).get();
     }
@@ -61,22 +70,10 @@ public class UtenteService {
     }
 
     //operazioni di inserimento utente nel DB
-    public Boolean insertUtente(UtenteDTO utenteDTO) {
-        if (Objects.isNull(utenteDTO.username) || Objects.isNull(utenteDTO.password))
-            throw new UtenteException("Missing parameters!");
-
-        if (Checkers.passwordChecker(utenteDTO.password) && Checkers.mailChecker(utenteDTO.mail)) {
-            utenteDTO.setPassword((Utente.hashPassword(utenteDTO.getPassword())));
-            utenteCrud.save(UtenteImpl.of(utenteDTO));
-            return true;
-        }
-        return false;
-    }
-
     public Boolean addUtente(UtenteDTO utenteDTO) {
         UtenteImpl u = UtenteImpl.of(utenteDTO);
-        u.setPassword((Utente.hashPassword(u.getPassword())));
         try {
+            u.setPassword((Utente.hashPassword(u.getPassword())));
             utenteCrud.save(u);
             return true;
         } catch (Exception e) {
@@ -96,7 +93,7 @@ public class UtenteService {
     public UtenteImpl getLoginUtente(String username, String password) {
         if (Objects.isNull(username) || Objects.isNull(password))
             throw new UtenteException("Missing parameters!");
-
-        return (UtenteImpl) utenteCrud.findByUsernameAndPassword(username, (Utente.hashPassword(password)));
+        return (UtenteImpl) utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password));
     }
+
 }
