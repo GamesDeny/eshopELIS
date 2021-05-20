@@ -42,4 +42,19 @@ public class Proposta {
                 .submissionDate(propostaDTO.submissionDate)
                 .build();
     }
+
+    public static PropostaDTO to(Proposta proposta) {
+        PropostaDTO p = new PropostaDTO();
+
+        p.setId(proposta.getId());
+        p.setDescrizione(proposta.getDescrizione());
+        p.setIsAccettato(proposta.getIsAccettato());
+        p.setPrezzoProposto(proposta.getPrezzoProposto());
+        p.setNome(proposta.getNome());
+        p.setMotivoRifiuto(proposta.getMotivoRifiuto());
+        p.setSubmissionDate(proposta.getSubmissionDate());
+        p.setQuantita(proposta.getQuantita());
+
+        return p;
+    }
 }

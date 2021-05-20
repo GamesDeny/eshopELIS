@@ -18,7 +18,7 @@ import java.util.Objects;
  */
 
 @Service
-public class UtenteServiceImpl {
+public class UtenteServiceImpl implements UtenteService {
 
     @Autowired
     private UtenteCrud utenteCrud;
@@ -26,43 +26,44 @@ public class UtenteServiceImpl {
     //richiesta di utenti
     //se vuoto li ritorna tutti altrimenti ritorna in base al valore di findby
     //il valore mi serve a capire se vuole un utente normale o un admin
-    public List<Utente> getAll(String findby) {
+    public List<UtenteDTO> getAll(String findby) {
+        List<UtenteDTO> result = new ArrayList<>();
+
         switch (findby) {
             case "":
-                List<Utente> result = new ArrayList<>();
-                utenteCrud.findAll().forEach(result::add);
+                utenteCrud.findAll().forEach(utente -> result.add(Utente.to(utente)));
                 return result;
             case "admin":
-                return utenteCrud.findAllByIsAdmin(true);
+                utenteCrud.findAllByIsAdmin(true).forEach(utente -> result.add(Utente.to(utente)));
+                return result;
             case "user":
-                return utenteCrud.findAllByIsAdmin(false);
+                utenteCrud.findAllByIsAdmin(false).forEach(utente -> result.add(Utente.to(utente)));
+                return result;
         }
         throw new UtenteException();
     }
 
-    public Utente getByMail(String mail) {
-        Utente u = utenteCrud.findByMail(mail);
-        if (Objects.isNull(u))
+    public UtenteDTO getByMail(String mail) {
+        if (Objects.isNull(utenteCrud.findByMail(mail)))
             throw new UtenteException("Not found");
-        return u;
+        return Utente.to(utenteCrud.findByMail(mail));
     }
 
-    public Utente getByUser(String username) {
-        Utente u = utenteCrud.findByMail(username);
-        if (Objects.isNull(u))
+    public UtenteDTO getByUser(String username) {
+        if (Objects.isNull(utenteCrud.findByUsername(username)))
             throw new UtenteException("Not found");
-        return u;
+        return Utente.to(utenteCrud.findByUsername(username));
     }
 
-    public Utente getUtente(Long id) {
+    public UtenteDTO getUtente(Long id) {
         if (utenteCrud.findById(id).isPresent())
             throw new UtenteException("Not found");
-        return utenteCrud.findById(id).get();
+        return Utente.to(utenteCrud.findById(id).get());
     }
 
-    public Utente getUtente(Integer siglaResidenza) {
+    public UtenteDTO getUtente(Integer siglaResidenza) {
         try {
-            return utenteCrud.findBySiglaResidenza(siglaResidenza);
+            return Utente.to(utenteCrud.findBySiglaResidenza(siglaResidenza));
         } catch (Exception e) {
             throw new UtenteException("User with this sigla doesn't exist");
         }
@@ -89,10 +90,10 @@ public class UtenteServiceImpl {
         }
     }
 
-    public Utente getLoginUtente(String username, String password) {
+    public UtenteDTO getLoginUtente(String username, String password) {
         if (Objects.isNull(username) || Objects.isNull(password))
             throw new UtenteException("Missing parameters!");
-        return utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password));
+        return Utente.to(utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password)));
     }
 
 }

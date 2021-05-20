@@ -47,4 +47,15 @@ public class RigaOrdine {
                 .quantitaProdotto(rigaOrdineDTO.quantitaProdotto)
                 .build();
     }
+
+    public static RigaOrdineDTO to(RigaOrdine rigaOrdine) {
+        RigaOrdineDTO r = new RigaOrdineDTO();
+
+        r.setId(rigaOrdine.getId());
+        r.setPrezzoTotale(rigaOrdine.getPrezzoTotale());
+        r.setQuantitaProdotto(rigaOrdine.getQuantitaProdotto());
+        r.setScontoApplicato(rigaOrdine.getScontoApplicato());
+
+        return r;
+    }
 }

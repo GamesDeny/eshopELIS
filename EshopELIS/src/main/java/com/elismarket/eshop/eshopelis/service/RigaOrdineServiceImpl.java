@@ -7,6 +7,7 @@ import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,23 +18,31 @@ import java.util.List;
  */
 
 @Service
-public class RigaOrdineServiceImpl {
+public class RigaOrdineServiceImpl implements RigaOrdineService {
 
     @Autowired
     private RigaOrdineCrud rigaOrdineCrud;
 
-    public Iterable<RigaOrdine> getAll() {
-        return rigaOrdineCrud.findAll();
+    public List<RigaOrdineDTO> getAll() {
+        List<RigaOrdineDTO> result = new ArrayList<>();
+
+        rigaOrdineCrud.findAll().forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));
+
+        return result;
     }
 
-    public RigaOrdine getById(Long id) {
+    public RigaOrdineDTO getById(Long id) {
         if (!rigaOrdineCrud.findById(id).isPresent())
             throw new RigaOrdineException("Not found");
-        return rigaOrdineCrud.findById(id).get();
+        return RigaOrdine.to(rigaOrdineCrud.findById(id).get());
     }
 
-    public List<RigaOrdine> getByQuantita(Integer quantita) {
-        return rigaOrdineCrud.findAllByQuantitaProdottoGreaterThanEqual(quantita);
+    public List<RigaOrdineDTO> getByQuantita(Integer quantita) {
+        List<RigaOrdineDTO> result = new ArrayList<>();
+
+        rigaOrdineCrud.findAllByQuantitaProdottoGreaterThanEqual(quantita).forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));
+
+        return result;
     }
 
     public Boolean addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {

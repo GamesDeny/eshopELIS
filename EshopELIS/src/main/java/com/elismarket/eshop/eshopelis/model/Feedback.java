@@ -36,4 +36,17 @@ public class Feedback {
                 .subscriptionDate(feedbackDTO.subscriptionDate)
                 .build();
     }
+
+    //transform feedback into relative DTO
+    public static FeedbackDTO to(Feedback feedback) {
+        FeedbackDTO f = new FeedbackDTO();
+
+        f.setId(feedback.getId());
+        f.setOggetto(feedback.getOggetto());
+        f.setDescrizione(feedback.getDescrizione());
+        f.setIsAccepted(feedback.getIsAccepted());
+        f.setSubscriptionDate(feedback.getSubscriptionDate());
+
+        return f;
+    }
 }

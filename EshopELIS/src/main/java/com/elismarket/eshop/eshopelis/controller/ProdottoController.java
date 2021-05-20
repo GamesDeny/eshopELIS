@@ -32,7 +32,7 @@ public class ProdottoController {
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Object> updateProdotto(@PathVariable("id") Long id, @RequestBody ProdottoDTO prodottoDTO) {
-        Prodotto p = prodottoService.getById(id);
+        Prodotto p = Prodotto.of(prodottoService.getById(id));
 
         prodottoDTO.setId(id);
         prodottoDTO.setDescrizione(Objects.isNull(prodottoDTO.getDescrizione()) ? p.getDescrizione() : prodottoDTO.descrizione);
@@ -55,29 +55,22 @@ public class ProdottoController {
 
     //returns all db products
     @GetMapping("/all")
-    public List<Prodotto> getAll() {
-        List<Prodotto> lista = prodottoService.getAll();
-
-        //removes all product with quantity=0 if is not an admin
-        for (int i = lista.size() - 1; i >= 0; i--)
-            if (lista.get(i).getQuantita() == 0)
-                lista.remove(i);
-
-        return lista;
+    public List<ProdottoDTO> getAll() {
+        return prodottoService.getAll();
     }
 
     @GetMapping("/all/quantita/maggiore/{quantita}")
-    public List<Prodotto> findByQuantitaMaggiore(@PathVariable("quantita") Integer quantita) {
+    public List<ProdottoDTO> findByQuantitaMaggiore(@PathVariable("quantita") Integer quantita) {
         return prodottoService.findByQuantitaMaggiore(quantita);
     }
 
     @GetMapping("/all/quantita/minore/{quantita}")
-    public List<Prodotto> findByQuantitaMinore(@PathVariable("quantita") Integer quantita) {
+    public List<ProdottoDTO> findByQuantitaMinore(@PathVariable("quantita") Integer quantita) {
         return prodottoService.findByQuantitaMinore(quantita);
     }
 
     @GetMapping("/categoria/{name}")
-    public List<Prodotto> getByNomeCategoria(@PathVariable("name") String categoria) {
+    public List<ProdottoDTO> getByNomeCategoria(@PathVariable("name") String categoria) {
         return prodottoService.getProdottoByCategoria(categoria);
     }
 

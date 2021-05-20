@@ -1,8 +1,8 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
+import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import com.elismarket.eshop.eshopelis.model.Proposta;
-import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.service.PropostaServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +20,22 @@ public class PropostaController {
     private PropostaServiceImpl propostaService;
 
     @GetMapping("/accettati/si")
-    public List<Proposta> findAccettati() {
+    public List<PropostaDTO> findAccettati() {
         return propostaService.findAllByIsAccettato(true);
     }
 
     @GetMapping("/accettati/no")
-    public List<Proposta> findNonAccettati() {
+    public List<PropostaDTO> findNonAccettati() {
         return propostaService.findAllByIsAccettato(false);
     }
 
     @GetMapping("/utente/{id}")
-    public List<Proposta> findAllByUtente(@RequestParam("id") Long id) {
+    public List<PropostaDTO> findAllByUtente(@RequestParam("id") Long id) {
         return propostaService.findAllByUtente(id);
     }
 
     @GetMapping("/utente")
-    public List<Proposta> findAllByUtente(@RequestBody Utente utente) {
+    public List<PropostaDTO> findAllByUtente(@RequestBody UtenteDTO utente) {
         return propostaService.findAllByUtente(utente);
     }
 
@@ -46,7 +46,7 @@ public class PropostaController {
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Object> updateProposta(@PathVariable("id") Long id, @RequestBody PropostaDTO propostaDTO) {
-        Proposta p = propostaService.getById(id);
+        Proposta p = Proposta.of(propostaService.getById(id));
 
         propostaDTO.setId(id);
         propostaDTO.setPrezzoProposto(Objects.isNull(propostaDTO.getPrezzoProposto()) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,29 +19,49 @@ import java.util.List;
  */
 
 @Service
-public class OrdineServiceImpl {
+public class OrdineServiceImpl implements OrdineService {
 
     @Autowired
     private OrdineCrud ordineCrud;
 
-    public List<Ordine> getAll() {
-        return ordineCrud.findAll();
+    public List<OrdineDTO> getAll() {
+        List<OrdineDTO> result = new ArrayList<>();
+
+        ordineCrud.findAll().forEach(ordine -> result.add(Ordine.to(ordine)));
+
+        return result;
     }
 
-    public List<Ordine> getEvaso(Boolean evaso) {
-        return ordineCrud.findAllByEvaso(evaso);
+    public List<OrdineDTO> getEvaso(Boolean evaso) {
+        List<OrdineDTO> result = new ArrayList<>();
+
+        ordineCrud.findAllByEvaso(evaso).forEach(ordine -> result.add(Ordine.to(ordine)));
+
+        return result;
     }
 
-    public List<Ordine> getDataPrima(LocalDate dataEvasione) {
-        return ordineCrud.findAllByDataEvasioneBefore(dataEvasione);
+    public List<OrdineDTO> getDataPrima(LocalDate dataEvasione) {
+        List<OrdineDTO> result = new ArrayList<>();
+
+        ordineCrud.findAllByDataEvasioneBefore(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
+
+        return result;
     }
 
-    public List<Ordine> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2) {
-        return ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2);
+    public List<OrdineDTO> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2) {
+        List<OrdineDTO> result = new ArrayList<>();
+
+        ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2).forEach(ordine -> result.add(Ordine.to(ordine)));
+
+        return result;
     }
 
-    public List<Ordine> getDataDopo(LocalDate dataEvasione) {
-        return ordineCrud.findAllByDataEvasioneAfter(dataEvasione);
+    public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {
+        List<OrdineDTO> result = new ArrayList<>();
+
+        ordineCrud.findAllByDataEvasioneAfter(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
+
+        return result;
     }
 
     public void saveOrdine(OrdineDTO ordineDTO) {
@@ -48,9 +69,8 @@ public class OrdineServiceImpl {
     }
 
     public Boolean updateOrdine(OrdineDTO ordineDTO) {
-        Ordine u = Ordine.of(ordineDTO);
         try {
-            ordineCrud.save(u);
+            ordineCrud.save(Ordine.of(ordineDTO));
             return true;
         } catch (Exception e) {
 //            throw new OrdineException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
@@ -66,9 +86,9 @@ public class OrdineServiceImpl {
         }
     }
 
-    public Ordine getById(Long id) {
+    public OrdineDTO getById(Long id) {
         if (!ordineCrud.findById(id).isPresent())
             throw new OrdineException("Not found");
-        return ordineCrud.findById(id).get();
+        return Ordine.to(ordineCrud.findById(id).get());
     }
 }

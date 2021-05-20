@@ -1,6 +1,7 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
+import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import com.elismarket.eshop.eshopelis.exception.FeedbackException;
 import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.model.Utente;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FeedbackServiceImpl {
+public class FeedbackServiceImpl implements FeedbackService {
 
     @Autowired
     private FeedbackCrud feedbackCrud;
@@ -27,17 +28,17 @@ public class FeedbackServiceImpl {
         return false;
     }
 
-    public List<FeedbackDTO> findAllByUtente(Utente utente) {
+    public List<FeedbackDTO> findAllByUtente(UtenteDTO utente) {
         List<FeedbackDTO> result = new ArrayList<>();
 
-        feedbackCrud.findAllByUtente(utente).forEach(feedback -> result.add(toDTO(feedback)));
+        feedbackCrud.findAllByUtente(Utente.of(utente)).forEach(feedback -> result.add(Feedback.to(feedback)));
 
         return result;
     }
 
-    public void deleteFeedback(Feedback feedback) {
+    public void deleteFeedback(FeedbackDTO feedbackDTO) {
         try {
-            feedbackCrud.delete(feedback);
+            feedbackCrud.delete(Feedback.of(feedbackDTO));
         } catch (Exception e) {
 //            throw new FeedbackException("Cannot save Feedback");
         }
@@ -46,7 +47,7 @@ public class FeedbackServiceImpl {
     public FeedbackDTO getById(Long id) {
         try {
             if (feedbackCrud.findById(id).isPresent())
-                return toDTO(feedbackCrud.findById(id).get());
+                return Feedback.to(feedbackCrud.findById(id).get());
             throw new RuntimeException();
         } catch (Exception e) {
             throw new FeedbackException("Cannot save Feedback");
@@ -57,23 +58,12 @@ public class FeedbackServiceImpl {
         List<FeedbackDTO> result = new ArrayList<>();
 
         try {
-            feedbackCrud.findAll().forEach((feedback) -> result.add(toDTO(feedback)));
+            feedbackCrud.findAll().forEach((feedback) -> result.add(Feedback.to(feedback)));
             return result;
         } catch (Exception e) {
             throw new FeedbackException("Cannot get all elements");
         }
     }
 
-    //transform feedback into relative DTO
-    private FeedbackDTO toDTO(Feedback feedback) {
-        FeedbackDTO f = new FeedbackDTO();
 
-        f.setId(feedback.getId());
-        f.setOggetto(feedback.getOggetto());
-        f.setDescrizione(feedback.getDescrizione());
-        f.setIsAccepted(feedback.getIsAccepted());
-        f.setSubscriptionDate(feedback.getSubscriptionDate());
-
-        return f;
-    }
 }

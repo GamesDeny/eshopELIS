@@ -18,17 +18,17 @@ public class PagamentoController {
     private PagamentoServiceImpl pagamentoService;
 
     @GetMapping("/all")
-    public Iterable<Pagamento> getAll() {
+    public List<PagamentoDTO> getAll() {
         return pagamentoService.getAll();
     }
 
     @GetMapping("/contanti")
-    public List<Pagamento> getByContanti() {
+    public List<PagamentoDTO> getByContanti() {
         return pagamentoService.getByContanti();
     }
 
     @GetMapping("/mail")
-    public List<Pagamento> getByPaypalMail() {
+    public List<PagamentoDTO> getByPaypalMail() {
         return pagamentoService.getByPaypalMail();
     }
 
@@ -39,7 +39,7 @@ public class PagamentoController {
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Object> updatePagamento(@PathVariable("id") Long id, @RequestBody PagamentoDTO pagamentoDTO) {
-        Pagamento p = pagamentoService.getById(id);
+        Pagamento p = Pagamento.of(pagamentoService.getById(id));
 
         pagamentoDTO.setId(id);
         pagamentoDTO.setDescrizione(Objects.isNull(pagamentoDTO.getDescrizione()) ? p.getDescrizione() : pagamentoDTO.descrizione);

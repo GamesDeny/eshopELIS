@@ -18,12 +18,12 @@ public class RigaOrdineController {
     private RigaOrdineServiceImpl rigaOrdineService;
 
     @GetMapping("/all")
-    public Iterable<RigaOrdine> getAll() {
+    public Iterable<RigaOrdineDTO> getAll() {
         return rigaOrdineService.getAll();
     }
 
     @GetMapping("/quantita/{value}")
-    public List<RigaOrdine> getByQuantita(Integer quantita) {
+    public List<RigaOrdineDTO> getByQuantita(Integer quantita) {
         return rigaOrdineService.getByQuantita(quantita);
     }
 
@@ -34,7 +34,7 @@ public class RigaOrdineController {
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Object> updateRigaOrdine(@PathVariable("id") Long id, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
-        RigaOrdine r = rigaOrdineService.getById(id);
+        RigaOrdine r = RigaOrdine.of(rigaOrdineService.getById(id));
 
         rigaOrdineDTO.setId(id);
         rigaOrdineDTO.setPrezzoTotale(Objects.isNull(rigaOrdineDTO.getPrezzoTotale()) ? r.getPrezzoTotale() : rigaOrdineDTO.prezzoTotale);

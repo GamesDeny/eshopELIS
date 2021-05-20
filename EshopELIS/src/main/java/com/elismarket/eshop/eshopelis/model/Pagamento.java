@@ -44,6 +44,18 @@ public class Pagamento {
                 .build();
     }
 
+    public static PagamentoDTO to(Pagamento pagamento) {
+        PagamentoDTO p = new PagamentoDTO();
+
+        p.setId(pagamento.getId());
+        p.setContanti(pagamento.getContanti());
+        p.setDescrizione(pagamento.getDescrizione());
+        p.setPaypalMail(pagamento.getPaypalMail());
+        p.setTipo(pagamento.getTipo());
+
+        return p;
+    }
+
     enum PagamentoEnum {
         PAYPAL,
         CONTANTI

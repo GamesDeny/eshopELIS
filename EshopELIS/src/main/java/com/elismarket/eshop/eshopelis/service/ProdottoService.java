@@ -1,23 +1,31 @@
 package com.elismarket.eshop.eshopelis.service;
 
-import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
+import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 
 import java.util.List;
 
 public interface ProdottoService {
-    List<UtenteDTO> getAll(String findby);
+    void removeById(Long id);
 
-    UtenteDTO getByMail(String mail);
+    List<ProdottoDTO> getAll();
 
-    UtenteDTO getByUser(String username);
+    List<ProdottoDTO> findAllByNome(String nome);
 
-    UtenteDTO getUtente(Long id);
+    List<ProdottoDTO> findAllByCategoria(String categoria);
 
-    UtenteDTO getUtente(Integer siglaResidenza);
+    List<ProdottoDTO> findByQuantitaMaggiore(Integer quantita);
 
-    Boolean addUtente(UtenteDTO utenteDTO);
+    List<ProdottoDTO> findByQuantitaMinore(Integer quantita);
 
-    void removeUtente(Long id);
+    List<ProdottoDTO> getProdottoByCategoria(String categoria);
 
-    UtenteDTO getLoginUtente(String username, String password);
+    List<String> getAllCategoria();
+
+    Boolean saveProdotto(ProdottoDTO prodotto);
+
+    Boolean updateProdotto(ProdottoDTO prodotto);
+
+    void removeProdotto(Long id);
+
+    ProdottoDTO getById(Long id);
 }

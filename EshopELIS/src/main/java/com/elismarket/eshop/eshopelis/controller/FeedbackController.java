@@ -1,7 +1,6 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
-import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.service.FeedbackServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +31,7 @@ public class FeedbackController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteFeedback(@PathVariable("id") Long id) {
         try {
-            feedbackService.deleteFeedback(Feedback.of(feedbackService.getById(id)));
+            feedbackService.deleteFeedback(feedbackService.getById(id));
             return ResponseEntity.status(200).build();
         } catch (Exception e) {
             return ResponseEntity.status(500).build();

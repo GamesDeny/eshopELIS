@@ -40,27 +40,27 @@ public class OrdineController {
     }
 
     @GetMapping("/all")
-    public List<Ordine> getAll() {
+    public List<OrdineDTO> getAll() {
         return ordineService.getAll();
     }
 
     @GetMapping("/evaso")
-    public List<Ordine> getEvaso(Boolean evaso) {
+    public List<OrdineDTO> getEvaso(Boolean evaso) {
         return ordineService.getEvaso(evaso);
     }
 
     @GetMapping("/data/before/{data}")
-    public List<Ordine> getDataPrima(@PathVariable("data") LocalDate dataEvasione) {
+    public List<OrdineDTO> getDataPrima(@PathVariable("data") LocalDate dataEvasione) {
         return ordineService.getDataPrima(dataEvasione);
     }
 
     @GetMapping("/data/between/{dataInizio}/{dataFine}")
-    public List<Ordine> getDataTra(@PathVariable("dataInizio") LocalDate dataEvasione1, @PathVariable("dataFine") LocalDate dataEvasione2) {
+    public List<OrdineDTO> getDataTra(@PathVariable("dataInizio") LocalDate dataEvasione1, @PathVariable("dataFine") LocalDate dataEvasione2) {
         return ordineService.getDataTra(dataEvasione1, dataEvasione2);
     }
 
     @GetMapping("/data/after/{data}")
-    public List<Ordine> getDataDopo(@PathVariable("data") LocalDate dataEvasione) {
+    public List<OrdineDTO> getDataDopo(@PathVariable("data") LocalDate dataEvasione) {
         return ordineService.getDataDopo(dataEvasione);
     }
 

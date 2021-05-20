@@ -7,6 +7,7 @@ import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -16,7 +17,7 @@ import java.util.List;
  */
 
 @Service
-public class ProdottoServiceImpl {
+public class ProdottoServiceImpl implements ProdottoService {
 
     @Autowired
     private ProdottoCrud prodottoCrud;
@@ -25,28 +26,52 @@ public class ProdottoServiceImpl {
         prodottoCrud.delete(prodottoCrud.findAllById(id));
     }
 
-    public List<Prodotto> getAll() {
-        return prodottoCrud.findAll();
+    public List<ProdottoDTO> getAll() {
+        List<ProdottoDTO> result = new ArrayList<>();
+
+        prodottoCrud.findAll().forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+
+        return result;
     }
 
-    public List<Prodotto> findAllByNome(String nome) {
-        return prodottoCrud.findAllByNomeLike(nome);
+    public List<ProdottoDTO> findAllByNome(String nome) {
+        List<ProdottoDTO> result = new ArrayList<>();
+
+        prodottoCrud.findAllByNomeLike(nome).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+
+        return result;
     }
 
-    public List<Prodotto> findAllByCategoria(String categoria) {
-        return prodottoCrud.findAllByNomeCategoriaLike(categoria);
+    public List<ProdottoDTO> findAllByCategoria(String categoria) {
+        List<ProdottoDTO> result = new ArrayList<>();
+
+        prodottoCrud.findAllByNomeCategoriaLike(categoria).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+
+        return result;
     }
 
-    public List<Prodotto> findByQuantitaMaggiore(Integer quantita) {
-        return prodottoCrud.findAllByQuantitaGreaterThanEqual(quantita);
+    public List<ProdottoDTO> findByQuantitaMaggiore(Integer quantita) {
+        List<ProdottoDTO> result = new ArrayList<>();
+
+        prodottoCrud.findAllByQuantitaGreaterThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+
+        return result;
     }
 
-    public List<Prodotto> findByQuantitaMinore(Integer quantita) {
-        return prodottoCrud.findAllByQuantitaLessThanEqual(quantita);
+    public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {
+        List<ProdottoDTO> result = new ArrayList<>();
+
+        prodottoCrud.findAllByQuantitaLessThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+
+        return result;
     }
 
-    public List<Prodotto> getProdottoByCategoria(String categoria) {
-        return prodottoCrud.findAllByNomeCategoriaLike(categoria);
+    public List<ProdottoDTO> getProdottoByCategoria(String categoria) {
+        List<ProdottoDTO> result = new ArrayList<>();
+
+        prodottoCrud.findAllByNomeCategoriaLike(categoria).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+
+        return result;
     }
 
     public List<String> getAllCategoria() {
@@ -70,7 +95,7 @@ public class ProdottoServiceImpl {
             prodottoCrud.save(prod);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+//            throw new ProdottoException("Unsuccessfull");
         }
         return false;
     }
@@ -83,9 +108,9 @@ public class ProdottoServiceImpl {
         }
     }
 
-    public Prodotto getById(Long id) {
+    public ProdottoDTO getById(Long id) {
         if (!prodottoCrud.findById(id).isPresent())
             throw new ProdottoException("Not found");
-        return prodottoCrud.findById(id).get();
+        return Prodotto.to(prodottoCrud.findById(id).get());
     }
 }

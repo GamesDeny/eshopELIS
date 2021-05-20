@@ -96,6 +96,25 @@ public class Utente {
                 .build();
     }
 
+    public static UtenteDTO to(Utente utente) {
+        UtenteDTO u = new UtenteDTO();
+
+        u.setId(utente.getId());
+        u.setPassword(utente.getPassword());
+        u.setCognome(utente.getCognome());
+        u.setDataNascita(utente.getDataNascita());
+        u.setLogged(utente.getLogged());
+        u.setMail(utente.getMail());
+        u.setUsername(utente.getUsername());
+        u.setNome(utente.getNome());
+        u.setSiglaResidenza(utente.getSiglaResidenza());
+        u.setDataNascita(utente.getDataNascita());
+        u.setLogged(utente.getLogged());
+        u.setIsAdmin(utente.getIsAdmin());
+
+        return u;
+    }
+
     public static String hashPassword(String password) {
         //if values are changed we need to reHash all DB passwords
         return String.valueOf(password.hashCode() * 57 * 666 * 69 * 420);

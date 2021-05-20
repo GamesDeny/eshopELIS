@@ -7,6 +7,7 @@ import com.elismarket.eshop.eshopelis.repository.PagamentoCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,21 +19,33 @@ import java.util.List;
  */
 
 @Service
-public class PagamentoServiceImpl {
+public class PagamentoServiceImpl implements PagamentoService {
 
     @Autowired
     private PagamentoCrud pagamentoCrud;
 
-    public Iterable<Pagamento> getAll() {
-        return pagamentoCrud.findAll();
+    public List<PagamentoDTO> getAll() {
+        List<PagamentoDTO> result = new ArrayList<>();
+
+        pagamentoCrud.findAll().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
+
+        return result;
     }
 
-    public List<Pagamento> getByContanti() {
-        return pagamentoCrud.findAllByContantiNotNull();
+    public List<PagamentoDTO> getByContanti() {
+        List<PagamentoDTO> result = new ArrayList<>();
+
+        pagamentoCrud.findAllByContantiNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
+
+        return result;
     }
 
-    public List<Pagamento> getByPaypalMail() {
-        return pagamentoCrud.findAllByPaypalMailNotNull();
+    public List<PagamentoDTO> getByPaypalMail() {
+        List<PagamentoDTO> result = new ArrayList<>();
+
+        pagamentoCrud.findAllByPaypalMailNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
+
+        return result;
     }
 
     public Boolean addPagamento(PagamentoDTO pagamentoDTO) {
@@ -53,9 +66,9 @@ public class PagamentoServiceImpl {
         }
     }
 
-    public Pagamento getById(Long id) {
+    public PagamentoDTO getById(Long id) {
         if (!pagamentoCrud.findById(id).isPresent())
             throw new PagamentoException("Not found");
-        return pagamentoCrud.findById(id).get();
+        return Pagamento.to(pagamentoCrud.findById(id).get());
     }
 }

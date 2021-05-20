@@ -73,4 +73,21 @@ public class Prodotto {
                 .quantita(prodotto.quantita)
                 .build();
     }
+
+    public static ProdottoDTO to(Prodotto prodotto) {
+        ProdottoDTO p = new ProdottoDTO();
+
+        p.setId(prodotto.getId());
+        p.setNome(prodotto.getNome());
+        p.setDescrizione(prodotto.getDescrizione());
+        p.setNomeCategoria(prodotto.getNomeCategoria());
+        p.setPrezzo(prodotto.getPrezzo());
+        p.setImage(prodotto.getImage());
+        p.setMinOrd(prodotto.getMinOrd());
+        p.setMaxOrd(prodotto.getMaxOrd());
+        p.setSconto(prodotto.getSconto());
+        p.setQuantita(prodotto.getQuantita());
+
+        return p;
+    }
 }

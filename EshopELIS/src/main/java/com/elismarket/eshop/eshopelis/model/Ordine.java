@@ -50,4 +50,15 @@ public class Ordine {
                 .dataEvasione(ordineDTO.dataEvasione)
                 .build();
     }
+
+    public static OrdineDTO to(Ordine ordine) {
+        OrdineDTO o = new OrdineDTO();
+
+        o.setId(ordine.getId());
+        o.setEvaso(ordine.getEvaso());
+        o.setDataEvasione(ordine.getDataEvasione());
+        o.setPagamento(ordine.getPagamento());
+
+        return o;
+    }
 }
