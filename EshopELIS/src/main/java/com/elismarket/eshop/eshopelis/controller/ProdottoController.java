@@ -26,8 +26,8 @@ public class ProdottoController {
     private ProdottoServiceImpl prodottoService;
 
     @PostMapping("/add")
-    public void addProduct(@RequestBody ProdottoDTO prodottoDTO) {
-        prodottoService.saveProdotto(prodottoDTO);
+    public ResponseEntity<Object> addProduct(@RequestBody ProdottoDTO prodottoDTO) {
+        return prodottoService.saveProdotto(prodottoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @PatchMapping("/update/{id}")
@@ -45,12 +45,12 @@ public class ProdottoController {
         prodottoDTO.setPrezzo(Objects.isNull(prodottoDTO.getPrezzo()) ? p.getPrezzo() : prodottoDTO.prezzo);
         prodottoDTO.setSconto(Objects.isNull(prodottoDTO.getSconto()) ? p.getSconto() : prodottoDTO.sconto);
 
-        return prodottoService.updateProdotto(prodottoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return prodottoService.saveProdotto(prodottoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @DeleteMapping("/remove/{id}")
-    public void removeProdotto(@PathVariable("id") Long id) {
-        prodottoService.removeProdotto(id);
+    public ResponseEntity<Object> removeProdotto(@PathVariable("id") Long id) {
+        return prodottoService.removeProdotto(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     //returns all db products

@@ -36,12 +36,14 @@ public class FeedbackServiceImpl implements FeedbackService {
         return result;
     }
 
-    public void deleteFeedback(FeedbackDTO feedbackDTO) {
+    public Boolean deleteFeedback(FeedbackDTO feedbackDTO) {
         try {
             feedbackCrud.delete(Feedback.of(feedbackDTO));
+            return true;
         } catch (Exception e) {
 //            throw new FeedbackException("Cannot save Feedback");
         }
+        return false;
     }
 
     public FeedbackDTO getById(Long id) {

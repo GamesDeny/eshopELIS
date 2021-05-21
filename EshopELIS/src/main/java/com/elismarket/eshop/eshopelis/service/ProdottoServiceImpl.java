@@ -22,8 +22,14 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Autowired
     private ProdottoCrud prodottoCrud;
 
-    public void removeById(Long id) {
-        prodottoCrud.delete(prodottoCrud.findAllById(id));
+    public Boolean removeById(Long id) {
+        try {
+            prodottoCrud.delete(prodottoCrud.findAllById(id));
+            return true;
+        } catch (Exception e) {
+//            throw new ProdottoException("Cannot remove for given id");
+        }
+        return false;
     }
 
     public List<ProdottoDTO> getAll() {
@@ -79,9 +85,8 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     public Boolean saveProdotto(ProdottoDTO prodotto) {
-        Prodotto prod = Prodotto.of(prodotto);
         try {
-            prodottoCrud.save(prod);
+            prodottoCrud.save(Prodotto.of(prodotto));
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,23 +94,14 @@ public class ProdottoServiceImpl implements ProdottoService {
         return false;
     }
 
-    public Boolean updateProdotto(ProdottoDTO prodotto) {
-        Prodotto prod = Prodotto.of(prodotto);
-        try {
-            prodottoCrud.save(prod);
-            return true;
-        } catch (Exception e) {
-//            throw new ProdottoException("Unsuccessfull");
-        }
-        return false;
-    }
-
-    public void removeProdotto(Long id) {
+    public Boolean removeProdotto(Long id) {
         try {
             prodottoCrud.deleteById(id);
+            return true;
         } catch (Exception e) {
-            throw new ProdottoException("Cannot find Prodotto for provided item");
+//            throw new ProdottoException("Cannot find Prodotto for provided item");
         }
+        return false;
     }
 
     public ProdottoDTO getById(Long id) {

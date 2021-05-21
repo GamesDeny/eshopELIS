@@ -10,7 +10,7 @@ public interface FeedbackService {
 
     List<FeedbackDTO> findAllByUtente(UtenteDTO utente);
 
-    void deleteFeedback(FeedbackDTO feedbackDTO);
+    Boolean deleteFeedback(FeedbackDTO feedbackDTO);
 
     FeedbackDTO getById(Long id);
 

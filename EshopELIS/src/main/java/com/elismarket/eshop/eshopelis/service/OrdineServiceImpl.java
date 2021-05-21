@@ -64,26 +64,24 @@ public class OrdineServiceImpl implements OrdineService {
         return result;
     }
 
-    public void saveOrdine(OrdineDTO ordineDTO) {
-        ordineCrud.save(ordineDTO);
-    }
-
-    public Boolean updateOrdine(OrdineDTO ordineDTO) {
+    public Boolean saveOrdine(OrdineDTO ordineDTO) {
         try {
             ordineCrud.save(Ordine.of(ordineDTO));
             return true;
         } catch (Exception e) {
-//            throw new OrdineException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
+//            throw new OrdineException("Failed to save");
         }
         return false;
     }
 
-    public void removeOrdine(Long id) {
+    public Boolean removeOrdine(Long id) {
         try {
             ordineCrud.deleteById(id);
+            return true;
         } catch (Exception e) {
-            throw new OrdineException("Cannot find Ordine for provided item");
+//            throw new OrdineException("Cannot remove Ordine for provided item");
         }
+        return false;
     }
 
     public OrdineDTO getById(Long id) {

@@ -16,11 +16,9 @@ public interface OrdineService {
 
     List<OrdineDTO> getDataDopo(LocalDate dataEvasione);
 
-    void saveOrdine(OrdineDTO ordineDTO);
+    Boolean saveOrdine(OrdineDTO ordineDTO);
 
-    Boolean updateOrdine(OrdineDTO ordineDTO);
-
-    void removeOrdine(Long id);
+    Boolean removeOrdine(Long id);
 
     OrdineDTO getById(Long id);
 

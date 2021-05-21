@@ -5,7 +5,7 @@ import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import java.util.List;
 
 public interface ProdottoService {
-    void removeById(Long id);
+    Boolean removeById(Long id);
 
     List<ProdottoDTO> getAll();
 
@@ -23,9 +23,7 @@ public interface ProdottoService {
 
     Boolean saveProdotto(ProdottoDTO prodotto);
 
-    Boolean updateProdotto(ProdottoDTO prodotto);
-
-    void removeProdotto(Long id);
+    Boolean removeProdotto(Long id);
 
     ProdottoDTO getById(Long id);
 }
