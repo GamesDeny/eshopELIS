@@ -24,6 +24,25 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Autowired
     private PagamentoCrud pagamentoCrud;
 
+    public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
+        try {
+            pagamentoCrud.save(Pagamento.of(pagamentoDTO));
+        } catch (Exception e) {
+            throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
+        }
+        return pagamentoCrud.findById(pagamentoDTO.id).isPresent() ? Pagamento.to(pagamentoCrud.findById(pagamentoDTO.id).get()) : null;
+    }
+
+    public Boolean removePagamento(Long id) {
+        try {
+            pagamentoCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new PagamentoException("Cannot find Pagamento for provided item");
+        }
+
+        return pagamentoCrud.findById(id).isPresent();
+    }
+
     public List<PagamentoDTO> getAll() {
         List<PagamentoDTO> result = new ArrayList<>();
 
@@ -46,24 +65,6 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoCrud.findAllByPaypalMailNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
 
         return result;
-    }
-
-    public Boolean addPagamento(PagamentoDTO pagamentoDTO) {
-        try {
-            pagamentoCrud.save(Pagamento.of(pagamentoDTO));
-            return true;
-        } catch (Exception e) {
-//            throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
-        }
-        return false;
-    }
-
-    public void removePagamento(Long id) {
-        try {
-            pagamentoCrud.deleteById(id);
-        } catch (Exception e) {
-            throw new PagamentoException("Cannot find Pagamento for provided item");
-        }
     }
 
     public PagamentoDTO getById(Long id) {

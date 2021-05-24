@@ -100,13 +100,11 @@ public class Utente {
         UtenteDTO u = new UtenteDTO();
 
         u.setId(utente.getId());
-        u.setPassword(utente.getPassword());
-        u.setCognome(utente.getCognome());
-        u.setDataNascita(utente.getDataNascita());
-        u.setLogged(utente.getLogged());
         u.setMail(utente.getMail());
         u.setUsername(utente.getUsername());
+        u.setPassword(utente.getPassword());
         u.setNome(utente.getNome());
+        u.setCognome(utente.getCognome());
         u.setSiglaResidenza(utente.getSiglaResidenza());
         u.setDataNascita(utente.getDataNascita());
         u.setLogged(utente.getLogged());

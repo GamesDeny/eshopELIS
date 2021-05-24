@@ -57,7 +57,6 @@ public class Ordine {
         o.setId(ordine.getId());
         o.setEvaso(ordine.getEvaso());
         o.setDataEvasione(ordine.getDataEvasione());
-        o.setPagamento(ordine.getPagamento());
 
         return o;
     }

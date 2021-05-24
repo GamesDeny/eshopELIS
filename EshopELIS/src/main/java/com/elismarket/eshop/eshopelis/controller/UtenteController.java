@@ -26,6 +26,36 @@ public class UtenteController {
     @Autowired
     private UtenteServiceImpl utenteService;
 
+    @PostMapping("/add")
+    public UtenteDTO addUtente(@RequestBody UtenteDTO utenteDTO) {
+        return utenteService.addUtente(utenteDTO);
+    }
+
+    @PatchMapping("/update/{id}")
+    public UtenteDTO updateUtente(@PathVariable("id") Long id, @RequestBody UtenteDTO utenteDTO) {
+        Utente u = Utente.of(utenteService.getUtente(id));
+
+        //cambio DTO con le informazioni aggiornate
+        utenteDTO.setId(id);
+        utenteDTO.setUsername(Objects.isNull(utenteDTO.getUsername()) ? u.getUsername() : utenteDTO.username);
+        //faccio hashing prima di aggiornare
+        utenteDTO.setPassword(Objects.isNull(utenteDTO.getPassword()) ? Utente.hashPassword(u.getPassword()) : Utente.hashPassword(utenteDTO.password));
+        utenteDTO.setNome(Objects.isNull(utenteDTO.getPassword()) ? u.getNome() : utenteDTO.nome);
+        utenteDTO.setCognome(Objects.isNull(utenteDTO.getPassword()) ? u.getCognome() : utenteDTO.cognome);
+        utenteDTO.setLogged(Objects.isNull(utenteDTO.getPassword()) ? u.getLogged() : utenteDTO.logged);
+        utenteDTO.setIsAdmin(Objects.isNull(utenteDTO.getPassword()) ? u.getIsAdmin() : utenteDTO.isAdmin);
+        utenteDTO.setMail(Objects.isNull(utenteDTO.getPassword()) ? u.getMail() : utenteDTO.mail);
+        utenteDTO.setDataNascita(Objects.isNull(utenteDTO.getDataNascita()) ? u.getDataNascita() : utenteDTO.dataNascita);
+        utenteDTO.setSiglaResidenza(Objects.isNull(utenteDTO.getSiglaResidenza()) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza);
+
+        return utenteService.addUtente(utenteDTO);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Object> removeRigaOrdine(@PathVariable("id") Long id) {
+        return utenteService.removeUtente(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+    }
+
     //returns all db users
     //prima di ritornare la lista setto la password a null in modo che non sia trasportata
     @GetMapping("/all")
@@ -64,46 +94,6 @@ public class UtenteController {
     @PostMapping("/login")
     public UtenteDTO getLoginUtente(@RequestBody UtenteDTO utente) {
         return utenteService.getLoginUtente(utente.getUsername(), utente.getPassword());
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<Object> addUtente(@RequestBody UtenteDTO utenteDTO) {
-        try {
-            utenteService.addUtente(utenteDTO);
-            return ResponseEntity.status(200).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build();
-        }
-    }
-
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<Object> updateUtente(@PathVariable("id") Long id, @RequestBody UtenteDTO utenteDTO) {
-        Utente u = Utente.of(utenteService.getUtente(id));
-
-        //cambio DTO con le informazioni aggiornate
-        utenteDTO.setId(id);
-        utenteDTO.setUsername(Objects.isNull(utenteDTO.getUsername()) ? u.getUsername() : utenteDTO.username);
-        //faccio hashing prima di aggiornare
-        utenteDTO.setPassword(Objects.isNull(utenteDTO.getPassword()) ? Utente.hashPassword(u.getPassword()) : Utente.hashPassword(utenteDTO.password));
-        utenteDTO.setNome(Objects.isNull(utenteDTO.getPassword()) ? u.getNome() : utenteDTO.nome);
-        utenteDTO.setCognome(Objects.isNull(utenteDTO.getPassword()) ? u.getCognome() : utenteDTO.cognome);
-        utenteDTO.setLogged(Objects.isNull(utenteDTO.getPassword()) ? u.getLogged() : utenteDTO.logged);
-        utenteDTO.setIsAdmin(Objects.isNull(utenteDTO.getPassword()) ? u.getIsAdmin() : utenteDTO.isAdmin);
-        utenteDTO.setMail(Objects.isNull(utenteDTO.getPassword()) ? u.getMail() : utenteDTO.mail);
-        utenteDTO.setDataNascita(Objects.isNull(utenteDTO.getDataNascita()) ? u.getDataNascita() : utenteDTO.dataNascita);
-        utenteDTO.setSiglaResidenza(Objects.isNull(utenteDTO.getSiglaResidenza()) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza);
-
-        return utenteService.addUtente(utenteDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
-    }
-
-    @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removeRigaOrdine(@PathVariable("id") Long id) {
-        try {
-            utenteService.removeUtente(id);
-            return ResponseEntity.status(200).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build();
-        }
     }
 
 }

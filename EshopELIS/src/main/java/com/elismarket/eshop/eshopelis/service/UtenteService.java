@@ -5,6 +5,10 @@ import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import java.util.List;
 
 public interface UtenteService {
+    UtenteDTO addUtente(UtenteDTO utenteDTO);
+
+    Boolean removeUtente(Long id);
+
     List<UtenteDTO> getAll(String findby);
 
     UtenteDTO getByMail(String mail);
@@ -14,10 +18,6 @@ public interface UtenteService {
     UtenteDTO getUtente(Long id);
 
     UtenteDTO getUtente(Integer siglaResidenza);
-
-    Boolean addUtente(UtenteDTO utenteDTO);
-
-    void removeUtente(Long id);
 
     UtenteDTO getLoginUtente(String username, String password);
 }

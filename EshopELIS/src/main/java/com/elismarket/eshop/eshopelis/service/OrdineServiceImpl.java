@@ -24,6 +24,25 @@ public class OrdineServiceImpl implements OrdineService {
     @Autowired
     private OrdineCrud ordineCrud;
 
+    public OrdineDTO saveOrdine(OrdineDTO ordineDTO) {
+        try {
+            ordineCrud.save(Ordine.of(ordineDTO));
+        } catch (Exception e) {
+            throw new OrdineException("Failed to save");
+        }
+        return ordineCrud.findById(ordineDTO.id).isPresent() ? Ordine.to(ordineCrud.findById(ordineDTO.id).get()) : null;
+    }
+
+    public Boolean removeOrdine(Long id) {
+        try {
+            ordineCrud.deleteById(id);
+            return true;
+        } catch (Exception e) {
+//            throw new OrdineException("Cannot remove Ordine for provided item");
+        }
+        return false;
+    }
+
     public List<OrdineDTO> getAll() {
         List<OrdineDTO> result = new ArrayList<>();
 
@@ -62,26 +81,6 @@ public class OrdineServiceImpl implements OrdineService {
         ordineCrud.findAllByDataEvasioneAfter(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
 
         return result;
-    }
-
-    public Boolean saveOrdine(OrdineDTO ordineDTO) {
-        try {
-            ordineCrud.save(Ordine.of(ordineDTO));
-            return true;
-        } catch (Exception e) {
-//            throw new OrdineException("Failed to save");
-        }
-        return false;
-    }
-
-    public Boolean removeOrdine(Long id) {
-        try {
-            ordineCrud.deleteById(id);
-            return true;
-        } catch (Exception e) {
-//            throw new OrdineException("Cannot remove Ordine for provided item");
-        }
-        return false;
     }
 
     public OrdineDTO getById(Long id) {

@@ -18,6 +18,24 @@ public class PropostaServiceImpl implements PropostaService {
     @Autowired
     private PropostaCrud propostaCrud;
 
+    public PropostaDTO addProposta(PropostaDTO propostaDTO) {
+        try {
+            propostaCrud.save(Proposta.of(propostaDTO));
+        } catch (Exception e) {
+            throw new PropostaException("Cannot find Proposta for provided item");
+        }
+        return propostaCrud.findById(propostaDTO.id).isPresent() ? Proposta.to(propostaCrud.findById(propostaDTO.id).get()) : null;
+    }
+
+    public Boolean removeProposta(Long id) {
+        try {
+            propostaCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new PropostaException("Cannot find Proposta for provided item");
+        }
+        return propostaCrud.findById(id).isPresent();
+    }
+
     public List<PropostaDTO> findAllByIsAccettato(Boolean isAccettato) {
         List<PropostaDTO> result = new ArrayList<>();
 
@@ -41,26 +59,6 @@ public class PropostaServiceImpl implements PropostaService {
         propostaCrud.findAllByUtente(Utente.of(utenteDTO)).forEach(proposta -> result.add(Proposta.to(proposta)));
 
         return result;
-    }
-
-    public Boolean removeProposta(Long id) {
-        try {
-            propostaCrud.deleteById(id);
-            return true;
-        } catch (Exception e) {
-//            throw new PropostaException("Cannot find Proposta for provided item");
-        }
-        return false;
-    }
-
-    public Boolean addProposta(PropostaDTO propostaDTO) {
-        try {
-            propostaCrud.save(Proposta.of(propostaDTO));
-            return true;
-        } catch (Exception e) {
-//            throw new PropostaException("Cannot find Proposta for provided item");
-        }
-        return false;
     }
 
     public PropostaDTO getById(Long id) {

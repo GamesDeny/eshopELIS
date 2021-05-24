@@ -19,24 +19,24 @@ public class OrdineController {
     private OrdineServiceImpl ordineService;
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addOrdine(@RequestBody OrdineDTO ordineDTO) {
-        return ordineService.saveOrdine(ordineDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
-    }
-
-    @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removeOrdine(@PathVariable("id") Long id) {
-        return ordineService.removeOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+    public OrdineDTO addOrdine(@RequestBody OrdineDTO ordineDTO) {
+        return ordineService.saveOrdine(ordineDTO);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Object> updateOrdine(@PathVariable("id") Long id, @RequestBody OrdineDTO ordineDTO) {
+    public OrdineDTO updateOrdine(@PathVariable("id") Long id, @RequestBody OrdineDTO ordineDTO) {
         Ordine o = ordineService.getById(id);
 
         ordineDTO.setId(id);
         ordineDTO.setEvaso(Objects.isNull(ordineDTO.getEvaso()) ? o.getEvaso() : ordineDTO.evaso);
         ordineDTO.setDataEvasione(Objects.isNull(ordineDTO.getDataEvasione()) ? o.getDataEvasione() : ordineDTO.dataEvasione);
 
-        return ordineService.saveOrdine(ordineDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return ordineService.saveOrdine(ordineDTO);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Object> removeOrdine(@PathVariable("id") Long id) {
+        return ordineService.removeOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @GetMapping("/all")

@@ -6,11 +6,11 @@ import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import java.util.List;
 
 public interface FeedbackService {
-    Boolean saveFeedback(FeedbackDTO feedback);
-
-    List<FeedbackDTO> findAllByUtente(UtenteDTO utente);
+    FeedbackDTO saveFeedback(FeedbackDTO feedback);
 
     Boolean deleteFeedback(FeedbackDTO feedbackDTO);
+
+    List<FeedbackDTO> findAllByUtente(UtenteDTO utente);
 
     FeedbackDTO getById(Long id);
 

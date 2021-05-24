@@ -48,10 +48,10 @@ public class Pagamento {
         PagamentoDTO p = new PagamentoDTO();
 
         p.setId(pagamento.getId());
-        p.setContanti(pagamento.getContanti());
+        p.setTipo(pagamento.getTipo());
         p.setDescrizione(pagamento.getDescrizione());
         p.setPaypalMail(pagamento.getPaypalMail());
-        p.setTipo(pagamento.getTipo());
+        p.setContanti(pagamento.getContanti());
 
         return p;
     }

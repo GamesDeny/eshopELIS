@@ -23,6 +23,27 @@ public class UtenteServiceImpl implements UtenteService {
     @Autowired
     private UtenteCrud utenteCrud;
 
+    //operazioni di inserimento utente nel DB
+    public UtenteDTO addUtente(UtenteDTO utenteDTO) {
+        Utente u = Utente.of(utenteDTO);
+        try {
+            u.setPassword((Utente.hashPassword(u.getPassword())));
+            utenteCrud.save(u);
+        } catch (Exception e) {
+            throw new UtenteException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
+        }
+        return utenteCrud.findById(utenteDTO.id).isPresent() ? Utente.to(utenteCrud.findById(utenteDTO.id).get()) : null;
+    }
+
+    public Boolean removeUtente(Long id) {
+        try {
+            utenteCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new UtenteException("Cannot find Utente for provided item");
+        }
+        return utenteCrud.findById(id).isPresent();
+    }
+
     //richiesta di utenti
     //se vuoto li ritorna tutti altrimenti ritorna in base al valore di findby
     //il valore mi serve a capire se vuole un utente normale o un admin
@@ -66,27 +87,6 @@ public class UtenteServiceImpl implements UtenteService {
             return Utente.to(utenteCrud.findBySiglaResidenza(siglaResidenza));
         } catch (Exception e) {
             throw new UtenteException("User with this sigla doesn't exist");
-        }
-    }
-
-    //operazioni di inserimento utente nel DB
-    public Boolean addUtente(UtenteDTO utenteDTO) {
-        Utente u = Utente.of(utenteDTO);
-        try {
-            u.setPassword((Utente.hashPassword(u.getPassword())));
-            utenteCrud.save(u);
-            return true;
-        } catch (Exception e) {
-//            throw new UtenteException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
-        }
-        return false;
-    }
-
-    public void removeUtente(Long id) {
-        try {
-            utenteCrud.deleteById(id);
-        } catch (Exception e) {
-            throw new UtenteException("Cannot find Utente for provided item");
         }
     }
 

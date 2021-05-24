@@ -23,6 +23,25 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Autowired
     private RigaOrdineCrud rigaOrdineCrud;
 
+    public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
+        try {
+            rigaOrdineCrud.save(RigaOrdine.of(rigaOrdineDTO));
+        } catch (Exception e) {
+            throw new RigaOrdineException("Cannot find RigaOrdine for given element");
+        }
+        return rigaOrdineCrud.findById(rigaOrdineDTO.id).isPresent() ? RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).get()) : null;
+    }
+
+    public Boolean removeRigaOrdine(Long id) {
+        try {
+            rigaOrdineCrud.deleteById(id);
+            return true;
+        } catch (Exception e) {
+//            throw new RigaOrdineException("Cannot find RigaOrdine for given element");
+        }
+        return false;
+    }
+
     public List<RigaOrdineDTO> getAll() {
         List<RigaOrdineDTO> result = new ArrayList<>();
 
@@ -43,21 +62,6 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         rigaOrdineCrud.findAllByQuantitaProdottoGreaterThanEqual(quantita).forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));
 
         return result;
-    }
-
-    public Boolean addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
-        rigaOrdineCrud.save(RigaOrdine.of(rigaOrdineDTO));
-        return true;
-    }
-
-    public Boolean removeRigaOrdine(Long id) {
-        try {
-            rigaOrdineCrud.deleteById(id);
-            return true;
-        } catch (Exception e) {
-//            throw new RigaOrdineException("Cannot find RigaOrdine for given element");
-        }
-        return false;
     }
 
 }

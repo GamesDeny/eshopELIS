@@ -17,6 +17,30 @@ public class PagamentoController {
     @Autowired
     private PagamentoServiceImpl pagamentoService;
 
+    @PostMapping("/add")
+    public PagamentoDTO addPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
+        return pagamentoService.addPagamento(pagamentoDTO);
+    }
+
+    @PatchMapping("/update/{id}")
+    public PagamentoDTO updatePagamento(@PathVariable("id") Long id, @RequestBody PagamentoDTO pagamentoDTO) {
+        Pagamento p = Pagamento.of(pagamentoService.getById(id));
+
+        pagamentoDTO.setId(id);
+        pagamentoDTO.setDescrizione(Objects.isNull(pagamentoDTO.getDescrizione()) ? p.getDescrizione() : pagamentoDTO.descrizione);
+        pagamentoDTO.setContanti(Objects.isNull(pagamentoDTO.getContanti()) ? p.getContanti() : pagamentoDTO.contanti);
+        pagamentoDTO.setPaypalMail(Objects.isNull(pagamentoDTO.getPaypalMail()) ? p.getPaypalMail() : pagamentoDTO.paypalMail);
+        pagamentoDTO.setTipo(Objects.isNull(pagamentoDTO.getTipo()) ? p.getTipo() : pagamentoDTO.tipo);
+
+        return pagamentoService.addPagamento(pagamentoDTO);
+    }
+
+    @DeleteMapping("/remove/{id}")
+    public ResponseEntity<Object> removePagamento(@PathVariable("id") Long id) {
+        return pagamentoService.removePagamento(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+    }
+
+
     @GetMapping("/all")
     public List<PagamentoDTO> getAll() {
         return pagamentoService.getAll();
@@ -30,29 +54,6 @@ public class PagamentoController {
     @GetMapping("/mail")
     public List<PagamentoDTO> getByPaypalMail() {
         return pagamentoService.getByPaypalMail();
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<Object> addPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
-        return pagamentoService.addPagamento(pagamentoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
-    }
-
-    @PatchMapping("/update/{id}")
-    public ResponseEntity<Object> updatePagamento(@PathVariable("id") Long id, @RequestBody PagamentoDTO pagamentoDTO) {
-        Pagamento p = Pagamento.of(pagamentoService.getById(id));
-
-        pagamentoDTO.setId(id);
-        pagamentoDTO.setDescrizione(Objects.isNull(pagamentoDTO.getDescrizione()) ? p.getDescrizione() : pagamentoDTO.descrizione);
-        pagamentoDTO.setContanti(Objects.isNull(pagamentoDTO.getContanti()) ? p.getContanti() : pagamentoDTO.contanti);
-        pagamentoDTO.setPaypalMail(Objects.isNull(pagamentoDTO.getPaypalMail()) ? p.getPaypalMail() : pagamentoDTO.paypalMail);
-        pagamentoDTO.setTipo(Objects.isNull(pagamentoDTO.getTipo()) ? p.getTipo() : pagamentoDTO.tipo);
-
-        return pagamentoService.addPagamento(pagamentoDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
-    }
-
-    @DeleteMapping("/remove/{id}")
-    public void removePagamento(@PathVariable("id") Long id) {
-        pagamentoService.removePagamento(id);
     }
 
 }

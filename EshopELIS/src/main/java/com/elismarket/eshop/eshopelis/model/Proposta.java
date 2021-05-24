@@ -47,13 +47,13 @@ public class Proposta {
         PropostaDTO p = new PropostaDTO();
 
         p.setId(proposta.getId());
-        p.setDescrizione(proposta.getDescrizione());
-        p.setIsAccettato(proposta.getIsAccettato());
-        p.setPrezzoProposto(proposta.getPrezzoProposto());
         p.setNome(proposta.getNome());
+        p.setDescrizione(proposta.getDescrizione());
         p.setMotivoRifiuto(proposta.getMotivoRifiuto());
-        p.setSubmissionDate(proposta.getSubmissionDate());
+        p.setPrezzoProposto(proposta.getPrezzoProposto());
         p.setQuantita(proposta.getQuantita());
+        p.setIsAccettato(proposta.getIsAccettato());
+        p.setSubmissionDate(proposta.getSubmissionDate());
 
         return p;
     }

@@ -50,7 +50,8 @@ public class Prodotto {
     @ToString.Exclude
     private List<RigaOrdine> righeOrdine;
 
-    public Prodotto(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto, Integer quantita) {
+    public Prodotto(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto,
+                    Integer quantita, String image) {
         this.nome = nome;
         this.descrizione = descrizione;
         this.prezzo = prezzo;
@@ -58,6 +59,7 @@ public class Prodotto {
         this.maxOrd = maxOrd;
         this.sconto = sconto;
         this.quantita = quantita;
+        this.image = image;
     }
 
     public static Prodotto of(ProdottoDTO prodotto) {
@@ -71,6 +73,7 @@ public class Prodotto {
                 .maxOrd(prodotto.maxOrd)
                 .sconto(prodotto.sconto)
                 .quantita(prodotto.quantita)
+                .image(prodotto.image)
                 .build();
     }
 
@@ -82,11 +85,11 @@ public class Prodotto {
         p.setDescrizione(prodotto.getDescrizione());
         p.setNomeCategoria(prodotto.getNomeCategoria());
         p.setPrezzo(prodotto.getPrezzo());
-        p.setImage(prodotto.getImage());
         p.setMinOrd(prodotto.getMinOrd());
         p.setMaxOrd(prodotto.getMaxOrd());
         p.setSconto(prodotto.getSconto());
         p.setQuantita(prodotto.getQuantita());
+        p.setImage(prodotto.getImage());
 
         return p;
     }

@@ -18,42 +18,22 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Autowired
     private FeedbackCrud feedbackCrud;
 
-    public Boolean saveFeedback(FeedbackDTO feedback) {
+    public FeedbackDTO saveFeedback(FeedbackDTO feedbackDTO) {
         try {
-            feedbackCrud.save(Feedback.of(feedback));
-            return true;
+            feedbackCrud.save(Feedback.of(feedbackDTO));
         } catch (Exception e) {
-//            throw new FeedbackException("Cannot save Feedback");
+            throw new FeedbackException("Cannot save Feedback");
         }
-        return false;
-    }
-
-    public List<FeedbackDTO> findAllByUtente(UtenteDTO utente) {
-        List<FeedbackDTO> result = new ArrayList<>();
-
-        feedbackCrud.findAllByUtente(Utente.of(utente)).forEach(feedback -> result.add(Feedback.to(feedback)));
-
-        return result;
+        return feedbackCrud.findById(feedbackDTO.id).isPresent() ? Feedback.to(feedbackCrud.findById(feedbackDTO.id).get()) : null;
     }
 
     public Boolean deleteFeedback(FeedbackDTO feedbackDTO) {
         try {
             feedbackCrud.delete(Feedback.of(feedbackDTO));
-            return true;
-        } catch (Exception e) {
-//            throw new FeedbackException("Cannot save Feedback");
-        }
-        return false;
-    }
-
-    public FeedbackDTO getById(Long id) {
-        try {
-            if (feedbackCrud.findById(id).isPresent())
-                return Feedback.to(feedbackCrud.findById(id).get());
-            throw new RuntimeException();
         } catch (Exception e) {
             throw new FeedbackException("Cannot save Feedback");
         }
+        return feedbackCrud.findById(feedbackDTO.id).isPresent();
     }
 
     public List<FeedbackDTO> getAll() {
@@ -67,5 +47,22 @@ public class FeedbackServiceImpl implements FeedbackService {
         }
     }
 
+    public List<FeedbackDTO> findAllByUtente(UtenteDTO utente) {
+        List<FeedbackDTO> result = new ArrayList<>();
+
+        feedbackCrud.findAllByUtente(Utente.of(utente)).forEach(feedback -> result.add(Feedback.to(feedback)));
+
+        return result;
+    }
+
+    public FeedbackDTO getById(Long id) {
+        try {
+            if (feedbackCrud.findById(id).isPresent())
+                return Feedback.to(feedbackCrud.findById(id).get());
+            throw new RuntimeException();
+        } catch (Exception e) {
+            throw new FeedbackException("Cannot save Feedback");
+        }
+    }
 
 }

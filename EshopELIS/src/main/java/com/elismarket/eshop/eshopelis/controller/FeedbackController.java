@@ -1,12 +1,14 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
+import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.service.FeedbackServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/rest/feedback", produces = "application/json")
@@ -16,16 +18,22 @@ public class FeedbackController {
     @Autowired
     private FeedbackServiceImpl feedbackService;
 
-    //TODO restyling of API and service
     @PostMapping("/add")
-    public ResponseEntity<Object> addFeedback(@RequestBody FeedbackDTO feedbackDTO) {
-        return feedbackService.saveFeedback(feedbackDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+    public FeedbackDTO addFeedback(@RequestBody FeedbackDTO feedbackDTO) {
+        return feedbackService.saveFeedback(feedbackDTO);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Object> updateFeedback(@PathVariable("id") Long id, @RequestBody FeedbackDTO feedbackDTO) {
+    public FeedbackDTO updateFeedback(@PathVariable("id") Long id, @RequestBody FeedbackDTO feedbackDTO) {
+        Feedback f = Feedback.of(feedbackService.getById(id));
 
-        return feedbackService.saveFeedback(feedbackDTO) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        feedbackDTO.setId(id);
+        feedbackDTO.setDescrizione(Objects.isNull(feedbackDTO.descrizione) ? f.getDescrizione() : feedbackDTO.descrizione);
+        feedbackDTO.setOggetto(Objects.isNull(feedbackDTO.oggetto) ? f.getOggetto() : feedbackDTO.oggetto);
+        feedbackDTO.setIsAccepted(Objects.isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted);
+        feedbackDTO.setSubscriptionDate(Objects.isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate);
+
+        return feedbackService.saveFeedback(Feedback.to(f));
     }
 
     @DeleteMapping("/delete/{id}")

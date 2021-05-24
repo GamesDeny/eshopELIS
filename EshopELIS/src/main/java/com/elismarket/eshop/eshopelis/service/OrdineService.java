@@ -6,6 +6,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrdineService {
+
+    OrdineDTO saveOrdine(OrdineDTO ordineDTO);
+
+    Boolean removeOrdine(Long id);
+
     List<OrdineDTO> getAll();
 
     List<OrdineDTO> getEvaso(Boolean evaso);
@@ -15,10 +20,6 @@ public interface OrdineService {
     List<OrdineDTO> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2);
 
     List<OrdineDTO> getDataDopo(LocalDate dataEvasione);
-
-    Boolean saveOrdine(OrdineDTO ordineDTO);
-
-    Boolean removeOrdine(Long id);
 
     OrdineDTO getById(Long id);
 

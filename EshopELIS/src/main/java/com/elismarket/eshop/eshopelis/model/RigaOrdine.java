@@ -53,8 +53,8 @@ public class RigaOrdine {
 
         r.setId(rigaOrdine.getId());
         r.setPrezzoTotale(rigaOrdine.getPrezzoTotale());
-        r.setQuantitaProdotto(rigaOrdine.getQuantitaProdotto());
         r.setScontoApplicato(rigaOrdine.getScontoApplicato());
+        r.setQuantitaProdotto(rigaOrdine.getQuantitaProdotto());
 
         return r;
     }

@@ -22,6 +22,24 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Autowired
     private ProdottoCrud prodottoCrud;
 
+    public ProdottoDTO saveProdotto(ProdottoDTO prodotto) {
+        try {
+            prodottoCrud.save(Prodotto.of(prodotto));
+        } catch (Exception e) {
+            throw new ProdottoException("Cannot save Prodotto");
+        }
+        return prodottoCrud.findById(prodotto.id).isPresent() ? Prodotto.to(prodottoCrud.findById(prodotto.id).get()) : null;
+    }
+
+    public Boolean removeProdotto(Long id) {
+        try {
+            prodottoCrud.deleteById(id);
+        } catch (Exception e) {
+            throw new ProdottoException("Cannot find Prodotto for provided item");
+        }
+        return prodottoCrud.findById(id).isPresent();
+    }
+
     public Boolean removeById(Long id) {
         try {
             prodottoCrud.delete(prodottoCrud.findAllById(id));
@@ -81,28 +99,11 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     public List<String> getAllCategoria() {
+        if (prodottoCrud.findAllCategoria().size() == 0)
+            throw new ProdottoException("Error in DB");
         return prodottoCrud.findAllCategoria();
     }
 
-    public Boolean saveProdotto(ProdottoDTO prodotto) {
-        try {
-            prodottoCrud.save(Prodotto.of(prodotto));
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public Boolean removeProdotto(Long id) {
-        try {
-            prodottoCrud.deleteById(id);
-            return true;
-        } catch (Exception e) {
-//            throw new ProdottoException("Cannot find Prodotto for provided item");
-        }
-        return false;
-    }
 
     public ProdottoDTO getById(Long id) {
         if (!prodottoCrud.findById(id).isPresent())
