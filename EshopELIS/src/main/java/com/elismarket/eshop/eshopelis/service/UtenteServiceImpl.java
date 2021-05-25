@@ -4,6 +4,7 @@ import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import com.elismarket.eshop.eshopelis.exception.UtenteException;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,22 +27,28 @@ public class UtenteServiceImpl implements UtenteService {
     //operazioni di inserimento utente nel DB
     public UtenteDTO addUtente(UtenteDTO utenteDTO) {
         Utente u = Utente.of(utenteDTO);
-        try {
-            u.setPassword((Utente.hashPassword(u.getPassword())));
-            utenteCrud.save(u);
-        } catch (Exception e) {
-            throw new UtenteException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
-        }
-        return utenteCrud.findById(utenteDTO.id).isPresent() ? Utente.to(utenteCrud.findById(utenteDTO.id).get()) : null;
+
+        if (!Objects.isNull(utenteCrud.findByMail(utenteDTO.mail)) ||
+                !Objects.isNull(utenteCrud.findByUsername(utenteDTO.username)) ||
+                !Objects.isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza)))
+            throw new UtenteException("Duplicato!");
+        else if (!Checkers.siglaChecker(utenteDTO.siglaResidenza))
+            throw new UtenteException("Sigla inconsistente");
+        else if ((utenteDTO.password).equals(utenteDTO.mail) || !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password)))
+            throw new UtenteException("Mail o password inconsistenti");
+
+        u.setPassword((Utente.hashPassword(u.getPassword())));
+        utenteCrud.save(u);
+
+        return Utente.to(utenteCrud.findByMail(utenteDTO.mail));
     }
 
     public Boolean removeUtente(Long id) {
-        try {
-            utenteCrud.deleteById(id);
-        } catch (Exception e) {
+        if (!utenteCrud.findById(id).isPresent())
             throw new UtenteException("Cannot find Utente for provided item");
-        }
-        return utenteCrud.findById(id).isPresent();
+        utenteCrud.deleteById(id);
+
+        return !utenteCrud.findById(id).isPresent();
     }
 
     //richiesta di utenti
@@ -61,7 +68,7 @@ public class UtenteServiceImpl implements UtenteService {
                 utenteCrud.findAllByIsAdmin(false).forEach(utente -> result.add(Utente.to(utente)));
                 return result;
         }
-        throw new UtenteException();
+        throw new UtenteException("Error in parameter for getAll Function");
     }
 
     public UtenteDTO getByMail(String mail) {
@@ -83,11 +90,9 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     public UtenteDTO getUtente(Integer siglaResidenza) {
-        try {
-            return Utente.to(utenteCrud.findBySiglaResidenza(siglaResidenza));
-        } catch (Exception e) {
+        if (Objects.isNull(utenteCrud.findBySiglaResidenza(siglaResidenza)))
             throw new UtenteException("User with this sigla doesn't exist");
-        }
+        return Utente.to(utenteCrud.findBySiglaResidenza(siglaResidenza));
     }
 
     public UtenteDTO getLoginUtente(String username, String password) {

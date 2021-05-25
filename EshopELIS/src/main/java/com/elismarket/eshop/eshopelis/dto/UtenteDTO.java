@@ -15,11 +15,11 @@ import java.time.LocalDate;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UtenteDTO {
     public Long id;
-    public String mail, username;
-    public String password, nome, cognome;
-    public Integer siglaResidenza;
+    public String cognome;
     public LocalDate dataNascita;
-    public Boolean logged;
     public Boolean isAdmin;
-    public String profileImage;
+    public Boolean logged;
+    public String mail, nome, password;
+    public Integer siglaResidenza;
+    public String username;
 }

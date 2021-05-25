@@ -91,7 +91,7 @@ public class UtenteController {
         return utenteService.getUtente(siglaResidenza);
     }
 
-    @PostMapping("/login")
+    @PostMapping(path = "/login")
     public UtenteDTO getLoginUtente(@RequestBody UtenteDTO utente) {
         return utenteService.getLoginUtente(utente.getUsername(), utente.getPassword());
     }
