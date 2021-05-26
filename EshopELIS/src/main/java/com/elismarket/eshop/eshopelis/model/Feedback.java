@@ -22,6 +22,8 @@ public class Feedback {
     private Long id;
 
     private String oggetto, descrizione;
+
+    @Column(nullable = true)
     private Boolean isAccepted;
     private LocalDate subscriptionDate;
 

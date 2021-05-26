@@ -37,7 +37,12 @@ public class Prodotto {
     private Float prezzo;
 
     //sconto è percentuale, esempio 55%
-    private Integer minOrd, maxOrd, sconto, quantita;
+    @Column(nullable = true)
+    private Integer minOrd, maxOrd, sconto;
+
+
+    private Integer quantita;
+
     //url of the product image
     private String image;
 

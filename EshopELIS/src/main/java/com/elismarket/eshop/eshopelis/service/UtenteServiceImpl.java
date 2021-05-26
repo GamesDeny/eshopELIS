@@ -34,8 +34,10 @@ public class UtenteServiceImpl implements UtenteService {
             throw new UtenteException("Duplicato!");
         else if (!Checkers.siglaChecker(utenteDTO.siglaResidenza))
             throw new UtenteException("Sigla inconsistente");
+        else if (!Checkers.birthDateChecker(utenteDTO.dataNascita))
+            throw new UtenteException("Data di nascita non valida");
         else if ((utenteDTO.password).equals(utenteDTO.mail) || !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password)))
-            throw new UtenteException("Mail o password inconsistenti");
+            throw new UtenteException("Mail e/o password inconsistenti");
 
         u.setPassword((Utente.hashPassword(u.getPassword())));
         utenteCrud.save(u);

@@ -26,8 +26,10 @@ public class Ordine {
     @Column(unique = true, nullable = false)
     private Long id;
 
-
+    @Column(nullable = true)
     private Boolean evaso;
+
+    @Column(nullable = true)
     private LocalDate dataEvasione;
 
     @OneToMany(mappedBy = "ordine")

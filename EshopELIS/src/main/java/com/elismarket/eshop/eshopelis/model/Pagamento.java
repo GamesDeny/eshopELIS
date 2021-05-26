@@ -29,7 +29,12 @@ public class Pagamento {
     private Long id;
 
     //tipo is an enum
-    private String tipo, descrizione, paypalMail;
+    private String tipo, descrizione;
+
+    @Column(nullable = true)
+    private String paypalMail;
+
+    @Column(nullable = true)
     private Integer contanti;
 
     @ManyToOne

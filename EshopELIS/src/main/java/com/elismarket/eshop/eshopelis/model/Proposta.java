@@ -21,10 +21,18 @@ public class Proposta {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    private String nome, descrizione, motivoRifiuto;
+    private String nome, descrizione;
+
+    @Column(nullable = true)
+    private String motivoRifiuto;
+
     private Float prezzoProposto;
     private Integer quantita;
+
+    @Column(nullable = true)
     private Boolean isAccettato;
+
+
     private LocalDate submissionDate;
 
     @ManyToOne

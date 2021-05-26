@@ -1,5 +1,7 @@
 package com.elismarket.eshop.eshopelis.utility;
 
+import com.elismarket.eshop.eshopelis.exception.UtenteException;
+
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
@@ -32,15 +34,24 @@ public class Checkers {
         return pat.matcher(password).matches();
     }
 
+    public static Boolean siglaChecker(Integer siglaResidenza) {
+        return siglaResidenza < 201 && siglaResidenza > 0;
+    }
+
+    //range 16-90 years to register
+    public static Boolean birthDateChecker(LocalDate birthDate) {
+        if (birthDate.getYear() - LocalDate.now().getYear() < 16)
+            return false;
+        if (birthDate.getYear() - LocalDate.now().getYear() > 90)
+            throw new UtenteException("Sei troppo vecchio");
+        return true;
+    }
+
     public static Boolean isDateGreater(LocalDate date1, LocalDate date2) {
         if (date1 == null)
             throw new RuntimeException("Missing parameter");
 
         date2 = date2 == null ? LocalDate.now() : date2;
         return date1.isAfter(date2) || date1.isEqual(date2);
-    }
-
-    public static Boolean siglaChecker(Integer siglaResidenza) {
-        return siglaResidenza < 201 && siglaResidenza > 0;
     }
 }
