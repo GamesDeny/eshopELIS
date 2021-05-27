@@ -47,7 +47,7 @@ public class UtenteServiceImpl implements UtenteService {
 
     public Boolean removeUtente(Long id) {
         if (!utenteCrud.findById(id).isPresent())
-            throw new UtenteException("Cannot find Utente for provided item");
+            throw new UtenteException("Cannot find Utente for provided id");
         utenteCrud.deleteById(id);
 
         return !utenteCrud.findById(id).isPresent();
@@ -61,12 +61,21 @@ public class UtenteServiceImpl implements UtenteService {
 
         switch (findby) {
             case "":
+                if (utenteCrud.findAll().isEmpty())
+                    throw new UtenteException("List empty");
+
                 utenteCrud.findAll().forEach(utente -> result.add(Utente.to(utente)));
                 return result;
             case "admin":
+                if (utenteCrud.findAllByIsAdmin(true).isEmpty())
+                    throw new UtenteException("List empty");
+
                 utenteCrud.findAllByIsAdmin(true).forEach(utente -> result.add(Utente.to(utente)));
                 return result;
             case "user":
+                if (utenteCrud.findAllByIsAdmin(false).isEmpty())
+                    throw new UtenteException("List empty");
+
                 utenteCrud.findAllByIsAdmin(false).forEach(utente -> result.add(Utente.to(utente)));
                 return result;
         }
@@ -86,7 +95,7 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     public UtenteDTO getUtente(Long id) {
-        if (utenteCrud.findById(id).isPresent())
+        if (!utenteCrud.findById(id).isPresent())
             throw new UtenteException("Not found");
         return Utente.to(utenteCrud.findById(id).get());
     }
