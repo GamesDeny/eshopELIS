@@ -1,7 +1,13 @@
 package com.elismarket.eshop.eshopelis.service;
 
+import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
 import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import com.elismarket.eshop.eshopelis.exception.UtenteException;
+import com.elismarket.eshop.eshopelis.helper.FeedbackHelper;
+import com.elismarket.eshop.eshopelis.helper.PagamentoHelper;
+import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
+import com.elismarket.eshop.eshopelis.helper.PropostaHelper;
+import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
@@ -20,6 +26,18 @@ import java.util.Objects;
 
 @Service
 public class UtenteServiceImpl implements UtenteService {
+
+    @Autowired
+    private FeedbackHelper feedbackHelper;
+
+    @Autowired
+    private PropostaHelper propostaHelper;
+
+    @Autowired
+    private PagamentoHelper pagamentoHelper;
+
+    @Autowired
+    private ProdottoHelper prodottoHelper;
 
     @Autowired
     private UtenteCrud utenteCrud;
@@ -45,6 +63,28 @@ public class UtenteServiceImpl implements UtenteService {
         return Utente.to(utenteCrud.findByMail(utenteDTO.mail));
     }
 
+    public UtenteDTO updateUtente(Long id, UtenteDTO utenteDTO) {
+        if (!utenteCrud.existsById(id))
+            throw new UtenteException("Utente not found");
+
+        Utente u = utenteCrud.findById(id).get();
+
+        //cambio DTO con le informazioni aggiornate
+        utenteDTO.id = id;
+        utenteDTO.username = Objects.isNull(utenteDTO.username) ? u.getUsername() : utenteDTO.username;
+        //faccio hashing prima di aggiornare
+        utenteDTO.password = Objects.isNull(utenteDTO.password) ? Utente.hashPassword(u.getPassword()) : Utente.hashPassword(utenteDTO.password);
+        utenteDTO.nome = Objects.isNull(utenteDTO.nome) ? u.getNome() : utenteDTO.nome;
+        utenteDTO.cognome = Objects.isNull(utenteDTO.cognome) ? u.getCognome() : utenteDTO.cognome;
+        utenteDTO.logged = Objects.isNull(utenteDTO.logged) ? u.getLogged() : utenteDTO.logged;
+        utenteDTO.isAdmin = Objects.isNull(utenteDTO.isAdmin) ? u.getIsAdmin() : utenteDTO.isAdmin;
+        utenteDTO.mail = Objects.isNull(utenteDTO.mail) ? u.getMail() : utenteDTO.mail;
+        utenteDTO.dataNascita = Objects.isNull(utenteDTO.dataNascita) ? u.getDataNascita() : utenteDTO.dataNascita;
+        utenteDTO.siglaResidenza = Objects.isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza;
+
+        return Utente.to(utenteCrud.findById(utenteDTO.id).get());
+    }
+
     public Boolean removeUtente(Long id) {
         if (!utenteCrud.findById(id).isPresent())
             throw new UtenteException("Cannot find Utente for provided id");
@@ -63,23 +103,24 @@ public class UtenteServiceImpl implements UtenteService {
             case "":
                 if (utenteCrud.findAll().isEmpty())
                     throw new UtenteException("List empty");
-
                 utenteCrud.findAll().forEach(utente -> result.add(Utente.to(utente)));
-                return result;
+                break;
             case "admin":
                 if (utenteCrud.findAllByIsAdmin(true).isEmpty())
                     throw new UtenteException("List empty");
 
                 utenteCrud.findAllByIsAdmin(true).forEach(utente -> result.add(Utente.to(utente)));
-                return result;
+                break;
             case "user":
                 if (utenteCrud.findAllByIsAdmin(false).isEmpty())
                     throw new UtenteException("List empty");
-
                 utenteCrud.findAllByIsAdmin(false).forEach(utente -> result.add(Utente.to(utente)));
-                return result;
+
+                break;
+            default:
+                throw new UtenteException("Error in parameter for getAll Function");
         }
-        throw new UtenteException("Error in parameter for getAll Function");
+        return result;
     }
 
     public UtenteDTO getByMail(String mail) {
@@ -94,13 +135,13 @@ public class UtenteServiceImpl implements UtenteService {
         return Utente.to(utenteCrud.findByUsername(username));
     }
 
-    public UtenteDTO getUtente(Long id) {
+    public UtenteDTO getById(Long id) {
         if (!utenteCrud.findById(id).isPresent())
             throw new UtenteException("Not found");
         return Utente.to(utenteCrud.findById(id).get());
     }
 
-    public UtenteDTO getUtente(Integer siglaResidenza) {
+    public UtenteDTO getBySigla(Integer siglaResidenza) {
         if (Objects.isNull(utenteCrud.findBySiglaResidenza(siglaResidenza)))
             throw new UtenteException("User with this sigla doesn't exist");
         return Utente.to(utenteCrud.findBySiglaResidenza(siglaResidenza));
@@ -110,6 +151,11 @@ public class UtenteServiceImpl implements UtenteService {
         if (Objects.isNull(username) || Objects.isNull(password))
             throw new UtenteException("Missing parameters!");
         return Utente.to(utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password)));
+    }
+
+    @Override
+    public Feedback addFeedbackToUser(Long userId, FeedbackDTO feedbackDTO) {
+        return feedbackHelper.addFeedbackToUser(userId, feedbackDTO);
     }
 
 }

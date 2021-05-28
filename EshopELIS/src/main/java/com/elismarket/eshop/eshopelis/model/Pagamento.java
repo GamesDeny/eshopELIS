@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  *
@@ -40,6 +42,9 @@ public class Pagamento {
     @ManyToOne
     private Utente utente;
 
+    @OneToMany
+    private List<Ordine> ordini = new ArrayList<>();
+
     public static Pagamento of(PagamentoDTO metodoPagamentoDTO) {
         return Pagamento.builder()
                 .tipo(metodoPagamentoDTO.tipo)
@@ -52,11 +57,11 @@ public class Pagamento {
     public static PagamentoDTO to(Pagamento pagamento) {
         PagamentoDTO p = new PagamentoDTO();
 
-        p.setId(pagamento.getId());
-        p.setTipo(pagamento.getTipo());
-        p.setDescrizione(pagamento.getDescrizione());
-        p.setPaypalMail(pagamento.getPaypalMail());
-        p.setContanti(pagamento.getContanti());
+        p.id = pagamento.getId();
+        p.tipo = pagamento.getTipo();
+        p.descrizione = pagamento.getDescrizione();
+        p.paypalMail = pagamento.getPaypalMail();
+        p.contanti = pagamento.getContanti();
 
         return p;
     }

@@ -9,6 +9,8 @@ public interface OrdineService {
 
     OrdineDTO saveOrdine(OrdineDTO ordineDTO);
 
+    OrdineDTO updateOrdine(Long id, OrdineDTO ordineDTO);
+
     Boolean removeOrdine(Long id);
 
     List<OrdineDTO> getAll();

@@ -1,11 +1,9 @@
 package com.elismarket.eshop.eshopelis.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 import java.time.LocalDate;
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PropostaDTO {
     public Long id;
@@ -14,4 +12,5 @@ public class PropostaDTO {
     public Integer quantita;
     public Boolean isAccettato;
     public LocalDate submissionDate;
+    public Long utente_id;
 }

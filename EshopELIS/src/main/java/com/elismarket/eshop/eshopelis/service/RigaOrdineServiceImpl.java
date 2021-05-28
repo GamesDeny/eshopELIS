@@ -2,6 +2,8 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
+import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
+import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /*
@@ -21,6 +24,12 @@ import java.util.List;
 public class RigaOrdineServiceImpl implements RigaOrdineService {
 
     @Autowired
+    private OrdineHelper ordineHelper;
+
+    @Autowired
+    private ProdottoHelper prodottoHelper;
+
+    @Autowired
     private RigaOrdineCrud rigaOrdineCrud;
 
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
@@ -30,6 +39,21 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
             throw new RigaOrdineException("Cannot find RigaOrdine for given element");
         }
         return rigaOrdineCrud.findById(rigaOrdineDTO.id).isPresent() ? RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).get()) : null;
+    }
+
+    @Override
+    public RigaOrdineDTO updateRigaOrdine(Long id, RigaOrdineDTO rigaOrdineDTO) {
+        if (!rigaOrdineCrud.existsById(id))
+            throw new RigaOrdineException("Not Found");
+
+        RigaOrdine r = rigaOrdineCrud.findById(id).get();
+
+        rigaOrdineDTO.id = id;
+        rigaOrdineDTO.prezzoTotale = Objects.isNull(rigaOrdineDTO.prezzoTotale) ? r.getPrezzoTotale() : rigaOrdineDTO.prezzoTotale;
+        rigaOrdineDTO.quantitaProdotto = Objects.isNull(rigaOrdineDTO.quantitaProdotto) ? r.getQuantitaProdotto() : rigaOrdineDTO.quantitaProdotto;
+        rigaOrdineDTO.scontoApplicato = Objects.isNull(rigaOrdineDTO.scontoApplicato) ? r.getScontoApplicato() : rigaOrdineDTO.scontoApplicato;
+
+        return RigaOrdine.to(rigaOrdineCrud.findById(id).get());
     }
 
     public Boolean removeRigaOrdine(Long id) {

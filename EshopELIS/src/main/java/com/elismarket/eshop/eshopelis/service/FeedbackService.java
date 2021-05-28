@@ -1,16 +1,15 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
-import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 
 import java.util.List;
 
 public interface FeedbackService {
-    FeedbackDTO saveFeedback(FeedbackDTO feedback);
+    FeedbackDTO saveFeedback(FeedbackDTO feedbackDTO);
+
+    FeedbackDTO updateFeedback(Long id, FeedbackDTO feedbackDTO);
 
     Boolean deleteFeedback(FeedbackDTO feedbackDTO);
-
-    List<FeedbackDTO> findAllByUtente(UtenteDTO utente);
 
     FeedbackDTO getById(Long id);
 

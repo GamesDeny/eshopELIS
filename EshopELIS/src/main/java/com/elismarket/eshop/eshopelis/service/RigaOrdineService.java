@@ -7,6 +7,8 @@ import java.util.List;
 public interface RigaOrdineService {
     RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO);
 
+    RigaOrdineDTO updateRigaOrdine(Long id, RigaOrdineDTO rigaOrdineDTO);
+
     Boolean removeRigaOrdine(Long id);
 
     List<RigaOrdineDTO> getAll();

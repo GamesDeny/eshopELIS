@@ -1,7 +1,6 @@
 package com.elismarket.eshop.eshopelis.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 /*
  *
@@ -10,10 +9,11 @@ import lombok.Data;
  */
 
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RigaOrdineDTO {
     public Long id;
     public Float prezzoTotale, scontoApplicato;
     public Integer quantitaProdotto;
+    public Long ordine_id;
+    public Long prodotto_id;
 }

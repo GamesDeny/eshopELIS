@@ -2,13 +2,17 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
 import com.elismarket.eshop.eshopelis.exception.PagamentoException;
+import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
+import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Pagamento;
 import com.elismarket.eshop.eshopelis.repository.PagamentoCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 
@@ -22,23 +26,49 @@ import java.util.List;
 public class PagamentoServiceImpl implements PagamentoService {
 
     @Autowired
+    private UtenteHelper utenteHelper;
+
+    @Autowired
+    private OrdineHelper ordineHelper;
+
+    @Autowired
     private PagamentoCrud pagamentoCrud;
 
     public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
-        try {
-            pagamentoCrud.save(Pagamento.of(pagamentoDTO));
-        } catch (Exception e) {
+        if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
+            throw new PagamentoException("Paypal mail not valid");
+
+        pagamentoCrud.save(Pagamento.of(pagamentoDTO));
+
+        if (!pagamentoCrud.findById(pagamentoDTO.id).isPresent())
             throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
-        }
-        return pagamentoCrud.findById(pagamentoDTO.id).isPresent() ? Pagamento.to(pagamentoCrud.findById(pagamentoDTO.id).get()) : null;
+
+        return Pagamento.to(pagamentoCrud.findById(pagamentoDTO.id).get());
+    }
+
+    @Override
+    public PagamentoDTO updatePagamento(Long id, PagamentoDTO pagamentoDTO) {
+        if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
+            throw new PagamentoException("Paypal mail not valid");
+        if (!pagamentoCrud.existsById(id))
+            throw new PagamentoException("Not found");
+
+        Pagamento p = pagamentoCrud.findById(id).get();
+
+        pagamentoDTO.id = id;
+        pagamentoDTO.descrizione = Objects.isNull(pagamentoDTO.descrizione) ? p.getDescrizione() : pagamentoDTO.descrizione;
+        pagamentoDTO.contanti = Objects.isNull(pagamentoDTO.contanti) ? p.getContanti() : pagamentoDTO.contanti;
+        pagamentoDTO.paypalMail = Objects.isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail;
+        pagamentoDTO.tipo = Objects.isNull(pagamentoDTO.tipo) ? p.getTipo() : pagamentoDTO.tipo;
+
+        return Pagamento.to(pagamentoCrud.findById(id).get());
     }
 
     public Boolean removePagamento(Long id) {
-        try {
-            pagamentoCrud.deleteById(id);
-        } catch (Exception e) {
+        pagamentoCrud.deleteById(id);
+
+        if (pagamentoCrud.findById(id).isPresent())
             throw new PagamentoException("Cannot find Pagamento for provided item");
-        }
 
         return pagamentoCrud.findById(id).isPresent();
     }

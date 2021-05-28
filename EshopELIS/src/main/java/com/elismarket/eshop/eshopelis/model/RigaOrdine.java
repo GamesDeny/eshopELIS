@@ -51,10 +51,10 @@ public class RigaOrdine {
     public static RigaOrdineDTO to(RigaOrdine rigaOrdine) {
         RigaOrdineDTO r = new RigaOrdineDTO();
 
-        r.setId(rigaOrdine.getId());
-        r.setPrezzoTotale(rigaOrdine.getPrezzoTotale());
-        r.setScontoApplicato(rigaOrdine.getScontoApplicato());
-        r.setQuantitaProdotto(rigaOrdine.getQuantitaProdotto());
+        r.id = rigaOrdine.getId();
+        r.prezzoTotale = rigaOrdine.getPrezzoTotale();
+        r.scontoApplicato = rigaOrdine.getScontoApplicato();
+        r.quantitaProdotto = rigaOrdine.getQuantitaProdotto();
 
         return r;
     }

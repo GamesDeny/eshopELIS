@@ -40,13 +40,13 @@ public class Proposta {
 
     public static Proposta of(PropostaDTO propostaDTO) {
         return Proposta.builder()
-                .id(propostaDTO.getId())
-                .nome(propostaDTO.getNome())
-                .descrizione(propostaDTO.getDescrizione())
-                .motivoRifiuto(propostaDTO.getMotivoRifiuto())
-                .prezzoProposto(propostaDTO.getPrezzoProposto())
-                .quantita(propostaDTO.getQuantita())
-                .isAccettato(propostaDTO.getIsAccettato())
+                .id(propostaDTO.id)
+                .nome(propostaDTO.nome)
+                .descrizione(propostaDTO.descrizione)
+                .motivoRifiuto(propostaDTO.motivoRifiuto)
+                .prezzoProposto(propostaDTO.prezzoProposto)
+                .quantita(propostaDTO.quantita)
+                .isAccettato(propostaDTO.isAccettato)
                 .submissionDate(propostaDTO.submissionDate)
                 .build();
     }
@@ -54,14 +54,14 @@ public class Proposta {
     public static PropostaDTO to(Proposta proposta) {
         PropostaDTO p = new PropostaDTO();
 
-        p.setId(proposta.getId());
-        p.setNome(proposta.getNome());
-        p.setDescrizione(proposta.getDescrizione());
-        p.setMotivoRifiuto(proposta.getMotivoRifiuto());
-        p.setPrezzoProposto(proposta.getPrezzoProposto());
-        p.setQuantita(proposta.getQuantita());
-        p.setIsAccettato(proposta.getIsAccettato());
-        p.setSubmissionDate(proposta.getSubmissionDate());
+        p.id = proposta.getId();
+        p.nome = proposta.getNome();
+        p.descrizione = proposta.getDescrizione();
+        p.motivoRifiuto = proposta.getMotivoRifiuto();
+        p.prezzoProposto = proposta.getPrezzoProposto();
+        p.quantita = proposta.getQuantita();
+        p.isAccettato = proposta.getIsAccettato();
+        p.submissionDate = proposta.getSubmissionDate();
 
         return p;
     }

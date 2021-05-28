@@ -1,14 +1,12 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
-import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.service.ProdottoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 
 /*
@@ -32,20 +30,7 @@ public class ProdottoController {
 
     @PatchMapping("/update/{id}")
     public ProdottoDTO updateProdotto(@PathVariable("id") Long id, @RequestBody ProdottoDTO prodottoDTO) {
-        Prodotto p = Prodotto.of(prodottoService.getById(id));
-
-        prodottoDTO.setId(id);
-        prodottoDTO.setDescrizione(Objects.isNull(prodottoDTO.getDescrizione()) ? p.getDescrizione() : prodottoDTO.descrizione);
-        prodottoDTO.setNome(Objects.isNull(prodottoDTO.getNome()) ? p.getNome() : prodottoDTO.nome);
-        prodottoDTO.setQuantita(Objects.isNull(prodottoDTO.getQuantita()) ? p.getQuantita() : prodottoDTO.quantita);
-        prodottoDTO.setImage(Objects.isNull(prodottoDTO.getImage()) ? p.getImage() : prodottoDTO.image);
-        prodottoDTO.setMaxOrd(Objects.isNull(prodottoDTO.getMaxOrd()) ? p.getMaxOrd() : prodottoDTO.maxOrd);
-        prodottoDTO.setMinOrd(Objects.isNull(prodottoDTO.getMinOrd()) ? p.getMinOrd() : prodottoDTO.minOrd);
-        prodottoDTO.setNomeCategoria(Objects.isNull(prodottoDTO.getNomeCategoria()) ? p.getNomeCategoria() : prodottoDTO.nomeCategoria);
-        prodottoDTO.setPrezzo(Objects.isNull(prodottoDTO.getPrezzo()) ? p.getPrezzo() : prodottoDTO.prezzo);
-        prodottoDTO.setSconto(Objects.isNull(prodottoDTO.getSconto()) ? p.getSconto() : prodottoDTO.sconto);
-
-        return prodottoService.saveProdotto(prodottoDTO);
+        return prodottoService.updateProdotto(id, prodottoDTO);
     }
 
     @DeleteMapping("/remove/{id}")
@@ -69,7 +54,7 @@ public class ProdottoController {
         return prodottoService.findByQuantitaMinore(quantita);
     }
 
-    @GetMapping("/categoria/{name}")
+    @GetMapping("/all/categoria/{name}")
     public List<ProdottoDTO> getByNomeCategoria(@PathVariable("name") String categoria) {
         return prodottoService.getProdottoByCategoria(categoria);
     }

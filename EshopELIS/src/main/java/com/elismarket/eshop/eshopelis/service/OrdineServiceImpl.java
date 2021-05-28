@@ -2,6 +2,8 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.OrdineException;
+import com.elismarket.eshop.eshopelis.helper.PagamentoHelper;
+import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
 import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /*
@@ -22,6 +25,12 @@ import java.util.List;
 public class OrdineServiceImpl implements OrdineService {
 
     @Autowired
+    private PagamentoHelper pagamentoHelper;
+
+    @Autowired
+    private RigaOrdineHelper rigaOrdineHelper;
+
+    @Autowired
     private OrdineCrud ordineCrud;
 
     public OrdineDTO saveOrdine(OrdineDTO ordineDTO) {
@@ -31,6 +40,20 @@ public class OrdineServiceImpl implements OrdineService {
             throw new OrdineException("Failed to save");
         }
         return ordineCrud.findById(ordineDTO.id).isPresent() ? Ordine.to(ordineCrud.findById(ordineDTO.id).get()) : null;
+    }
+
+    @Override
+    public OrdineDTO updateOrdine(Long id, OrdineDTO ordineDTO) {
+        if (!ordineCrud.existsById(id))
+            throw new OrdineException("Not found");
+
+        Ordine o = ordineCrud.findById(id).get();
+
+        ordineDTO.id = id;
+        ordineDTO.evaso = Objects.isNull(ordineDTO.evaso) ? o.getEvaso() : ordineDTO.evaso;
+        ordineDTO.dataEvasione = Objects.isNull(ordineDTO.dataEvasione) ? o.getDataEvasione() : ordineDTO.dataEvasione;
+
+        return Ordine.to(ordineCrud.findById(id).get());
     }
 
     public Boolean removeOrdine(Long id) {

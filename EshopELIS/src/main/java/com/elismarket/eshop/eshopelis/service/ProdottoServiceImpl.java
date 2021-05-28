@@ -2,6 +2,8 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
+import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
+import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /*
  *
@@ -20,15 +23,49 @@ import java.util.List;
 public class ProdottoServiceImpl implements ProdottoService {
 
     @Autowired
+    private UtenteHelper utenteHelper;
+
+    @Autowired
+    private RigaOrdineHelper rigaOrdineHelper;
+
+    @Autowired
     private ProdottoCrud prodottoCrud;
 
-    public ProdottoDTO saveProdotto(ProdottoDTO prodotto) {
+    public ProdottoDTO saveProdotto(ProdottoDTO prodottoDTO) {
+        if (prodottoDTO.minOrd > prodottoDTO.maxOrd)
+            throw new ProdottoException("Inconsistent ord");
+
         try {
-            prodottoCrud.save(Prodotto.of(prodotto));
+            prodottoCrud.save(Prodotto.of(prodottoDTO));
         } catch (Exception e) {
             throw new ProdottoException("Cannot save Prodotto");
         }
-        return prodottoCrud.findById(prodotto.id).isPresent() ? Prodotto.to(prodottoCrud.findById(prodotto.id).get()) : null;
+        return prodottoCrud.findById(prodottoDTO.id).isPresent() ? Prodotto.to(prodottoCrud.findById(prodottoDTO.id).get()) : null;
+    }
+
+    @Override
+    public ProdottoDTO updateProdotto(Long id, ProdottoDTO prodottoDTO) {
+        if (prodottoDTO.minOrd > prodottoDTO.maxOrd)
+            throw new ProdottoException("Inconsistent ord");
+        if (!prodottoCrud.existsById(id))
+            throw new ProdottoException("Not Found");
+
+        Prodotto p = prodottoCrud.findById(id).get();
+
+        prodottoDTO.id = id;
+        prodottoDTO.descrizione = Objects.isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione;
+        prodottoDTO.nome = Objects.isNull(prodottoDTO.nome) ? p.getNome() : prodottoDTO.nome;
+        prodottoDTO.quantita = Objects.isNull(prodottoDTO.quantita) ? p.getQuantita() : prodottoDTO.quantita;
+        prodottoDTO.image = Objects.isNull(prodottoDTO.image) ? p.getImage() : prodottoDTO.image;
+        prodottoDTO.maxOrd = Objects.isNull(prodottoDTO.maxOrd) ? p.getMaxOrd() : prodottoDTO.maxOrd;
+        prodottoDTO.minOrd = Objects.isNull(prodottoDTO.minOrd) ? p.getMinOrd() : prodottoDTO.minOrd;
+        prodottoDTO.nomeCategoria = Objects.isNull(prodottoDTO.nomeCategoria) ? p.getNomeCategoria() : prodottoDTO.nomeCategoria;
+        prodottoDTO.prezzo = Objects.isNull(prodottoDTO.prezzo) ? p.getPrezzo() : prodottoDTO.prezzo;
+        prodottoDTO.sconto = Objects.isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto;
+
+
+        return Prodotto.to(prodottoCrud.findById(id).get());
+
     }
 
     public Boolean removeProdotto(Long id) {
@@ -40,28 +77,10 @@ public class ProdottoServiceImpl implements ProdottoService {
         return prodottoCrud.findById(id).isPresent();
     }
 
-    public Boolean removeById(Long id) {
-        try {
-            prodottoCrud.delete(prodottoCrud.findAllById(id));
-            return true;
-        } catch (Exception e) {
-//            throw new ProdottoException("Cannot remove for given id");
-        }
-        return false;
-    }
-
     public List<ProdottoDTO> getAll() {
         List<ProdottoDTO> result = new ArrayList<>();
 
         prodottoCrud.findAll().forEach(prodotto -> result.add(Prodotto.to(prodotto)));
-
-        return result;
-    }
-
-    public List<ProdottoDTO> findAllByNome(String nome) {
-        List<ProdottoDTO> result = new ArrayList<>();
-
-        prodottoCrud.findAllByNomeLike(nome).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
 
         return result;
     }

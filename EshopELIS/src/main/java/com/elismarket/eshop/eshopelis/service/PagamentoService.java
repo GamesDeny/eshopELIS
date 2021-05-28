@@ -8,6 +8,8 @@ public interface PagamentoService {
 
     PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO);
 
+    PagamentoDTO updatePagamento(Long id, PagamentoDTO pagamentoDTO);
+
     Boolean removePagamento(Long id);
 
     Iterable<PagamentoDTO> getAll();

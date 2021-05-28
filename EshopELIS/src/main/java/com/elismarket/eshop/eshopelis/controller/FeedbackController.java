@@ -1,14 +1,12 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
-import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.service.FeedbackServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/rest/feedback", produces = "application/json")
@@ -25,15 +23,7 @@ public class FeedbackController {
 
     @PatchMapping("/update/{id}")
     public FeedbackDTO updateFeedback(@PathVariable("id") Long id, @RequestBody FeedbackDTO feedbackDTO) {
-        Feedback f = Feedback.of(feedbackService.getById(id));
-
-        feedbackDTO.setId(id);
-        feedbackDTO.setDescrizione(Objects.isNull(feedbackDTO.descrizione) ? f.getDescrizione() : feedbackDTO.descrizione);
-        feedbackDTO.setOggetto(Objects.isNull(feedbackDTO.oggetto) ? f.getOggetto() : feedbackDTO.oggetto);
-        feedbackDTO.setIsAccepted(Objects.isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted);
-        feedbackDTO.setSubscriptionDate(Objects.isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate);
-
-        return feedbackService.saveFeedback(Feedback.to(f));
+        return feedbackService.updateFeedback(id, feedbackDTO);
     }
 
     @DeleteMapping("/delete/{id}")

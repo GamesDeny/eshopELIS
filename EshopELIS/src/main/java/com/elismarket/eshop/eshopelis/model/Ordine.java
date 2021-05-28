@@ -7,11 +7,13 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-/*
- *
+/**
  * Order class with lombok methods (getter, setter, NAC, ToString)
  * The class is used as an entity for the DB
- * The class contains all orders informations
+ * The class contains all orders information
+ *
+ * @author Francesco Pio Montrano
+ * @version 1.0
  */
 @Entity
 @Builder
@@ -54,12 +56,12 @@ public class Ordine {
     }
 
     public static OrdineDTO to(Ordine ordine) {
-        OrdineDTO o = new OrdineDTO();
+        OrdineDTO ordineDTO = new OrdineDTO();
 
-        o.setId(ordine.getId());
-        o.setEvaso(ordine.getEvaso());
-        o.setDataEvasione(ordine.getDataEvasione());
+        ordineDTO.id = ordine.getId();
+        ordineDTO.evaso = ordine.getEvaso();
+        ordineDTO.dataEvasione = ordine.getDataEvasione();
 
-        return o;
+        return ordineDTO;
     }
 }

@@ -1,7 +1,8 @@
 package com.elismarket.eshop.eshopelis.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+
+import java.util.List;
 
 /*
  *
@@ -10,7 +11,6 @@ import lombok.Data;
  */
 
 
-@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProdottoDTO {
 
@@ -19,4 +19,6 @@ public class ProdottoDTO {
     public Float prezzo;
     public Integer minOrd, maxOrd, sconto, quantita;
     public String image;
+    public Long utente_id;
+    public List<Long> righeOrdine_id;
 }

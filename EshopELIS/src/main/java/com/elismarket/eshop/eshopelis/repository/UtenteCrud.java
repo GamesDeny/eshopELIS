@@ -20,4 +20,5 @@ public interface UtenteCrud extends JpaRepository<Utente, Long> {
     Utente findByMail(String mail);
 
     Utente findByUsername(String username);
+
 }

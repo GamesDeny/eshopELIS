@@ -1,9 +1,9 @@
 package com.elismarket.eshop.eshopelis.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /*
  *
@@ -11,7 +11,7 @@ import java.time.LocalDate;
  *
  */
 
-@Data
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UtenteDTO {
     public Long id;
@@ -22,4 +22,9 @@ public class UtenteDTO {
     public String mail, nome, password;
     public Integer siglaResidenza;
     public String username;
+
+    public List<Long> proposte_id;
+    public List<Long> pagamenti_id;
+    public List<Long> prodotti_id;
+    public List<Long> feedbacks_id;
 }

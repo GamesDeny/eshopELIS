@@ -67,34 +67,34 @@ public class Prodotto {
         this.image = image;
     }
 
-    public static Prodotto of(ProdottoDTO prodotto) {
+    public static Prodotto of(ProdottoDTO prodottoDTO) {
         return Prodotto.builder()
-                .id(prodotto.id)
-                .nome(prodotto.nome)
-                .descrizione(prodotto.descrizione)
-                .nomeCategoria(prodotto.nomeCategoria)
-                .prezzo(prodotto.prezzo)
-                .minOrd(prodotto.minOrd)
-                .maxOrd(prodotto.maxOrd)
-                .sconto(prodotto.sconto)
-                .quantita(prodotto.quantita)
-                .image(prodotto.image)
+                .id(prodottoDTO.id)
+                .nome(prodottoDTO.nome)
+                .descrizione(prodottoDTO.descrizione)
+                .nomeCategoria(prodottoDTO.nomeCategoria)
+                .prezzo(prodottoDTO.prezzo)
+                .minOrd(prodottoDTO.minOrd)
+                .maxOrd(prodottoDTO.maxOrd)
+                .sconto(prodottoDTO.sconto)
+                .quantita(prodottoDTO.quantita)
+                .image(prodottoDTO.image)
                 .build();
     }
 
     public static ProdottoDTO to(Prodotto prodotto) {
         ProdottoDTO p = new ProdottoDTO();
 
-        p.setId(prodotto.getId());
-        p.setNome(prodotto.getNome());
-        p.setDescrizione(prodotto.getDescrizione());
-        p.setNomeCategoria(prodotto.getNomeCategoria());
-        p.setPrezzo(prodotto.getPrezzo());
-        p.setMinOrd(prodotto.getMinOrd());
-        p.setMaxOrd(prodotto.getMaxOrd());
-        p.setSconto(prodotto.getSconto());
-        p.setQuantita(prodotto.getQuantita());
-        p.setImage(prodotto.getImage());
+        p.id = prodotto.getId();
+        p.nome = prodotto.getNome();
+        p.descrizione = prodotto.getDescrizione();
+        p.nomeCategoria = prodotto.getNomeCategoria();
+        p.prezzo = prodotto.getPrezzo();
+        p.minOrd = prodotto.getMinOrd();
+        p.maxOrd = prodotto.getMaxOrd();
+        p.sconto = prodotto.getSconto();
+        p.quantita = prodotto.getQuantita();
+        p.image = prodotto.getImage();
 
         return p;
     }

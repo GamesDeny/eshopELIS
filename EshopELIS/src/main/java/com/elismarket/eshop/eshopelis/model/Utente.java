@@ -99,16 +99,16 @@ public class Utente {
     public static UtenteDTO to(Utente utente) {
         UtenteDTO u = new UtenteDTO();
 
-        u.setId(utente.getId());
-        u.setMail(utente.getMail());
-        u.setUsername(utente.getUsername());
-        u.setPassword(utente.getPassword());
-        u.setNome(utente.getNome());
-        u.setCognome(utente.getCognome());
-        u.setSiglaResidenza(utente.getSiglaResidenza());
-        u.setDataNascita(utente.getDataNascita());
-        u.setLogged(utente.getLogged());
-        u.setIsAdmin(utente.getIsAdmin());
+        u.id = utente.getId();
+        u.mail = utente.getMail();
+        u.username = utente.getUsername();
+        u.password = utente.getPassword();
+        u.nome = utente.getNome();
+        u.cognome = utente.getCognome();
+        u.siglaResidenza = utente.getSiglaResidenza();
+        u.dataNascita = utente.getDataNascita();
+        u.logged = utente.getLogged();
+        u.isAdmin = utente.getIsAdmin();
 
         return u;
     }

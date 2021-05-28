@@ -1,7 +1,6 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
-import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.service.OrdineServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/rest/ordine", produces = "application/json")
@@ -25,13 +23,7 @@ public class OrdineController {
 
     @PatchMapping("/update/{id}")
     public OrdineDTO updateOrdine(@PathVariable("id") Long id, @RequestBody OrdineDTO ordineDTO) {
-        Ordine o = ordineService.getById(id);
-
-        ordineDTO.setId(id);
-        ordineDTO.setEvaso(Objects.isNull(ordineDTO.getEvaso()) ? o.getEvaso() : ordineDTO.evaso);
-        ordineDTO.setDataEvasione(Objects.isNull(ordineDTO.getDataEvasione()) ? o.getDataEvasione() : ordineDTO.dataEvasione);
-
-        return ordineService.saveOrdine(ordineDTO);
+        return ordineService.updateOrdine(id, ordineDTO);
     }
 
     @DeleteMapping("/remove/{id}")

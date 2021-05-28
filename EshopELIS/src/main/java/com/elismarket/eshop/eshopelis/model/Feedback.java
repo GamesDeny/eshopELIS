@@ -25,6 +25,7 @@ public class Feedback {
 
     @Column(nullable = true)
     private Boolean isAccepted;
+
     private LocalDate subscriptionDate;
 
     @ManyToOne
@@ -43,11 +44,11 @@ public class Feedback {
     public static FeedbackDTO to(Feedback feedback) {
         FeedbackDTO f = new FeedbackDTO();
 
-        f.setId(feedback.getId());
-        f.setOggetto(feedback.getOggetto());
-        f.setDescrizione(feedback.getDescrizione());
-        f.setIsAccepted(feedback.getIsAccepted());
-        f.setSubscriptionDate(feedback.getSubscriptionDate());
+        f.id = feedback.getId();
+        f.oggetto = feedback.getOggetto();
+        f.descrizione = feedback.getDescrizione();
+        f.isAccepted = feedback.getIsAccepted();
+        f.subscriptionDate = feedback.getSubscriptionDate();
 
         return f;
     }
