@@ -1,6 +1,8 @@
 package com.elismarket.eshop.eshopelis.service;
 
+import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
+import com.elismarket.eshop.eshopelis.model.Ordine;
 
 import java.util.List;
 
@@ -20,4 +22,5 @@ public interface PagamentoService {
 
     PagamentoDTO getById(Long id);
 
+    Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO pagamentoDTO);
 }

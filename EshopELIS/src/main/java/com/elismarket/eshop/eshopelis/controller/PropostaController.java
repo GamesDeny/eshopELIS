@@ -22,12 +22,12 @@ public class PropostaController {
     }
 
     @PatchMapping("/update/{id}")
-    public PropostaDTO updateProposta(@PathVariable("id") Long id, @RequestBody PropostaDTO propostaDTO) {
+    public PropostaDTO updateProposta(@PathVariable Long id, @RequestBody PropostaDTO propostaDTO) {
         return propostaService.updateProposta(id, propostaDTO);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removeProposta(@RequestParam("id") Long id) {
+    public ResponseEntity<Object> removeProposta(@RequestParam Long id) {
         return propostaService.removeProposta(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
@@ -42,7 +42,7 @@ public class PropostaController {
     }
 
     @GetMapping("/utente/{id}")
-    public List<PropostaDTO> findAllByUtente(@RequestParam("id") Long id) {
+    public List<PropostaDTO> findAllByUtente(@RequestParam Long id) {
         return propostaService.findAllByUtente(id);
     }
 }

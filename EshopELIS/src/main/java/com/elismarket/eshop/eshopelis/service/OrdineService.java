@@ -1,6 +1,8 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
+import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -25,4 +27,5 @@ public interface OrdineService {
 
     OrdineDTO getById(Long id);
 
+    RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO);
 }

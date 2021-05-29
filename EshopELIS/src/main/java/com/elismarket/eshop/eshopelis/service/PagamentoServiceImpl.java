@@ -1,9 +1,11 @@
 package com.elismarket.eshop.eshopelis.service;
 
+import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
 import com.elismarket.eshop.eshopelis.exception.PagamentoException;
 import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
+import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.Pagamento;
 import com.elismarket.eshop.eshopelis.repository.PagamentoCrud;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
@@ -34,6 +36,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     @Autowired
     private PagamentoCrud pagamentoCrud;
 
+    @Override
     public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
         if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException("Paypal mail not valid");
@@ -50,10 +53,8 @@ public class PagamentoServiceImpl implements PagamentoService {
     public PagamentoDTO updatePagamento(Long id, PagamentoDTO pagamentoDTO) {
         if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException("Paypal mail not valid");
-        if (!pagamentoCrud.existsById(id))
-            throw new PagamentoException("Not found");
 
-        Pagamento p = pagamentoCrud.findById(id).get();
+        Pagamento p = pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException("Not found"));
 
         pagamentoDTO.id = id;
         pagamentoDTO.descrizione = Objects.isNull(pagamentoDTO.descrizione) ? p.getDescrizione() : pagamentoDTO.descrizione;
@@ -61,9 +62,10 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoDTO.paypalMail = Objects.isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail;
         pagamentoDTO.tipo = Objects.isNull(pagamentoDTO.tipo) ? p.getTipo() : pagamentoDTO.tipo;
 
-        return Pagamento.to(pagamentoCrud.findById(id).get());
+        return Pagamento.to(pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException("Not found")));
     }
 
+    @Override
     public Boolean removePagamento(Long id) {
         pagamentoCrud.deleteById(id);
 
@@ -73,6 +75,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         return pagamentoCrud.findById(id).isPresent();
     }
 
+    @Override
     public List<PagamentoDTO> getAll() {
         List<PagamentoDTO> result = new ArrayList<>();
 
@@ -81,6 +84,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         return result;
     }
 
+    @Override
     public List<PagamentoDTO> getByContanti() {
         List<PagamentoDTO> result = new ArrayList<>();
 
@@ -89,6 +93,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         return result;
     }
 
+    @Override
     public List<PagamentoDTO> getByPaypalMail() {
         List<PagamentoDTO> result = new ArrayList<>();
 
@@ -97,9 +102,15 @@ public class PagamentoServiceImpl implements PagamentoService {
         return result;
     }
 
+    @Override
     public PagamentoDTO getById(Long id) {
         if (!pagamentoCrud.findById(id).isPresent())
             throw new PagamentoException("Not found");
         return Pagamento.to(pagamentoCrud.findById(id).get());
+    }
+
+    @Override
+    public Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO ordineDTO) {
+        return ordineHelper.addOrdineToPagamento(pagamentoId, ordineDTO);
     }
 }

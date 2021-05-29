@@ -21,13 +21,14 @@ public class PropostaServiceImpl implements PropostaService {
     @Autowired
     private PropostaCrud propostaCrud;
 
+    @Override
     public PropostaDTO addProposta(PropostaDTO propostaDTO) {
         try {
             propostaCrud.save(Proposta.of(propostaDTO));
         } catch (Exception e) {
             throw new PropostaException("Cannot find Proposta for provided item");
         }
-        return propostaCrud.findById(propostaDTO.id).isPresent() ? Proposta.to(propostaCrud.findById(propostaDTO.id).get()) : null;
+        return propostaCrud.findById(propostaDTO.id).isPresent() ? Proposta.to(propostaCrud.findById(propostaDTO.id).orElseThrow(() -> new PropostaException("Cannot find Proposta"))) : null;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class PropostaServiceImpl implements PropostaService {
         if (!propostaCrud.existsById(id))
             throw new PropostaException("Not Found");
 
-        Proposta p = propostaCrud.findById(id).get();
+        Proposta p = propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta"));
 
         propostaDTO.id = id;
         propostaDTO.prezzoProposto = Objects.isNull(propostaDTO.prezzoProposto) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto;
@@ -46,9 +47,10 @@ public class PropostaServiceImpl implements PropostaService {
         propostaDTO.quantita = Objects.isNull(propostaDTO.quantita) ? p.getQuantita() : propostaDTO.quantita;
         propostaDTO.submissionDate = Objects.isNull(propostaDTO.submissionDate) ? p.getSubmissionDate() : propostaDTO.submissionDate;
 
-        return Proposta.to(propostaCrud.findById(id).get());
+        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
     }
 
+    @Override
     public Boolean removeProposta(Long id) {
         try {
             propostaCrud.deleteById(id);
@@ -58,6 +60,7 @@ public class PropostaServiceImpl implements PropostaService {
         return propostaCrud.findById(id).isPresent();
     }
 
+    @Override
     public List<PropostaDTO> findAllByIsAccettato(Boolean isAccettato) {
         List<PropostaDTO> result = new ArrayList<>();
 
@@ -66,6 +69,7 @@ public class PropostaServiceImpl implements PropostaService {
         return result;
     }
 
+    @Override
     public List<PropostaDTO> findAllByUtente(Long id) {
         List<PropostaDTO> result = new ArrayList<>();
 
@@ -74,9 +78,10 @@ public class PropostaServiceImpl implements PropostaService {
         return result;
     }
 
+    @Override
     public PropostaDTO getById(Long id) {
         if (!propostaCrud.findById(id).isPresent())
             throw new PropostaException("Not Found");
-        return Proposta.to(propostaCrud.findById(id).get());
+        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
     }
 }

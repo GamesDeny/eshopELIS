@@ -1,6 +1,8 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
+import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 
 import java.util.List;
 
@@ -24,4 +26,6 @@ public interface ProdottoService {
     List<String> getAllCategoria();
 
     ProdottoDTO getById(Long id);
+
+    RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO);
 }

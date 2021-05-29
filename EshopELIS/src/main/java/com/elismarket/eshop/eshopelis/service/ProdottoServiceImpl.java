@@ -1,10 +1,12 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
+import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
+import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Autowired
     private ProdottoCrud prodottoCrud;
 
+    @Override
     public ProdottoDTO saveProdotto(ProdottoDTO prodottoDTO) {
         if (prodottoDTO.minOrd > prodottoDTO.maxOrd)
             throw new ProdottoException("Inconsistent ord");
@@ -40,7 +43,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         } catch (Exception e) {
             throw new ProdottoException("Cannot save Prodotto");
         }
-        return prodottoCrud.findById(prodottoDTO.id).isPresent() ? Prodotto.to(prodottoCrud.findById(prodottoDTO.id).get()) : null;
+        return prodottoCrud.findById(prodottoDTO.id).isPresent() ? Prodotto.to(prodottoCrud.findById(prodottoDTO.id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto"))) : null;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         if (!prodottoCrud.existsById(id))
             throw new ProdottoException("Not Found");
 
-        Prodotto p = prodottoCrud.findById(id).get();
+        Prodotto p = prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto"));
 
         prodottoDTO.id = id;
         prodottoDTO.descrizione = Objects.isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione;
@@ -64,10 +67,11 @@ public class ProdottoServiceImpl implements ProdottoService {
         prodottoDTO.sconto = Objects.isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto;
 
 
-        return Prodotto.to(prodottoCrud.findById(id).get());
+        return Prodotto.to(prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
 
     }
 
+    @Override
     public Boolean removeProdotto(Long id) {
         try {
             prodottoCrud.deleteById(id);
@@ -77,6 +81,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         return prodottoCrud.findById(id).isPresent();
     }
 
+    @Override
     public List<ProdottoDTO> getAll() {
         List<ProdottoDTO> result = new ArrayList<>();
 
@@ -85,6 +90,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         return result;
     }
 
+    @Override
     public List<ProdottoDTO> findAllByCategoria(String categoria) {
         List<ProdottoDTO> result = new ArrayList<>();
 
@@ -93,6 +99,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         return result;
     }
 
+    @Override
     public List<ProdottoDTO> findByQuantitaMaggiore(Integer quantita) {
         List<ProdottoDTO> result = new ArrayList<>();
 
@@ -101,6 +108,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         return result;
     }
 
+    @Override
     public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {
         List<ProdottoDTO> result = new ArrayList<>();
 
@@ -109,6 +117,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         return result;
     }
 
+    @Override
     public List<ProdottoDTO> getProdottoByCategoria(String categoria) {
         List<ProdottoDTO> result = new ArrayList<>();
 
@@ -117,16 +126,22 @@ public class ProdottoServiceImpl implements ProdottoService {
         return result;
     }
 
+    @Override
     public List<String> getAllCategoria() {
         if (prodottoCrud.findAllCategoria().size() == 0)
             throw new ProdottoException("Error in DB");
         return prodottoCrud.findAllCategoria();
     }
 
-
+    @Override
     public ProdottoDTO getById(Long id) {
         if (!prodottoCrud.findById(id).isPresent())
             throw new ProdottoException("Not found");
-        return Prodotto.to(prodottoCrud.findById(id).get());
+        return Prodotto.to(prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
+    }
+
+    @Override
+    public RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO) {
+        return rigaOrdineHelper.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);
     }
 }

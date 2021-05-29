@@ -1,6 +1,8 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
+import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.service.OrdineServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +24,12 @@ public class OrdineController {
     }
 
     @PatchMapping("/update/{id}")
-    public OrdineDTO updateOrdine(@PathVariable("id") Long id, @RequestBody OrdineDTO ordineDTO) {
+    public OrdineDTO updateOrdine(@PathVariable Long id, @RequestBody OrdineDTO ordineDTO) {
         return ordineService.updateOrdine(id, ordineDTO);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removeOrdine(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> removeOrdine(@PathVariable Long id) {
         return ordineService.removeOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
@@ -42,18 +44,22 @@ public class OrdineController {
     }
 
     @GetMapping("/data/before/{data}")
-    public List<OrdineDTO> getDataPrima(@PathVariable("data") LocalDate dataEvasione) {
+    public List<OrdineDTO> getDataPrima(@PathVariable LocalDate dataEvasione) {
         return ordineService.getDataPrima(dataEvasione);
     }
 
     @GetMapping("/data/between/{dataInizio}/{dataFine}")
-    public List<OrdineDTO> getDataTra(@PathVariable("dataInizio") LocalDate dataEvasione1, @PathVariable("dataFine") LocalDate dataEvasione2) {
-        return ordineService.getDataTra(dataEvasione1, dataEvasione2);
+    public List<OrdineDTO> getDataTra(@PathVariable LocalDate dataInizio, @PathVariable LocalDate dataFine) {
+        return ordineService.getDataTra(dataInizio, dataFine);
     }
 
     @GetMapping("/data/after/{data}")
-    public List<OrdineDTO> getDataDopo(@PathVariable("data") LocalDate dataEvasione) {
-        return ordineService.getDataDopo(dataEvasione);
+    public List<OrdineDTO> getDataDopo(@PathVariable LocalDate data) {
+        return ordineService.getDataDopo(data);
     }
 
+    @PostMapping("/add/rigaordine/{ordineId}")
+    public RigaOrdine addRigaOrdineToOrdine(@PathVariable Long ordineId, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
+        return ordineService.addRigaOrdineToOrdine(ordineId, rigaOrdineDTO);
+    }
 }

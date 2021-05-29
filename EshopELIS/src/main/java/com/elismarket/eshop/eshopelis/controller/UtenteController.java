@@ -1,8 +1,10 @@
 package com.elismarket.eshop.eshopelis.controller;
 
-import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
-import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
+import com.elismarket.eshop.eshopelis.dto.*;
 import com.elismarket.eshop.eshopelis.model.Feedback;
+import com.elismarket.eshop.eshopelis.model.Pagamento;
+import com.elismarket.eshop.eshopelis.model.Prodotto;
+import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.service.UtenteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +34,12 @@ public class UtenteController {
     }
 
     @PatchMapping("/update/{id}")
-    public UtenteDTO updateUtente(@PathVariable("id") Long id, @RequestBody UtenteDTO utenteDTO) {
+    public UtenteDTO updateUtente(@PathVariable Long id, @RequestBody UtenteDTO utenteDTO) {
         return utenteService.updateUtente(id, utenteDTO);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removeRigaOrdine(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> removeRigaOrdine(@PathVariable Long id) {
         return utenteService.removeUtente(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
@@ -62,17 +64,17 @@ public class UtenteController {
 
     //returns a user depending on field
     @GetMapping("/username/{username}")
-    public UtenteDTO getByUsername(@PathVariable("username") String username) {
+    public UtenteDTO getByUsername(@PathVariable String username) {
         return utenteService.getByUser(username);
     }
 
     @GetMapping("/mail/{mail}")
-    public UtenteDTO getByMail(@PathVariable("mail") String mail) {
+    public UtenteDTO getByMail(@PathVariable String mail) {
         return utenteService.getByMail(mail);
     }
 
     @GetMapping("/sigla/{siglaResidenza}")
-    public UtenteDTO getBySiglaResidenza(@PathVariable("siglaResidenza") Integer siglaResidenza) {
+    public UtenteDTO getBySiglaResidenza(@PathVariable Integer siglaResidenza) {
         return utenteService.getBySigla(siglaResidenza);
     }
 
@@ -81,8 +83,23 @@ public class UtenteController {
         return utenteService.getLoginUtente(utente.username, utente.password);
     }
 
-    @PostMapping("/{userId}/feedback")
+    @PostMapping("/add/feedback/{userId}")
     public Feedback addFeedbackToUser(@PathVariable Long userId, @RequestBody FeedbackDTO feedbackDTO) {
         return utenteService.addFeedbackToUser(userId, feedbackDTO);
+    }
+
+    @PostMapping("/add/proposta/{userId}")
+    public Proposta addPropostaToUser(@PathVariable Long userId, @RequestBody PropostaDTO propostaDTO) {
+        return utenteService.addPropostaToUser(userId, propostaDTO);
+    }
+
+    @PostMapping("/add/prodotto/{userId}")
+    public Prodotto addProdottoToUser(@PathVariable Long userId, @RequestBody ProdottoDTO prodottoDTO) {
+        return utenteService.addProdottoToUser(userId, prodottoDTO);
+    }
+
+    @PostMapping("/add/pagamento/{userId}")
+    public Pagamento addPagamentoToUser(@PathVariable Long userId, @RequestBody PagamentoDTO pagamentoDTO) {
+        return utenteService.addPagamentoToUser(userId, pagamentoDTO);
     }
 }

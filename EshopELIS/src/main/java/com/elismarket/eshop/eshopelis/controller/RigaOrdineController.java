@@ -22,12 +22,12 @@ public class RigaOrdineController {
     }
 
     @PatchMapping("/update/{id}")
-    public RigaOrdineDTO updateRigaOrdine(@PathVariable("id") Long id, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
+    public RigaOrdineDTO updateRigaOrdine(@PathVariable Long id, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
         return rigaOrdineService.updateRigaOrdine(id, rigaOrdineDTO);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removeRigaOrdine(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> removeRigaOrdine(@PathVariable Long id) {
         return rigaOrdineService.removeRigaOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
@@ -38,8 +38,8 @@ public class RigaOrdineController {
     }
 
     @GetMapping("/quantita/{value}")
-    public List<RigaOrdineDTO> getByQuantita(Integer quantita) {
-        return rigaOrdineService.getByQuantita(quantita);
+    public List<RigaOrdineDTO> getByQuantita(@PathVariable Integer value) {
+        return rigaOrdineService.getByQuantita(value);
     }
 
 }

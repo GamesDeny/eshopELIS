@@ -1,6 +1,8 @@
 package com.elismarket.eshop.eshopelis.controller;
 
+import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
+import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.service.PagamentoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +23,14 @@ public class PagamentoController {
     }
 
     @PatchMapping("/update/{id}")
-    public PagamentoDTO updatePagamento(@PathVariable("id") Long id, @RequestBody PagamentoDTO pagamentoDTO) {
+    public PagamentoDTO updatePagamento(@PathVariable Long id, @RequestBody PagamentoDTO pagamentoDTO) {
         return pagamentoService.updatePagamento(id, pagamentoDTO);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removePagamento(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> removePagamento(@PathVariable Long id) {
         return pagamentoService.removePagamento(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
-
 
     @GetMapping("/all")
     public List<PagamentoDTO> getAll() {
@@ -46,4 +47,8 @@ public class PagamentoController {
         return pagamentoService.getByPaypalMail();
     }
 
+    @PostMapping("/add/ordine/{pagamentoId}")
+    public Ordine addOrdineToPagamento(@PathVariable Long pagamentoId, @RequestBody OrdineDTO ordineDTO) {
+        return pagamentoService.addOrdineToPagamento(pagamentoId, ordineDTO);
+    }
 }

@@ -32,13 +32,14 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Autowired
     private RigaOrdineCrud rigaOrdineCrud;
 
+    @Override
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         try {
             rigaOrdineCrud.save(RigaOrdine.of(rigaOrdineDTO));
         } catch (Exception e) {
             throw new RigaOrdineException("Cannot find RigaOrdine for given element");
         }
-        return rigaOrdineCrud.findById(rigaOrdineDTO.id).isPresent() ? RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).get()) : null;
+        return rigaOrdineCrud.findById(rigaOrdineDTO.id).isPresent() ? RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine"))) : null;
     }
 
     @Override
@@ -46,16 +47,17 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         if (!rigaOrdineCrud.existsById(id))
             throw new RigaOrdineException("Not Found");
 
-        RigaOrdine r = rigaOrdineCrud.findById(id).get();
+        RigaOrdine r = rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine"));
 
         rigaOrdineDTO.id = id;
         rigaOrdineDTO.prezzoTotale = Objects.isNull(rigaOrdineDTO.prezzoTotale) ? r.getPrezzoTotale() : rigaOrdineDTO.prezzoTotale;
         rigaOrdineDTO.quantitaProdotto = Objects.isNull(rigaOrdineDTO.quantitaProdotto) ? r.getQuantitaProdotto() : rigaOrdineDTO.quantitaProdotto;
         rigaOrdineDTO.scontoApplicato = Objects.isNull(rigaOrdineDTO.scontoApplicato) ? r.getScontoApplicato() : rigaOrdineDTO.scontoApplicato;
 
-        return RigaOrdine.to(rigaOrdineCrud.findById(id).get());
+        return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine")));
     }
 
+    @Override
     public Boolean removeRigaOrdine(Long id) {
         try {
             rigaOrdineCrud.deleteById(id);
@@ -66,6 +68,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         return false;
     }
 
+    @Override
     public List<RigaOrdineDTO> getAll() {
         List<RigaOrdineDTO> result = new ArrayList<>();
 
@@ -74,12 +77,14 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         return result;
     }
 
+    @Override
     public RigaOrdineDTO getById(Long id) {
         if (!rigaOrdineCrud.findById(id).isPresent())
             throw new RigaOrdineException("Not found");
-        return RigaOrdine.to(rigaOrdineCrud.findById(id).get());
+        return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine")));
     }
 
+    @Override
     public List<RigaOrdineDTO> getByQuantita(Integer quantita) {
         List<RigaOrdineDTO> result = new ArrayList<>();
 

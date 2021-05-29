@@ -22,12 +22,12 @@ public class FeedbackController {
     }
 
     @PatchMapping("/update/{id}")
-    public FeedbackDTO updateFeedback(@PathVariable("id") Long id, @RequestBody FeedbackDTO feedbackDTO) {
+    public FeedbackDTO updateFeedback(@PathVariable Long id, @RequestBody FeedbackDTO feedbackDTO) {
         return feedbackService.updateFeedback(id, feedbackDTO);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Object> deleteFeedback(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> deleteFeedback(@PathVariable Long id) {
         return feedbackService.deleteFeedback(feedbackService.getById(id)) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
@@ -37,7 +37,7 @@ public class FeedbackController {
     }
 
     @GetMapping("/id/{id}")
-    public FeedbackDTO getFeedback(@PathVariable("id") Long id) {
+    public FeedbackDTO getFeedback(@PathVariable Long id) {
         return feedbackService.getById(id);
     }
 }

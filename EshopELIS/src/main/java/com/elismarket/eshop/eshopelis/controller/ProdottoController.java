@@ -1,6 +1,8 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
+import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.service.ProdottoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +31,12 @@ public class ProdottoController {
     }
 
     @PatchMapping("/update/{id}")
-    public ProdottoDTO updateProdotto(@PathVariable("id") Long id, @RequestBody ProdottoDTO prodottoDTO) {
+    public ProdottoDTO updateProdotto(@PathVariable Long id, @RequestBody ProdottoDTO prodottoDTO) {
         return prodottoService.updateProdotto(id, prodottoDTO);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Object> removeProdotto(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> removeProdotto(@PathVariable Long id) {
         return prodottoService.removeProdotto(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
@@ -44,18 +46,17 @@ public class ProdottoController {
         return prodottoService.getAll();
     }
 
-    @GetMapping("/all/quantita/maggiore/{quantita}")
-    public List<ProdottoDTO> findByQuantitaMaggiore(@PathVariable("quantita") Integer quantita) {
+    public List<ProdottoDTO> findByQuantitaMaggiore(@PathVariable Integer quantita) {
         return prodottoService.findByQuantitaMaggiore(quantita);
     }
 
     @GetMapping("/all/quantita/minore/{quantita}")
-    public List<ProdottoDTO> findByQuantitaMinore(@PathVariable("quantita") Integer quantita) {
+    public List<ProdottoDTO> findByQuantitaMinore(@PathVariable Integer quantita) {
         return prodottoService.findByQuantitaMinore(quantita);
     }
 
     @GetMapping("/all/categoria/{name}")
-    public List<ProdottoDTO> getByNomeCategoria(@PathVariable("name") String categoria) {
+    public List<ProdottoDTO> getByNomeCategoria(@PathVariable String categoria) {
         return prodottoService.getProdottoByCategoria(categoria);
     }
 
@@ -64,4 +65,8 @@ public class ProdottoController {
         return prodottoService.getAllCategoria();
     }
 
+    @PostMapping("/add/rigaOrdine/{prodId}")
+    public RigaOrdine addRigaOrdineToProdotto(@PathVariable Long prodId, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
+        return prodottoService.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);
+    }
 }

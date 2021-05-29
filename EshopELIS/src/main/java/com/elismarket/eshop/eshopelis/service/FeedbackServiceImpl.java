@@ -21,13 +21,14 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Autowired
     private FeedbackCrud feedbackCrud;
 
+    @Override
     public FeedbackDTO saveFeedback(FeedbackDTO feedbackDTO) {
         try {
             feedbackCrud.save(Feedback.of(feedbackDTO));
         } catch (Exception e) {
             throw new FeedbackException("Cannot save Feedback");
         }
-        return feedbackCrud.findById(feedbackDTO.id).isPresent() ? Feedback.to(feedbackCrud.findById(feedbackDTO.id).get()) : null;
+        return feedbackCrud.findById(feedbackDTO.id).isPresent() ? Feedback.to(feedbackCrud.findById(feedbackDTO.id).orElseThrow(() -> new FeedbackException("Cannot find Feedback"))) : null;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         if (!feedbackCrud.existsById(id))
             throw new FeedbackException("Not found");
 
-        Feedback f = feedbackCrud.findById(id).get();
+        Feedback f = feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException("Cannot find Feedback"));
 
         feedbackDTO.id = id;
         feedbackDTO.descrizione = Objects.isNull(feedbackDTO.descrizione) ? f.getDescrizione() : feedbackDTO.descrizione;
@@ -43,9 +44,10 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackDTO.isAccepted = Objects.isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted;
         feedbackDTO.subscriptionDate = Objects.isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate;
 
-        return Feedback.to(feedbackCrud.findById(id).get());
+        return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException("Cannot find Feedback")));
     }
 
+    @Override
     public Boolean deleteFeedback(FeedbackDTO feedbackDTO) {
         try {
             feedbackCrud.delete(Feedback.of(feedbackDTO));
@@ -55,6 +57,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackCrud.findById(feedbackDTO.id).isPresent();
     }
 
+    @Override
     public List<FeedbackDTO> getAll() {
         List<FeedbackDTO> result = new ArrayList<>();
 
@@ -66,22 +69,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         }
     }
 
-    public List<FeedbackDTO> findAllByUtente(Long id) {
-        List<FeedbackDTO> result = new ArrayList<>();
-
-        feedbackCrud.findAllByUtente(id).forEach(feedback -> result.add(Feedback.to(feedback)));
-
-        return result;
-    }
-
+    @Override
     public FeedbackDTO getById(Long id) {
-        try {
-            if (feedbackCrud.findById(id).isPresent())
-                return Feedback.to(feedbackCrud.findById(id).get());
-            throw new RuntimeException();
-        } catch (Exception e) {
-            throw new FeedbackException("Cannot save Feedback");
-        }
+        return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException("Cannot find Feedback")));
     }
 
 }

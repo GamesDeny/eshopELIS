@@ -1,8 +1,10 @@
 package com.elismarket.eshop.eshopelis.service;
 
-import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
-import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
+import com.elismarket.eshop.eshopelis.dto.*;
 import com.elismarket.eshop.eshopelis.model.Feedback;
+import com.elismarket.eshop.eshopelis.model.Pagamento;
+import com.elismarket.eshop.eshopelis.model.Prodotto;
+import com.elismarket.eshop.eshopelis.model.Proposta;
 
 import java.util.List;
 
@@ -26,4 +28,10 @@ public interface UtenteService {
     UtenteDTO getLoginUtente(String username, String password);
 
     Feedback addFeedbackToUser(Long userId, FeedbackDTO feedbackDTO);
+
+    Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO);
+
+    Prodotto addProdottoToUser(Long userId, ProdottoDTO prodottoDTO);
+
+    Pagamento addPagamentoToUser(Long userId, PagamentoDTO pagamentoDTO);
 }
