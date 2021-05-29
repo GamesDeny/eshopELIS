@@ -6,6 +6,7 @@ import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,12 +35,9 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
 
     @Override
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
-        try {
-            rigaOrdineCrud.save(RigaOrdine.of(rigaOrdineDTO));
-        } catch (Exception e) {
-            throw new RigaOrdineException("Cannot find RigaOrdine for given element");
-        }
-        return rigaOrdineCrud.findById(rigaOrdineDTO.id).isPresent() ? RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine"))) : null;
+        Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
+        rigaOrdineCrud.save(RigaOrdine.of(rigaOrdineDTO));
+        return RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine for given element")));
     }
 
     @Override
@@ -54,26 +52,27 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         rigaOrdineDTO.quantitaProdotto = Objects.isNull(rigaOrdineDTO.quantitaProdotto) ? r.getQuantitaProdotto() : rigaOrdineDTO.quantitaProdotto;
         rigaOrdineDTO.scontoApplicato = Objects.isNull(rigaOrdineDTO.scontoApplicato) ? r.getScontoApplicato() : rigaOrdineDTO.scontoApplicato;
 
+        Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
+
         return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine")));
     }
 
     @Override
     public Boolean removeRigaOrdine(Long id) {
-        try {
-            rigaOrdineCrud.deleteById(id);
-            return true;
-        } catch (Exception e) {
-//            throw new RigaOrdineException("Cannot find RigaOrdine for given element");
-        }
-        return false;
+        if (!rigaOrdineCrud.existsById(id))
+            throw new RigaOrdineException("Not Found");
+
+        rigaOrdineCrud.deleteById(id);
+        return !rigaOrdineCrud.existsById(id);
     }
 
     @Override
     public List<RigaOrdineDTO> getAll() {
+        if (rigaOrdineCrud.findAll().isEmpty())
+            throw new RigaOrdineException("List is empty");
+
         List<RigaOrdineDTO> result = new ArrayList<>();
-
         rigaOrdineCrud.findAll().forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));
-
         return result;
     }
 
@@ -86,10 +85,11 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
 
     @Override
     public List<RigaOrdineDTO> getByQuantita(Integer quantita) {
+        if (rigaOrdineCrud.findAll().isEmpty())
+            throw new RigaOrdineException("List is empty");
+
         List<RigaOrdineDTO> result = new ArrayList<>();
-
         rigaOrdineCrud.findAllByQuantitaProdottoGreaterThanEqual(quantita).forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));
-
         return result;
     }
 

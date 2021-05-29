@@ -31,7 +31,12 @@ public class RigaOrdine {
     private Long id;
 
     //sconto applicato è la somma in denaro sottratta dal totale
-    private Float prezzoTotale, scontoApplicato;
+    @Column(nullable = false)
+    private Float prezzoTotale;
+
+    private Float scontoApplicato;
+
+    @Column(nullable = false)
     private Integer quantitaProdotto;
 
     @ManyToOne

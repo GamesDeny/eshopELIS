@@ -31,19 +31,20 @@ public class Utente {
     private Long id;
 
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String mail, username;
 
+    @Column(nullable = false)
     private String password, nome, cognome;
 
-    @Column(name = "sigla_residenza")
+    @Column(name = "sigla_residenza", nullable = false)
     private Integer siglaResidenza;
 
-    @Column(name = "data_nascita")
+    @Column(name = "data_nascita", nullable = false)
     private LocalDate dataNascita;
 
-    private Boolean logged;
-    private Boolean isAdmin;
+    @Column(nullable = false)
+    private Boolean logged, isAdmin;
 
     @OneToMany
     @Getter(AccessLevel.NONE)

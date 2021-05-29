@@ -5,6 +5,7 @@ import com.elismarket.eshop.eshopelis.exception.FeedbackException;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.repository.FeedbackCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     private FeedbackCrud feedbackCrud;
 
     @Override
-    public FeedbackDTO saveFeedback(FeedbackDTO feedbackDTO) {
-        try {
-            feedbackCrud.save(Feedback.of(feedbackDTO));
-        } catch (Exception e) {
-            throw new FeedbackException("Cannot save Feedback");
-        }
-        return feedbackCrud.findById(feedbackDTO.id).isPresent() ? Feedback.to(feedbackCrud.findById(feedbackDTO.id).orElseThrow(() -> new FeedbackException("Cannot find Feedback"))) : null;
+    public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {
+        Checkers.feedbackFieldsChecker(feedbackDTO);
+
+        feedbackCrud.save(Feedback.of(feedbackDTO));
+        return Feedback.to(feedbackCrud.findById(feedbackDTO.id).orElseThrow(() -> new FeedbackException("Cannot find Feedback")));
     }
 
     @Override
@@ -44,29 +43,28 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackDTO.isAccepted = Objects.isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted;
         feedbackDTO.subscriptionDate = Objects.isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate;
 
+        Checkers.feedbackFieldsChecker(feedbackDTO);
+
         return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException("Cannot find Feedback")));
     }
 
     @Override
-    public Boolean deleteFeedback(FeedbackDTO feedbackDTO) {
-        try {
-            feedbackCrud.delete(Feedback.of(feedbackDTO));
-        } catch (Exception e) {
-            throw new FeedbackException("Cannot save Feedback");
-        }
-        return feedbackCrud.findById(feedbackDTO.id).isPresent();
+    public Boolean deleteFeedback(Long id) {
+        if (!feedbackCrud.existsById(id))
+            throw new FeedbackException("Not found");
+
+        feedbackCrud.deleteById(id);
+        return !feedbackCrud.findById(id).isPresent();
     }
 
     @Override
     public List<FeedbackDTO> getAll() {
-        List<FeedbackDTO> result = new ArrayList<>();
+        if (feedbackCrud.findAll().isEmpty())
+            throw new FeedbackException("List is empty");
 
-        try {
-            feedbackCrud.findAll().forEach((feedback) -> result.add(Feedback.to(feedback)));
-            return result;
-        } catch (Exception e) {
-            throw new FeedbackException("Cannot get all elements");
-        }
+        List<FeedbackDTO> result = new ArrayList<>();
+        feedbackCrud.findAll().forEach((feedback) -> result.add(Feedback.to(feedback)));
+        return result;
     }
 
     @Override

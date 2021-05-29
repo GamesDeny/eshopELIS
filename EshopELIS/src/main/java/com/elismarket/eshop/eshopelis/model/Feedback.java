@@ -21,11 +21,13 @@ public class Feedback {
     @Column(unique = true, nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     private String oggetto, descrizione;
 
     @Column(nullable = true)
     private Boolean isAccepted;
 
+    @Column(nullable = true)
     private LocalDate subscriptionDate;
 
     @ManyToOne

@@ -30,6 +30,7 @@ public class Pagamento {
     @Column(unique = true, nullable = false)
     private Long id;
 
+    @Column(nullable = false)
     //tipo is an enum
     private String tipo, descrizione;
 

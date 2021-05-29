@@ -38,15 +38,18 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     @Override
     public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
-        if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
+
+        Checkers.pagamentoFieldsChecker(pagamentoDTO);
+
+        if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException("Paypal mail not valid");
 
         pagamentoCrud.save(Pagamento.of(pagamentoDTO));
 
-        if (!pagamentoCrud.findById(pagamentoDTO.id).isPresent())
+        if (!pagamentoCrud.existsByDescrizione(pagamentoDTO.descrizione))
             throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
 
-        return Pagamento.to(pagamentoCrud.findById(pagamentoDTO.id).get());
+        return Pagamento.to(pagamentoCrud.findById(pagamentoDTO.id).orElseThrow(() -> new PagamentoException("Not found")));
     }
 
     @Override
@@ -62,17 +65,20 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoDTO.paypalMail = Objects.isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail;
         pagamentoDTO.tipo = Objects.isNull(pagamentoDTO.tipo) ? p.getTipo() : pagamentoDTO.tipo;
 
+        Checkers.pagamentoFieldsChecker(pagamentoDTO);
+
         return Pagamento.to(pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException("Not found")));
     }
 
     @Override
     public Boolean removePagamento(Long id) {
+
         pagamentoCrud.deleteById(id);
 
-        if (pagamentoCrud.findById(id).isPresent())
+        if (pagamentoCrud.existsById(id))
             throw new PagamentoException("Cannot find Pagamento for provided item");
 
-        return pagamentoCrud.findById(id).isPresent();
+        return pagamentoCrud.existsById(id);
     }
 
     @Override
@@ -104,13 +110,15 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     @Override
     public PagamentoDTO getById(Long id) {
-        if (!pagamentoCrud.findById(id).isPresent())
+        if (!pagamentoCrud.existsById(id))
             throw new PagamentoException("Not found");
-        return Pagamento.to(pagamentoCrud.findById(id).get());
+        return Pagamento.to(pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException("Not found")));
     }
 
     @Override
     public Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO ordineDTO) {
+        if (!pagamentoCrud.existsById(pagamentoId))
+            throw new PagamentoException("Not found");
         return ordineHelper.addOrdineToPagamento(pagamentoId, ordineDTO);
     }
 }

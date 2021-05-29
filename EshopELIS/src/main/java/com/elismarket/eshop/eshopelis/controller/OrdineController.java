@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/rest/ordine", produces = "application/json")
+@RequestMapping(path = "/api/ordine", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class OrdineController {
     @Autowired
@@ -44,8 +44,8 @@ public class OrdineController {
     }
 
     @GetMapping("/data/before/{data}")
-    public List<OrdineDTO> getDataPrima(@PathVariable LocalDate dataEvasione) {
-        return ordineService.getDataPrima(dataEvasione);
+    public List<OrdineDTO> getDataPrima(@PathVariable LocalDate data) {
+        return ordineService.getDataPrima(data);
     }
 
     @GetMapping("/data/between/{dataInizio}/{dataFine}")

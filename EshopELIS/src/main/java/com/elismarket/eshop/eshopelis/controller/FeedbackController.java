@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/rest/feedback", produces = "application/json")
+@RequestMapping(path = "/api/feedback", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class FeedbackController {
 
@@ -18,7 +18,7 @@ public class FeedbackController {
 
     @PostMapping("/add")
     public FeedbackDTO addFeedback(@RequestBody FeedbackDTO feedbackDTO) {
-        return feedbackService.saveFeedback(feedbackDTO);
+        return feedbackService.addFeedback(feedbackDTO);
     }
 
     @PatchMapping("/update/{id}")
@@ -28,7 +28,7 @@ public class FeedbackController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Object> deleteFeedback(@PathVariable Long id) {
-        return feedbackService.deleteFeedback(feedbackService.getById(id)) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return feedbackService.deleteFeedback(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
     @GetMapping("/all")

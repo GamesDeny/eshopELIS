@@ -17,4 +17,6 @@ public interface PagamentoCrud extends JpaRepository<Pagamento, Long> {
     List<Pagamento> findAllByContantiNotNull();
 
     List<Pagamento> findAllByPaypalMailNotNull();
+
+    Boolean existsByDescrizione(String descrizione);
 }

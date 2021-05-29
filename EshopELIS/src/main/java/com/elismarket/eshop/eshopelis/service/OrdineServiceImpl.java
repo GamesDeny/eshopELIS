@@ -37,12 +37,8 @@ public class OrdineServiceImpl implements OrdineService {
 
     @Override
     public OrdineDTO saveOrdine(OrdineDTO ordineDTO) {
-        try {
-            ordineCrud.save(Ordine.of(ordineDTO));
-        } catch (Exception e) {
-            throw new OrdineException("Failed to save");
-        }
-        return ordineCrud.findById(ordineDTO.id).isPresent() ? Ordine.to(ordineCrud.findById(ordineDTO.id).orElseThrow(() -> new OrdineException("Cannot find Ordine"))) : null;
+        ordineCrud.save(Ordine.of(ordineDTO));
+        return Ordine.to(ordineCrud.findById(ordineDTO.id).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
     }
 
     @Override
@@ -61,57 +57,60 @@ public class OrdineServiceImpl implements OrdineService {
 
     @Override
     public Boolean removeOrdine(Long id) {
-        try {
-            ordineCrud.deleteById(id);
-            return true;
-        } catch (Exception e) {
-//            throw new OrdineException("Cannot remove Ordine for provided item");
-        }
-        return false;
+        if (!ordineCrud.existsById(id))
+            throw new OrdineException("Not found");
+
+        ordineCrud.deleteById(id);
+        return !ordineCrud.existsById(id);
     }
 
     @Override
     public List<OrdineDTO> getAll() {
+        if (ordineCrud.findAll().isEmpty())
+            throw new OrdineException("List is empty");
+
         List<OrdineDTO> result = new ArrayList<>();
-
         ordineCrud.findAll().forEach(ordine -> result.add(Ordine.to(ordine)));
-
         return result;
     }
 
     @Override
     public List<OrdineDTO> getEvaso(Boolean evaso) {
+        if (ordineCrud.findAllByEvaso(evaso).isEmpty())
+            throw new OrdineException("List is empty");
+
         List<OrdineDTO> result = new ArrayList<>();
-
         ordineCrud.findAllByEvaso(evaso).forEach(ordine -> result.add(Ordine.to(ordine)));
-
         return result;
     }
 
     @Override
     public List<OrdineDTO> getDataPrima(LocalDate dataEvasione) {
+        if (ordineCrud.findAllByDataEvasioneBefore(dataEvasione).isEmpty())
+            throw new OrdineException("List is empty");
+
         List<OrdineDTO> result = new ArrayList<>();
-
         ordineCrud.findAllByDataEvasioneBefore(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
-
         return result;
     }
 
     @Override
     public List<OrdineDTO> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2) {
+        if (ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2).isEmpty())
+            throw new OrdineException("List is empty");
+
         List<OrdineDTO> result = new ArrayList<>();
-
         ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2).forEach(ordine -> result.add(Ordine.to(ordine)));
-
         return result;
     }
 
     @Override
     public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {
+        if (ordineCrud.findAllByDataEvasioneAfter(dataEvasione).isEmpty())
+            throw new OrdineException("List is empty");
+
         List<OrdineDTO> result = new ArrayList<>();
-
         ordineCrud.findAllByDataEvasioneAfter(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
-
         return result;
     }
 
@@ -124,6 +123,9 @@ public class OrdineServiceImpl implements OrdineService {
 
     @Override
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
+        if (!ordineCrud.existsById(ordineId))
+            throw new OrdineException("Cannot find Ordine");
+
         return rigaOrdineHelper.addRigaOrdineToOrdine(ordineId, rigaOrdineDTO);
     }
 }

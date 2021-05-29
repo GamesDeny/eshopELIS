@@ -7,7 +7,7 @@ import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import java.util.List;
 
 public interface ProdottoService {
-    ProdottoDTO saveProdotto(ProdottoDTO prodottoDTO);
+    ProdottoDTO addProdotto(ProdottoDTO prodottoDTO);
 
     ProdottoDTO updateProdotto(Long id, ProdottoDTO prodottoDTO);
 

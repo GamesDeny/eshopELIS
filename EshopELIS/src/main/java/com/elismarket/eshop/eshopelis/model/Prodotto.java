@@ -40,9 +40,11 @@ public class Prodotto {
     @Column(nullable = true)
     private Integer minOrd, maxOrd, sconto;
 
-
+    @Column(nullable = false)
     private Integer quantita;
 
+    @Lob
+    @Column(nullable = false)
     //url of the product image
     private String image;
 

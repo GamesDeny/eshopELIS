@@ -19,15 +19,16 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping(path = "/rest/prodotto", produces = "application/json")
+@RequestMapping(path = "/api/prodotto", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class ProdottoController {
     @Autowired
     private ProdottoServiceImpl prodottoService;
 
     @PostMapping("/add")
-    public ProdottoDTO addProduct(@RequestBody ProdottoDTO prodottoDTO) {
-        return prodottoService.saveProdotto(prodottoDTO);
+    public ProdottoDTO addProdotto(@RequestBody ProdottoDTO prodottoDTO) {
+
+        return prodottoService.addProdotto(prodottoDTO);
     }
 
     @PatchMapping("/update/{id}")

@@ -43,18 +43,10 @@ public class UtenteServiceImpl implements UtenteService {
     //operazioni di inserimento utente nel DB
     @Override
     public UtenteDTO addUtente(UtenteDTO utenteDTO) {
+        Checkers.utenteFieldsChecker(utenteDTO);
         Utente u = Utente.of(utenteDTO);
 
-        if (!Objects.isNull(utenteCrud.findByMail(utenteDTO.mail)) ||
-                !Objects.isNull(utenteCrud.findByUsername(utenteDTO.username)) ||
-                !Objects.isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza)))
-            throw new UtenteException("Duplicato!");
-        else if (!Checkers.siglaChecker(utenteDTO.siglaResidenza))
-            throw new UtenteException("Sigla inconsistente");
-        else if (!Checkers.birthDateChecker(utenteDTO.dataNascita))
-            throw new UtenteException("Data di nascita non valida");
-        else if ((utenteDTO.password).equals(utenteDTO.mail) || !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password)))
-            throw new UtenteException("Mail e/o password inconsistenti");
+        duplicateChecker(utenteDTO);
 
         u.setPassword((Utente.hashPassword(u.getPassword())));
         utenteCrud.save(u);
@@ -64,6 +56,8 @@ public class UtenteServiceImpl implements UtenteService {
 
     @Override
     public UtenteDTO updateUtente(Long id, UtenteDTO utenteDTO) {
+
+        duplicateChecker(utenteDTO);
 
         Utente u = utenteCrud.findById(id).orElseThrow(() -> new UtenteException("Utente not found"));
 
@@ -80,16 +74,31 @@ public class UtenteServiceImpl implements UtenteService {
         utenteDTO.dataNascita = Objects.isNull(utenteDTO.dataNascita) ? u.getDataNascita() : utenteDTO.dataNascita;
         utenteDTO.siglaResidenza = Objects.isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza;
 
+        Checkers.utenteFieldsChecker(utenteDTO);
+
         return Utente.to(utenteCrud.findById(utenteDTO.id).orElseThrow(() -> new UtenteException("Utente not found")));
+    }
+
+    private void duplicateChecker(UtenteDTO utenteDTO) {
+        if (!(Objects.isNull(utenteCrud.findByMail(utenteDTO.mail)) &&
+                Objects.isNull(utenteCrud.findByUsername(utenteDTO.username)) &&
+                Objects.isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza))))
+            throw new UtenteException("Duplicato!");
+        else if (!Checkers.siglaChecker(utenteDTO.siglaResidenza))
+            throw new UtenteException("Sigla inconsistente");
+        else if (!Checkers.birthDateChecker(utenteDTO.dataNascita))
+            throw new UtenteException("Data di nascita non valida");
+        else if ((utenteDTO.password).equals(utenteDTO.mail) || !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password)))
+            throw new UtenteException("Mail e/o password inconsistenti");
     }
 
     @Override
     public Boolean removeUtente(Long id) {
-        if (!utenteCrud.findById(id).isPresent())
+        if (!utenteCrud.existsById(id))
             throw new UtenteException("Cannot find Utente for provided id");
         utenteCrud.deleteById(id);
 
-        return !utenteCrud.findById(id).isPresent();
+        return !utenteCrud.existsById(id);
     }
 
     //richiesta di utenti
@@ -139,9 +148,9 @@ public class UtenteServiceImpl implements UtenteService {
 
     @Override
     public UtenteDTO getById(Long id) {
-        if (!utenteCrud.findById(id).isPresent())
+        if (!utenteCrud.existsById(id))
             throw new UtenteException("Not found");
-        return Utente.to(utenteCrud.findById(id).get());
+        return Utente.to(utenteCrud.findById(id).orElseThrow(() -> new UtenteException("Cannot find Utente")));
     }
 
     @Override
@@ -160,21 +169,30 @@ public class UtenteServiceImpl implements UtenteService {
 
     @Override
     public Feedback addFeedbackToUser(Long userId, FeedbackDTO feedbackDTO) {
+        if (!utenteCrud.existsById(userId))
+            throw new UtenteException("Not found");
         return feedbackHelper.addFeedbackToUser(userId, feedbackDTO);
     }
 
     @Override
     public Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO) {
+        if (!utenteCrud.existsById(userId))
+            throw new UtenteException("Not found");
         return propostaHelper.addPropostaToUser(userId, propostaDTO);
     }
 
     @Override
     public Prodotto addProdottoToUser(Long userId, ProdottoDTO prodottoDTO) {
+        if (!utenteCrud.existsById(userId))
+            throw new UtenteException("Not found");
         return prodottoHelper.addProdottoToUser(userId, prodottoDTO);
     }
 
     @Override
     public Pagamento addPagamentoToUser(Long userId, PagamentoDTO pagamentoDTO) {
+        if (!utenteCrud.existsById(userId))
+            throw new UtenteException("Not found");
+
         return pagamentoHelper.addPagamentoToUser(userId, pagamentoDTO);
     }
 

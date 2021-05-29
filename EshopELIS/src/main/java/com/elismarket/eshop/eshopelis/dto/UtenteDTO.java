@@ -17,8 +17,7 @@ public class UtenteDTO {
     public Long id;
     public String cognome;
     public LocalDate dataNascita;
-    public Boolean isAdmin;
-    public Boolean logged;
+    public Boolean isAdmin, logged;
     public String mail, nome, password;
     public Integer siglaResidenza;
     public String username;
