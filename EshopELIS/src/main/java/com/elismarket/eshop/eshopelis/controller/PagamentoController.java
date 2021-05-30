@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/rest/pagamento", produces = "application/json")
+@RequestMapping(path = "/api/pagamento", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class PagamentoController {
     @Autowired

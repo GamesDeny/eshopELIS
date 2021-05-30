@@ -22,7 +22,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "/rest/utente", produces = "application/json")
+@RequestMapping(path = "/api/utente", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class UtenteController {
     @Autowired

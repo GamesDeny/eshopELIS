@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/rest/proposta", produces = "application/json")
+@RequestMapping(path = "/api/proposta", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class PropostaController {
 

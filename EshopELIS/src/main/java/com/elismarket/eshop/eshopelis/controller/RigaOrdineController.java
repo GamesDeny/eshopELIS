@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/rest/rigaordine", produces = "application/json")
+@RequestMapping(path = "/api/rigaordine", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class RigaOrdineController {
     @Autowired
