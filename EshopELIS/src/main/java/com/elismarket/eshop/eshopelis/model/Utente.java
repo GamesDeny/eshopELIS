@@ -46,25 +46,25 @@ public class Utente {
     @Column(nullable = false)
     private Boolean logged, isAdmin;
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<Proposta> proposta;
 
-//    @OneToMany(mappedBy = "utente")
-//    @Getter(AccessLevel.NONE)
-//    @Setter(AccessLevel.NONE)
-//    @ToString.Exclude
-//    private List<Pagamento> pagamenti = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
+    private List<Pagamento> pagamenti = new ArrayList<>();
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<Prodotto> prodotti = new ArrayList<>();
 
-    @OneToMany(mappedBy = "utente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude

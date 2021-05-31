@@ -34,7 +34,7 @@ public class Ordine {
     @Column(nullable = true)
     private LocalDate dataEvasione;
 
-    @OneToMany(mappedBy = "ordine")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordine")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude

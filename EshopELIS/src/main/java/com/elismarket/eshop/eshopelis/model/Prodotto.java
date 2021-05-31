@@ -52,7 +52,7 @@ public class Prodotto {
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    @OneToMany(mappedBy = "prodotto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodotto")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude

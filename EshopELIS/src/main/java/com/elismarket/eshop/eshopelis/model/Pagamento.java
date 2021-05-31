@@ -44,7 +44,7 @@ public class Pagamento {
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    @OneToMany(mappedBy = "pagamento")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagamento")
     private List<Ordine> ordini = new ArrayList<>();
 
     public static Pagamento of(PagamentoDTO metodoPagamentoDTO) {
