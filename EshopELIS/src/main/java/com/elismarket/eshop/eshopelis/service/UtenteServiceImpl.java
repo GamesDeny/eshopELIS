@@ -49,20 +49,20 @@ public class UtenteServiceImpl implements UtenteService {
         duplicateChecker(utenteDTO);
 
         u.setPassword((Utente.hashPassword(u.getPassword())));
-        utenteCrud.save(u);
+        utenteCrud.saveAndFlush(u);
 
         return Utente.to(utenteCrud.findByMail(utenteDTO.mail));
     }
 
     @Override
-    public UtenteDTO updateUtente(Long id, UtenteDTO utenteDTO) {
+    public UtenteDTO updateUtente(Long utenteId, UtenteDTO utenteDTO) {
 
         duplicateChecker(utenteDTO);
 
-        Utente u = utenteCrud.findById(id).orElseThrow(() -> new UtenteException("Utente not found"));
+        Utente u = utenteCrud.findById(utenteId).orElseThrow(() -> new UtenteException("Utente not found"));
 
         //cambio DTO con le informazioni aggiornate
-        utenteDTO.id = id;
+        utenteDTO.id = utenteId;
         utenteDTO.username = Objects.isNull(utenteDTO.username) ? u.getUsername() : utenteDTO.username;
         //faccio hashing prima di aggiornare
         utenteDTO.password = Objects.isNull(utenteDTO.password) ? Utente.hashPassword(u.getPassword()) : Utente.hashPassword(utenteDTO.password);
@@ -75,6 +75,17 @@ public class UtenteServiceImpl implements UtenteService {
         utenteDTO.siglaResidenza = Objects.isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza;
 
         Checkers.utenteFieldsChecker(utenteDTO);
+
+        Utente save = Utente.of(utenteDTO);
+        if (!Objects.isNull(utenteDTO.proposte_id))
+            propostaHelper.linkUtenteToProposte(utenteId, utenteDTO.proposte_id);
+        if (!Objects.isNull(utenteDTO.pagamenti_id))
+            pagamentoHelper.linkUtenteToPagamenti(utenteId, utenteDTO.pagamenti_id);
+        if (!Objects.isNull(utenteDTO.prodotti_id))
+            prodottoHelper.linkUtenteToProdotti(utenteId, utenteDTO.prodotti_id);
+        if (!Objects.isNull(utenteDTO.feedbacks_id))
+            feedbackHelper.linkUtenteToFeedbacks(utenteId, utenteDTO.feedbacks_id);
+        utenteCrud.saveAndFlush(save);
 
         return Utente.to(utenteCrud.findById(utenteDTO.id).orElseThrow(() -> new UtenteException("Utente not found")));
     }
@@ -190,11 +201,10 @@ public class UtenteServiceImpl implements UtenteService {
 
     @Override
     public Pagamento addPagamentoToUser(Long userId, PagamentoDTO pagamentoDTO) {
-        if (!utenteCrud.existsById(userId))
-            throw new UtenteException("Not found");
+        if (utenteCrud.existsById(userId))
+            return pagamentoHelper.addPagamentoToUser(userId, pagamentoDTO);
 
-        return pagamentoHelper.addPagamentoToUser(userId, pagamentoDTO);
+        throw new UtenteException("Not found");
     }
-
 
 }

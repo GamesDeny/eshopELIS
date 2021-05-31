@@ -26,7 +26,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {
         Checkers.feedbackFieldsChecker(feedbackDTO);
 
-        feedbackCrud.save(Feedback.of(feedbackDTO));
+        feedbackCrud.saveAndFlush(Feedback.of(feedbackDTO));
         return Feedback.to(feedbackCrud.findById(feedbackDTO.id).orElseThrow(() -> new FeedbackException("Cannot find Feedback")));
     }
 
@@ -44,6 +44,10 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackDTO.subscriptionDate = Objects.isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate;
 
         Checkers.feedbackFieldsChecker(feedbackDTO);
+
+        Feedback save = Feedback.of(feedbackDTO);
+        save.setUtente(Objects.isNull(feedbackDTO.utente_id) ? f.getUtente() : utenteHelper.findById(feedbackDTO.utente_id));
+        feedbackCrud.saveAndFlush(save);
 
         return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException("Cannot find Feedback")));
     }

@@ -36,7 +36,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Override
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
-        rigaOrdineCrud.save(RigaOrdine.of(rigaOrdineDTO));
+        rigaOrdineCrud.saveAndFlush(RigaOrdine.of(rigaOrdineDTO));
         return RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine for given element")));
     }
 
@@ -53,6 +53,11 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         rigaOrdineDTO.scontoApplicato = Objects.isNull(rigaOrdineDTO.scontoApplicato) ? r.getScontoApplicato() : rigaOrdineDTO.scontoApplicato;
 
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
+
+        RigaOrdine save = RigaOrdine.of(rigaOrdineDTO);
+        save.setOrdine(Objects.isNull(rigaOrdineDTO.ordine_id) ? r.getOrdine() : ordineHelper.findById(rigaOrdineDTO.ordine_id));
+        save.setProdotto(Objects.isNull(rigaOrdineDTO.prodotto_id) ? r.getProdotto() : prodottoHelper.findById(rigaOrdineDTO.prodotto_id));
+        rigaOrdineCrud.saveAndFlush(save);
 
         return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine")));
     }

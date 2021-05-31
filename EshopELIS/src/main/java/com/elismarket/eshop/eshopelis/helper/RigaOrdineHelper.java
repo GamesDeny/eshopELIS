@@ -1,41 +1,58 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
-import com.elismarket.eshop.eshopelis.exception.OrdineException;
-import com.elismarket.eshop.eshopelis.exception.ProdottoException;
+import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
 import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
-import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
-import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
 import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class RigaOrdineHelper {
     @Autowired
-    private OrdineCrud ordineCrud;
+    private OrdineHelper ordineHelper;
 
     @Autowired
-    private ProdottoCrud prodottoCrud;
+    private ProdottoHelper prodottoHelper;
 
     @Autowired
     private RigaOrdineCrud rigaOrdineCrud;
 
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
         RigaOrdine r = RigaOrdine.of(rigaOrdineDTO);
-        Ordine o = ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException("Ordine not found"));
+        Ordine o = ordineHelper.findById(ordineId);
 
         r.setOrdine(o);
-        return r;
+        return rigaOrdineCrud.saveAndFlush(r);
     }
 
     public RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO) {
         RigaOrdine r = RigaOrdine.of(rigaOrdineDTO);
-        Prodotto p = prodottoCrud.findById(prodId).orElseThrow(() -> new ProdottoException("Prodotto not found"));
+        Prodotto p = prodottoHelper.findById(prodId);
 
         r.setProdotto(p);
-        return r;
+        return rigaOrdineCrud.saveAndFlush(r);
+    }
+
+    public void linkRigheToOrdine(Long ordineId, List<Long> righeOrdine_id) {
+        List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
+        if (result.isEmpty())
+            throw new RigaOrdineException("List is empty");
+
+        result.forEach(rigaOrdine -> rigaOrdine.setOrdine(ordineHelper.getOrdine(ordineId)));
+        rigaOrdineCrud.saveAll(result);
+    }
+
+    public void linkRigheToProdotto(Long prodottoId, List<Long> righeOrdine_id) {
+        List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
+        if (result.isEmpty())
+            throw new RigaOrdineException("List is empty");
+
+        result.forEach(riga -> riga.setProdotto(prodottoHelper.findById(prodottoId)));
+        rigaOrdineCrud.saveAll(result);
     }
 }

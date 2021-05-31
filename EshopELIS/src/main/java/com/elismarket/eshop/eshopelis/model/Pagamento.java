@@ -41,9 +41,10 @@ public class Pagamento {
     private Integer contanti;
 
     @ManyToOne
+    @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    @OneToMany
+    @OneToMany(mappedBy = "pagamento")
     private List<Ordine> ordini = new ArrayList<>();
 
     public static Pagamento of(PagamentoDTO metodoPagamentoDTO) {

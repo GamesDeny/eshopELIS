@@ -37,22 +37,28 @@ public class OrdineServiceImpl implements OrdineService {
 
     @Override
     public OrdineDTO saveOrdine(OrdineDTO ordineDTO) {
-        ordineCrud.save(Ordine.of(ordineDTO));
+        ordineCrud.saveAndFlush(Ordine.of(ordineDTO));
         return Ordine.to(ordineCrud.findById(ordineDTO.id).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
     }
 
     @Override
-    public OrdineDTO updateOrdine(Long id, OrdineDTO ordineDTO) {
-        if (!ordineCrud.existsById(id))
+    public OrdineDTO updateOrdine(Long ordineId, OrdineDTO ordineDTO) {
+        if (!ordineCrud.existsById(ordineId))
             throw new OrdineException("Not found");
 
-        Ordine o = ordineCrud.findById(id).orElseThrow(() -> new OrdineException("Cannot find Ordine"));
+        Ordine o = ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException("Cannot find Ordine"));
 
-        ordineDTO.id = id;
+        ordineDTO.id = ordineId;
         ordineDTO.evaso = Objects.isNull(ordineDTO.evaso) ? o.getEvaso() : ordineDTO.evaso;
         ordineDTO.dataEvasione = Objects.isNull(ordineDTO.dataEvasione) ? o.getDataEvasione() : ordineDTO.dataEvasione;
 
-        return Ordine.to(ordineCrud.findById(id).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
+        Ordine save = Ordine.of(ordineDTO);
+        save.setPagamento(Objects.isNull(ordineDTO.pagamento_id) ? o.getPagamento() : pagamentoHelper.findById(ordineDTO.pagamento_id));
+        if (!Objects.isNull(ordineDTO.righeOrdine_id))
+            rigaOrdineHelper.linkRigheToOrdine(ordineId, ordineDTO.righeOrdine_id);
+        ordineCrud.saveAndFlush(save);
+
+        return Ordine.to(ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
     }
 
     @Override

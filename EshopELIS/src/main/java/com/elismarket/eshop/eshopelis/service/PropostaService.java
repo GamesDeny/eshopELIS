@@ -5,7 +5,7 @@ import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 import java.util.List;
 
 public interface PropostaService {
-    PropostaDTO addProposta(PropostaDTO propostaDTO);
+    PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO);
 
     PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO);
 

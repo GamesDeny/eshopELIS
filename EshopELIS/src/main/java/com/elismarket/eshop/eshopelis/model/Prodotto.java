@@ -48,7 +48,8 @@ public class Prodotto {
     //url of the product image
     private String image;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "utente_id")
     private Utente utente;
 
     @OneToMany(mappedBy = "prodotto")

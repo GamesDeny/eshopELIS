@@ -39,7 +39,8 @@ public class Proposta {
     @Column(nullable = false)
     private LocalDate submissionDate;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "utente_id")
     private Utente utente;
 
     public static Proposta of(PropostaDTO propostaDTO) {

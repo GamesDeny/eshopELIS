@@ -23,12 +23,18 @@ public class PropostaServiceImpl implements PropostaService {
     private PropostaCrud propostaCrud;
 
     @Override
-    public PropostaDTO addProposta(PropostaDTO propostaDTO) {
+    public PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO) {
         Checkers.propostaFieldsChecker(propostaDTO);
-        propostaCrud.save(Proposta.of(propostaDTO));
+        propostaDTO.utente_id = userId;
+        propostaCrud.saveAndFlush(Proposta.of(propostaDTO));
         return Proposta.to(propostaCrud.findById(propostaDTO.id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
     }
 
+    /**
+     * @param id          of the user
+     * @param propostaDTO DTO of the Proposta to add
+     * @return proposta added and linked with user
+     */
     @Override
     public PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO) {
         if (!propostaCrud.existsById(id))
@@ -46,6 +52,10 @@ public class PropostaServiceImpl implements PropostaService {
         propostaDTO.submissionDate = Objects.isNull(propostaDTO.submissionDate) ? p.getSubmissionDate() : propostaDTO.submissionDate;
 
         Checkers.propostaFieldsChecker(propostaDTO);
+
+        Proposta save = Proposta.of(propostaDTO);
+        save.setUtente(Objects.isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
+        propostaCrud.saveAndFlush(save);
 
         return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
     }

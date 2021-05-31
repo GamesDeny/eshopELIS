@@ -40,9 +40,11 @@ public class RigaOrdine {
     private Integer quantitaProdotto;
 
     @ManyToOne
+    @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 
     @ManyToOne
+    @JoinColumn(name = "prodotto_id")
     private Prodotto prodotto;
 
     public static RigaOrdine of(RigaOrdineDTO rigaOrdineDTO) {

@@ -41,6 +41,7 @@ public class Ordine {
     private List<RigaOrdine> righeOrdine;
 
     @ManyToOne
+    @JoinColumn(name = "pagamento_id")
     private Pagamento pagamento;
 
     public Ordine(Boolean evaso, LocalDate dataEvasione) {

@@ -44,7 +44,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException("Paypal mail not valid");
 
-        pagamentoCrud.save(Pagamento.of(pagamentoDTO));
+        pagamentoCrud.saveAndFlush(Pagamento.of(pagamentoDTO));
 
         if (!pagamentoCrud.existsByDescrizione(pagamentoDTO.descrizione))
             throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
@@ -53,13 +53,13 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     @Override
-    public PagamentoDTO updatePagamento(Long id, PagamentoDTO pagamentoDTO) {
+    public PagamentoDTO updatePagamento(Long pagamentoID, PagamentoDTO pagamentoDTO) {
         if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException("Paypal mail not valid");
 
-        Pagamento p = pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException("Not found"));
+        Pagamento p = pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException("Not found"));
 
-        pagamentoDTO.id = id;
+        pagamentoDTO.id = pagamentoID;
         pagamentoDTO.descrizione = Objects.isNull(pagamentoDTO.descrizione) ? p.getDescrizione() : pagamentoDTO.descrizione;
         pagamentoDTO.contanti = Objects.isNull(pagamentoDTO.contanti) ? p.getContanti() : pagamentoDTO.contanti;
         pagamentoDTO.paypalMail = Objects.isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail;
@@ -67,7 +67,13 @@ public class PagamentoServiceImpl implements PagamentoService {
 
         Checkers.pagamentoFieldsChecker(pagamentoDTO);
 
-        return Pagamento.to(pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException("Not found")));
+        Pagamento save = Pagamento.of(pagamentoDTO);
+        save.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
+        if (!Objects.isNull(pagamentoDTO.ordini_id))
+            ordineHelper.linkPagamentoToOrdine(pagamentoID, pagamentoDTO.ordini_id);
+        pagamentoCrud.saveAndFlush(save);
+
+        return Pagamento.to(pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException("Not found")));
     }
 
     @Override

@@ -37,18 +37,18 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Override
     public ProdottoDTO addProdotto(ProdottoDTO prodottoDTO) {
         Checkers.prodottoFieldsChecker(prodottoDTO);
-        prodottoCrud.save(Prodotto.of(prodottoDTO));
+        prodottoCrud.saveAndFlush(Prodotto.of(prodottoDTO));
         return Prodotto.to(prodottoCrud.findById(prodottoDTO.id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
     }
 
     @Override
-    public ProdottoDTO updateProdotto(Long id, ProdottoDTO prodottoDTO) {
-        if (!prodottoCrud.existsById(id))
+    public ProdottoDTO updateProdotto(Long prodottoId, ProdottoDTO prodottoDTO) {
+        if (!prodottoCrud.existsById(prodottoId))
             throw new ProdottoException("Not Found");
 
-        Prodotto p = prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto"));
+        Prodotto p = prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException("Cannot find Prodotto"));
 
-        prodottoDTO.id = id;
+        prodottoDTO.id = prodottoId;
         prodottoDTO.descrizione = Objects.isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione;
         prodottoDTO.nome = Objects.isNull(prodottoDTO.nome) ? p.getNome() : prodottoDTO.nome;
         prodottoDTO.quantita = Objects.isNull(prodottoDTO.quantita) ? p.getQuantita() : prodottoDTO.quantita;
@@ -61,7 +61,13 @@ public class ProdottoServiceImpl implements ProdottoService {
 
         Checkers.prodottoFieldsChecker(prodottoDTO);
 
-        return Prodotto.to(prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
+        Prodotto save = Prodotto.of(prodottoDTO);
+        save.setUtente(Objects.isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
+        if (!Objects.isNull(prodottoDTO.righeOrdine_id))
+            rigaOrdineHelper.linkRigheToProdotto(prodottoId, prodottoDTO.righeOrdine_id);
+        prodottoCrud.saveAndFlush(save);
+
+        return Prodotto.to(prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
 
     }
 

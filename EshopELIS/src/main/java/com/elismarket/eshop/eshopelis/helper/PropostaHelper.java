@@ -1,13 +1,14 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
-import com.elismarket.eshop.eshopelis.exception.UtenteException;
+import com.elismarket.eshop.eshopelis.exception.PropostaException;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
-import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class PropostaHelper {
@@ -15,14 +16,22 @@ public class PropostaHelper {
     private PropostaCrud propostaCrud;
 
     @Autowired
-    private UtenteCrud utenteCrud;
+    private UtenteHelper utenteHelper;
 
     public Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO) {
-        Utente u = utenteCrud.findById(userId).orElseThrow(() -> new UtenteException("Cannot find user"));
-
+        Utente u = utenteHelper.findById(userId);
         Proposta p = Proposta.of(propostaDTO);
         p.setUtente(u);
 
-        return p;
+        return propostaCrud.saveAndFlush(p);
+    }
+
+    public void linkUtenteToProposte(Long utenteId, List<Long> proposte_id) {
+        List<Proposta> result = propostaCrud.findAllById(proposte_id);
+        if (result.isEmpty())
+            throw new PropostaException("List is empty");
+
+        result.forEach(proposta -> proposta.setUtente(utenteHelper.findById(utenteId)));
+        propostaCrud.saveAll(result);
     }
 }

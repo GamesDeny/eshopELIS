@@ -30,7 +30,8 @@ public class Feedback {
     @Column(nullable = true)
     private LocalDate subscriptionDate;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "utente_id")
     private Utente utente;
 
     public static Feedback of(FeedbackDTO feedbackDTO) {

@@ -16,9 +16,9 @@ public class PropostaController {
     @Autowired
     private PropostaServiceImpl propostaService;
 
-    @PostMapping("/add")
-    public PropostaDTO addProposta(@RequestBody PropostaDTO propostaDTO) {
-        return propostaService.addProposta(propostaDTO);
+    @PostMapping("/add/{userId}")
+    public PropostaDTO addProposta(@PathVariable Long userId, @RequestBody PropostaDTO propostaDTO) {
+        return propostaService.addProposta(userId, propostaDTO);
     }
 
     @PatchMapping("/update/{id}")
