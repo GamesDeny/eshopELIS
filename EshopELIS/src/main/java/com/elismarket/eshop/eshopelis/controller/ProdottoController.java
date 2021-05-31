@@ -27,7 +27,6 @@ public class ProdottoController {
 
     @PostMapping("/add")
     public ProdottoDTO addProdotto(@RequestBody ProdottoDTO prodottoDTO) {
-
         return prodottoService.addProdotto(prodottoDTO);
     }
 
@@ -56,14 +55,9 @@ public class ProdottoController {
         return prodottoService.findByQuantitaMinore(quantita);
     }
 
-    @GetMapping("/all/categoria/{name}")
-    public List<ProdottoDTO> getByNomeCategoria(@PathVariable String categoria) {
-        return prodottoService.getProdottoByCategoria(categoria);
-    }
-
-    @GetMapping("/categoria/all")
-    public List<String> getAllCategoria() {
-        return prodottoService.getAllCategoria();
+    @GetMapping("/all/categoria/{categoriaId}")
+    public List<ProdottoDTO> getByNomeCategoria(@PathVariable Long categoriaId) {
+        return prodottoService.getProdottoByCategoria(categoriaId);
     }
 
     @PostMapping("/add/rigaOrdine/{prodId}")

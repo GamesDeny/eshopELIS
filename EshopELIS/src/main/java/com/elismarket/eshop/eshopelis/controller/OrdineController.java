@@ -19,8 +19,8 @@ public class OrdineController {
     OrdineService ordineService;
 
     @PostMapping("/add")
-    public OrdineDTO addOrdine(@RequestBody OrdineDTO ordineDTO) {
-        return ordineService.saveOrdine(ordineDTO);
+    public OrdineDTO addOrdine(@RequestBody List<RigaOrdineDTO> righe) {
+        return ordineService.saveOrdine(righe);
     }
 
     @PatchMapping("/update/{id}")
@@ -38,8 +38,8 @@ public class OrdineController {
         return ordineService.getAll();
     }
 
-    @GetMapping("/evaso")
-    public List<OrdineDTO> getEvaso(Boolean evaso) {
+    @GetMapping("/evaso/{evaso}")
+    public List<OrdineDTO> getEvaso(@PathVariable Boolean evaso) {
         return ordineService.getEvaso(evaso);
     }
 

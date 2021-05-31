@@ -1,8 +1,10 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
+import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
+import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
@@ -51,7 +53,24 @@ public class ProdottoHelper {
         if (result.isEmpty())
             throw new CategoriaException("List is empty");
 
-        result.forEach(prodotto -> prodotto.setCategoria(categoriaHelper.findById(categoriaId)));
+        result.forEach(prodotto -> prodotto.setCategoria(Categoria.of(categoriaHelper.findById(categoriaId))));
         prodottoCrud.saveAll(result);
+    }
+
+    public void addProdotto(PropostaDTO propostaDTO) {
+        Prodotto p = new Prodotto();
+
+        p.setDescrizione(propostaDTO.descrizione);
+        p.setMaxOrd(propostaDTO.quantita);
+        p.setMinOrd(1);
+        p.setNome(propostaDTO.nome);
+        p.setPrezzo(propostaDTO.prezzoProposto);
+        p.setQuantita(propostaDTO.quantita);
+        p.setSconto(0);
+        p.setImage(propostaDTO.image);
+        p.setUtente(utenteHelper.findById(propostaDTO.utente_id));
+        p.setCategoria(Categoria.of(categoriaHelper.findById(propostaDTO.categoria_id)));
+
+        prodottoCrud.saveAndFlush(p);
     }
 }

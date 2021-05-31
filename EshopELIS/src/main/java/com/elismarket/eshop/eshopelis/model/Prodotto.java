@@ -30,7 +30,7 @@ public class Prodotto {
     private Long id;
 
     @Column(nullable = false)
-    private String nome, descrizione, nomeCategoria;
+    private String nome, descrizione;
 
     @Column(nullable = false)
     private Float prezzo;
@@ -67,7 +67,6 @@ public class Prodotto {
                 .id(prodottoDTO.id)
                 .nome(prodottoDTO.nome)
                 .descrizione(prodottoDTO.descrizione)
-                .nomeCategoria(prodottoDTO.nomeCategoria)
                 .prezzo(prodottoDTO.prezzo)
                 .minOrd(prodottoDTO.minOrd)
                 .maxOrd(prodottoDTO.maxOrd)
@@ -83,7 +82,6 @@ public class Prodotto {
         p.id = prodotto.getId();
         p.nome = prodotto.getNome();
         p.descrizione = prodotto.getDescrizione();
-        p.nomeCategoria = prodotto.getNomeCategoria();
         p.prezzo = prodotto.getPrezzo();
         p.minOrd = prodotto.getMinOrd();
         p.maxOrd = prodotto.getMaxOrd();

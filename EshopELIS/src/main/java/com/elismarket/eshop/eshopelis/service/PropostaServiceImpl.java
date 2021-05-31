@@ -2,6 +2,7 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 import com.elismarket.eshop.eshopelis.exception.PropostaException;
+import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
@@ -17,10 +18,14 @@ import java.util.Objects;
 public class PropostaServiceImpl implements PropostaService {
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    PropostaCrud propostaCrud;
 
     @Autowired
-    private PropostaCrud propostaCrud;
+    UtenteHelper utenteHelper;
+
+    @Autowired
+    ProdottoHelper prodottoHelper;
+
 
     @Override
     public PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO) {
@@ -56,6 +61,9 @@ public class PropostaServiceImpl implements PropostaService {
         Proposta save = Proposta.of(propostaDTO);
         save.setUtente(Objects.isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
         propostaCrud.saveAndFlush(save);
+
+        if (propostaDTO.isAccettato)
+            prodottoHelper.addProdotto(propostaDTO);
 
         return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
     }

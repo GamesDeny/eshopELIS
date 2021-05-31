@@ -41,7 +41,7 @@ public class Ordine {
     private List<RigaOrdine> righeOrdine;
 
     @ManyToOne
-    @JoinColumn(name = "ordini")
+    @JoinColumn(name = "user_id")
     private Utente utente;
 
     @OneToOne(cascade = CascadeType.ALL)

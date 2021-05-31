@@ -9,6 +9,7 @@ import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -53,6 +54,16 @@ public class RigaOrdineHelper {
             throw new RigaOrdineException("List is empty");
 
         result.forEach(riga -> riga.setProdotto(prodottoHelper.findById(prodottoId)));
+        rigaOrdineCrud.saveAll(result);
+    }
+
+    public void saveAll(List<RigaOrdineDTO> righe) {
+        if (righe.isEmpty())
+            throw new RigaOrdineException("List is empty");
+
+        List<RigaOrdine> result = new ArrayList<>();
+        righe.forEach(riga -> result.add(RigaOrdine.of(riga)));
+
         rigaOrdineCrud.saveAll(result);
     }
 }

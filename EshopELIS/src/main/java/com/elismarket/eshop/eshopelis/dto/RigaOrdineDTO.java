@@ -14,6 +14,6 @@ public class RigaOrdineDTO {
     public Long id;
     public Float prezzoTotale, scontoApplicato;
     public Integer quantitaProdotto;
-    public Long ordine_id;
-    public Long prodotto_id;
+
+    public Long ordine_id, prodotto_id;
 }

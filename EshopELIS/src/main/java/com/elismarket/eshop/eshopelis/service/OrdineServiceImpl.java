@@ -27,18 +27,28 @@ import java.util.Objects;
 public class OrdineServiceImpl implements OrdineService {
 
     @Autowired
-    private PagamentoHelper pagamentoHelper;
+    OrdineCrud ordineCrud;
 
     @Autowired
-    private RigaOrdineHelper rigaOrdineHelper;
+    PagamentoHelper pagamentoHelper;
 
     @Autowired
-    private OrdineCrud ordineCrud;
+    RigaOrdineHelper rigaOrdineHelper;
+
 
     @Override
-    public OrdineDTO saveOrdine(OrdineDTO ordineDTO) {
-        ordineCrud.saveAndFlush(Ordine.of(ordineDTO));
-        return Ordine.to(ordineCrud.findById(ordineDTO.id).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
+    public OrdineDTO saveOrdine(List<RigaOrdineDTO> righe) {
+        Ordine o = ordineCrud.saveAndFlush(new Ordine());
+
+        righe.forEach(riga -> riga.ordine_id = o.getId());
+        rigaOrdineHelper.saveAll(righe);
+
+        return Ordine.to(ordineCrud.findById(o.getId()).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
+    }
+
+    @Override
+    public OrdineDTO saveOrdineCustom(Long userId, List<RigaOrdineDTO> righe) {
+        return null;
     }
 
     @Override

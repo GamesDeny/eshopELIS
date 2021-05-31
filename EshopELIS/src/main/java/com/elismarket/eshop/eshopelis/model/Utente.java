@@ -98,8 +98,8 @@ public class Utente {
                 .cognome(utenteDTO.cognome)
                 .siglaResidenza(utenteDTO.siglaResidenza)
                 .dataNascita(utenteDTO.dataNascita)
-                .logged(false)
-                .isAdmin(false)
+                .logged(utenteDTO.logged)
+                .isAdmin(utenteDTO.isAdmin)
                 .build();
     }
 

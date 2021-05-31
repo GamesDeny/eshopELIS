@@ -29,13 +29,13 @@ import java.util.Objects;
 public class PagamentoServiceImpl implements PagamentoService {
 
     @Autowired
+    PagamentoCrud pagamentoCrud;
+
+    @Autowired
     UtenteHelper utenteHelper;
 
     @Autowired
     OrdineHelper ordineHelper;
-
-    @Autowired
-    PagamentoCrud pagamentoCrud;
 
     @Autowired
     TipoMetodoHelper tipoMetodoHelper;
@@ -48,12 +48,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException("Paypal mail not valid");
 
-        pagamentoCrud.saveAndFlush(Pagamento.of(pagamentoDTO));
-
-        if (!pagamentoCrud.existsByDescrizione(pagamentoDTO.descrizione))
-            throw new PagamentoException("Aggiornamento non riuscito, ricontrolla i dati inviati!");
-
-        return Pagamento.to(pagamentoCrud.findById(pagamentoDTO.id).orElseThrow(() -> new PagamentoException("Not found")));
+        return Pagamento.to(pagamentoCrud.saveAndFlush(Pagamento.of(pagamentoDTO)));
     }
 
     @Override
@@ -82,39 +77,40 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     @Override
     public Boolean removePagamento(Long id) {
+        if (!pagamentoCrud.existsById(id))
+            throw new PagamentoException("Pagamento not found");
 
         pagamentoCrud.deleteById(id);
-
-        if (pagamentoCrud.existsById(id))
-            throw new PagamentoException("Cannot find Pagamento for provided item");
-
-        return pagamentoCrud.existsById(id);
+        return !pagamentoCrud.existsById(id);
     }
 
     @Override
     public List<PagamentoDTO> getAll() {
+        if (pagamentoCrud.findAll().isEmpty())
+            throw new PagamentoException("List is empty");
+
         List<PagamentoDTO> result = new ArrayList<>();
-
         pagamentoCrud.findAll().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
-
         return result;
     }
 
     @Override
     public List<PagamentoDTO> getByContanti() {
+        if (pagamentoCrud.findAllByContantiNotNull().isEmpty())
+            throw new PagamentoException("List is empty");
+
         List<PagamentoDTO> result = new ArrayList<>();
-
         pagamentoCrud.findAllByContantiNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
-
         return result;
     }
 
     @Override
     public List<PagamentoDTO> getByPaypalMail() {
+        if (pagamentoCrud.findAllByPaypalMailNotNull().isEmpty())
+            throw new PagamentoException("List is empty");
+
         List<PagamentoDTO> result = new ArrayList<>();
-
         pagamentoCrud.findAllByPaypalMailNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
-
         return result;
     }
 
@@ -122,6 +118,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     public PagamentoDTO getById(Long id) {
         if (!pagamentoCrud.existsById(id))
             throw new PagamentoException("Not found");
+
         return Pagamento.to(pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException("Not found")));
     }
 

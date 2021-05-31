@@ -26,19 +26,19 @@ import java.util.Objects;
 public class UtenteServiceImpl implements UtenteService {
 
     @Autowired
-    private FeedbackHelper feedbackHelper;
+    UtenteCrud utenteCrud;
 
     @Autowired
-    private PropostaHelper propostaHelper;
+    FeedbackHelper feedbackHelper;
 
     @Autowired
-    private PagamentoHelper pagamentoHelper;
+    PropostaHelper propostaHelper;
 
     @Autowired
-    private ProdottoHelper prodottoHelper;
+    PagamentoHelper pagamentoHelper;
 
     @Autowired
-    private UtenteCrud utenteCrud;
+    ProdottoHelper prodottoHelper;
 
     //operazioni di inserimento utente nel DB
     @Override

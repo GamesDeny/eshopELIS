@@ -1,10 +1,13 @@
 package com.elismarket.eshop.eshopelis.service;
 
+import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
+import com.elismarket.eshop.eshopelis.helper.CategoriaHelper;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
+import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
@@ -26,13 +29,17 @@ import java.util.Objects;
 public class ProdottoServiceImpl implements ProdottoService {
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    ProdottoCrud prodottoCrud;
 
     @Autowired
-    private RigaOrdineHelper rigaOrdineHelper;
+    UtenteHelper utenteHelper;
 
     @Autowired
-    private ProdottoCrud prodottoCrud;
+    RigaOrdineHelper rigaOrdineHelper;
+
+    @Autowired
+    CategoriaHelper categoriaHelper;
+
 
     @Override
     public ProdottoDTO addProdotto(ProdottoDTO prodottoDTO) {
@@ -55,7 +62,6 @@ public class ProdottoServiceImpl implements ProdottoService {
         prodottoDTO.image = Objects.isNull(prodottoDTO.image) ? p.getImage() : prodottoDTO.image;
         prodottoDTO.maxOrd = Objects.isNull(prodottoDTO.maxOrd) ? p.getMaxOrd() : prodottoDTO.maxOrd;
         prodottoDTO.minOrd = Objects.isNull(prodottoDTO.minOrd) ? p.getMinOrd() : prodottoDTO.minOrd;
-        prodottoDTO.nomeCategoria = Objects.isNull(prodottoDTO.nomeCategoria) ? p.getNomeCategoria() : prodottoDTO.nomeCategoria;
         prodottoDTO.prezzo = Objects.isNull(prodottoDTO.prezzo) ? p.getPrezzo() : prodottoDTO.prezzo;
         prodottoDTO.sconto = Objects.isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto;
 
@@ -91,12 +97,12 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     @Override
-    public List<ProdottoDTO> findAllByCategoria(String categoria) {
-        if (prodottoCrud.findAllByNomeCategoriaLike(categoria).isEmpty())
+    public List<ProdottoDTO> findAllByCategoria(CategoriaDTO categoriaDTO) {
+        if (prodottoCrud.findAllByCategoria(Categoria.of(categoriaDTO)).isEmpty())
             throw new ProdottoException("List is empty");
 
         List<ProdottoDTO> result = new ArrayList<>();
-        prodottoCrud.findAllByNomeCategoriaLike(categoria).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+        prodottoCrud.findAllByCategoria(Categoria.of(categoriaDTO)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
         return result;
     }
 
@@ -121,24 +127,6 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     @Override
-    public List<ProdottoDTO> getProdottoByCategoria(String categoria) {
-        if (prodottoCrud.findAllByNomeCategoriaLike(categoria).isEmpty())
-            throw new ProdottoException("List is empty");
-
-        List<ProdottoDTO> result = new ArrayList<>();
-        prodottoCrud.findAllByNomeCategoriaLike(categoria).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
-        return result;
-    }
-
-    @Override
-    public List<String> getAllCategoria() {
-        if (prodottoCrud.findAllCategoria().isEmpty())
-            throw new ProdottoException("There are no categories");
-
-        return prodottoCrud.findAllCategoria();
-    }
-
-    @Override
     public ProdottoDTO getById(Long id) {
         if (!prodottoCrud.existsById(id))
             throw new ProdottoException("Not found");
@@ -152,5 +140,17 @@ public class ProdottoServiceImpl implements ProdottoService {
             throw new ProdottoException("Cannot find Prodotto");
 
         return rigaOrdineHelper.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);
+    }
+
+    @Override
+    public List<ProdottoDTO> getProdottoByCategoria(Long categoriaId) {
+        if (Objects.isNull(categoriaId))
+            throw new ProdottoException("Missing parameter");
+        if (prodottoCrud.findAllByCategoria(Categoria.of(categoriaHelper.findById(categoriaId))).isEmpty())
+            throw new ProdottoException("Missing categories");
+
+        List<ProdottoDTO> result = new ArrayList<>();
+        prodottoCrud.findAllByCategoria(Categoria.of(categoriaHelper.findById(categoriaId))).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+        return result;
     }
 }

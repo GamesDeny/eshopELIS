@@ -1,8 +1,8 @@
 package com.elismarket.eshop.eshopelis.repository;
 
+import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -15,16 +15,10 @@ import java.util.List;
 
 public interface ProdottoCrud extends JpaRepository<Prodotto, Long> {
 
-    @Query(value = "SELECT DISTINCT p.nomeCategoria FROM Prodotto p")
-    List<String> findAllCategoria();
-
-    List<Prodotto> findAllByNomeLike(String nome);
-
-    List<Prodotto> findAllByNomeCategoriaLike(String categoria);
+    List<Prodotto> findAllByCategoria(Categoria categoria);
 
     List<Prodotto> findAllByQuantitaGreaterThanEqual(Integer quantita);
 
     List<Prodotto> findAllByQuantitaLessThanEqual(Integer quantita);
 
-    Prodotto findAllById(Long id);
 }

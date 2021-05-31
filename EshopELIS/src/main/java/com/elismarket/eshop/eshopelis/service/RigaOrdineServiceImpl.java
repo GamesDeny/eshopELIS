@@ -25,13 +25,14 @@ import java.util.Objects;
 public class RigaOrdineServiceImpl implements RigaOrdineService {
 
     @Autowired
-    private OrdineHelper ordineHelper;
+    RigaOrdineCrud rigaOrdineCrud;
 
     @Autowired
-    private ProdottoHelper prodottoHelper;
+    OrdineHelper ordineHelper;
 
     @Autowired
-    private RigaOrdineCrud rigaOrdineCrud;
+    ProdottoHelper prodottoHelper;
+
 
     @Override
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {

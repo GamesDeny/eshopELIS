@@ -26,4 +26,5 @@ public class UtenteDTO {
     public List<Long> pagamenti_id;
     public List<Long> prodotti_id;
     public List<Long> feedbacks_id;
+    public List<Long> ordini_id;
 }

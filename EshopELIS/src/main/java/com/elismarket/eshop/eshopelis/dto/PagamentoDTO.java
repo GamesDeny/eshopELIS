@@ -16,7 +16,7 @@ public class PagamentoDTO {
     public Long id;
     public String descrizione, paypalMail;
     public Float contanti;
+    public Boolean isDefault;
     public Long utente_id, tipoMetodo_id;
     public List<Long> ordini_id;
-    public Boolean isDefault;
 }

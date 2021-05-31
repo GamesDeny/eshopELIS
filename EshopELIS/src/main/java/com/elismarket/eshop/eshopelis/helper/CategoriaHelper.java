@@ -1,5 +1,6 @@
 package com.elismarket.eshop.eshopelis.helper;
 
+import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
@@ -13,10 +14,10 @@ public class CategoriaHelper {
     @Autowired
     CategoriaCrud categoriaCrud;
 
-    public Categoria findById(Long categoriaId) {
+    public CategoriaDTO findById(Long categoriaId) {
         if (Objects.isNull(categoriaId))
             throw new CategoriaException("Missing parameter");
 
-        return categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException("Cannot find Categoria"));
+        return Categoria.to(categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException("Cannot find Categoria")));
     }
 }

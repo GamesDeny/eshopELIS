@@ -17,10 +17,11 @@ import java.util.Objects;
 public class FeedbackServiceImpl implements FeedbackService {
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    FeedbackCrud feedbackCrud;
 
     @Autowired
-    private FeedbackCrud feedbackCrud;
+    UtenteHelper utenteHelper;
+
 
     @Override
     public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {

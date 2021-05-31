@@ -40,6 +40,10 @@ public class Proposta {
     private LocalDate submissionDate;
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
