@@ -14,8 +14,9 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PagamentoDTO {
     public Long id;
-    public String tipo, descrizione, paypalMail;
-    public Integer contanti;
-    public Long utente_id;
+    public String descrizione, paypalMail;
+    public Float contanti;
+    public Long utente_id, tipoMetodo_id;
     public List<Long> ordini_id;
+    public Boolean isDefault;
 }

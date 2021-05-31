@@ -21,7 +21,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tipo_metodo_pagamento")
+@Table(name = "metodo_pagamento")
 public class TipoMetodo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,6 +4,7 @@ import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -35,7 +36,7 @@ public class Categoria {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
-    private List<Prodotto> prodotto;
+    private List<Prodotto> prodotto = new ArrayList<>();
 
     public static Categoria of(CategoriaDTO categoriaDTO) {
         return Categoria.builder()

@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "metodo_pagamento")
+@Table(name = "pagamento")
 public class Pagamento {
 
     @Id
@@ -32,21 +32,28 @@ public class Pagamento {
     //tipo is an enum
     private String tipo, descrizione;
 
+    private String paypalMail;
+    private Float contanti;
+    private Boolean isDefault;
+
     @ManyToOne
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tipo_id")
     private TipoMetodo tipoMetodo;
 
-    @OneToOne(mappedBy = "pagamento")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 
     public static Pagamento of(PagamentoDTO metodoPagamentoDTO) {
         return Pagamento.builder()
-                .tipo(metodoPagamentoDTO.tipo)
+                .contanti(metodoPagamentoDTO.contanti)
+                .paypalMail(metodoPagamentoDTO.paypalMail)
                 .descrizione(metodoPagamentoDTO.descrizione)
+                .isDefault(metodoPagamentoDTO.isDefault)
                 .build();
     }
 
@@ -54,14 +61,11 @@ public class Pagamento {
         PagamentoDTO p = new PagamentoDTO();
 
         p.id = pagamento.getId();
-        p.tipo = pagamento.getTipo();
+        p.paypalMail = pagamento.getPaypalMail();
         p.descrizione = pagamento.getDescrizione();
+        p.contanti = pagamento.getContanti();
+        p.isDefault = pagamento.getIsDefault();
 
         return p;
-    }
-
-    enum PagamentoEnum {
-        PAYPAL,
-        CONTANTI
     }
 }

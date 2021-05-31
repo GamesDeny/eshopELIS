@@ -84,10 +84,8 @@ public class Checkers {
         if (Objects.isNull(pagamentoDTO))
             throw new PagamentoException("Missing object");
 
-        if (Objects.isNull(pagamentoDTO.paypalMail) || Strings.isBlank(pagamentoDTO.paypalMail) ||
-                Objects.isNull(pagamentoDTO.tipo) || Strings.isBlank(pagamentoDTO.tipo) ||
-                pagamentoDTO.contanti < 0)
-            throw new PagamentoException("Missing parameters");
+        if (Objects.isNull(pagamentoDTO.tipoMetodo_id))
+            throw new PagamentoException("Missing parameter");
     }
 
     public static void prodottoFieldsChecker(ProdottoDTO prodottoDTO) {

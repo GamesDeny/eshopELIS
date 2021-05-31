@@ -44,7 +44,8 @@ public class Ordine {
     @JoinColumn(name = "ordini")
     private Utente utente;
 
-    @OneToOne(mappedBy = "ordine")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pagamento_id")
     private Pagamento pagamento;
 
     public Ordine(Boolean evaso, LocalDate dataEvasione) {

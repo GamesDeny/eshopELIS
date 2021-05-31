@@ -4,6 +4,7 @@ import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
 import com.elismarket.eshop.eshopelis.exception.PagamentoException;
 import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
+import com.elismarket.eshop.eshopelis.helper.TipoMetodoHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.Pagamento;
@@ -28,13 +29,16 @@ import java.util.Objects;
 public class PagamentoServiceImpl implements PagamentoService {
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    UtenteHelper utenteHelper;
 
     @Autowired
-    private OrdineHelper ordineHelper;
+    OrdineHelper ordineHelper;
 
     @Autowired
-    private PagamentoCrud pagamentoCrud;
+    PagamentoCrud pagamentoCrud;
+
+    @Autowired
+    TipoMetodoHelper tipoMetodoHelper;
 
     @Override
     public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
@@ -63,12 +67,12 @@ public class PagamentoServiceImpl implements PagamentoService {
         pagamentoDTO.descrizione = Objects.isNull(pagamentoDTO.descrizione) ? p.getDescrizione() : pagamentoDTO.descrizione;
         pagamentoDTO.contanti = Objects.isNull(pagamentoDTO.contanti) ? p.getContanti() : pagamentoDTO.contanti;
         pagamentoDTO.paypalMail = Objects.isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail;
-        pagamentoDTO.tipo = Objects.isNull(pagamentoDTO.tipo) ? p.getTipo() : pagamentoDTO.tipo;
 
         Checkers.pagamentoFieldsChecker(pagamentoDTO);
 
         Pagamento save = Pagamento.of(pagamentoDTO);
         save.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
+        save.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
         if (!Objects.isNull(pagamentoDTO.ordini_id))
             ordineHelper.linkPagamentoToOrdine(pagamentoID, pagamentoDTO.ordini_id);
         pagamentoCrud.saveAndFlush(save);
