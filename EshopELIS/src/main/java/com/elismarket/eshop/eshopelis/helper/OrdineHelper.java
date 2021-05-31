@@ -14,13 +14,13 @@ import java.util.List;
 @Component
 public class OrdineHelper {
     @Autowired
-    private OrdineCrud ordineCrud;
+    OrdineCrud ordineCrud;
 
     @Autowired
-    private RigaOrdineCrud rigaOrdineCrud;
+    RigaOrdineCrud rigaOrdineCrud;
 
     @Autowired
-    private PagamentoHelper pagamentoHelper;
+    PagamentoHelper pagamentoHelper;
 
     public Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO ordineDTO) {
         Ordine o = Ordine.of(ordineDTO);

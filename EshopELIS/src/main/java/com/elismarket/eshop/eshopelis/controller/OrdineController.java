@@ -3,7 +3,7 @@ package com.elismarket.eshop.eshopelis.controller;
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
-import com.elismarket.eshop.eshopelis.service.OrdineServiceImpl;
+import com.elismarket.eshop.eshopelis.service.OrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class OrdineController {
     @Autowired
-    private OrdineServiceImpl ordineService;
+    OrdineService ordineService;
 
     @PostMapping("/add")
     public OrdineDTO addOrdine(@RequestBody OrdineDTO ordineDTO) {

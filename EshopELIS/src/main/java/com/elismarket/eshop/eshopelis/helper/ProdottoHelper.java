@@ -1,6 +1,7 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
+import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.Utente;
@@ -13,13 +14,16 @@ import java.util.List;
 @Component
 public class ProdottoHelper {
     @Autowired
-    private ProdottoCrud prodottoCrud;
+    ProdottoCrud prodottoCrud;
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    UtenteHelper utenteHelper;
 
     @Autowired
-    private RigaOrdineHelper rigaOrdineHelper;
+    RigaOrdineHelper rigaOrdineHelper;
+
+    @Autowired
+    CategoriaHelper categoriaHelper;
 
     public Prodotto addProdottoToUser(Long userId, ProdottoDTO prodottoDTO) {
         Prodotto p = Prodotto.of(prodottoDTO);
@@ -39,6 +43,15 @@ public class ProdottoHelper {
             throw new ProdottoException("List is empty");
 
         result.forEach(prodotto -> prodotto.setUtente(utenteHelper.findById(utenteId)));
+        prodottoCrud.saveAll(result);
+    }
+
+    public void linkCategoriaToProdotto(Long categoriaId, List<Long> prodotti) {
+        List<Prodotto> result = prodottoCrud.findAllById(prodotti);
+        if (result.isEmpty())
+            throw new CategoriaException("List is empty");
+
+        result.forEach(prodotto -> prodotto.setCategoria(categoriaHelper.findById(categoriaId)));
         prodottoCrud.saveAll(result);
     }
 }

@@ -32,7 +32,6 @@ public class Prodotto {
     @Column(nullable = false)
     private String nome, descrizione, nomeCategoria;
 
-
     @Column(nullable = false)
     private Float prezzo;
 
@@ -52,23 +51,16 @@ public class Prodotto {
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodotto")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<RigaOrdine> righeOrdine;
 
-    public Prodotto(String nome, String descrizione, Float prezzo, Integer minOrd, Integer maxOrd, Integer sconto,
-                    Integer quantita, String image) {
-        this.nome = nome;
-        this.descrizione = descrizione;
-        this.prezzo = prezzo;
-        this.minOrd = minOrd;
-        this.maxOrd = maxOrd;
-        this.sconto = sconto;
-        this.quantita = quantita;
-        this.image = image;
-    }
 
     public static Prodotto of(ProdottoDTO prodottoDTO) {
         return Prodotto.builder()

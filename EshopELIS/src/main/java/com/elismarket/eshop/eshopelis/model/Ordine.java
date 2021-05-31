@@ -41,7 +41,10 @@ public class Ordine {
     private List<RigaOrdine> righeOrdine;
 
     @ManyToOne
-    @JoinColumn(name = "pagamento_id")
+    @JoinColumn(name = "ordini")
+    private Utente utente;
+
+    @OneToOne(mappedBy = "ordine")
     private Pagamento pagamento;
 
     public Ordine(Boolean evaso, LocalDate dataEvasione) {

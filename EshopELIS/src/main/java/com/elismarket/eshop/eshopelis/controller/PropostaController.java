@@ -1,7 +1,7 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
-import com.elismarket.eshop.eshopelis.service.PropostaServiceImpl;
+import com.elismarket.eshop.eshopelis.service.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.List;
 public class PropostaController {
 
     @Autowired
-    private PropostaServiceImpl propostaService;
+    PropostaService propostaService;
 
     @PostMapping("/add/{userId}")
     public PropostaDTO addProposta(@PathVariable Long userId, @RequestBody PropostaDTO propostaDTO) {

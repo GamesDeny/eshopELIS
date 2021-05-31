@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  *
@@ -34,25 +32,21 @@ public class Pagamento {
     //tipo is an enum
     private String tipo, descrizione;
 
-    @Column(nullable = true)
-    private String paypalMail;
-
-    @Column(nullable = true)
-    private Integer contanti;
-
     @ManyToOne
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pagamento")
-    private List<Ordine> ordini = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "tipo_id")
+    private TipoMetodo tipoMetodo;
+
+    @OneToOne(mappedBy = "pagamento")
+    private Ordine ordine;
 
     public static Pagamento of(PagamentoDTO metodoPagamentoDTO) {
         return Pagamento.builder()
                 .tipo(metodoPagamentoDTO.tipo)
                 .descrizione(metodoPagamentoDTO.descrizione)
-                .paypalMail(metodoPagamentoDTO.paypalMail)
-                .contanti(metodoPagamentoDTO.contanti)
                 .build();
     }
 
@@ -62,8 +56,6 @@ public class Pagamento {
         p.id = pagamento.getId();
         p.tipo = pagamento.getTipo();
         p.descrizione = pagamento.getDescrizione();
-        p.paypalMail = pagamento.getPaypalMail();
-        p.contanti = pagamento.getContanti();
 
         return p;
     }

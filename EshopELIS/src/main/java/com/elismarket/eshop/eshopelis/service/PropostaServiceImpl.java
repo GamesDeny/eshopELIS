@@ -66,7 +66,7 @@ public class PropostaServiceImpl implements PropostaService {
             throw new PropostaException("Not Found");
 
         propostaCrud.deleteById(id);
-        return !propostaCrud.findById(id).isPresent();
+        return !propostaCrud.existsById(id);
     }
 
     @Override

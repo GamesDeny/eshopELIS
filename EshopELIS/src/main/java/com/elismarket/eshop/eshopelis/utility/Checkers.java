@@ -124,4 +124,19 @@ public class Checkers {
             throw new RigaOrdineException("Missing parameters");
     }
 
+    public static void categoriaFieldsChecker(CategoriaDTO categoriaDTO) {
+        if (Objects.isNull(categoriaDTO))
+            throw new CategoriaException("Missing object");
+
+        if (Objects.isNull(categoriaDTO.nome) || Strings.isBlank(categoriaDTO.nome))
+            throw new CategoriaException("Missing parameters");
+    }
+
+    public static void tipoMetodoFieldsChecker(TipoMetodoDTO tipoMetodoDTO) {
+        if (Objects.isNull(tipoMetodoDTO))
+            throw new TipoMetodoException("Missing object");
+
+        if (Objects.isNull(tipoMetodoDTO.nome) || Strings.isBlank(tipoMetodoDTO.nome))
+            throw new TipoMetodoException("Missing parameters");
+    }
 }

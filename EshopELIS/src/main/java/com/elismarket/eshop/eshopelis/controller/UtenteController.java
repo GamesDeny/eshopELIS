@@ -5,7 +5,7 @@ import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.model.Pagamento;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.Proposta;
-import com.elismarket.eshop.eshopelis.service.UtenteServiceImpl;
+import com.elismarket.eshop.eshopelis.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +26,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class UtenteController {
     @Autowired
-    private UtenteServiceImpl utenteService;
+    UtenteService utenteService;
 
     @PostMapping("/add")
     public UtenteDTO addUtente(@RequestBody UtenteDTO utenteDTO) {

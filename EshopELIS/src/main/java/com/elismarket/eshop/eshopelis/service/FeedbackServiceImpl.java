@@ -25,9 +25,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {
         Checkers.feedbackFieldsChecker(feedbackDTO);
-
-        feedbackCrud.saveAndFlush(Feedback.of(feedbackDTO));
-        return Feedback.to(feedbackCrud.findById(feedbackDTO.id).orElseThrow(() -> new FeedbackException("Cannot find Feedback")));
+        return Feedback.to(feedbackCrud.saveAndFlush(Feedback.of(feedbackDTO)));
     }
 
     @Override
@@ -58,7 +56,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             throw new FeedbackException("Not found");
 
         feedbackCrud.deleteById(id);
-        return !feedbackCrud.findById(id).isPresent();
+        return !feedbackCrud.existsById(id);
     }
 
     @Override

@@ -14,13 +14,13 @@ import java.util.List;
 @Component
 public class RigaOrdineHelper {
     @Autowired
-    private OrdineHelper ordineHelper;
+    OrdineHelper ordineHelper;
 
     @Autowired
-    private ProdottoHelper prodottoHelper;
+    ProdottoHelper prodottoHelper;
 
     @Autowired
-    private RigaOrdineCrud rigaOrdineCrud;
+    RigaOrdineCrud rigaOrdineCrud;
 
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
         RigaOrdine r = RigaOrdine.of(rigaOrdineDTO);

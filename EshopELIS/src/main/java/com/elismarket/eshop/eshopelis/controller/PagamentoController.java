@@ -3,11 +3,12 @@ package com.elismarket.eshop.eshopelis.controller;
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
 import com.elismarket.eshop.eshopelis.model.Ordine;
-import com.elismarket.eshop.eshopelis.service.PagamentoServiceImpl;
+import com.elismarket.eshop.eshopelis.service.PagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -15,7 +16,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class PagamentoController {
     @Autowired
-    private PagamentoServiceImpl pagamentoService;
+    PagamentoService pagamentoService;
 
     @PostMapping("/add")
     public PagamentoDTO addPagamento(@RequestBody PagamentoDTO pagamentoDTO) {
@@ -34,7 +35,11 @@ public class PagamentoController {
 
     @GetMapping("/all")
     public List<PagamentoDTO> getAll() {
-        return pagamentoService.getAll();
+        List<PagamentoDTO> result = new ArrayList<>();
+
+        pagamentoService.getAll().forEach(result::add);
+
+        return result;
     }
 
     @GetMapping("/contanti")

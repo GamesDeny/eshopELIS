@@ -19,10 +19,10 @@ import java.util.List;
 public class FeedbackHelper {
 
     @Autowired
-    private FeedbackCrud feedbackCrud;
+    FeedbackCrud feedbackCrud;
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    UtenteHelper utenteHelper;
 
 
     //casto variabile, nel caso di array faccio il .add

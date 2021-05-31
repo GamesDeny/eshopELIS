@@ -13,10 +13,10 @@ import java.util.List;
 @Component
 public class PropostaHelper {
     @Autowired
-    private PropostaCrud propostaCrud;
+    PropostaCrud propostaCrud;
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    UtenteHelper utenteHelper;
 
     public Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO) {
         Utente u = utenteHelper.findById(userId);

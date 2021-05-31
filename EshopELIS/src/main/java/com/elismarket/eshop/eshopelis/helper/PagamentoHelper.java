@@ -13,13 +13,16 @@ import java.util.List;
 @Component
 public class PagamentoHelper {
     @Autowired
-    private OrdineHelper ordineHelper;
+    OrdineHelper ordineHelper;
 
     @Autowired
-    private PagamentoCrud pagamentoCrud;
+    PagamentoCrud pagamentoCrud;
 
     @Autowired
-    private UtenteHelper utenteHelper;
+    UtenteHelper utenteHelper;
+
+    @Autowired
+    TipoMetodoHelper tipoMetodoHelper;
 
     public Pagamento addPagamentoToUser(Long userId, PagamentoDTO pagamentoDTO) {
         Pagamento p = Pagamento.of(pagamentoDTO);
@@ -39,6 +42,15 @@ public class PagamentoHelper {
             throw new PagamentoException("List is empty");
 
         result.forEach(pagamento -> pagamento.setUtente(utenteHelper.findById(utenteId)));
+        pagamentoCrud.saveAll(result);
+    }
+
+    public void linkMetodoToPagamento(Long tipoPagamentoId, List<Long> pagamenti_id) {
+        List<Pagamento> result = pagamentoCrud.findAllById(pagamenti_id);
+        if (result.isEmpty())
+            throw new PagamentoException("List is empty");
+
+        result.forEach(pagamento -> pagamento.setTipoMetodo(tipoMetodoHelper.findById(tipoPagamentoId)));
         pagamentoCrud.saveAll(result);
     }
 }

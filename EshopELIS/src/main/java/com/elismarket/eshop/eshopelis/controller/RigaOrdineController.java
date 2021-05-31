@@ -1,7 +1,7 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
-import com.elismarket.eshop.eshopelis.service.RigaOrdineServiceImpl;
+import com.elismarket.eshop.eshopelis.service.RigaOrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 public class RigaOrdineController {
     @Autowired
-    private RigaOrdineServiceImpl rigaOrdineService;
-
+    RigaOrdineService rigaOrdineService;
 
     @PostMapping("/add")
     public RigaOrdineDTO addRigaOrdine(@RequestBody RigaOrdineDTO rigaOrdineDTO) {

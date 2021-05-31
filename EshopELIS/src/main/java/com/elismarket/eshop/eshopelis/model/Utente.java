@@ -70,6 +70,12 @@ public class Utente {
     @ToString.Exclude
     private List<Feedback> feedbacks = new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    @ToString.Exclude
+    private List<Ordine> ordini = new ArrayList<>();
+
     public Utente(String mail, String password, String nome, String cognome, Integer siglaResidenza,
                   LocalDate dataNascita, String username) {
         this.mail = mail;

@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component;
 public class UtenteHelper {
 
     @Autowired
-    private FeedbackCrud feedbackCrud;
+    FeedbackCrud feedbackCrud;
 
     @Autowired
-    private PropostaCrud propostaCrud;
+    PropostaCrud propostaCrud;
 
     @Autowired
-    private PagamentoCrud pagamentoCrud;
+    PagamentoCrud pagamentoCrud;
 
     @Autowired
-    private ProdottoCrud prodottoCrud;
+    ProdottoCrud prodottoCrud;
 
     @Autowired
-    private UtenteCrud utenteCrud;
+    UtenteCrud utenteCrud;
 
     public Utente findById(Long utente_id) {
         return utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException("Cannot find User"));

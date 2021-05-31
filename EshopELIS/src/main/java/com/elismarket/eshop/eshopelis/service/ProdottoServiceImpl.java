@@ -77,7 +77,7 @@ public class ProdottoServiceImpl implements ProdottoService {
             throw new ProdottoException("Cannot find Prodotto for provided item");
 
         prodottoCrud.deleteById(id);
-        return prodottoCrud.findById(id).isPresent();
+        return prodottoCrud.existsById(id);
     }
 
     @Override
