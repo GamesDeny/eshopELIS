@@ -31,8 +31,8 @@ public class PropostaServiceImpl implements PropostaService {
     public PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO) {
         Checkers.propostaFieldsChecker(propostaDTO);
         propostaDTO.utente_id = userId;
-        propostaCrud.saveAndFlush(Proposta.of(propostaDTO));
-        return Proposta.to(propostaCrud.findById(propostaDTO.id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
+
+        return Proposta.to(propostaCrud.saveAndFlush(Proposta.of(propostaDTO)));
     }
 
     /**

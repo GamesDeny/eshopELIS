@@ -15,10 +15,12 @@ import java.util.List;
 public class ProdottoDTO {
 
     public Long id;
-    public String nome, descrizione, nomeCategoria;
+    public String nome, descrizione;
     public Float prezzo;
     public Integer minOrd, maxOrd, sconto, quantita;
     public String image;
     public Long utente_id;
+
     public List<Long> righeOrdine_id;
+    public Long categoria_id;
 }

@@ -44,8 +44,10 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Override
     public ProdottoDTO addProdotto(ProdottoDTO prodottoDTO) {
         Checkers.prodottoFieldsChecker(prodottoDTO);
-        prodottoCrud.saveAndFlush(Prodotto.of(prodottoDTO));
-        return Prodotto.to(prodottoCrud.findById(prodottoDTO.id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
+        Prodotto p = Prodotto.of(prodottoDTO);
+        p.setCategoria(Categoria.of(categoriaHelper.findById(prodottoDTO.categoria_id)));
+
+        return Prodotto.to(prodottoCrud.saveAndFlush(p));
     }
 
     @Override
@@ -68,7 +70,11 @@ public class ProdottoServiceImpl implements ProdottoService {
         Checkers.prodottoFieldsChecker(prodottoDTO);
 
         Prodotto save = Prodotto.of(prodottoDTO);
-        save.setUtente(Objects.isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
+        if (!Objects.isNull(p.getUtente()))
+            save.setUtente(Objects.isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
+
+        save.setCategoria(Categoria.of(categoriaHelper.findById(prodottoDTO.categoria_id)));
+
         if (!Objects.isNull(prodottoDTO.righeOrdine_id))
             rigaOrdineHelper.linkRigheToProdotto(prodottoId, prodottoDTO.righeOrdine_id);
         prodottoCrud.saveAndFlush(save);

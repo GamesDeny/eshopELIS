@@ -44,14 +44,14 @@ public class UtenteServiceImpl implements UtenteService {
     @Override
     public UtenteDTO addUtente(UtenteDTO utenteDTO) {
         Checkers.utenteFieldsChecker(utenteDTO);
+        utenteDTO.logged = false;
         Utente u = Utente.of(utenteDTO);
 
         duplicateChecker(utenteDTO);
 
         u.setPassword((Utente.hashPassword(u.getPassword())));
-        utenteCrud.saveAndFlush(u);
 
-        return Utente.to(utenteCrud.findByMail(utenteDTO.mail));
+        return Utente.to(utenteCrud.saveAndFlush(u));
     }
 
     @Override
@@ -73,6 +73,7 @@ public class UtenteServiceImpl implements UtenteService {
         utenteDTO.mail = Objects.isNull(utenteDTO.mail) ? u.getMail() : utenteDTO.mail;
         utenteDTO.dataNascita = Objects.isNull(utenteDTO.dataNascita) ? u.getDataNascita() : utenteDTO.dataNascita;
         utenteDTO.siglaResidenza = Objects.isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza;
+        utenteDTO.logged = false;
 
         Checkers.utenteFieldsChecker(utenteDTO);
 

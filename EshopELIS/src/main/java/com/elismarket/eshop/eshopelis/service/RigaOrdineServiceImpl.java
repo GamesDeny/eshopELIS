@@ -37,8 +37,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Override
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
-        rigaOrdineCrud.saveAndFlush(RigaOrdine.of(rigaOrdineDTO));
-        return RigaOrdine.to(rigaOrdineCrud.findById(rigaOrdineDTO.id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine for given element")));
+        return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(RigaOrdine.of(rigaOrdineDTO)));
     }
 
     @Override

@@ -43,7 +43,7 @@ public class OrdineServiceImpl implements OrdineService {
         righe.forEach(riga -> riga.ordine_id = o.getId());
         rigaOrdineHelper.saveAll(righe);
 
-        return Ordine.to(ordineCrud.findById(o.getId()).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
+        return Ordine.to(ordineCrud.saveAndFlush(o));
     }
 
     @Override

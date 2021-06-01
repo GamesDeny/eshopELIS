@@ -43,8 +43,9 @@ public class Checkers {
 
     //range 16-90 years to register
     public static Boolean birthDateChecker(LocalDate birthDate) {
-        if (birthDate.getYear() - LocalDate.now().getYear() < 16)
-            return false;
+        System.out.println(birthDate.getYear() + " " + LocalDate.now().getYear());
+        if (LocalDate.now().getYear() - birthDate.getYear() < 16)
+            throw new UtenteException("Sei troppo giovane");
         if (birthDate.getYear() - LocalDate.now().getYear() > 90)
             throw new UtenteException("Sei troppo vecchio");
         return true;
@@ -56,10 +57,9 @@ public class Checkers {
 
         if (Objects.isNull(utenteDTO.nome) || Strings.isBlank(utenteDTO.nome) ||
                 Objects.isNull(utenteDTO.cognome) || Strings.isBlank(utenteDTO.cognome) ||
-                Objects.isNull(utenteDTO.siglaResidenza) || Objects.isNull(utenteDTO.mail) ||
+                Objects.isNull(utenteDTO.siglaResidenza) || Objects.isNull(utenteDTO.dataNascita) ||
                 Objects.isNull(utenteDTO.username) || Strings.isBlank(utenteDTO.username) ||
-                Objects.isNull(utenteDTO.password) || Objects.isNull(utenteDTO.dataNascita) ||
-                Objects.isNull(utenteDTO.logged) || Objects.isNull(utenteDTO.isAdmin))
+                Objects.isNull(utenteDTO.isAdmin))
             throw new UtenteException("Missing required parameters");
 
         if (!mailChecker(utenteDTO.mail))
@@ -95,10 +95,10 @@ public class Checkers {
         if (Objects.isNull(prodottoDTO.descrizione) || Strings.isBlank(prodottoDTO.descrizione) ||
                 Objects.isNull(prodottoDTO.nome) || Strings.isBlank(prodottoDTO.nome) ||
                 Objects.isNull(prodottoDTO.prezzo) || prodottoDTO.prezzo < 0 ||
-                Objects.isNull(prodottoDTO.nomeCategoria) || Strings.isBlank(prodottoDTO.nomeCategoria) ||
                 Objects.isNull(prodottoDTO.quantita) || prodottoDTO.quantita < 0 ||
                 prodottoDTO.maxOrd < prodottoDTO.minOrd || prodottoDTO.maxOrd > prodottoDTO.quantita ||
-                prodottoDTO.minOrd < 1 || Objects.isNull(prodottoDTO.image) || Strings.isBlank(prodottoDTO.image))
+                prodottoDTO.minOrd < 1 || Objects.isNull(prodottoDTO.image) || Strings.isBlank(prodottoDTO.image) ||
+                Objects.isNull(prodottoDTO.categoria_id))
             throw new ProdottoException("Missing parameters");
     }
 
