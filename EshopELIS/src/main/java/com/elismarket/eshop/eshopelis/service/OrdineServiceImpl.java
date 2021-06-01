@@ -37,18 +37,13 @@ public class OrdineServiceImpl implements OrdineService {
 
 
     @Override
-    public OrdineDTO saveOrdine(List<RigaOrdineDTO> righe) {
+    public OrdineDTO saveOrdine(Long userId, List<RigaOrdineDTO> righe) {
         Ordine o = ordineCrud.saveAndFlush(new Ordine());
 
         righe.forEach(riga -> riga.ordine_id = o.getId());
         rigaOrdineHelper.saveAll(righe);
 
         return Ordine.to(ordineCrud.findById(o.getId()).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
-    }
-
-    @Override
-    public OrdineDTO saveOrdineCustom(Long userId, List<RigaOrdineDTO> righe) {
-        return null;
     }
 
     @Override

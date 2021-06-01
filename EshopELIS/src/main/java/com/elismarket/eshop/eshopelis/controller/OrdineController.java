@@ -18,9 +18,9 @@ public class OrdineController {
     @Autowired
     OrdineService ordineService;
 
-    @PostMapping("/add")
-    public OrdineDTO addOrdine(@RequestBody List<RigaOrdineDTO> righe) {
-        return ordineService.saveOrdine(righe);
+    @PostMapping("/add/{userId}")
+    public OrdineDTO addOrdine(@PathVariable Long userId, @RequestBody List<RigaOrdineDTO> righe) {
+        return ordineService.saveOrdine(userId, righe);
     }
 
     @PatchMapping("/update/{id}")
