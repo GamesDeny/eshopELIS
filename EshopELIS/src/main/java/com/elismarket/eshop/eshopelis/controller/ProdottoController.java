@@ -47,7 +47,7 @@ public class ProdottoController {
     }
 
     @GetMapping("/all/utente/{userId}")
-    public List<ProdottoDTO> findAllByUtente(@PathVariable Integer userId) {
+    public List<ProdottoDTO> findAllByUtente(@PathVariable Long userId) {
         return prodottoService.findAllByUtente(userId);
     }
 
