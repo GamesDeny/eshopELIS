@@ -5,6 +5,7 @@ import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.OrdineException;
 import com.elismarket.eshop.eshopelis.helper.PagamentoHelper;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
+import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
@@ -35,13 +36,18 @@ public class OrdineServiceImpl implements OrdineService {
     @Autowired
     RigaOrdineHelper rigaOrdineHelper;
 
+    @Autowired
+    UtenteHelper utenteHelper;
 
     @Override
-    public OrdineDTO saveOrdine(Long userId, List<RigaOrdineDTO> righe) {
-        Ordine o = ordineCrud.saveAndFlush(new Ordine());
+    public OrdineDTO saveOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe) {
+        Ordine o = new Ordine();
+        List<Long> righeId = new ArrayList<>();
+        righe.forEach(rigaOrdineDTO -> righeId.add(rigaOrdineDTO.id));
 
-        righe.forEach(riga -> riga.ordine_id = o.getId());
-        rigaOrdineHelper.saveAll(righe);
+        o.setPagamento(pagamentoHelper.findById(pagamentoId));
+        o.setUtente(utenteHelper.findById(userId));
+        rigaOrdineHelper.linkRigheToOrdine(o.getId(), righeId);
 
         return Ordine.to(ordineCrud.saveAndFlush(o));
     }

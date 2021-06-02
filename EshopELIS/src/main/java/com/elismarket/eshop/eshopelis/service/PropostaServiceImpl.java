@@ -2,14 +2,17 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 import com.elismarket.eshop.eshopelis.exception.PropostaException;
+import com.elismarket.eshop.eshopelis.helper.CategoriaHelper;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
+import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,11 +29,16 @@ public class PropostaServiceImpl implements PropostaService {
     @Autowired
     ProdottoHelper prodottoHelper;
 
+    @Autowired
+    CategoriaHelper categoriaHelper;
 
     @Override
     public PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO) {
         Checkers.propostaFieldsChecker(propostaDTO);
-        propostaDTO.utente_id = userId;
+        Proposta p = Proposta.of(propostaDTO);
+        p.setUtente(utenteHelper.findById(userId));
+        p.setCategoria(Categoria.of(categoriaHelper.findById(propostaDTO.categoria_id)));
+        p.setSubmissionDate(LocalDate.now());
 
         return Proposta.to(propostaCrud.saveAndFlush(Proposta.of(propostaDTO)));
     }

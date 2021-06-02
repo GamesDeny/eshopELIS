@@ -48,7 +48,6 @@ public class UtenteServiceImpl implements UtenteService {
         Utente u = Utente.of(utenteDTO);
 
         duplicateChecker(utenteDTO);
-
         u.setPassword((Utente.hashPassword(u.getPassword())));
 
         return Utente.to(utenteCrud.saveAndFlush(u));

@@ -9,6 +9,7 @@ import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,8 +26,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {
-        Checkers.feedbackFieldsChecker(feedbackDTO);
-        return Feedback.to(feedbackCrud.saveAndFlush(Feedback.of(feedbackDTO)));
+        System.out.println(feedbackDTO);
+        Feedback f = Feedback.of(feedbackDTO);
+        f.setSubscriptionDate(LocalDate.now());
+        f.setUtente(utenteHelper.findById(feedbackDTO.utente_id));
+        return Feedback.to(feedbackCrud.saveAndFlush(f));
     }
 
     @Override

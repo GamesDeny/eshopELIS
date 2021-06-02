@@ -25,13 +25,12 @@ import java.util.List;
 public class TipoMetodo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false)
     private String nome;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoMetodo")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tipoMetodo")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
@@ -45,11 +44,11 @@ public class TipoMetodo {
     }
 
     public static TipoMetodoDTO to(TipoMetodo tipoMetodo) {
-        TipoMetodoDTO r = new TipoMetodoDTO();
+        TipoMetodoDTO t = new TipoMetodoDTO();
 
-        r.id = tipoMetodo.id;
-        r.nome = tipoMetodo.nome;
+        t.id = tipoMetodo.id;
+        t.nome = tipoMetodo.nome;
 
-        return r;
+        return t;
     }
 }

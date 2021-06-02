@@ -26,7 +26,6 @@ public class Prodotto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -36,7 +35,7 @@ public class Prodotto {
     private Float prezzo;
 
     //sconto è percentuale, esempio 55%
-    @Column(nullable = true)
+    @Column
     private Integer minOrd, maxOrd, sconto;
 
     @Column(nullable = false)
@@ -55,7 +54,7 @@ public class Prodotto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prodotto")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "prodotto")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
@@ -88,6 +87,8 @@ public class Prodotto {
         p.sconto = prodotto.getSconto();
         p.quantita = prodotto.getQuantita();
         p.image = prodotto.getImage();
+        p.categoria_id = prodotto.getCategoria().getId();
+        p.utente_id = prodotto.getUtente().getId();
 
         return p;
     }

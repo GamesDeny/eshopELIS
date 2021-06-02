@@ -27,7 +27,6 @@ public class RigaOrdine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
     //sconto applicato è la somma in denaro sottratta dal totale
@@ -62,6 +61,8 @@ public class RigaOrdine {
         r.prezzoTotale = rigaOrdine.getPrezzoTotale();
         r.scontoApplicato = rigaOrdine.getScontoApplicato();
         r.quantitaProdotto = rigaOrdine.getQuantitaProdotto();
+        r.ordine_id = rigaOrdine.getOrdine().getId();
+        r.prodotto_id = rigaOrdine.getProdotto().getId();
 
         return r;
     }

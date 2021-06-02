@@ -18,13 +18,12 @@ public class Proposta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false)
     private String nome, descrizione;
 
-    @Column(nullable = true)
+    @Column
     private String motivoRifiuto;
 
     @Column(nullable = false)
@@ -33,7 +32,7 @@ public class Proposta {
     @Column(nullable = false)
     private Integer quantita;
 
-    @Column(nullable = true)
+    @Column
     private Boolean isAccettato;
 
     @Column(nullable = false)
@@ -71,6 +70,8 @@ public class Proposta {
         p.quantita = proposta.getQuantita();
         p.isAccettato = proposta.getIsAccettato();
         p.submissionDate = proposta.getSubmissionDate();
+        p.categoria_id = proposta.getCategoria().getId();
+        p.utente_id = proposta.getUtente().getId();
 
         return p;
     }

@@ -73,4 +73,11 @@ public class ProdottoHelper {
 
         prodottoCrud.saveAndFlush(p);
     }
+
+
+    public void linkProdottoToCategoria(Long id, List<Long> prodotti) {
+        List<Prodotto> list = prodottoCrud.findAllById(prodotti);
+        list.forEach(prodotto -> prodotto.setCategoria(Categoria.of(categoriaHelper.findById(id))));
+        prodottoCrud.saveAll(list);
+    }
 }

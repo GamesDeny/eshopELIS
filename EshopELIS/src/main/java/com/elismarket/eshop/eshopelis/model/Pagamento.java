@@ -25,18 +25,22 @@ public class Pagamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false)
     //tipo is an enum
-    private String tipo, descrizione;
+    private String descrizione;
 
+    @Column
     private String paypalMail;
+
+    @Column
     private Float contanti;
+
+    @Column
     private Boolean isDefault;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
@@ -65,6 +69,9 @@ public class Pagamento {
         p.descrizione = pagamento.getDescrizione();
         p.contanti = pagamento.getContanti();
         p.isDefault = pagamento.getIsDefault();
+        p.tipoMetodo_id = pagamento.getTipoMetodo().getId();
+        p.ordine_id = pagamento.getOrdine().getId();
+        p.utente_id = pagamento.getUtente().getId();
 
         return p;
     }

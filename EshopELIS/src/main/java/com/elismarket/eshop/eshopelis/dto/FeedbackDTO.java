@@ -10,5 +10,6 @@ public class FeedbackDTO {
     public String oggetto, descrizione;
     public Boolean isAccepted;
     public LocalDate subscriptionDate;
+
     public Long utente_id;
 }

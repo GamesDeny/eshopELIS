@@ -18,16 +18,18 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
     @Column(nullable = false)
-    private String oggetto, descrizione;
+    private String oggetto;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
+    private String descrizione;
+
+    @Column
     private Boolean isAccepted;
 
-    @Column(nullable = true)
+    @Column
     private LocalDate subscriptionDate;
 
     @ManyToOne(optional = false)
@@ -52,6 +54,7 @@ public class Feedback {
         f.descrizione = feedback.getDescrizione();
         f.isAccepted = feedback.getIsAccepted();
         f.subscriptionDate = feedback.getSubscriptionDate();
+        f.utente_id = feedback.getUtente().getId();
 
         return f;
     }

@@ -5,6 +5,7 @@ import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
 import com.elismarket.eshop.eshopelis.helper.CategoriaHelper;
+import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Categoria;
@@ -40,12 +41,19 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Autowired
     CategoriaHelper categoriaHelper;
 
+    @Autowired
+    ProdottoHelper prodottoHelper;
+
 
     @Override
     public ProdottoDTO addProdotto(ProdottoDTO prodottoDTO) {
         Checkers.prodottoFieldsChecker(prodottoDTO);
         Prodotto p = Prodotto.of(prodottoDTO);
-        p.setCategoria(Categoria.of(categoriaHelper.findById(prodottoDTO.categoria_id)));
+        CategoriaDTO c = categoriaHelper.findById(prodottoDTO.categoria_id);
+        p.setCategoria(Categoria.of(c));
+
+        if (Objects.isNull(prodottoDTO.utente_id))
+            p.setUtente(utenteHelper.findById(prodottoDTO.utente_id));
 
         return Prodotto.to(prodottoCrud.saveAndFlush(p));
     }

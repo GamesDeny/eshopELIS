@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface OrdineService {
 
-    OrdineDTO saveOrdine(Long userId, List<RigaOrdineDTO> righe);
+    OrdineDTO saveOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe);
 
     OrdineDTO updateOrdine(Long id, OrdineDTO ordineDTO);
 

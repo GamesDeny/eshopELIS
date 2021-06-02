@@ -42,8 +42,12 @@ public class PagamentoServiceImpl implements PagamentoService {
 
     @Override
     public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
-
         Checkers.pagamentoFieldsChecker(pagamentoDTO);
+        Pagamento p = Pagamento.of(pagamentoDTO);
+        p.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
+        p.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
+
+        //TODO settare id Ordini
 
         if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException("Paypal mail not valid");
@@ -68,8 +72,8 @@ public class PagamentoServiceImpl implements PagamentoService {
         Pagamento save = Pagamento.of(pagamentoDTO);
         save.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
         save.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
-        if (!Objects.isNull(pagamentoDTO.ordini_id))
-            ordineHelper.linkPagamentoToOrdine(pagamentoID, pagamentoDTO.ordini_id);
+        save.setOrdine(ordineHelper.findById(pagamentoDTO.ordine_id));
+
         pagamentoCrud.saveAndFlush(save);
 
         return Pagamento.to(pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException("Not found")));

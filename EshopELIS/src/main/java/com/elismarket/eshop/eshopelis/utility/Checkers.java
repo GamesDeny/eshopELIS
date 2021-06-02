@@ -75,7 +75,7 @@ public class Checkers {
             throw new FeedbackException("Missing object");
 
         if (Objects.isNull(feedbackDTO.oggetto) || Strings.isBlank(feedbackDTO.oggetto) ||
-                Objects.isNull(feedbackDTO.subscriptionDate) || Objects.isNull(feedbackDTO.utente_id) ||
+                Objects.isNull(feedbackDTO.utente_id) ||
                 Objects.isNull(feedbackDTO.descrizione) || Strings.isBlank(feedbackDTO.descrizione))
             throw new FeedbackException("Missing parameters");
     }

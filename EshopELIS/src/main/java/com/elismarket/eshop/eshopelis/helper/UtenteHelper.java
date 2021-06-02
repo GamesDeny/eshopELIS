@@ -1,6 +1,7 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.exception.UtenteException;
+import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,11 @@ public class UtenteHelper {
 
     public Utente findById(Long utente_id) {
         return utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException("Cannot find User"));
+    }
+
+    public Feedback linkFeedbackToUser(Long utente_id, Feedback f) {
+        Utente u = utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException("Cannot find Utente"));
+        f.setUtente(u);
+        return f;
     }
 }

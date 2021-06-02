@@ -27,15 +27,22 @@ public class Utente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String mail;
 
     @Column(unique = true, nullable = false)
-    private String mail, username;
+    private String username;
 
     @Column(nullable = false)
-    private String password, nome, cognome;
+    private String password;
+
+    @Column(nullable = false)
+    private String nome;
+
+    @Column(nullable = false)
+    private String cognome;
 
     @Column(name = "sigla_residenza", nullable = false)
     private Integer siglaResidenza;
@@ -44,50 +51,40 @@ public class Utente {
     private LocalDate dataNascita;
 
     @Column(nullable = false)
-    private Boolean logged, isAdmin;
+    private Boolean logged;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
+    @Column(nullable = false)
+    private Boolean isAdmin;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<Proposta> proposta;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<Pagamento> pagamenti = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<Prodotto> prodotti = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<Feedback> feedbacks = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "utente")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "utente")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
     private List<Ordine> ordini = new ArrayList<>();
-
-    public Utente(String mail, String password, String nome, String cognome, Integer siglaResidenza,
-                  LocalDate dataNascita, String username) {
-        this.mail = mail;
-        this.password = password;
-        this.nome = nome;
-        this.cognome = cognome;
-        this.siglaResidenza = siglaResidenza;
-        this.dataNascita = dataNascita;
-        this.username = username;
-        this.logged = false;
-        this.isAdmin = false;
-    }
 
     public static Utente of(UtenteDTO utenteDTO) {
         return Utente.builder()

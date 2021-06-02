@@ -25,16 +25,15 @@ public class Ordine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false)
     private Long id;
 
-    @Column(nullable = true)
+    @Column
     private Boolean evaso;
 
-    @Column(nullable = true)
+    @Column
     private LocalDate dataEvasione;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ordine")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ordine")
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ToString.Exclude
@@ -66,6 +65,8 @@ public class Ordine {
         ordineDTO.id = ordine.getId();
         ordineDTO.evaso = ordine.getEvaso();
         ordineDTO.dataEvasione = ordine.getDataEvasione();
+        ordineDTO.pagamento_id = ordine.getPagamento().getId();
+        ordineDTO.utente_id = ordine.getUtente().getId();
 
         return ordineDTO;
     }

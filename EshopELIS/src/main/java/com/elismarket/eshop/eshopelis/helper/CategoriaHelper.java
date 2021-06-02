@@ -14,10 +14,14 @@ public class CategoriaHelper {
     @Autowired
     CategoriaCrud categoriaCrud;
 
+    @Autowired
+    ProdottoHelper prodottoHelper;
+
     public CategoriaDTO findById(Long categoriaId) {
         if (Objects.isNull(categoriaId))
             throw new CategoriaException("Missing parameter");
 
         return Categoria.to(categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException("Cannot find Categoria")));
     }
+
 }
