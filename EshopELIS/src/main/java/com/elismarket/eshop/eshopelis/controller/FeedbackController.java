@@ -1,7 +1,7 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
-import com.elismarket.eshop.eshopelis.service.FeedbackService;
+import com.elismarket.eshop.eshopelis.service.interfaces.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +34,11 @@ public class FeedbackController {
     @GetMapping("/all")
     public List<FeedbackDTO> getAllFeedback() {
         return feedbackService.getAll();
+    }
+
+    @GetMapping("/all/utente/{userId}")
+    public List<FeedbackDTO> getAllByUtente(@PathVariable Long userId) {
+        return feedbackService.getAllByUtente(userId);
     }
 
     @GetMapping("/id/{id}")

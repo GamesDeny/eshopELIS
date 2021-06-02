@@ -7,6 +7,8 @@ import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+
 @Component
 public class UtenteHelper {
 
@@ -27,11 +29,11 @@ public class UtenteHelper {
 
 
     public Utente findById(Long utente_id) {
-        return utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException("Cannot find User"));
+        return utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
     }
 
     public Feedback linkFeedbackToUser(Long utente_id, Feedback f) {
-        Utente u = utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException("Cannot find Utente"));
+        Utente u = utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
         f.setUtente(u);
         return f;
     }

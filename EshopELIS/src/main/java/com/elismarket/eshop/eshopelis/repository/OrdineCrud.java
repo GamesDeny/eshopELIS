@@ -1,6 +1,7 @@
 package com.elismarket.eshop.eshopelis.repository;
 
 import com.elismarket.eshop.eshopelis.model.Ordine;
+import com.elismarket.eshop.eshopelis.model.Utente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
@@ -23,4 +24,6 @@ public interface OrdineCrud extends JpaRepository<Ordine, Long> {
     List<Ordine> findAllByDataEvasioneBetween(LocalDate dataEvasione1, LocalDate dataEvasione2);
 
     void deleteById(Long id);
+
+    List<Ordine> findAllByUtente(Utente utente);
 }

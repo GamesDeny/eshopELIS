@@ -8,6 +8,7 @@ import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.helper.PropostaHelper;
 import com.elismarket.eshop.eshopelis.model.*;
 import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
+import com.elismarket.eshop.eshopelis.service.interfaces.UtenteService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
 /*
  *
@@ -45,6 +48,7 @@ public class UtenteServiceImpl implements UtenteService {
     public UtenteDTO addUtente(UtenteDTO utenteDTO) {
         Checkers.utenteFieldsChecker(utenteDTO);
         utenteDTO.logged = false;
+        utenteDTO.isAdmin = false;
         Utente u = Utente.of(utenteDTO);
 
         duplicateChecker(utenteDTO);
@@ -58,7 +62,7 @@ public class UtenteServiceImpl implements UtenteService {
 
         duplicateChecker(utenteDTO);
 
-        Utente u = utenteCrud.findById(utenteId).orElseThrow(() -> new UtenteException("Utente not found"));
+        Utente u = utenteCrud.findById(utenteId).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
 
         //cambio DTO con le informazioni aggiornate
         utenteDTO.id = utenteId;
@@ -87,26 +91,26 @@ public class UtenteServiceImpl implements UtenteService {
             feedbackHelper.linkUtenteToFeedbacks(utenteId, utenteDTO.feedbacks_id);
         utenteCrud.saveAndFlush(save);
 
-        return Utente.to(utenteCrud.findById(utenteDTO.id).orElseThrow(() -> new UtenteException("Utente not found")));
+        return Utente.to(utenteCrud.findById(utenteDTO.id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name())));
     }
 
     private void duplicateChecker(UtenteDTO utenteDTO) {
         if (!(Objects.isNull(utenteCrud.findByMail(utenteDTO.mail)) &&
                 Objects.isNull(utenteCrud.findByUsername(utenteDTO.username)) &&
                 Objects.isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza))))
-            throw new UtenteException("Duplicato!");
+            throw new UtenteException(DUPLICATE.name());
         else if (!Checkers.siglaChecker(utenteDTO.siglaResidenza))
-            throw new UtenteException("Sigla inconsistente");
+            throw new UtenteException(INCONSISTENT_SIGLA.name());
         else if (!Checkers.birthDateChecker(utenteDTO.dataNascita))
-            throw new UtenteException("Data di nascita non valida");
+            throw new UtenteException(DATE_NOT_VALID.name());
         else if ((utenteDTO.password).equals(utenteDTO.mail) || !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password)))
-            throw new UtenteException("Mail e/o password inconsistenti");
+            throw new UtenteException(MAIL_OR_PASSWORD_INCONSISTENT.name());
     }
 
     @Override
     public Boolean removeUtente(Long id) {
         if (!utenteCrud.existsById(id))
-            throw new UtenteException("Cannot find Utente for provided id");
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         utenteCrud.deleteById(id);
 
         return !utenteCrud.existsById(id);
@@ -122,23 +126,23 @@ public class UtenteServiceImpl implements UtenteService {
         switch (findby) {
             case "":
                 if (utenteCrud.findAll().isEmpty())
-                    throw new UtenteException("List empty");
+                    throw new UtenteException(LIST_IS_EMPTY.name());
                 utenteCrud.findAll().forEach(utente -> result.add(Utente.to(utente)));
                 break;
             case "admin":
                 if (utenteCrud.findAllByIsAdmin(true).isEmpty())
-                    throw new UtenteException("List empty");
+                    throw new UtenteException(LIST_IS_EMPTY.name());
 
                 utenteCrud.findAllByIsAdmin(true).forEach(utente -> result.add(Utente.to(utente)));
                 break;
             case "user":
                 if (utenteCrud.findAllByIsAdmin(false).isEmpty())
-                    throw new UtenteException("List empty");
+                    throw new UtenteException(LIST_IS_EMPTY.name());
                 utenteCrud.findAllByIsAdmin(false).forEach(utente -> result.add(Utente.to(utente)));
 
                 break;
             default:
-                throw new UtenteException("Error in parameter for getAll Function");
+                throw new UtenteException(MISSING_PARAMETERS.name());
         }
         return result;
     }
@@ -146,56 +150,56 @@ public class UtenteServiceImpl implements UtenteService {
     @Override
     public UtenteDTO getByMail(String mail) {
         if (Objects.isNull(utenteCrud.findByMail(mail)))
-            throw new UtenteException("Not found");
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         return Utente.to(utenteCrud.findByMail(mail));
     }
 
     @Override
     public UtenteDTO getByUser(String username) {
         if (Objects.isNull(utenteCrud.findByUsername(username)))
-            throw new UtenteException("Not found");
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         return Utente.to(utenteCrud.findByUsername(username));
     }
 
     @Override
     public UtenteDTO getById(Long id) {
         if (!utenteCrud.existsById(id))
-            throw new UtenteException("Not found");
-        return Utente.to(utenteCrud.findById(id).orElseThrow(() -> new UtenteException("Cannot find Utente")));
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
+        return Utente.to(utenteCrud.findById(id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public UtenteDTO getBySigla(Integer siglaResidenza) {
         if (Objects.isNull(utenteCrud.findBySiglaResidenza(siglaResidenza)))
-            throw new UtenteException("User with this sigla doesn't exist");
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         return Utente.to(utenteCrud.findBySiglaResidenza(siglaResidenza));
     }
 
     @Override
     public UtenteDTO getLoginUtente(String username, String password) {
         if (Objects.isNull(username) || Objects.isNull(password))
-            throw new UtenteException("Missing parameters!");
+            throw new UtenteException(MISSING_PARAMETERS.name());
         return Utente.to(utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password)));
     }
 
     @Override
     public Feedback addFeedbackToUser(Long userId, FeedbackDTO feedbackDTO) {
         if (!utenteCrud.existsById(userId))
-            throw new UtenteException("Not found");
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         return feedbackHelper.addFeedbackToUser(userId, feedbackDTO);
     }
 
     @Override
     public Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO) {
         if (!utenteCrud.existsById(userId))
-            throw new UtenteException("Not found");
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         return propostaHelper.addPropostaToUser(userId, propostaDTO);
     }
 
     @Override
     public Prodotto addProdottoToUser(Long userId, ProdottoDTO prodottoDTO) {
         if (!utenteCrud.existsById(userId))
-            throw new UtenteException("Not found");
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         return prodottoHelper.addProdottoToUser(userId, prodottoDTO);
     }
 
@@ -204,7 +208,7 @@ public class UtenteServiceImpl implements UtenteService {
         if (utenteCrud.existsById(userId))
             return pagamentoHelper.addPagamentoToUser(userId, pagamentoDTO);
 
-        throw new UtenteException("Not found");
+        throw new UtenteException(CANNOT_FIND_ELEMENT.name());
     }
 
 }

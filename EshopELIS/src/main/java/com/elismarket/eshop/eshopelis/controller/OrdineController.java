@@ -3,7 +3,7 @@ package com.elismarket.eshop.eshopelis.controller;
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
-import com.elismarket.eshop.eshopelis.service.OrdineService;
+import com.elismarket.eshop.eshopelis.service.interfaces.OrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +36,11 @@ public class OrdineController {
     @GetMapping("/all")
     public List<OrdineDTO> getAll() {
         return ordineService.getAll();
+    }
+
+    @GetMapping("/all/utente/{userId}")
+    public List<OrdineDTO> getAllByUtente(@PathVariable Long userId) {
+        return ordineService.getAllByUtente(userId);
     }
 
     @GetMapping("/evaso/{evaso}")

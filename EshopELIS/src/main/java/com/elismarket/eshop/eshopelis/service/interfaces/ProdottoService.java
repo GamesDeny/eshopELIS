@@ -1,6 +1,5 @@
-package com.elismarket.eshop.eshopelis.service;
+package com.elismarket.eshop.eshopelis.service.interfaces;
 
-import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
@@ -16,10 +15,6 @@ public interface ProdottoService {
 
     List<ProdottoDTO> getAll();
 
-    List<ProdottoDTO> findAllByCategoria(CategoriaDTO categoriaDTO);
-
-    List<ProdottoDTO> findByQuantitaMaggiore(Integer quantita);
-
     List<ProdottoDTO> findByQuantitaMinore(Integer quantita);
 
     ProdottoDTO getById(Long id);
@@ -27,4 +22,6 @@ public interface ProdottoService {
     RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO);
 
     List<ProdottoDTO> getProdottoByCategoria(Long categoriaId);
+
+    List<ProdottoDTO> findAllByUtente(Long userId);
 }

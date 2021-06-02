@@ -5,6 +5,7 @@ import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
+import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
@@ -31,9 +35,9 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public CategoriaDTO updateCategoria(Long categoriaId, CategoriaDTO categoriaDTO) {
         if (!categoriaCrud.existsById(categoriaId))
-            throw new CategoriaException("Not found");
+            throw new CategoriaException(CANNOT_FIND_ELEMENT.name());
 
-        Categoria c = categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException("Cannot find Categoria"));
+        Categoria c = categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name()));
 
         categoriaDTO.id = categoriaId;
         categoriaDTO.nome = Objects.isNull(categoriaDTO.nome) ? c.getNome() : categoriaDTO.nome;
@@ -44,13 +48,13 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         categoriaCrud.saveAndFlush(save);
 
-        return Categoria.to(categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException("Cannot find item")));
+        return Categoria.to(categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public Boolean deleteCategoria(Long id) {
         if (!categoriaCrud.existsById(id))
-            throw new CategoriaException("Not found");
+            throw new CategoriaException(CANNOT_FIND_ELEMENT.name());
 
         categoriaCrud.deleteById(id);
         return !categoriaCrud.existsById(id);
@@ -59,7 +63,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public List<CategoriaDTO> getAll() {
         if (categoriaCrud.findAll().isEmpty())
-            throw new CategoriaException("List is empty");
+            throw new CategoriaException(LIST_IS_EMPTY.name());
 
         List<CategoriaDTO> result = new ArrayList<>();
         categoriaCrud.findAll().forEach(categoria -> result.add(Categoria.to(categoria)));
@@ -68,6 +72,6 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public CategoriaDTO getById(Long id) {
-        return Categoria.to(categoriaCrud.findById(id).orElseThrow(() -> new CategoriaException("Cannot find Categoria")));
+        return Categoria.to(categoriaCrud.findById(id).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
     }
 }

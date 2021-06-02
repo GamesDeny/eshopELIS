@@ -8,6 +8,7 @@ import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
+import com.elismarket.eshop.eshopelis.service.interfaces.PropostaService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
 @Service
 public class PropostaServiceImpl implements PropostaService {
@@ -51,9 +54,9 @@ public class PropostaServiceImpl implements PropostaService {
     @Override
     public PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO) {
         if (!propostaCrud.existsById(id))
-            throw new PropostaException("Not Found");
+            throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
-        Proposta p = propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta"));
+        Proposta p = propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name()));
 
         propostaDTO.id = id;
         propostaDTO.prezzoProposto = Objects.isNull(propostaDTO.prezzoProposto) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto;
@@ -73,13 +76,13 @@ public class PropostaServiceImpl implements PropostaService {
         if (propostaDTO.isAccettato)
             prodottoHelper.addProdotto(propostaDTO);
 
-        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
+        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public Boolean removeProposta(Long id) {
         if (!propostaCrud.existsById(id))
-            throw new PropostaException("Not Found");
+            throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
         propostaCrud.deleteById(id);
         return !propostaCrud.existsById(id);
@@ -88,7 +91,7 @@ public class PropostaServiceImpl implements PropostaService {
     @Override
     public List<PropostaDTO> findAllByIsAccettato(Boolean isAccettato) {
         if (propostaCrud.findAllByIsAccettato(isAccettato).isEmpty())
-            throw new PropostaException("List is empty");
+            throw new PropostaException(LIST_IS_EMPTY.name());
 
         List<PropostaDTO> result = new ArrayList<>();
         propostaCrud.findAllByIsAccettato(isAccettato).forEach(proposta -> result.add(Proposta.to(proposta)));
@@ -97,8 +100,11 @@ public class PropostaServiceImpl implements PropostaService {
 
     @Override
     public List<PropostaDTO> findAllByUtente(Long id) {
+        if (Objects.isNull(id))
+            throw new PropostaException(MISSING_PARAMETERS.name());
+
         if (propostaCrud.findAllByUtente(id).isEmpty())
-            throw new PropostaException("List is empty");
+            throw new PropostaException(LIST_IS_EMPTY.name());
 
         List<PropostaDTO> result = new ArrayList<>();
         propostaCrud.findAllByUtente(id).forEach(proposta -> result.add(Proposta.to(proposta)));
@@ -106,10 +112,21 @@ public class PropostaServiceImpl implements PropostaService {
     }
 
     @Override
-    public PropostaDTO getById(Long id) {
-        if (!propostaCrud.findById(id).isPresent())
-            throw new PropostaException("Not Found");
+    public List<PropostaDTO> findAll() {
 
-        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException("Cannot find Proposta")));
+        if (propostaCrud.findAll().isEmpty())
+            throw new PropostaException(LIST_IS_EMPTY.name());
+
+        List<PropostaDTO> result = new ArrayList<>();
+        propostaCrud.findAll().forEach(proposta -> result.add(Proposta.to(proposta)));
+        return result;
+    }
+
+    @Override
+    public PropostaDTO findById(Long id) {
+        if (!propostaCrud.findById(id).isPresent())
+            throw new PropostaException(CANNOT_FIND_ELEMENT.name());
+
+        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
     }
 }

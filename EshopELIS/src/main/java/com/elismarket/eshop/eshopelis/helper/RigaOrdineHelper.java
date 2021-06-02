@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
+
 @Component
 public class RigaOrdineHelper {
     @Autowired
@@ -42,7 +44,7 @@ public class RigaOrdineHelper {
     public void linkRigheToOrdine(Long ordineId, List<Long> righeOrdine_id) {
         List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
         if (result.isEmpty())
-            throw new RigaOrdineException("List is empty");
+            throw new RigaOrdineException(LIST_IS_EMPTY.name());
 
         result.forEach(rigaOrdine -> rigaOrdine.setOrdine(ordineHelper.getOrdine(ordineId)));
         rigaOrdineCrud.saveAll(result);
@@ -51,7 +53,7 @@ public class RigaOrdineHelper {
     public void linkRigheToProdotto(Long prodottoId, List<Long> righeOrdine_id) {
         List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
         if (result.isEmpty())
-            throw new RigaOrdineException("List is empty");
+            throw new RigaOrdineException(LIST_IS_EMPTY.name());
 
         result.forEach(riga -> riga.setProdotto(prodottoHelper.findById(prodottoId)));
         rigaOrdineCrud.saveAll(result);
@@ -59,7 +61,7 @@ public class RigaOrdineHelper {
 
     public void saveAll(List<RigaOrdineDTO> righe) {
         if (righe.isEmpty())
-            throw new RigaOrdineException("List is empty");
+            throw new RigaOrdineException(LIST_IS_EMPTY.name());
 
         List<RigaOrdine> result = new ArrayList<>();
         righe.forEach(riga -> result.add(RigaOrdine.of(riga)));

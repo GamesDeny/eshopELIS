@@ -1,4 +1,4 @@
-package com.elismarket.eshop.eshopelis.service;
+package com.elismarket.eshop.eshopelis.service.interfaces;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 
@@ -15,6 +15,7 @@ public interface PropostaService {
 
     List<PropostaDTO> findAllByUtente(Long id);
 
-    PropostaDTO getById(Long id);
+    PropostaDTO findById(Long id);
 
+    List<PropostaDTO> findAll();
 }

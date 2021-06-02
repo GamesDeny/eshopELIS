@@ -1,7 +1,7 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.TipoMetodoDTO;
-import com.elismarket.eshop.eshopelis.service.TipoMetodoService;
+import com.elismarket.eshop.eshopelis.service.interfaces.TipoMetodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

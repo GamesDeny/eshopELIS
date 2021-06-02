@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
+
 @Component
 public class PagamentoHelper {
     @Autowired
@@ -33,13 +36,13 @@ public class PagamentoHelper {
     }
 
     public Pagamento findById(Long pagamento_id) {
-        return pagamentoCrud.findById(pagamento_id).orElseThrow(() -> new PagamentoException("Pagamento not found"));
+        return pagamentoCrud.findById(pagamento_id).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name()));
     }
 
     public void linkUtenteToPagamenti(Long utenteId, List<Long> pagamenti_id) {
         List<Pagamento> result = pagamentoCrud.findAllById(pagamenti_id);
         if (result.isEmpty())
-            throw new PagamentoException("List is empty");
+            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         result.forEach(pagamento -> pagamento.setUtente(utenteHelper.findById(utenteId)));
         pagamentoCrud.saveAll(result);
@@ -48,7 +51,7 @@ public class PagamentoHelper {
     public void linkMetodoToPagamento(Long tipoPagamentoId, List<Long> pagamenti_id) {
         List<Pagamento> result = pagamentoCrud.findAllById(pagamenti_id);
         if (result.isEmpty())
-            throw new PagamentoException("List is empty");
+            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         result.forEach(pagamento -> pagamento.setTipoMetodo(tipoMetodoHelper.findById(tipoPagamentoId)));
         pagamentoCrud.saveAll(result);

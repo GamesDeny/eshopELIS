@@ -12,6 +12,7 @@ import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
+import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
 /*
  *
@@ -52,7 +55,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         CategoriaDTO c = categoriaHelper.findById(prodottoDTO.categoria_id);
         p.setCategoria(Categoria.of(c));
 
-        if (Objects.isNull(prodottoDTO.utente_id))
+        if (!Objects.isNull(prodottoDTO.utente_id))
             p.setUtente(utenteHelper.findById(prodottoDTO.utente_id));
 
         return Prodotto.to(prodottoCrud.saveAndFlush(p));
@@ -61,9 +64,9 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Override
     public ProdottoDTO updateProdotto(Long prodottoId, ProdottoDTO prodottoDTO) {
         if (!prodottoCrud.existsById(prodottoId))
-            throw new ProdottoException("Not Found");
+            throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
-        Prodotto p = prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException("Cannot find Prodotto"));
+        Prodotto p = prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
 
         prodottoDTO.id = prodottoId;
         prodottoDTO.descrizione = Objects.isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione;
@@ -87,14 +90,14 @@ public class ProdottoServiceImpl implements ProdottoService {
             rigaOrdineHelper.linkRigheToProdotto(prodottoId, prodottoDTO.righeOrdine_id);
         prodottoCrud.saveAndFlush(save);
 
-        return Prodotto.to(prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
+        return Prodotto.to(prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name())));
 
     }
 
     @Override
     public Boolean removeProdotto(Long id) {
         if (!prodottoCrud.existsById(id))
-            throw new ProdottoException("Cannot find Prodotto for provided item");
+            throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
         prodottoCrud.deleteById(id);
         return prodottoCrud.existsById(id);
@@ -103,7 +106,7 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Override
     public List<ProdottoDTO> getAll() {
         if (prodottoCrud.findAll().isEmpty())
-            throw new ProdottoException("List is empty");
+            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAll().forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -111,29 +114,22 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     @Override
-    public List<ProdottoDTO> findAllByCategoria(CategoriaDTO categoriaDTO) {
-        if (prodottoCrud.findAllByCategoria(Categoria.of(categoriaDTO)).isEmpty())
-            throw new ProdottoException("List is empty");
+    public List<ProdottoDTO> findAllByUtente(Long userId) {
+        if (Objects.isNull(userId))
+            throw new ProdottoException(MISSING_PARAMETERS.name());
+
+        if (prodottoCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
+            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
-        prodottoCrud.findAllByCategoria(Categoria.of(categoriaDTO)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
-        return result;
-    }
-
-    @Override
-    public List<ProdottoDTO> findByQuantitaMaggiore(Integer quantita) {
-        if (prodottoCrud.findAllByQuantitaGreaterThanEqual(quantita).isEmpty())
-            throw new ProdottoException("List is empty");
-
-        List<ProdottoDTO> result = new ArrayList<>();
-        prodottoCrud.findAllByQuantitaGreaterThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+        prodottoCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
         return result;
     }
 
     @Override
     public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {
         if (prodottoCrud.findAllByQuantitaLessThanEqual(quantita).isEmpty())
-            throw new ProdottoException("List is empty");
+            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByQuantitaLessThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -143,15 +139,15 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Override
     public ProdottoDTO getById(Long id) {
         if (!prodottoCrud.existsById(id))
-            throw new ProdottoException("Not found");
+            throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
-        return Prodotto.to(prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException("Cannot find Prodotto")));
+        return Prodotto.to(prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO) {
         if (!prodottoCrud.existsById(prodId))
-            throw new ProdottoException("Cannot find Prodotto");
+            throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
         return rigaOrdineHelper.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);
     }
@@ -159,9 +155,9 @@ public class ProdottoServiceImpl implements ProdottoService {
     @Override
     public List<ProdottoDTO> getProdottoByCategoria(Long categoriaId) {
         if (Objects.isNull(categoriaId))
-            throw new ProdottoException("Missing parameter");
+            throw new ProdottoException(MISSING_PARAMETERS.name());
         if (prodottoCrud.findAllByCategoria(Categoria.of(categoriaHelper.findById(categoriaId))).isEmpty())
-            throw new ProdottoException("Missing categories");
+            throw new ProdottoException(MISSING_PARAMETERS.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByCategoria(Categoria.of(categoriaHelper.findById(categoriaId))).forEach(prodotto -> result.add(Prodotto.to(prodotto)));

@@ -88,7 +88,6 @@ public class Prodotto {
         p.quantita = prodotto.getQuantita();
         p.image = prodotto.getImage();
         p.categoria_id = prodotto.getCategoria().getId();
-        p.utente_id = prodotto.getUtente().getId();
 
         return p;
     }

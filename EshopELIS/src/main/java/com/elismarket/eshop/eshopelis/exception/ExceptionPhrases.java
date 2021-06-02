@@ -1,0 +1,17 @@
+package com.elismarket.eshop.eshopelis.exception;
+
+public enum ExceptionPhrases {
+    MISSING_PARAMETERS,
+    LIST_IS_EMPTY,
+    WRONG_PARAMETERS,
+    CANNOT_FIND_ELEMENT,
+    DUPLICATE,
+    MAIL_OR_PASSWORD_INCONSISTENT,
+    INVALID_MAIL,
+    INVALID_PASSWORD,
+    DATE_NOT_VALID,
+    INCONSISTENT_SIGLA,
+    UNSUFFICIENT_QUANTITA,
+    TOO_YOUNG,
+    TOO_OLD
+}

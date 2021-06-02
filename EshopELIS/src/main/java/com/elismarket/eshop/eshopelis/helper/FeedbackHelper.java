@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
+
 /**
  * Helper is needed for the updates that include other entities
  * add it to the service and let controller return object, not DTO
@@ -36,7 +38,7 @@ public class FeedbackHelper {
     public void linkUtenteToFeedbacks(Long utenteId, List<Long> feedbacks_id) {
         List<Feedback> result = feedbackCrud.findAllById(feedbacks_id);
         if (result.isEmpty())
-            throw new FeedbackException("List is empty");
+            throw new FeedbackException(LIST_IS_EMPTY.name());
 
         result.forEach(feedback -> feedback.setUtente(utenteHelper.findById(utenteId)));
         feedbackCrud.saveAll(result);

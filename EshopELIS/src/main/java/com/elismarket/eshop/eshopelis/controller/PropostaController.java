@@ -1,7 +1,7 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
-import com.elismarket.eshop.eshopelis.service.PropostaService;
+import com.elismarket.eshop.eshopelis.service.interfaces.PropostaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +29,16 @@ public class PropostaController {
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeProposta(@RequestParam Long id) {
         return propostaService.removeProposta(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+    }
+
+    @GetMapping("/all")
+    public List<PropostaDTO> getAll() {
+        return propostaService.findAll();
+    }
+
+    @GetMapping("/all/utente/{userId}")
+    public List<PropostaDTO> getAllByUtente(@PathVariable Long userId) {
+        return propostaService.findAllByUtente(userId);
     }
 
     @GetMapping("/accettati/si")

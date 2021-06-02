@@ -6,6 +6,7 @@ import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
+import com.elismarket.eshop.eshopelis.service.interfaces.RigaOrdineService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
 
 /*
@@ -37,15 +41,16 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Override
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
+        prodottoHelper.decreaseQuantita(rigaOrdineDTO.prodotto_id, rigaOrdineDTO.quantitaProdotto);
         return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(RigaOrdine.of(rigaOrdineDTO)));
     }
 
     @Override
     public RigaOrdineDTO updateRigaOrdine(Long id, RigaOrdineDTO rigaOrdineDTO) {
         if (!rigaOrdineCrud.existsById(id))
-            throw new RigaOrdineException("Not Found");
+            throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
 
-        RigaOrdine r = rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine"));
+        RigaOrdine r = rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name()));
 
         rigaOrdineDTO.id = id;
         rigaOrdineDTO.prezzoTotale = Objects.isNull(rigaOrdineDTO.prezzoTotale) ? r.getPrezzoTotale() : rigaOrdineDTO.prezzoTotale;
@@ -59,13 +64,13 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         save.setProdotto(Objects.isNull(rigaOrdineDTO.prodotto_id) ? r.getProdotto() : prodottoHelper.findById(rigaOrdineDTO.prodotto_id));
         rigaOrdineCrud.saveAndFlush(save);
 
-        return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine")));
+        return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public Boolean removeRigaOrdine(Long id) {
         if (!rigaOrdineCrud.existsById(id))
-            throw new RigaOrdineException("Not Found");
+            throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
 
         rigaOrdineCrud.deleteById(id);
         return !rigaOrdineCrud.existsById(id);
@@ -74,7 +79,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Override
     public List<RigaOrdineDTO> getAll() {
         if (rigaOrdineCrud.findAll().isEmpty())
-            throw new RigaOrdineException("List is empty");
+            throw new RigaOrdineException(LIST_IS_EMPTY.name());
 
         List<RigaOrdineDTO> result = new ArrayList<>();
         rigaOrdineCrud.findAll().forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));
@@ -84,14 +89,14 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Override
     public RigaOrdineDTO getById(Long id) {
         if (!rigaOrdineCrud.findById(id).isPresent())
-            throw new RigaOrdineException("Not found");
-        return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException("Cannot find RigaOrdine")));
+            throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
+        return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public List<RigaOrdineDTO> getByQuantita(Integer quantita) {
         if (rigaOrdineCrud.findAll().isEmpty())
-            throw new RigaOrdineException("List is empty");
+            throw new RigaOrdineException(LIST_IS_EMPTY.name());
 
         List<RigaOrdineDTO> result = new ArrayList<>();
         rigaOrdineCrud.findAllByQuantitaProdottoGreaterThanEqual(quantita).forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));

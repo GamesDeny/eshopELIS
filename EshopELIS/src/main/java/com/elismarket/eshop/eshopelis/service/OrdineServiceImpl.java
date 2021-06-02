@@ -9,6 +9,7 @@ import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
+import com.elismarket.eshop.eshopelis.service.interfaces.OrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
 
 /*
@@ -55,9 +58,9 @@ public class OrdineServiceImpl implements OrdineService {
     @Override
     public OrdineDTO updateOrdine(Long ordineId, OrdineDTO ordineDTO) {
         if (!ordineCrud.existsById(ordineId))
-            throw new OrdineException("Not found");
+            throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 
-        Ordine o = ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException("Cannot find Ordine"));
+        Ordine o = ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name()));
 
         ordineDTO.id = ordineId;
         ordineDTO.evaso = Objects.isNull(ordineDTO.evaso) ? o.getEvaso() : ordineDTO.evaso;
@@ -69,13 +72,13 @@ public class OrdineServiceImpl implements OrdineService {
             rigaOrdineHelper.linkRigheToOrdine(ordineId, ordineDTO.righeOrdine_id);
         ordineCrud.saveAndFlush(save);
 
-        return Ordine.to(ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
+        return Ordine.to(ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public Boolean removeOrdine(Long id) {
         if (!ordineCrud.existsById(id))
-            throw new OrdineException("Not found");
+            throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 
         ordineCrud.deleteById(id);
         return !ordineCrud.existsById(id);
@@ -84,7 +87,7 @@ public class OrdineServiceImpl implements OrdineService {
     @Override
     public List<OrdineDTO> getAll() {
         if (ordineCrud.findAll().isEmpty())
-            throw new OrdineException("List is empty");
+            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAll().forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -92,9 +95,22 @@ public class OrdineServiceImpl implements OrdineService {
     }
 
     @Override
+    public List<OrdineDTO> getAllByUtente(Long userId) {
+        if (Objects.isNull(userId))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
+        if (ordineCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
+            throw new OrdineException(LIST_IS_EMPTY.name());
+
+        List<OrdineDTO> result = new ArrayList<>();
+        ordineCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(ordine -> result.add(Ordine.to(ordine)));
+        return result;
+    }
+
+    @Override
     public List<OrdineDTO> getEvaso(Boolean evaso) {
         if (ordineCrud.findAllByEvaso(evaso).isEmpty())
-            throw new OrdineException("List is empty");
+            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByEvaso(evaso).forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -104,7 +120,7 @@ public class OrdineServiceImpl implements OrdineService {
     @Override
     public List<OrdineDTO> getDataPrima(LocalDate dataEvasione) {
         if (ordineCrud.findAllByDataEvasioneBefore(dataEvasione).isEmpty())
-            throw new OrdineException("List is empty");
+            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByDataEvasioneBefore(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -114,7 +130,7 @@ public class OrdineServiceImpl implements OrdineService {
     @Override
     public List<OrdineDTO> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2) {
         if (ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2).isEmpty())
-            throw new OrdineException("List is empty");
+            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2).forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -124,7 +140,7 @@ public class OrdineServiceImpl implements OrdineService {
     @Override
     public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {
         if (ordineCrud.findAllByDataEvasioneAfter(dataEvasione).isEmpty())
-            throw new OrdineException("List is empty");
+            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByDataEvasioneAfter(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -134,14 +150,14 @@ public class OrdineServiceImpl implements OrdineService {
     @Override
     public OrdineDTO getById(Long id) {
         if (!ordineCrud.findById(id).isPresent())
-            throw new OrdineException("Not found");
-        return Ordine.to(ordineCrud.findById(id).orElseThrow(() -> new OrdineException("Cannot find Ordine")));
+            throw new OrdineException(CANNOT_FIND_ELEMENT.name());
+        return Ordine.to(ordineCrud.findById(id).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name())));
     }
 
     @Override
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
         if (!ordineCrud.existsById(ordineId))
-            throw new OrdineException("Cannot find Ordine");
+            throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 
         return rigaOrdineHelper.addRigaOrdineToOrdine(ordineId, rigaOrdineDTO);
     }

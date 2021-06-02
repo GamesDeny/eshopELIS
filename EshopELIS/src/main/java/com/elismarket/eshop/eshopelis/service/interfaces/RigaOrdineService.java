@@ -1,4 +1,4 @@
-package com.elismarket.eshop.eshopelis.service;
+package com.elismarket.eshop.eshopelis.service.interfaces;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 

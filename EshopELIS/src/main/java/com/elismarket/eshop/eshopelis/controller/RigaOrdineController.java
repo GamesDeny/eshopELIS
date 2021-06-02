@@ -1,7 +1,7 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
-import com.elismarket.eshop.eshopelis.service.RigaOrdineService;
+import com.elismarket.eshop.eshopelis.service.interfaces.RigaOrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

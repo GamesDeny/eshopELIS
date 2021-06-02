@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
+
 @Component
 public class PropostaHelper {
     @Autowired
@@ -29,7 +31,7 @@ public class PropostaHelper {
     public void linkUtenteToProposte(Long utenteId, List<Long> proposte_id) {
         List<Proposta> result = propostaCrud.findAllById(proposte_id);
         if (result.isEmpty())
-            throw new PropostaException("List is empty");
+            throw new PropostaException(LIST_IS_EMPTY.name());
 
         result.forEach(proposta -> proposta.setUtente(utenteHelper.findById(utenteId)));
         propostaCrud.saveAll(result);

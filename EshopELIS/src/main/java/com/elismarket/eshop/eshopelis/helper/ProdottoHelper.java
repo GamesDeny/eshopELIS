@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+
 @Component
 public class ProdottoHelper {
     @Autowired
@@ -36,13 +38,13 @@ public class ProdottoHelper {
     }
 
     public Prodotto findById(Long prodottoId) {
-        return prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException("Cannot find Prodotto"));
+        return prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
     }
 
     public void linkUtenteToProdotti(Long utenteId, List<Long> prodotti_id) {
         List<Prodotto> result = prodottoCrud.findAllById(prodotti_id);
         if (result.isEmpty())
-            throw new ProdottoException("List is empty");
+            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         result.forEach(prodotto -> prodotto.setUtente(utenteHelper.findById(utenteId)));
         prodottoCrud.saveAll(result);
@@ -51,7 +53,7 @@ public class ProdottoHelper {
     public void linkCategoriaToProdotto(Long categoriaId, List<Long> prodotti) {
         List<Prodotto> result = prodottoCrud.findAllById(prodotti);
         if (result.isEmpty())
-            throw new CategoriaException("List is empty");
+            throw new CategoriaException(LIST_IS_EMPTY.name());
 
         result.forEach(prodotto -> prodotto.setCategoria(Categoria.of(categoriaHelper.findById(categoriaId))));
         prodottoCrud.saveAll(result);
@@ -75,9 +77,12 @@ public class ProdottoHelper {
     }
 
 
-    public void linkProdottoToCategoria(Long id, List<Long> prodotti) {
-        List<Prodotto> list = prodottoCrud.findAllById(prodotti);
-        list.forEach(prodotto -> prodotto.setCategoria(Categoria.of(categoriaHelper.findById(id))));
-        prodottoCrud.saveAll(list);
+    public void decreaseQuantita(Long prodotto_id, Integer quantitaProdotto) {
+        Prodotto p = prodottoCrud.findById(prodotto_id).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
+        if (p.getQuantita() - quantitaProdotto < 0)
+            throw new ProdottoException(UNSUFFICIENT_QUANTITA.name());
+
+        p.setQuantita(p.getQuantita() - quantitaProdotto);
+        prodottoCrud.saveAndFlush(p);
     }
 }

@@ -3,7 +3,7 @@ package com.elismarket.eshop.eshopelis.controller;
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
-import com.elismarket.eshop.eshopelis.service.ProdottoService;
+import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +46,9 @@ public class ProdottoController {
         return prodottoService.getAll();
     }
 
-    public List<ProdottoDTO> findByQuantitaMaggiore(@PathVariable Integer quantita) {
-        return prodottoService.findByQuantitaMaggiore(quantita);
+    @GetMapping("/all/utente/{userId}")
+    public List<ProdottoDTO> findAllByUtente(@PathVariable Integer userId) {
+        return prodottoService.findAllByUtente(userId);
     }
 
     @GetMapping("/all/quantita/minore/{quantita}")

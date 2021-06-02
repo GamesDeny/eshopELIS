@@ -1,4 +1,4 @@
-package com.elismarket.eshop.eshopelis.service;
+package com.elismarket.eshop.eshopelis.service.interfaces;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
@@ -28,4 +28,6 @@ public interface OrdineService {
     OrdineDTO getById(Long id);
 
     RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO);
+
+    List<OrdineDTO> getAllByUtente(Long userId);
 }
