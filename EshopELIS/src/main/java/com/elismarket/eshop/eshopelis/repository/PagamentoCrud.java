@@ -5,18 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-
-/*
+/**
+ * Jpa repository for {@link Pagamento Pagamento}
  *
- * CRUD class for Paymant methods
- * findAllByTipo returns a list of all payments made for a certain type (cash/paypal)
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
-
 public interface PagamentoCrud extends JpaRepository<Pagamento, Long> {
-    List<Pagamento> findAllByContantiNotNull();
+    List<Pagamento> findAllByContantiNotNullAndContantiGreaterThanEqual(Float value);
 
     List<Pagamento> findAllByPaypalMailNotNull();
 
-    Boolean existsByDescrizione(String descrizione);
 }

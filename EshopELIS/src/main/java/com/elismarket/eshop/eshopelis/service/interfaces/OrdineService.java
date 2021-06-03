@@ -2,11 +2,20 @@ package com.elismarket.eshop.eshopelis.service.interfaces;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
+import com.elismarket.eshop.eshopelis.service.OrdineServiceImpl;
 
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Service layer for the {@link Ordine Ordine} entity
+ * For implementation of methods see {@link OrdineServiceImpl OrdineServiceImpl}
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 public interface OrdineService {
 
     OrdineDTO saveOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe);

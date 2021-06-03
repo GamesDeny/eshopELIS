@@ -5,11 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-
+/**
+ * Jpa repository for {@link Utente Utente}
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 public interface UtenteCrud extends JpaRepository<Utente, Long> {
-
-//    //    Imposta 0 di default
-//    List<Utente> findAllByIdGreaterThanEqual(Long Id);
 
     List<Utente> findAllByIsAdmin(Boolean isAdmin);
 

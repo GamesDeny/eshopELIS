@@ -2,6 +2,7 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.exception.CategoriaException;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
@@ -17,21 +18,47 @@ import java.util.Objects;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
+/**
+ * {@link Categoria Categoria} service class for interaction between DB and relative Controller
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
+    /**
+     * @see CategoriaCrud
+     */
     @Autowired
     CategoriaCrud categoriaCrud;
 
+    /**
+     * @see ProdottoHelper
+     */
     @Autowired
     ProdottoHelper prodottoHelper;
 
+    /**
+     * Adds a Categoria to the DB
+     *
+     * @param categoriaDTO {@link CategoriaDTO CategoriaDTO} with required fields
+     * @return the {@link Categoria Categoria} created
+     */
     @Override
     public CategoriaDTO addCategoria(CategoriaDTO categoriaDTO) {
         Checkers.categoriaFieldsChecker(categoriaDTO);
         return Categoria.to(categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO)));
     }
 
+    /**
+     * Updates with HTTP Patch for a Categoria
+     *
+     * @param categoriaId  of the {@link Categoria Categoria} to Update
+     * @param categoriaDTO {@link CategoriaDTO CategoriaDTO} with the informations to update
+     * @return Updated CategoriaDTO
+     * @throws CategoriaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public CategoriaDTO updateCategoria(Long categoriaId, CategoriaDTO categoriaDTO) {
         if (!categoriaCrud.existsById(categoriaId))
@@ -51,6 +78,13 @@ public class CategoriaServiceImpl implements CategoriaService {
         return Categoria.to(categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
     }
 
+    /**
+     * Delete of a {@link Categoria Categoria}
+     *
+     * @param id of the {@link Categoria Categoria} to delete
+     * @return HTTP 200 if deleted successfully, else 500
+     * @throws CategoriaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Boolean deleteCategoria(Long id) {
         if (!categoriaCrud.existsById(id))
@@ -60,6 +94,12 @@ public class CategoriaServiceImpl implements CategoriaService {
         return !categoriaCrud.existsById(id);
     }
 
+    /**
+     * returns all Categoria in the DB
+     *
+     * @return List {@link Categoria Categoria}
+     * @throws CategoriaException with {@link ExceptionPhrases#LIST_IS_EMPTY} message
+     */
     @Override
     public List<CategoriaDTO> getAll() {
         if (categoriaCrud.findAll().isEmpty())
@@ -70,6 +110,13 @@ public class CategoriaServiceImpl implements CategoriaService {
         return result;
     }
 
+    /**
+     * Retrieves a Categoria for the provided item if exists
+     *
+     * @param id of the {@link Categoria Cateforia} to retrieve
+     * @return {@link Categoria Categoria} for provided id
+     * @throws CategoriaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public CategoriaDTO getById(Long id) {
         return Categoria.to(categoriaCrud.findById(id).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));

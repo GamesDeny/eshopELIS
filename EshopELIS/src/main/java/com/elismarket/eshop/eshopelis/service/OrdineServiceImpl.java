@@ -2,12 +2,15 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.OrdineException;
 import com.elismarket.eshop.eshopelis.helper.PagamentoHelper;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Ordine;
+import com.elismarket.eshop.eshopelis.model.Pagamento;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
+import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.OrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,34 +23,54 @@ import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
-
-/*
+/**
+ * {@link Ordine Ordine} service class for interaction between DB and relative Controller
  *
- * Service class for CRUD operations and control of Order
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
 @Service
 public class OrdineServiceImpl implements OrdineService {
 
+    /**
+     * @see OrdineCrud
+     */
     @Autowired
     OrdineCrud ordineCrud;
 
+    /**
+     * @see PagamentoHelper
+     */
     @Autowired
     PagamentoHelper pagamentoHelper;
 
+    /**
+     * @ see RigaOrdineHelper
+     */
     @Autowired
     RigaOrdineHelper rigaOrdineHelper;
 
+    /**
+     * @see UtenteHelper
+     */
     @Autowired
     UtenteHelper utenteHelper;
 
+    /**
+     * Adds an Ordine
+     *
+     * @param userId      id of the {@link Utente Utente} that placed order
+     * @param pagamentoId id of the {@link Pagamento Pagamento} that
+     * @param righe       ids of the {@link RigaOrdine RigaOrdine} that are connected to the order
+     * @return added Ordine
+     */
     @Override
     public OrdineDTO saveOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe) {
         Ordine o = new Ordine();
         List<Long> righeId = new ArrayList<>();
         righe.forEach(rigaOrdineDTO -> righeId.add(rigaOrdineDTO.id));
 
+        o.setEvaso(false);
         o.setPagamento(pagamentoHelper.findById(pagamentoId));
         o.setUtente(utenteHelper.findById(userId));
         rigaOrdineHelper.linkRigheToOrdine(o.getId(), righeId);
@@ -55,6 +78,14 @@ public class OrdineServiceImpl implements OrdineService {
         return Ordine.to(ordineCrud.saveAndFlush(o));
     }
 
+    /**
+     * Updates Ordine with the relative id with the info provided in the DTO
+     *
+     * @param ordineId  of the {@link Ordine Ordine} to
+     * @param ordineDTO {@link OrdineDTO OrdineDTO} with information to update
+     * @return DTO of updated item
+     * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public OrdineDTO updateOrdine(Long ordineId, OrdineDTO ordineDTO) {
         if (!ordineCrud.existsById(ordineId))
@@ -75,6 +106,13 @@ public class OrdineServiceImpl implements OrdineService {
         return Ordine.to(ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name())));
     }
 
+    /**
+     * Delete of Ordine with relative id
+     *
+     * @param id of the {@link Ordine Ordine} to
+     * @return HTTP status 200 if item is deleted otherwise 500
+     * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Boolean removeOrdine(Long id) {
         if (!ordineCrud.existsById(id))
@@ -84,6 +122,12 @@ public class OrdineServiceImpl implements OrdineService {
         return !ordineCrud.existsById(id);
     }
 
+    /**
+     * Returns all Ordine in the DB
+     *
+     * @return List of {@link OrdineDTO OrdineDTO}
+     * @throws OrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<OrdineDTO> getAll() {
         if (ordineCrud.findAll().isEmpty())
@@ -94,6 +138,27 @@ public class OrdineServiceImpl implements OrdineService {
         return result;
     }
 
+    /**
+     * Returns Ordine for provided id
+     *
+     * @return {@link OrdineDTO OrdineDTO}
+     * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
+    @Override
+    public OrdineDTO getById(Long id) {
+        if (!ordineCrud.findById(id).isPresent())
+            throw new OrdineException(CANNOT_FIND_ELEMENT.name());
+        return Ordine.to(ordineCrud.findById(id).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name())));
+    }
+
+    /**
+     * Returns all orders for an Utente
+     *
+     * @param userId id of the {@link Utente Utente}
+     * @return List of {@link OrdineDTO OrdineDTO}
+     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws OrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<OrdineDTO> getAllByUtente(Long userId) {
         if (Objects.isNull(userId))
@@ -107,6 +172,12 @@ public class OrdineServiceImpl implements OrdineService {
         return result;
     }
 
+    /**
+     * Returns all ordini evasi depending on variable
+     *
+     * @param evaso value of evaso
+     * @return List of {@link OrdineDTO OrdineDTO} evasi or not
+     */
     @Override
     public List<OrdineDTO> getEvaso(Boolean evaso) {
         if (ordineCrud.findAllByEvaso(evaso).isEmpty())
@@ -117,6 +188,12 @@ public class OrdineServiceImpl implements OrdineService {
         return result;
     }
 
+    /**
+     * Returns all Ordine where evaso = true, before a data
+     *
+     * @param dataEvasione {@link Ordine#getDataEvasione() dataEvasione} of all Ordine
+     * @return List {@link OrdineDTO OrdineDTO}
+     */
     @Override
     public List<OrdineDTO> getDataPrima(LocalDate dataEvasione) {
         if (ordineCrud.findAllByDataEvasioneBefore(dataEvasione).isEmpty())
@@ -127,16 +204,29 @@ public class OrdineServiceImpl implements OrdineService {
         return result;
     }
 
+    /**
+     * Returns all Ordine where evaso = true, between two values
+     *
+     * @param dataInizio starting data
+     * @param dataFine   final data
+     * @return List {@link OrdineDTO OrdineDTO}
+     */
     @Override
-    public List<OrdineDTO> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2) {
-        if (ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2).isEmpty())
+    public List<OrdineDTO> getDataTra(LocalDate dataInizio, LocalDate dataFine) {
+        if (ordineCrud.findAllByDataEvasioneBetween(dataInizio, dataFine).isEmpty())
             throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
-        ordineCrud.findAllByDataEvasioneBetween(dataEvasione1, dataEvasione2).forEach(ordine -> result.add(Ordine.to(ordine)));
+        ordineCrud.findAllByDataEvasioneBetween(dataInizio, dataFine).forEach(ordine -> result.add(Ordine.to(ordine)));
         return result;
     }
 
+    /**
+     * Returns all Ordine where evaso = true, after a data
+     *
+     * @param dataEvasione {@link Ordine#getDataEvasione() dataEvasione} of all Ordine
+     * @return List {@link OrdineDTO OrdineDTO}
+     */
     @Override
     public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {
         if (ordineCrud.findAllByDataEvasioneAfter(dataEvasione).isEmpty())
@@ -147,13 +237,13 @@ public class OrdineServiceImpl implements OrdineService {
         return result;
     }
 
-    @Override
-    public OrdineDTO getById(Long id) {
-        if (!ordineCrud.findById(id).isPresent())
-            throw new OrdineException(CANNOT_FIND_ELEMENT.name());
-        return Ordine.to(ordineCrud.findById(id).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name())));
-    }
-
+    /**
+     * Adds a RigaOrdine to the relative Ordine
+     *
+     * @param ordineId      id of {@link Ordine Ordine}
+     * @param rigaOrdineDTO {@link RigaOrdine RigaOrdine} to add
+     * @return the inserted data
+     */
     @Override
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
         if (!ordineCrud.existsById(ordineId))

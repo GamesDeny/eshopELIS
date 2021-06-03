@@ -5,16 +5,14 @@ import lombok.*;
 
 import javax.persistence.*;
 
-/*
- *
- * Order Row class with lombok methods (getter, setter, NAC, ToString)
+/**
+ * RigaOrdine class with lombok methods (getter, setter, NAC, ToString)
  * The class is used as an entity for the DB
- * The class contains all rows of an order related to an user
- * When user X makes an order, he can buy many objects
- * When this happens we store all rows (all different products) in this class
+ * The class contains all RigaOrdine information
  *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
 @Entity
 @Builder
 @Getter
@@ -25,27 +23,50 @@ import javax.persistence.*;
 @Table(name = "riga_ordine")
 public class RigaOrdine {
 
+    /**
+     * Primary key of the Entity
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //sconto applicato è la somma in denaro sottratta dal totale
+    /**
+     * Total price for the lotto
+     */
     @Column(nullable = false)
     private Float prezzoTotale;
 
+    /**
+     * sale applied to the sale
+     */
     private Float scontoApplicato;
 
+    /**
+     * Bought quantity
+     */
     @Column(nullable = false)
     private Integer quantitaProdotto;
 
+    /**
+     * All {@link Prodotto Prodotto} linked to the RigaOrdine
+     */
     @ManyToOne
     @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 
+    /**
+     * All {@link Prodotto Prodotto} linked to the RigaOrdine
+     */
     @ManyToOne
     @JoinColumn(name = "prodotto_id")
     private Prodotto prodotto;
 
+    /**
+     * Returns an instance of RigaOrdine from a {@link RigaOrdineDTO RigaOrdineDTO}
+     *
+     * @param rigaOrdineDTO instance of RigaOrdineDTO
+     * @return RigaOrdine representation of RigaOrdineDTO
+     */
     public static RigaOrdine of(RigaOrdineDTO rigaOrdineDTO) {
         return RigaOrdine.builder()
                 .prezzoTotale(rigaOrdineDTO.prezzoTotale)
@@ -54,6 +75,12 @@ public class RigaOrdine {
                 .build();
     }
 
+    /**
+     * Returns an instance of {@link RigaOrdineDTO RigaOrdineDTO} from a RigaOrdine
+     *
+     * @param rigaOrdine instance of RigaOrdine
+     * @return RigaOrdineDTO representation of the RigaOrdine
+     */
     public static RigaOrdineDTO to(RigaOrdine rigaOrdine) {
         RigaOrdineDTO r = new RigaOrdineDTO();
 

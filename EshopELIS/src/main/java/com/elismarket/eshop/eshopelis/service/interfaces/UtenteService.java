@@ -1,13 +1,18 @@
 package com.elismarket.eshop.eshopelis.service.interfaces;
 
 import com.elismarket.eshop.eshopelis.dto.*;
-import com.elismarket.eshop.eshopelis.model.Feedback;
-import com.elismarket.eshop.eshopelis.model.Pagamento;
-import com.elismarket.eshop.eshopelis.model.Prodotto;
-import com.elismarket.eshop.eshopelis.model.Proposta;
+import com.elismarket.eshop.eshopelis.model.*;
+import com.elismarket.eshop.eshopelis.service.UtenteServiceImpl;
 
 import java.util.List;
 
+/**
+ * Service layer for the {@link Utente Utente} entity
+ * For implementation of methods see {@link UtenteServiceImpl UtenteServiceImpl}
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 public interface UtenteService {
     UtenteDTO addUtente(UtenteDTO utenteDTO);
 
@@ -34,4 +39,6 @@ public interface UtenteService {
     Prodotto addProdottoToUser(Long userId, ProdottoDTO prodottoDTO);
 
     Pagamento addPagamentoToUser(Long userId, PagamentoDTO pagamentoDTO);
+
+    Boolean getLogout(Long userId);
 }

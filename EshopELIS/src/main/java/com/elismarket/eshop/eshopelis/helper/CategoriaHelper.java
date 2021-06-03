@@ -12,14 +12,32 @@ import java.util.Objects;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
+/**
+ * Helper class for {@link Categoria Categoria} entity
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 @Component
 public class CategoriaHelper {
+    /**
+     * @see CategoriaCrud
+     */
     @Autowired
     CategoriaCrud categoriaCrud;
 
+    /**
+     * @see ProdottoHelper
+     */
     @Autowired
     ProdottoHelper prodottoHelper;
 
+    /**
+     * retrieves the Categoria for the provided id
+     *
+     * @param categoriaId id of the {@link Categoria Categoria} to retrieve
+     * @return {@link CategoriaDTO CategoriaDTO} of the
+     */
     public CategoriaDTO findById(Long categoriaId) {
         if (Objects.isNull(categoriaId))
             throw new CategoriaException(MISSING_PARAMETERS.name());

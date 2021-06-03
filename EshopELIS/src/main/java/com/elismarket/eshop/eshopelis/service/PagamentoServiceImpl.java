@@ -2,6 +2,7 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.PagamentoException;
 import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.TipoMetodoHelper;
@@ -20,29 +21,46 @@ import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
-
-
-/*
+/**
+ * {@link Pagamento Pagamento} service class for interaction between DB and relative Controller
  *
- * Service class for CRUD operations and control of Payment methods
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
 @Service
 public class PagamentoServiceImpl implements PagamentoService {
 
+    /**
+     *
+     */
     @Autowired
     PagamentoCrud pagamentoCrud;
 
+    /**
+     * @see UtenteHelper
+     */
     @Autowired
     UtenteHelper utenteHelper;
 
+    /**
+     * @see OrdineHelper
+     */
     @Autowired
     OrdineHelper ordineHelper;
 
+    /**
+     * @see TipoMetodoHelper
+     */
     @Autowired
     TipoMetodoHelper tipoMetodoHelper;
 
+    /**
+     * adds a new Pagamento
+     *
+     * @param pagamentoDTO {@link PagamentoDTO PagamentoDTO} of the Pagamento to add
+     * @return DTO of created item
+     * @throws PagamentoException with {@link ExceptionPhrases#INVALID_MAIL INVALID_MAIL} message
+     */
     @Override
     public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
         Checkers.pagamentoFieldsChecker(pagamentoDTO);
@@ -51,15 +69,24 @@ public class PagamentoServiceImpl implements PagamentoService {
         p.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
 
         if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
-            throw new PagamentoException(WRONG_PARAMETERS.name());
+            throw new PagamentoException(INVALID_MAIL.name());
 
         return Pagamento.to(pagamentoCrud.saveAndFlush(Pagamento.of(pagamentoDTO)));
     }
 
+    /**
+     * Updates an existing Pagamento
+     *
+     * @param pagamentoID  of the {@link Pagamento Pagamento} to update
+     * @param pagamentoDTO {@link PagamentoDTO PagamentoDTO} of the Pagamento to update
+     * @return DTO of updated item
+     * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws PagamentoException with {@link ExceptionPhrases#INVALID_MAIL INVALID_MAIL} message
+     */
     @Override
     public PagamentoDTO updatePagamento(Long pagamentoID, PagamentoDTO pagamentoDTO) {
         if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
-            throw new PagamentoException(WRONG_PARAMETERS.name());
+            throw new PagamentoException(INVALID_MAIL.name());
 
         Pagamento p = pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name()));
 
@@ -80,6 +107,13 @@ public class PagamentoServiceImpl implements PagamentoService {
         return Pagamento.to(pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name())));
     }
 
+    /**
+     * deletes the Pagamento
+     *
+     * @param id of the {@link Pagamento Pagamento} to remove
+     * @return HTTP status 200 if item is deleted otherwise 500
+     * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Boolean removePagamento(Long id) {
         if (!pagamentoCrud.existsById(id))
@@ -89,6 +123,12 @@ public class PagamentoServiceImpl implements PagamentoService {
         return !pagamentoCrud.existsById(id);
     }
 
+    /**
+     * Returns all Pagamento
+     *
+     * @return List of {@link PagamentoDTO PagamentoDTO}
+     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<PagamentoDTO> getAll() {
         if (pagamentoCrud.findAll().isEmpty())
@@ -99,16 +139,42 @@ public class PagamentoServiceImpl implements PagamentoService {
         return result;
     }
 
+    /**
+     * Returns Pagamento for provided id
+     *
+     * @return {@link PagamentoDTO PagamentoDTO}
+     * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
+    @Override
+    public PagamentoDTO getById(Long id) {
+        if (!pagamentoCrud.existsById(id))
+            throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
+
+        return Pagamento.to(pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name())));
+    }
+
+    /**
+     * Returns all Pagamento where contanti != null and > 0
+     *
+     * @return List {@link PagamentoDTO PagamentoDTO}
+     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<PagamentoDTO> getByContanti() {
-        if (pagamentoCrud.findAllByContantiNotNull().isEmpty())
+        if (pagamentoCrud.findAllByContantiNotNullAndContantiGreaterThanEqual(0f).isEmpty())
             throw new PagamentoException(LIST_IS_EMPTY.name());
 
         List<PagamentoDTO> result = new ArrayList<>();
-        pagamentoCrud.findAllByContantiNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
+        pagamentoCrud.findAllByContantiNotNullAndContantiGreaterThanEqual(0f).forEach(pagamento -> result.add(Pagamento.to(pagamento)));
         return result;
     }
 
+    /**
+     * Returns all Pagamento where PaypalMail != null
+     *
+     * @return List {@link PagamentoDTO PagamentoDTO}
+     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<PagamentoDTO> getByPaypalMail() {
         if (pagamentoCrud.findAllByPaypalMailNotNull().isEmpty())
@@ -119,14 +185,14 @@ public class PagamentoServiceImpl implements PagamentoService {
         return result;
     }
 
-    @Override
-    public PagamentoDTO getById(Long id) {
-        if (!pagamentoCrud.existsById(id))
-            throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
-
-        return Pagamento.to(pagamentoCrud.findById(id).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name())));
-    }
-
+    /**
+     * Adds an Ordine to a relative Pagamento
+     *
+     * @param pagamentoId id of {@link Pagamento Pagamento}
+     * @param ordineDTO   {@link OrdineDTO OrdineDTO} of Ordine to add
+     * @return added Ordine
+     * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO ordineDTO) {
         if (!pagamentoCrud.existsById(pagamentoId))

@@ -1,6 +1,8 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.TipoMetodoDTO;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
+import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
 import com.elismarket.eshop.eshopelis.exception.TipoMetodoException;
 import com.elismarket.eshop.eshopelis.helper.PagamentoHelper;
 import com.elismarket.eshop.eshopelis.model.TipoMetodo;
@@ -17,21 +19,47 @@ import java.util.Objects;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
+/**
+ * {@link TipoMetodo TipoMetodo} service class for interaction between DB and relative Controller
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 @Service
 public class TipoMetodoServiceImpl implements TipoMetodoService {
 
+    /**
+     * @see TipoMetodoCrud
+     */
     @Autowired
     TipoMetodoCrud tipoMetodoCrud;
 
+    /**
+     * @see PagamentoHelper
+     */
     @Autowired
     PagamentoHelper pagamentoHelper;
 
+    /**
+     * Adds a new TipoMetodo
+     *
+     * @param tipoMetodoDTO {@link TipoMetodoDTO TipoMetodoDTO}
+     * @return added TipoMetodo
+     */
     @Override
     public TipoMetodoDTO addTipoMetodo(TipoMetodoDTO tipoMetodoDTO) {
         Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
         return TipoMetodo.to(tipoMetodoCrud.saveAndFlush(TipoMetodo.of(tipoMetodoDTO)));
     }
 
+    /**
+     * Updates TipoMetodo related to the id with updated fields in TipoMetodoDTO
+     *
+     * @param tipoMetodoId  of the {@link TipoMetodo TipoMetodo}
+     * @param tipoMetodoDTO {@link TipoMetodoDTO TipoMetodoDTO} with updated fields
+     * @return updated TipoMetodo
+     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public TipoMetodoDTO updateTipoMetodo(Long tipoMetodoId, TipoMetodoDTO tipoMetodoDTO) {
         if (!tipoMetodoCrud.existsById(tipoMetodoId))
@@ -51,6 +79,13 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         return TipoMetodo.to(tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name())));
     }
 
+    /**
+     * Removes the TipoMetodo related to the id
+     *
+     * @param id of the {@link TipoMetodo TipoMetodo}
+     * @return HTTP 200 if deleted successfully, else 500
+     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Boolean deleteTipoMetodo(Long id) {
         if (!tipoMetodoCrud.existsById(id))
@@ -60,6 +95,12 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         return !tipoMetodoCrud.existsById(id);
     }
 
+    /**
+     * Retrieves all TipoMetodo in DB
+     *
+     * @return List {@link TipoMetodoDTO TipoMetodoDTO}
+     * @throws RigaOrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<TipoMetodoDTO> getAll() {
         if (tipoMetodoCrud.findAll().isEmpty())
@@ -70,6 +111,13 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         return result;
     }
 
+    /**
+     * Retrieves the TipoMetodo related to the id
+     *
+     * @param id of the {@link TipoMetodo TipoMetodo}
+     * @return retrieved TipoMetodo
+     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public TipoMetodoDTO getById(Long id) {
         return TipoMetodo.to(tipoMetodoCrud.findById(id).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name())));

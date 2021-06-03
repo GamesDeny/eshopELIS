@@ -1,6 +1,7 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.FeedbackException;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Feedback;
@@ -17,16 +18,33 @@ import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
+/**
+ * {@link Feedback Feedback} service class for interaction between DB and relative Controller
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
 
+    /**
+     * @see FeedbackCrud
+     */
     @Autowired
     FeedbackCrud feedbackCrud;
 
+    /**
+     * @see UtenteHelper
+     */
     @Autowired
     UtenteHelper utenteHelper;
 
-
+    /**
+     * Adds an item with
+     *
+     * @param feedbackDTO {@link FeedbackDTO FeedbackDTO} with the fields
+     * @return DTO of created item
+     */
     @Override
     public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {
         System.out.println(feedbackDTO);
@@ -36,6 +54,14 @@ public class FeedbackServiceImpl implements FeedbackService {
         return Feedback.to(feedbackCrud.saveAndFlush(f));
     }
 
+    /**
+     * Updates Feedback with the provided id with the FeedbackDTO informations
+     *
+     * @param id          of the {@link Feedback Feedback} to
+     * @param feedbackDTO {@link FeedbackDTO FeedbackDTO} with the updated fields
+     * @return DTO with updated item
+     * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public FeedbackDTO updateFeedback(Long id, FeedbackDTO feedbackDTO) {
         if (!feedbackCrud.existsById(id))
@@ -58,6 +84,13 @@ public class FeedbackServiceImpl implements FeedbackService {
         return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException(CANNOT_FIND_ELEMENT.name())));
     }
 
+    /**
+     * Deltes Feedback with the provided id
+     *
+     * @param id of the {@link Feedback Feedback} to
+     * @return HTTP 200 if deleted successfully, else 500
+     * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Boolean deleteFeedback(Long id) {
         if (!feedbackCrud.existsById(id))
@@ -67,6 +100,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         return !feedbackCrud.existsById(id);
     }
 
+    /**
+     * Retrieves all Feedbacks
+     *
+     * @return List of {@link FeedbackDTO FeedbackDTO}
+     * @throws FeedbackException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<FeedbackDTO> getAll() {
         if (feedbackCrud.findAll().isEmpty())
@@ -77,6 +116,14 @@ public class FeedbackServiceImpl implements FeedbackService {
         return result;
     }
 
+    /**
+     * Retrieves all Feedback for a provided Utente
+     *
+     * @param userId id of the Utente
+     * @return rapresentation of all Feedback of a Utente
+     * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public List<FeedbackDTO> getAllByUtente(Long userId) {
         if (Objects.isNull(userId))
@@ -90,6 +137,13 @@ public class FeedbackServiceImpl implements FeedbackService {
         return result;
     }
 
+    /**
+     * Retrieves feedback from id
+     *
+     * @param id of the {@link Feedback Feedback} to retrieve
+     * @return {@link FeedbackDTO FeedbackDTO} rappresentation of retrieved item
+     * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public FeedbackDTO getById(Long id) {
         return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException(CANNOT_FIND_ELEMENT.name())));

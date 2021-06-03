@@ -7,18 +7,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-/*
+/**
+ * Jpa repository for {@link Prodotto Prodotto}
  *
- * CRUD class for Products
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
-
 public interface ProdottoCrud extends JpaRepository<Prodotto, Long> {
 
     List<Prodotto> findAllByCategoria(Categoria categoria);
-
-    List<Prodotto> findAllByQuantitaGreaterThanEqual(Integer quantita);
 
     List<Prodotto> findAllByQuantitaLessThanEqual(Integer quantita);
 

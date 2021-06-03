@@ -3,16 +3,11 @@ package com.elismarket.eshop.eshopelis.repository;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
-
-/*
+/**
+ * Jpa repository for {@link RigaOrdine RigaOrdine}
  *
- * CRUD class for Order rows
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
-
 public interface RigaOrdineCrud extends JpaRepository<RigaOrdine, Long> {
-    List<RigaOrdine> findAllByQuantitaProdottoGreaterThanEqual(Integer quantita);
 }

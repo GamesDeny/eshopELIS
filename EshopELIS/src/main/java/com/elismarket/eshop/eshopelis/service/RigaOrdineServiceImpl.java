@@ -1,6 +1,7 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
 import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
@@ -18,26 +19,39 @@ import java.util.Objects;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
-
-/*
+/**
+ * {@link RigaOrdine RigaOrdine} service class for interaction between DB and relative Controller
  *
- * Service class for CRUD operations and control of Order
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
 @Service
 public class RigaOrdineServiceImpl implements RigaOrdineService {
 
+    /**
+     * @see RigaOrdineCrud
+     */
     @Autowired
     RigaOrdineCrud rigaOrdineCrud;
 
+    /**
+     * @see OrdineHelper
+     */
     @Autowired
     OrdineHelper ordineHelper;
 
+    /**
+     * @see ProdottoHelper
+     */
     @Autowired
     ProdottoHelper prodottoHelper;
 
-
+    /**
+     * Adds a new RigaOrdine
+     *
+     * @param rigaOrdineDTO {@link RigaOrdineDTO RigaOrdineDTO} with the fields
+     * @return added RigaOrdine
+     */
     @Override
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
@@ -45,6 +59,14 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(RigaOrdine.of(rigaOrdineDTO)));
     }
 
+    /**
+     * Updates RigaOrdine related to the id with the updated fields in the RigaOrdineDTO
+     *
+     * @param id            of the {@link RigaOrdine RigaOrdine} to update
+     * @param rigaOrdineDTO {@link RigaOrdineDTO RigaOrdineDTO} with updated fields
+     * @return updated RigaOrdine
+     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public RigaOrdineDTO updateRigaOrdine(Long id, RigaOrdineDTO rigaOrdineDTO) {
         if (!rigaOrdineCrud.existsById(id))
@@ -67,6 +89,13 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name())));
     }
 
+    /**
+     * Remove the relative RigaOrdine
+     *
+     * @param id of the {@link RigaOrdine RigaOrdine} to remove
+     * @return HTTP 200 if deleted successfully, else 500
+     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Boolean removeRigaOrdine(Long id) {
         if (!rigaOrdineCrud.existsById(id))
@@ -76,6 +105,12 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         return !rigaOrdineCrud.existsById(id);
     }
 
+    /**
+     * Retrieves all RigaOrdine
+     *
+     * @return List {@link RigaOrdineDTO RigaOrdineDTO}
+     * @throws RigaOrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<RigaOrdineDTO> getAll() {
         if (rigaOrdineCrud.findAll().isEmpty())
@@ -86,21 +121,18 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         return result;
     }
 
+    /**
+     * Retrieves RigaOrdine for provided id
+     *
+     * @param id for the {@link RigaOrdine RigaOrdine}
+     * @return List {@link RigaOrdineDTO RigaOrdineDTO}
+     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public RigaOrdineDTO getById(Long id) {
         if (!rigaOrdineCrud.findById(id).isPresent())
             throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
         return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name())));
-    }
-
-    @Override
-    public List<RigaOrdineDTO> getByQuantita(Integer quantita) {
-        if (rigaOrdineCrud.findAll().isEmpty())
-            throw new RigaOrdineException(LIST_IS_EMPTY.name());
-
-        List<RigaOrdineDTO> result = new ArrayList<>();
-        rigaOrdineCrud.findAllByQuantitaProdottoGreaterThanEqual(quantita).forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));
-        return result;
     }
 
 }

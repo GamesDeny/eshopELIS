@@ -2,12 +2,12 @@ package com.elismarket.eshop.eshopelis.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
+/**
+ * DTO for {@link com.elismarket.eshop.eshopelis.model.Pagamento Pagamento} class
  *
- * DTO per interfacciamo API con frontend
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PagamentoDTO {

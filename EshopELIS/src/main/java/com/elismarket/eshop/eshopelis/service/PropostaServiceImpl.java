@@ -1,12 +1,14 @@
 package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.PropostaException;
 import com.elismarket.eshop.eshopelis.helper.CategoriaHelper;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Proposta;
+import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.PropostaService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
@@ -20,21 +22,46 @@ import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
+/**
+ * {@link Proposta Proposta} service class for interaction between DB and relative Controller
+ *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
+ */
 @Service
 public class PropostaServiceImpl implements PropostaService {
 
+    /**
+     * @see PropostaCrud
+     */
     @Autowired
     PropostaCrud propostaCrud;
 
+    /**
+     * @see UtenteHelper
+     */
     @Autowired
     UtenteHelper utenteHelper;
 
+    /**
+     * @see ProdottoHelper
+     */
     @Autowired
     ProdottoHelper prodottoHelper;
 
+    /**
+     * @see CategoriaHelper
+     */
     @Autowired
     CategoriaHelper categoriaHelper;
 
+    /**
+     * Adds a new Proposta
+     *
+     * @param userId      id of the {@link Utente Utente} that sent the Proposta
+     * @param propostaDTO {@link PropostaDTO PropostaDTO} to add
+     * @return Added Proposta
+     */
     @Override
     public PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO) {
         Checkers.propostaFieldsChecker(propostaDTO);
@@ -47,9 +74,12 @@ public class PropostaServiceImpl implements PropostaService {
     }
 
     /**
-     * @param id          of the user
-     * @param propostaDTO DTO of the Proposta to add
-     * @return proposta added and linked with user
+     * Updates the Proposta related to the id with relative PropostaDTO
+     *
+     * @param id          id of the {@link Proposta Proposta}
+     * @param propostaDTO {@link PropostaDTO PropostaDTO} with updated fields
+     * @return updated Proposta
+     * @throws PropostaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     @Override
     public PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO) {
@@ -79,6 +109,13 @@ public class PropostaServiceImpl implements PropostaService {
         return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
     }
 
+    /**
+     * Remove the Proposta for the provided id
+     *
+     * @param id of the {@link Proposta Proposta} to remove
+     * @return HTTP 200 if deleted successfully, else 500
+     * @throws PropostaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
     public Boolean removeProposta(Long id) {
         if (!propostaCrud.existsById(id))
@@ -88,29 +125,27 @@ public class PropostaServiceImpl implements PropostaService {
         return !propostaCrud.existsById(id);
     }
 
+    /**
+     * Retrieves Proposta for the id
+     *
+     * @param id of the {@link Proposta Proposta}
+     * @return {@link PropostaDTO PropostaDTO}
+     * @throws PropostaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     */
     @Override
-    public List<PropostaDTO> findAllByIsAccettato(Boolean isAccettato) {
-        if (propostaCrud.findAllByIsAccettato(isAccettato).isEmpty())
-            throw new PropostaException(LIST_IS_EMPTY.name());
+    public PropostaDTO findById(Long id) {
+        if (!propostaCrud.findById(id).isPresent())
+            throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
-        List<PropostaDTO> result = new ArrayList<>();
-        propostaCrud.findAllByIsAccettato(isAccettato).forEach(proposta -> result.add(Proposta.to(proposta)));
-        return result;
+        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
     }
 
-    @Override
-    public List<PropostaDTO> findAllByUtente(Long id) {
-        if (Objects.isNull(id))
-            throw new PropostaException(MISSING_PARAMETERS.name());
-
-        if (propostaCrud.findAllByUtente(id).isEmpty())
-            throw new PropostaException(LIST_IS_EMPTY.name());
-
-        List<PropostaDTO> result = new ArrayList<>();
-        propostaCrud.findAllByUtente(id).forEach(proposta -> result.add(Proposta.to(proposta)));
-        return result;
-    }
-
+    /**
+     * Retrieves all Proposta
+     *
+     * @return List {@link PropostaDTO PropostaDTO}
+     * @throws PropostaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
     @Override
     public List<PropostaDTO> findAll() {
 
@@ -122,11 +157,49 @@ public class PropostaServiceImpl implements PropostaService {
         return result;
     }
 
+    /**
+     * Retrieves all Proposta following isAccettato rules
+     *
+     * @return List {@link PropostaDTO PropostaDTO}
+     */
     @Override
-    public PropostaDTO findById(Long id) {
-        if (!propostaCrud.findById(id).isPresent())
-            throw new PropostaException(CANNOT_FIND_ELEMENT.name());
+    public List<PropostaDTO> findAllByIsAccettato(Boolean isAccettato) {
+        List<PropostaDTO> result = new ArrayList<>();
+        //is not null? is accettato? true, else false else null
+        Integer scelta = !Objects.isNull(isAccettato) ? isAccettato ? 1 : 2 : 3;
 
-        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
+        switch (scelta) {
+            case 1:
+                propostaCrud.findAllByIsAccettato(true).forEach(proposta -> result.add(Proposta.to(proposta)));
+                break;
+            case 2:
+                propostaCrud.findAllByIsAccettato(false).forEach(proposta -> result.add(Proposta.to(proposta)));
+                break;
+            case 3:
+                propostaCrud.findAllByIsAccettatoIsNull().forEach(proposta -> result.add(Proposta.to(proposta)));
+                break;
+        }
+        return result;
+    }
+
+    /**
+     * Retrieves all Proposta for an Utente
+     *
+     * @param userId id of {@link Utente Utente}
+     * @return List {@link PropostaDTO PropostaDTO}
+     * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws PropostaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     */
+    @Override
+    public List<PropostaDTO> findAllByUtente(Long userId) {
+        if (Objects.isNull(userId))
+            throw new PropostaException(MISSING_PARAMETERS.name());
+
+        if (propostaCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
+            throw new PropostaException(LIST_IS_EMPTY.name());
+
+        List<PropostaDTO> result = new ArrayList<>();
+        propostaCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(proposta -> result.add(Proposta.to(proposta)));
+        return result;
     }
 }

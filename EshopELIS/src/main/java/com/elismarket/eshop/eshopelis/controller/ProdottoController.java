@@ -2,7 +2,10 @@ package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.model.Categoria;
+import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
+import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,57 +13,117 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-/*
+/**
+ * RestController for {@link Prodotto Prodotto} entity
  *
- * Rest API for Products
- * Contains all informations for making API requests for frontend
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
 @RestController
 @RequestMapping(path = "/api/prodotto", produces = "application/json")
 @CrossOrigin(origins = "*")
 public class ProdottoController {
+
+    /**
+     * @see ProdottoService
+     */
     @Autowired
     ProdottoService prodottoService;
 
+    /**
+     * Adds a Prodotto
+     *
+     * @param prodottoDTO {@link ProdottoDTO ProdottoDTO} to add
+     * @return Added Prodotto
+     */
     @PostMapping("/add")
     public ProdottoDTO addProdotto(@RequestBody ProdottoDTO prodottoDTO) {
         return prodottoService.addProdotto(prodottoDTO);
     }
 
+    /**
+     * Updates Prodotto relative to the id
+     *
+     * @param id          of {@link Prodotto Prodotto}
+     * @param prodottoDTO {@link ProdottoDTO ProdottoDTO} with updated fields
+     * @return updated Prodotto
+     */
     @PatchMapping("/update/{id}")
     public ProdottoDTO updateProdotto(@PathVariable Long id, @RequestBody ProdottoDTO prodottoDTO) {
         return prodottoService.updateProdotto(id, prodottoDTO);
     }
 
+    /**
+     * Deletes the Prodotto with the provided id
+     *
+     * @param id of the {@link Prodotto Prodotto} to remove
+     * @return HTTP 200 if deleted successfully, else 500
+     */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeProdotto(@PathVariable Long id) {
         return prodottoService.removeProdotto(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
     }
 
-    //returns all db products
+    /**
+     * Retrieves Prodotto for provided id
+     *
+     * @return {@link ProdottoDTO ProdottoDTO}
+     */
+    @GetMapping("/id/{id}")
+    public ProdottoDTO getById(@PathVariable Long id) {
+        return prodottoService.getById(id);
+    }
+
+    /**
+     * Retrieves all Prodotto
+     *
+     * @return List {@link ProdottoDTO ProdottoDTO}
+     */
     @GetMapping("/all")
     public List<ProdottoDTO> getAll() {
         return prodottoService.getAll();
     }
 
+    /**
+     * Retrieves all Prodotto added by a Utente
+     *
+     * @param userId id of {@link Utente Utente} that has an accepted Proposta
+     * @return List {@link ProdottoDTO ProdottoDTO} of Proposta that became a Prodotto
+     */
     @GetMapping("/all/utente/{userId}")
     public List<ProdottoDTO> findAllByUtente(@PathVariable Long userId) {
         return prodottoService.findAllByUtente(userId);
     }
 
+    /**
+     * Retrieves all Prodotto where {@link Prodotto#getQuantita() quantita} < value
+     *
+     * @param quantita value to compare
+     * @return List {@link ProdottoDTO ProdottoDTO}
+     */
     @GetMapping("/all/quantita/minore/{quantita}")
     public List<ProdottoDTO> findByQuantitaMinore(@PathVariable Integer quantita) {
         return prodottoService.findByQuantitaMinore(quantita);
     }
 
+    /**
+     * Retrieves all Prodotto for a {@link Categoria Categoria}
+     *
+     * @param categoriaId id of the Categoria to search
+     * @return List {@link ProdottoDTO ProdottoDTO}
+     */
     @GetMapping("/all/categoria/{categoriaId}")
     public List<ProdottoDTO> getByNomeCategoria(@PathVariable Long categoriaId) {
         return prodottoService.getProdottoByCategoria(categoriaId);
     }
 
+    /**
+     * Adds a {@link RigaOrdine RigaOrdine} to a Prodotto
+     *
+     * @param prodId        id of the {@link Prodotto Prodotto} to link to the RigaOrdine
+     * @param rigaOrdineDTO {@link RigaOrdineDTO RigaOrdineDTO}
+     * @return added RigaOrdine
+     */
     @PostMapping("/add/rigaOrdine/{prodId}")
     public RigaOrdine addRigaOrdineToProdotto(@PathVariable Long prodId, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
         return prodottoService.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);

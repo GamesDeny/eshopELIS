@@ -7,13 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.List;
 
-/*
+/**
+ * Jpa repository for {@link Ordine Ordine}
  *
- * CRUD class for Orders
- *
+ * @author Francesco Pio Montrano, Gennaro Quaranta, Massimo Piccinno
+ * @version 1.0
  */
-
-
 public interface OrdineCrud extends JpaRepository<Ordine, Long> {
     List<Ordine> findAllByEvaso(Boolean evaso);
 
@@ -22,8 +21,6 @@ public interface OrdineCrud extends JpaRepository<Ordine, Long> {
     List<Ordine> findAllByDataEvasioneAfter(LocalDate dataEvasione);
 
     List<Ordine> findAllByDataEvasioneBetween(LocalDate dataEvasione1, LocalDate dataEvasione2);
-
-    void deleteById(Long id);
 
     List<Ordine> findAllByUtente(Utente utente);
 }
