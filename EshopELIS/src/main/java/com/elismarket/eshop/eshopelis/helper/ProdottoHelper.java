@@ -103,7 +103,7 @@ public class ProdottoHelper {
         if (result.isEmpty())
             throw new CategoriaException(LIST_IS_EMPTY.name());
 
-        result.forEach(prodotto -> prodotto.setCategoria(Categoria.of(categoriaHelper.findById(categoriaId))));
+        result.forEach(prodotto -> prodotto.setCategoria(categoriaHelper.findById(categoriaId)));
         prodottoCrud.saveAll(result);
     }
 
@@ -124,7 +124,7 @@ public class ProdottoHelper {
         p.setSconto(0);
         p.setImage(propostaDTO.image);
         p.setUtente(utenteHelper.findById(propostaDTO.utente_id));
-        p.setCategoria(Categoria.of(categoriaHelper.findById(propostaDTO.categoria_id)));
+        p.setCategoria(categoriaHelper.findById(propostaDTO.categoria_id));
 
         prodottoCrud.saveAndFlush(p);
     }

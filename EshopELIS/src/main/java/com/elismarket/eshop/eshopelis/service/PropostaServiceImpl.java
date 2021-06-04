@@ -6,7 +6,6 @@ import com.elismarket.eshop.eshopelis.exception.PropostaException;
 import com.elismarket.eshop.eshopelis.helper.CategoriaHelper;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
-import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
@@ -67,7 +66,7 @@ public class PropostaServiceImpl implements PropostaService {
         Checkers.propostaFieldsChecker(propostaDTO);
         Proposta p = Proposta.of(propostaDTO);
         p.setUtente(utenteHelper.findById(userId));
-        p.setCategoria(Categoria.of(categoriaHelper.findById(propostaDTO.categoria_id)));
+        p.setCategoria(categoriaHelper.findById(propostaDTO.categoria_id));
         p.setSubmissionDate(LocalDate.now());
 
         return Proposta.to(propostaCrud.saveAndFlush(Proposta.of(propostaDTO)));

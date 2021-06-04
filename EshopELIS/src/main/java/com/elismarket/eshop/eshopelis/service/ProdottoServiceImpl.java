@@ -1,6 +1,5 @@
 package com.elismarket.eshop.eshopelis.service;
 
-import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
@@ -74,8 +73,8 @@ public class ProdottoServiceImpl implements ProdottoService {
     public ProdottoDTO addProdotto(ProdottoDTO prodottoDTO) {
         Checkers.prodottoFieldsChecker(prodottoDTO);
         Prodotto p = Prodotto.of(prodottoDTO);
-        CategoriaDTO c = categoriaHelper.findById(prodottoDTO.categoria_id);
-        p.setCategoria(Categoria.of(c));
+
+        p.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
 
         if (!Objects.isNull(prodottoDTO.utente_id))
             p.setUtente(utenteHelper.findById(prodottoDTO.utente_id));
@@ -114,7 +113,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         if (!Objects.isNull(p.getUtente()))
             save.setUtente(Objects.isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
 
-        save.setCategoria(Categoria.of(categoriaHelper.findById(prodottoDTO.categoria_id)));
+        save.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
 
         if (!Objects.isNull(prodottoDTO.righeOrdine_id))
             rigaOrdineHelper.linkRigheToProdotto(prodottoId, prodottoDTO.righeOrdine_id);
@@ -220,11 +219,11 @@ public class ProdottoServiceImpl implements ProdottoService {
     public List<ProdottoDTO> getProdottoByCategoria(Long categoriaId) {
         if (Objects.isNull(categoriaId))
             throw new ProdottoException(MISSING_PARAMETERS.name());
-        if (prodottoCrud.findAllByCategoria(Categoria.of(categoriaHelper.findById(categoriaId))).isEmpty())
+        if (prodottoCrud.findAllByCategoria(categoriaHelper.findById(categoriaId)).isEmpty())
             throw new ProdottoException(MISSING_PARAMETERS.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
-        prodottoCrud.findAllByCategoria(Categoria.of(categoriaHelper.findById(categoriaId))).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
+        prodottoCrud.findAllByCategoria(categoriaHelper.findById(categoriaId)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
         return result;
     }
 

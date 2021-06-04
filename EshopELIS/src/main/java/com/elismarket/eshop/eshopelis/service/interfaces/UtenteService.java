@@ -32,6 +32,8 @@ public interface UtenteService {
 
     UtenteDTO getLoginUtente(String username, String password);
 
+    Boolean getLogout(Long userId);
+
     Feedback addFeedbackToUser(Long userId, FeedbackDTO feedbackDTO);
 
     Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO);
@@ -39,6 +41,4 @@ public interface UtenteService {
     Prodotto addProdottoToUser(Long userId, ProdottoDTO prodottoDTO);
 
     Pagamento addPagamentoToUser(Long userId, PagamentoDTO pagamentoDTO);
-
-    Boolean getLogout(Long userId);
 }

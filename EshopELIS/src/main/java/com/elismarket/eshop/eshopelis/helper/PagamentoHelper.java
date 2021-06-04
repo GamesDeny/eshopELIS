@@ -23,17 +23,18 @@ import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_
  */
 @Component
 public class PagamentoHelper {
-    /**
-     * @see OrdineHelper
-     */
-    @Autowired
-    OrdineHelper ordineHelper;
 
     /**
      * @see PagamentoCrud
      */
     @Autowired
     PagamentoCrud pagamentoCrud;
+
+    /**
+     * @see OrdineHelper
+     */
+    @Autowired
+    OrdineHelper ordineHelper;
 
     /**
      * @see UtenteHelper
@@ -104,4 +105,5 @@ public class PagamentoHelper {
         result.forEach(pagamento -> pagamento.setTipoMetodo(tipoMetodoHelper.findById(tipoPagamentoId)));
         pagamentoCrud.saveAll(result);
     }
+
 }

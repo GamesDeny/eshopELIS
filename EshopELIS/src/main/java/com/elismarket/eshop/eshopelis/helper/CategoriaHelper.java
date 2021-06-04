@@ -1,7 +1,7 @@
 package com.elismarket.eshop.eshopelis.helper;
 
-import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.exception.CategoriaException;
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +36,14 @@ public class CategoriaHelper {
      * retrieves the Categoria for the provided id
      *
      * @param categoriaId id of the {@link Categoria Categoria} to retrieve
-     * @return {@link CategoriaDTO CategoriaDTO} of the
+     * @return Categoria retrieved
+     * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
-    public CategoriaDTO findById(Long categoriaId) {
+    public Categoria findById(Long categoriaId) {
         if (Objects.isNull(categoriaId))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
-        return Categoria.to(categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
+        return categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name()));
     }
 
 }
