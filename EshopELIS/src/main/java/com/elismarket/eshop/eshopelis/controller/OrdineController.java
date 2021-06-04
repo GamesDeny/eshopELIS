@@ -81,6 +81,7 @@ public class OrdineController {
     /**
      * Returns Ordine for provided id
      *
+     * @param id of the {@link Ordine Ordine}
      * @return {@link OrdineDTO OrdineDTO}
      */
     @GetMapping("/id/{id}")
@@ -113,7 +114,7 @@ public class OrdineController {
     /**
      * Returns all Ordine where evaso = true, before a data
      *
-     * @param data {@link Ordine#getDataEvasione() dataEvasione} of all Ordine
+     * @param data {@link Ordine#getDataEvasione()} of all Ordine
      * @return List {@link OrdineDTO OrdineDTO}
      */
     @GetMapping("/data/before/{data}")
