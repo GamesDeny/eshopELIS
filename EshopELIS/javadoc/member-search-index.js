@@ -278,6 +278,14 @@ memberSearchIndex = [{
     "c": "ExceptionPhrases",
     "l": "CANNOT_FIND_ELEMENT"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "categoria"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
+    "l": "categoria"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "ProdottoDTO",
     "l": "categoria_id"
@@ -353,7 +361,7 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "cognome"
-}, {
+}, {"p": "com.elismarket.eshop.eshopelis.model", "c": "Utente", "l": "cognome"}, {
     "p": "com.elismarket.eshop.eshopelis",
     "c": "ServletInitializer",
     "l": "configure(SpringApplicationBuilder)",
@@ -361,6 +369,10 @@ memberSearchIndex = [{
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PagamentoDTO",
+    "l": "contanti"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
     "l": "contanti"
 }, {
     "p": "com.elismarket.eshop.eshopelis",
@@ -371,8 +383,16 @@ memberSearchIndex = [{
     "c": "OrdineDTO",
     "l": "dataEvasione"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Ordine",
+    "l": "dataEvasione"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
+    "l": "dataNascita"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
     "l": "dataNascita"
 }, {
     "p": "com.elismarket.eshop.eshopelis.exception",
@@ -445,9 +465,30 @@ memberSearchIndex = [{
     "c": "PropostaDTO",
     "l": "descrizione"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Feedback",
+    "l": "descrizione"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
+    "l": "descrizione"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "descrizione"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
+    "l": "descrizione"
+}, {
     "p": "com.elismarket.eshop.eshopelis.exception",
     "c": "ExceptionPhrases",
     "l": "DUPLICATE"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.service",
+    "c": "UtenteServiceImpl",
+    "l": "duplicateChecker(UtenteDTO)",
+    "url": "duplicateChecker(com.elismarket.eshop.eshopelis.dto.UtenteDTO)"
 }, {
     "p": "com.elismarket.eshop.eshopelis",
     "c": "EshopElisApplication",
@@ -462,6 +503,15 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "OrdineDTO",
     "l": "evaso"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Ordine",
+    "l": "evaso"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.exception",
+    "c": "ExceptionPhrases",
+    "l": "ExceptionPhrases()",
+    "url": "%3Cinit%3E()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.model",
     "c": "Feedback",
@@ -509,9 +559,17 @@ memberSearchIndex = [{
     "l": "FeedbackHelper()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "feedbacks"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "feedbacks_id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.controller",
+    "c": "FeedbackController",
+    "l": "feedbackService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.service",
     "c": "FeedbackServiceImpl",
@@ -734,10 +792,6 @@ memberSearchIndex = [{
     "l": "getAll()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
-    "c": "PropostaController",
-    "l": "getAll()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "RigaOrdineController",
     "l": "getAll()"
 }, {
@@ -800,11 +854,6 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.service.interfaces",
     "c": "TipoMetodoService",
     "l": "getAll()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.controller",
-    "c": "PropostaController",
-    "l": "getAll(Long)",
-    "url": "getAll(java.lang.Long)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.service",
     "c": "UtenteServiceImpl",
@@ -884,6 +933,10 @@ memberSearchIndex = [{
     "l": "getByContanti()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
+    "c": "PropostaController",
+    "l": "getById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "OrdineController",
     "l": "getById(Long)",
     "url": "getById(java.lang.Long)"
@@ -895,6 +948,11 @@ memberSearchIndex = [{
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "ProdottoController",
+    "l": "getById(Long)",
+    "url": "getById(java.lang.Long)"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.controller",
+    "c": "PropostaController",
     "l": "getById(Long)",
     "url": "getById(java.lang.Long)"
 }, {
@@ -1197,13 +1255,53 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "TipoMetodoDTO",
     "l": "id"
-}, {"p": "com.elismarket.eshop.eshopelis.dto", "c": "UtenteDTO", "l": "id"}, {
+}, {
+    "p": "com.elismarket.eshop.eshopelis.dto",
+    "c": "UtenteDTO",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Categoria",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Feedback",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Ordine",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "RigaOrdine",
+    "l": "id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "TipoMetodo",
+    "l": "id"
+}, {"p": "com.elismarket.eshop.eshopelis.model", "c": "Utente", "l": "id"}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "ProdottoDTO",
     "l": "image"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PropostaDTO",
+    "l": "image"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
     "l": "image"
 }, {
     "p": "com.elismarket.eshop.eshopelis.exception",
@@ -1222,16 +1320,32 @@ memberSearchIndex = [{
     "c": "FeedbackDTO",
     "l": "isAccepted"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Feedback",
+    "l": "isAccepted"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PropostaDTO",
+    "l": "isAccettato"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
     "l": "isAccettato"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "isAdmin"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "isAdmin"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PagamentoDTO",
+    "l": "isDefault"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
     "l": "isDefault"
 }, {
     "p": "com.elismarket.eshop.eshopelis.helper",
@@ -1282,8 +1396,16 @@ memberSearchIndex = [{
     "c": "UtenteDTO",
     "l": "logged"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "logged"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
+    "l": "mail"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
     "l": "mail"
 }, {
     "p": "com.elismarket.eshop.eshopelis.exception",
@@ -1304,8 +1426,16 @@ memberSearchIndex = [{
     "c": "ProdottoDTO",
     "l": "maxOrd"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "maxOrd"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "ProdottoDTO",
+    "l": "minOrd"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
     "l": "minOrd"
 }, {
     "p": "com.elismarket.eshop.eshopelis.exception",
@@ -1314,6 +1444,10 @@ memberSearchIndex = [{
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PropostaDTO",
+    "l": "motivoRifiuto"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
     "l": "motivoRifiuto"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
@@ -1334,6 +1468,26 @@ memberSearchIndex = [{
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
+    "l": "nome"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Categoria",
+    "l": "nome"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "nome"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
+    "l": "nome"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "TipoMetodo",
+    "l": "nome"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
     "l": "nome"
 }, {
     "p": "com.elismarket.eshop.eshopelis.model",
@@ -1384,6 +1538,18 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "FeedbackDTO",
     "l": "oggetto"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Feedback",
+    "l": "oggetto"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
+    "l": "ordine"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "RigaOrdine",
+    "l": "ordine"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PagamentoDTO",
@@ -1451,9 +1617,21 @@ memberSearchIndex = [{
     "l": "OrdineServiceImpl()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "ordini"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "ordini_id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "TipoMetodo",
+    "l": "pagamenti"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "pagamenti"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "TipoMetodoDTO",
@@ -1462,6 +1640,10 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "pagamenti_id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Ordine",
+    "l": "pagamento"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "OrdineDTO",
@@ -1538,6 +1720,10 @@ memberSearchIndex = [{
     "c": "UtenteDTO",
     "l": "password"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "password"
+}, {
     "p": "com.elismarket.eshop.eshopelis.utility",
     "c": "Checkers",
     "l": "passwordChecker(String)",
@@ -1547,25 +1733,53 @@ memberSearchIndex = [{
     "c": "PagamentoDTO",
     "l": "paypalMail"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
+    "l": "paypalMail"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "ProdottoDTO",
+    "l": "prezzo"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
     "l": "prezzo"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PropostaDTO",
     "l": "prezzoProposto"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
+    "l": "prezzoProposto"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "RigaOrdineDTO",
+    "l": "prezzoTotale"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "RigaOrdine",
     "l": "prezzoTotale"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "CategoriaDTO",
     "l": "prodotti"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "prodotti"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "prodotti_id"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Categoria",
+    "l": "prodotto"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "RigaOrdine",
+    "l": "prodotto"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "RigaOrdineDTO",
@@ -1651,6 +1865,10 @@ memberSearchIndex = [{
     "url": "%3Cinit%3E()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "proposta"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
     "c": "Proposta",
     "l": "Proposta()",
     "url": "%3Cinit%3E()"
@@ -1717,8 +1935,20 @@ memberSearchIndex = [{
     "c": "PropostaDTO",
     "l": "quantita"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "quantita"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
+    "l": "quantita"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "RigaOrdineDTO",
+    "l": "quantitaProdotto"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "RigaOrdine",
     "l": "quantitaProdotto"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
@@ -1874,6 +2104,14 @@ memberSearchIndex = [{
     "l": "RigaOrdineServiceImpl()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Ordine",
+    "l": "righeOrdine"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "righeOrdine"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "OrdineDTO",
     "l": "righeOrdine_id"
@@ -1896,8 +2134,16 @@ memberSearchIndex = [{
     "c": "ProdottoDTO",
     "l": "sconto"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "sconto"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "RigaOrdineDTO",
+    "l": "scontoApplicato"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "RigaOrdine",
     "l": "scontoApplicato"
 }, {
     "p": "com.elismarket.eshop.eshopelis",
@@ -1914,13 +2160,29 @@ memberSearchIndex = [{
     "c": "UtenteDTO",
     "l": "siglaResidenza"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "siglaResidenza"
+}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PropostaDTO",
+    "l": "submissionDate"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
     "l": "submissionDate"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "FeedbackDTO",
     "l": "subscriptionDate"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Feedback",
+    "l": "subscriptionDate"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
+    "l": "tipoMetodo"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "PagamentoDTO",
@@ -2176,6 +2438,30 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "username"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Utente",
+    "l": "username"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Feedback",
+    "l": "utente"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Ordine",
+    "l": "utente"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Pagamento",
+    "l": "utente"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Prodotto",
+    "l": "utente"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.model",
+    "c": "Proposta",
+    "l": "utente"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "FeedbackDTO",

@@ -154,7 +154,7 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     /**
-     * Returns all Pagamento where contanti != null and > 0
+     * Returns all Pagamento where contanti != null and greater than 0
      *
      * @return List {@link PagamentoDTO PagamentoDTO}
      * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message

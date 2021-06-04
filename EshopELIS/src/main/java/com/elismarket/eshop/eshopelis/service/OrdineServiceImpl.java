@@ -45,7 +45,7 @@ public class OrdineServiceImpl implements OrdineService {
     PagamentoHelper pagamentoHelper;
 
     /**
-     * @ see RigaOrdineHelper
+     * @see RigaOrdineHelper
      */
     @Autowired
     RigaOrdineHelper rigaOrdineHelper;
@@ -191,8 +191,9 @@ public class OrdineServiceImpl implements OrdineService {
     /**
      * Returns all Ordine where evaso = true, before a data
      *
-     * @param dataEvasione {@link Ordine#getDataEvasione() dataEvasione} of all Ordine
+     * @param dataEvasione dataEvasione of all Ordine
      * @return List {@link OrdineDTO OrdineDTO}
+     * @see Ordine#getDataEvasione()
      */
     @Override
     public List<OrdineDTO> getDataPrima(LocalDate dataEvasione) {
@@ -224,8 +225,9 @@ public class OrdineServiceImpl implements OrdineService {
     /**
      * Returns all Ordine where evaso = true, after a data
      *
-     * @param dataEvasione {@link Ordine#getDataEvasione() dataEvasione} of all Ordine
+     * @param dataEvasione dataEvasione of all Ordine
      * @return List {@link OrdineDTO OrdineDTO}
+     * @see Ordine#getDataEvasione()
      */
     @Override
     public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {

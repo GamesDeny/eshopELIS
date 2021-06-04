@@ -47,7 +47,7 @@ public class ProdottoServiceImpl implements ProdottoService {
     UtenteHelper utenteHelper;
 
     /**
-     * @ see RigaOrdineHelper
+     * @see RigaOrdineHelper
      */
     @Autowired
     RigaOrdineHelper rigaOrdineHelper;
@@ -192,11 +192,12 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     /**
-     * Retrieves all Prodotto where {@link Prodotto#getQuantita() quantita} < value
+     * Retrieves all Prodotto where quantita less than the value
      *
      * @param quantita value to compare
      * @return List {@link ProdottoDTO ProdottoDTO}
      * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
+     * @see Prodotto#getQuantita()
      */
     @Override
     public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {

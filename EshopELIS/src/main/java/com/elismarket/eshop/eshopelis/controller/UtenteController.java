@@ -74,7 +74,7 @@ public class UtenteController {
      * Retrieves all admin
      *
      * @return List {@link UtenteDTO UtenteDTO}
-     * @see Utente#getIsAdmin() isAdmin
+     * @see Utente#getIsAdmin()
      */
     @GetMapping("/all/admin")
     public List<UtenteDTO> getAllAdmin() {
@@ -85,7 +85,7 @@ public class UtenteController {
      * Retrieves all users
      *
      * @return List {@link UtenteDTO UtenteDTO}
-     * @see Utente#getIsAdmin() isAdmin
+     * @see Utente#getIsAdmin()
      */
     @GetMapping("/all/user")
     public List<UtenteDTO> getAllUsers() {

@@ -38,7 +38,7 @@ public class PropostaHelper {
      *
      * @param userId      id of the {@link Utente Utente} to retrieve
      * @param propostaDTO {@link PropostaDTO PropostaDTO}
-     * @return
+     * @return {@link Proposta Proposta} added to DB
      */
     public Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO) {
         Utente u = utenteHelper.findById(userId);

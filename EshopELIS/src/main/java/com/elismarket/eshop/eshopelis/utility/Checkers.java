@@ -81,8 +81,8 @@ public class Checkers {
      *
      * @param birthDate brithDate to control
      * @return true if the age of the subscriber between 16 and 90
-     * @throws {@link ExceptionPhrases#TOO_OLD TOO_OLD}  exception if age > 90
-     * @throws {@link ExceptionPhrases#TOO_YOUNG TOO_YOUNG}  exception if age < 16
+     * @throws UtenteException with {@link ExceptionPhrases#TOO_OLD TOO_OLD} exception if age greater than 90
+     * @throws UtenteException with {@link ExceptionPhrases#TOO_YOUNG TOO_YOUNG} exception if age less than 16
      */
     public static Boolean birthDateChecker(LocalDate birthDate) {
         System.out.println(birthDate.getYear() + " " + LocalDate.now().getYear());
@@ -97,13 +97,13 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param utenteDTO to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS}  exception
-     * @throws {@link ExceptionPhrases#INVALID_MAIL INVALID_MAIL} if mail is not valid
-     * @throws {@link ExceptionPhrases#INVALID_PASSWORD INVALID_PASSWORD} if password is not valid
-     * @throws {@link ExceptionPhrases#INCONSISTENT_SIGLA INCONSISTENT_SIGLA} if sigla is not valid
-     * @see #mailChecker(String) mailCkecker
-     * @see #passwordChecker(String) passwordChecker
-     * @see #siglaChecker(Integer) siglaChecker
+     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
+     * @throws UtenteException with {@link ExceptionPhrases#INVALID_MAIL INVALID_MAIL} if mail is not valid
+     * @throws UtenteException with {@link ExceptionPhrases#INVALID_PASSWORD INVALID_PASSWORD} if password is not valid
+     * @throws UtenteException with {@link ExceptionPhrases#INCONSISTENT_SIGLA INCONSISTENT_SIGLA} if sigla is not valid
+     * @see #mailChecker(String)
+     * @see #passwordChecker(String)
+     * @see #siglaChecker(Integer)
      */
     public static void utenteFieldsChecker(UtenteDTO utenteDTO) {
         if (Objects.isNull(utenteDTO))
@@ -127,7 +127,7 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param feedbackDTO to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
+     * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void feedbackFieldsChecker(FeedbackDTO feedbackDTO) {
         if (Objects.isNull(feedbackDTO))
@@ -143,7 +143,7 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param pagamentoDTO to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS}  exception
+     * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void pagamentoFieldsChecker(PagamentoDTO pagamentoDTO) {
         if (Objects.isNull(pagamentoDTO))
@@ -157,7 +157,7 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param prodottoDTO to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS}  exception
+     * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void prodottoFieldsChecker(ProdottoDTO prodottoDTO) {
         if (Objects.isNull(prodottoDTO))
@@ -177,7 +177,7 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param propostaDTO to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS}  exception
+     * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void propostaFieldsChecker(PropostaDTO propostaDTO) {
         if (Objects.isNull(propostaDTO))
@@ -194,7 +194,7 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param rigaOrdineDTO {@link RigaOrdineDTO RigaOrdineDTO} to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS}  exception
+     * @throws RigaOrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void rigaOrdineFieldsChecker(RigaOrdineDTO rigaOrdineDTO) {
         if (Objects.isNull(rigaOrdineDTO))
@@ -209,7 +209,7 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param categoriaDTO to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS}  exception
+     * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void categoriaFieldsChecker(CategoriaDTO categoriaDTO) {
         if (Objects.isNull(categoriaDTO))
@@ -223,7 +223,7 @@ public class Checkers {
      * Checks if the param is not null and the needed fields are valid, otherwise
      *
      * @param tipoMetodoDTO to control
-     * @throws {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS}  exception
+     * @throws TipoMetodoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void tipoMetodoFieldsChecker(TipoMetodoDTO tipoMetodoDTO) {
         if (Objects.isNull(tipoMetodoDTO))

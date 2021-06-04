@@ -75,6 +75,7 @@ public class PagamentoController {
     /**
      * Returns Pagamento for provided id
      *
+     * @param id id of the {@link Pagamento Pagamento} to retrieve
      * @return {@link PagamentoDTO PagamentoDTO}
      */
     @GetMapping("/id/{id}")
@@ -83,7 +84,7 @@ public class PagamentoController {
     }
 
     /**
-     * Returns all Pagamento where contanti != null and > 0
+     * Returns all Pagamento where contanti != null and greater than 0
      *
      * @return List {@link PagamentoDTO PagamentoDTO}
      */

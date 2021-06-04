@@ -52,8 +52,8 @@ public class PagamentoHelper {
      *
      * @param utenteId     id for the {@link Utente Utente} to link to Pagamento
      * @param pagamentoDTO {@link PagamentoDTO PagamentoDTO} to add to user
+     * @return {@link Pagamento Pagamento} addedo to DB
      */
-
     public Pagamento addPagamentoToUser(Long utenteId, PagamentoDTO pagamentoDTO) {
         Pagamento p = Pagamento.of(pagamentoDTO);
         Utente u = utenteHelper.findById(utenteId);

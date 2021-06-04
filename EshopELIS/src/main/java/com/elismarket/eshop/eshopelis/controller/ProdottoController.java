@@ -67,6 +67,7 @@ public class ProdottoController {
     /**
      * Retrieves Prodotto for provided id
      *
+     * @param id of the {@link Prodotto Prodotto} to retrieve
      * @return {@link ProdottoDTO ProdottoDTO}
      */
     @GetMapping("/id/{id}")
@@ -96,10 +97,11 @@ public class ProdottoController {
     }
 
     /**
-     * Retrieves all Prodotto where {@link Prodotto#getQuantita() quantita} < value
+     * Retrieves all Prodotto where quantita less than value
      *
      * @param quantita value to compare
      * @return List {@link ProdottoDTO ProdottoDTO}
+     * @see Prodotto#getQuantita()
      */
     @GetMapping("/all/quantita/minore/{quantita}")
     public List<ProdottoDTO> findByQuantitaMinore(@PathVariable Integer quantita) {

@@ -114,8 +114,9 @@ public class OrdineController {
     /**
      * Returns all Ordine where evaso = true, before a data
      *
-     * @param data {@link Ordine#getDataEvasione()} of all Ordine
+     * @param data dataEvasione of all Ordine
      * @return List {@link OrdineDTO OrdineDTO}
+     * @see Ordine#getDataEvasione()
      */
     @GetMapping("/data/before/{data}")
     public List<OrdineDTO> getDataPrima(@PathVariable LocalDate data) {
@@ -137,8 +138,9 @@ public class OrdineController {
     /**
      * Returns all Ordine where evaso = true, after a data
      *
-     * @param data {@link Ordine#getDataEvasione() dataEvasione} of all Ordine
+     * @param data dataEvasione of all Ordine
      * @return List {@link OrdineDTO OrdineDTO}
+     * @see Ordine#getDataEvasione()
      */
     @GetMapping("/data/after/{data}")
     public List<OrdineDTO> getDataDopo(@PathVariable LocalDate data) {

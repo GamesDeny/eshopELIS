@@ -65,10 +65,11 @@ public class PropostaController {
     /**
      * Retrieves Proposta for provided id
      *
+     * @param id of the {@link Proposta Proposta} to retrieve
      * @return {@link PropostaDTO PropostaDTO}
      */
     @GetMapping("/id/{id}")
-    public PropostaDTO getAll(@PathVariable Long id) {
+    public PropostaDTO getById(@PathVariable Long id) {
         return propostaService.findById(id);
     }
 
@@ -78,7 +79,7 @@ public class PropostaController {
      * @return List {@link PropostaDTO PropostaDTO}
      */
     @GetMapping("/all")
-    public List<PropostaDTO> getAll() {
+    public List<PropostaDTO> getById() {
         return propostaService.findAll();
     }
 
