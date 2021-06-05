@@ -33,6 +33,7 @@ com\elismarket\eshop\eshopelis\helper\FeedbackHelper.class
 com\elismarket\eshop\eshopelis\repository\PagamentoCrud.class
 com\elismarket\eshop\eshopelis\helper\ProdottoHelper.class
 com\elismarket\eshop\eshopelis\exception\UtenteException.class
+com\elismarket\eshop\eshopelis\controller\CategoriaController.class
 com\elismarket\eshop\eshopelis\helper\PagamentoHelper.class
 com\elismarket\eshop\eshopelis\repository\FeedbackCrud.class
 com\elismarket\eshop\eshopelis\controller\ProdottoController.class

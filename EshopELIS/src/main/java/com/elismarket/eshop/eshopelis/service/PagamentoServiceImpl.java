@@ -68,8 +68,8 @@ public class PagamentoServiceImpl implements PagamentoService {
         p.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
         p.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
 
-        if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
-            throw new PagamentoException(INVALID_MAIL.name());
+        /*if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
+            throw new PagamentoException(INVALID_MAIL.name());*/
 
         return Pagamento.to(pagamentoCrud.saveAndFlush(Pagamento.of(pagamentoDTO)));
     }
