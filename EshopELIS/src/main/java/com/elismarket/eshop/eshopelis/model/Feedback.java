@@ -62,6 +62,11 @@ public class Feedback {
     @JoinColumn(name = "utente_id")
     private Utente utente;
 
+    public Feedback(String oggetto, String descrizione) {
+        this.oggetto = oggetto;
+        this.descrizione = descrizione;
+    }
+
     /**
      * Returns an instance of Feedback from a {@link FeedbackDTO FeedbackDTO}
      *

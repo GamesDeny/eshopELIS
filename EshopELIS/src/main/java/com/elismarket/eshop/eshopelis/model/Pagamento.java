@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Pagamento class with lombok methods (getter, setter, NAC, ToString)
@@ -106,7 +107,7 @@ public class Pagamento {
         p.contanti = pagamento.getContanti();
         p.isDefault = pagamento.getIsDefault();
         p.tipoMetodo_id = pagamento.getTipoMetodo().getId();
-        p.ordine_id = pagamento.getOrdine().getId();
+        p.ordine_id = Objects.isNull(pagamento.getOrdine()) ? null : pagamento.getOrdine().getId();
         p.utente_id = pagamento.getUtente().getId();
 
         return p;

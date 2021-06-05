@@ -31,7 +31,7 @@ import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 public class PagamentoServiceImpl implements PagamentoService {
 
     /**
-     *
+     * @see PagamentoCrud
      */
     @Autowired
     PagamentoCrud pagamentoCrud;
@@ -68,10 +68,10 @@ public class PagamentoServiceImpl implements PagamentoService {
         p.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
         p.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
 
-        if (!Checkers.mailChecker(pagamentoDTO.paypalMail))
+        if (!(Objects.isNull(pagamentoDTO.paypalMail) || Checkers.mailChecker(pagamentoDTO.paypalMail)))
             throw new PagamentoException(INVALID_MAIL.name());
 
-        return Pagamento.to(pagamentoCrud.saveAndFlush(Pagamento.of(pagamentoDTO)));
+        return Pagamento.to(pagamentoCrud.saveAndFlush(p));
     }
 
     /**
