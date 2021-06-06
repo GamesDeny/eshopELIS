@@ -41,7 +41,7 @@ public class Pagamento {
     /**
      * indicates the Paypal mail where money came from
      */
-    @Column(nullable = true)
+    @Column()
     private String paypalMail;
 
     /**

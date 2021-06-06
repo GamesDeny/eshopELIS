@@ -41,7 +41,7 @@ public class CategoriaController {
      * Updates with HTTP Patch for a Categoria
      *
      * @param id           of the {@link Categoria Categoria} to Update
-     * @param categoriaDTO {@link CategoriaDTO CategoriaDTO} with the informations to update
+     * @param categoriaDTO {@link CategoriaDTO CategoriaDTO} with the information to update
      * @return Updated CategoriaDTO
      */
     @PatchMapping("/update/{id}")
@@ -73,7 +73,7 @@ public class CategoriaController {
     /**
      * Retrieves a Categoria for the provided item if exists
      *
-     * @param id of the {@link Categoria Cateforia} to retrieve
+     * @param id of the {@link Categoria Categoria} to retrieve
      * @return {@link Categoria Categoria} for provided id
      */
     @GetMapping("/id/{id}")

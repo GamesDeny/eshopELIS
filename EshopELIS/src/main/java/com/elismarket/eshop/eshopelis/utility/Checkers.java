@@ -79,16 +79,15 @@ public class Checkers {
     /**
      * Controls if the age of the user is between 16 and 90 otherwise
      *
-     * @param birthDate brithDate to control
+     * @param birthDate birthdate to control
      * @return true if the age of the subscriber between 16 and 90
      * @throws UtenteException with {@link ExceptionPhrases#TOO_OLD TOO_OLD} exception if age greater than 90
      * @throws UtenteException with {@link ExceptionPhrases#TOO_YOUNG TOO_YOUNG} exception if age less than 16
      */
     public static Boolean birthDateChecker(LocalDate birthDate) {
-        System.out.println(birthDate.getYear() + " " + LocalDate.now().getYear());
         if (LocalDate.now().getYear() - birthDate.getYear() < 16)
             throw new UtenteException(TOO_YOUNG.name());
-        if (birthDate.getYear() - LocalDate.now().getYear() > 90)
+        if (LocalDate.now().getYear() - birthDate.getYear() > 90)
             throw new UtenteException(TOO_OLD.name());
         return true;
     }

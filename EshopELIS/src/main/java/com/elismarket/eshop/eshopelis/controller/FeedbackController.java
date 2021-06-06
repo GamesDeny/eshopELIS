@@ -38,7 +38,7 @@ public class FeedbackController {
     }
 
     /**
-     * Updates Feedback with the provided id with the FeedbackDTO informations
+     * Updates Feedback for the provided id with the FeedbackDTO informations
      *
      * @param id          of the {@link Feedback Feedback} to
      * @param feedbackDTO {@link FeedbackDTO FeedbackDTO} with the updated fields
@@ -50,7 +50,7 @@ public class FeedbackController {
     }
 
     /**
-     * Deltes Feedback with the provided id
+     * Deletes Feedback for the provided id
      *
      * @param id of the {@link Feedback Feedback} to
      * @return HTTP 200 if deleted successfully, else 500
@@ -74,7 +74,7 @@ public class FeedbackController {
      * Retrieves all Feedback for a provided Utente
      *
      * @param userId id of the Utente
-     * @return rapresentation of all Feedback of a Utente
+     * @return representation of all Feedback of a Utente
      */
     @GetMapping("/all/utente/{userId}")
     public List<FeedbackDTO> getAllByUtente(@PathVariable Long userId) {
@@ -85,7 +85,7 @@ public class FeedbackController {
      * Retrieves feedback from id
      *
      * @param id of the {@link Feedback Feedback} to retrieve
-     * @return {@link FeedbackDTO FeedbackDTO} rappresentation of retrieved item
+     * @return {@link FeedbackDTO FeedbackDTO} representation of retrieved item
      */
     @GetMapping("/id/{id}")
     public FeedbackDTO getFeedback(@PathVariable Long id) {

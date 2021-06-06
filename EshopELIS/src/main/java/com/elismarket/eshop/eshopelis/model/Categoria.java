@@ -48,10 +48,6 @@ public class Categoria {
     @ToString.Exclude
     private List<Prodotto> prodotto = new ArrayList<>();
 
-    public Categoria(String nome) {
-        this.nome = nome;
-    }
-
     /**
      * Returns an instance of Categoria from a {@link CategoriaDTO CategoriaDTO}
      *

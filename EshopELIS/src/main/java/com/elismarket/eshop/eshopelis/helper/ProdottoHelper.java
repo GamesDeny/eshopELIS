@@ -134,13 +134,13 @@ public class ProdottoHelper {
      *
      * @param prodotto_id      id of the {@link Prodotto Prodotto} bought
      * @param quantitaProdotto quantita to remove from the Prodotto
-     * @throws ProdottoException with {@link ExceptionPhrases#UNSUFFICIENT_QUANTITA UNSUFFICIENT_QUANTITA} message
+     * @throws ProdottoException with {@link ExceptionPhrases#INSUFFICIENT_QUANTITA INSUFFICIENT_QUANTITA} message
      * @throws ProdottoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     public void decreaseQuantita(Long prodotto_id, Integer quantitaProdotto) {
         Prodotto p = prodottoCrud.findById(prodotto_id).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
         if (p.getQuantita() - quantitaProdotto < 0)
-            throw new ProdottoException(UNSUFFICIENT_QUANTITA.name());
+            throw new ProdottoException(INSUFFICIENT_QUANTITA.name());
 
         p.setQuantita(p.getQuantita() - quantitaProdotto);
         prodottoCrud.saveAndFlush(p);

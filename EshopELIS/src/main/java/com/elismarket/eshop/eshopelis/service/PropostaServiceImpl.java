@@ -165,7 +165,7 @@ public class PropostaServiceImpl implements PropostaService {
     public List<PropostaDTO> findAllByIsAccettato(Boolean isAccettato) {
         List<PropostaDTO> result = new ArrayList<>();
         //is not null? is accettato? true, else false else null
-        Integer scelta = !Objects.isNull(isAccettato) ? isAccettato ? 1 : 2 : 3;
+        int scelta = !Objects.isNull(isAccettato) ? isAccettato ? 1 : 2 : 3;
 
         switch (scelta) {
             case 1:

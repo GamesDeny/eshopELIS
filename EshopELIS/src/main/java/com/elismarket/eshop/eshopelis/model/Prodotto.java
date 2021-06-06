@@ -92,7 +92,7 @@ public class Prodotto {
     /**
      * Returns an instance of RigaOrdine from a {@link RigaOrdineDTO RigaOrdineDTO}
      *
-     * @param prodottoDTO insatnce of RigaOrdineDTO
+     * @param prodottoDTO instance of RigaOrdineDTO
      * @return RigaOrdine representation of RigaOrdineDTO
      */
     public static Prodotto of(ProdottoDTO prodottoDTO) {

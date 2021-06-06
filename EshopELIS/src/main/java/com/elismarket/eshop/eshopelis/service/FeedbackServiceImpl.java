@@ -55,7 +55,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     /**
-     * Updates Feedback with the provided id with the FeedbackDTO informations
+     * Updates Feedback for the provided id with the FeedbackDTO informations
      *
      * @param id          of the {@link Feedback Feedback} to
      * @param feedbackDTO {@link FeedbackDTO FeedbackDTO} with the updated fields
@@ -85,7 +85,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     /**
-     * Deltes Feedback with the provided id
+     * Deletes Feedback for the provided id
      *
      * @param id of the {@link Feedback Feedback} to
      * @return HTTP 200 if deleted successfully, else 500
@@ -120,7 +120,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      * Retrieves all Feedback for a provided Utente
      *
      * @param userId id of the Utente
-     * @return rapresentation of all Feedback of a Utente
+     * @return representation of all Feedback of a Utente
      * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
@@ -141,7 +141,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      * Retrieves feedback from id
      *
      * @param id of the {@link Feedback Feedback} to retrieve
-     * @return {@link FeedbackDTO FeedbackDTO} rappresentation of retrieved item
+     * @return {@link FeedbackDTO FeedbackDTO} representation of retrieved item
      * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     @Override

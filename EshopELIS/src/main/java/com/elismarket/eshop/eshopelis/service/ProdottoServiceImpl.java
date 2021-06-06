@@ -124,7 +124,7 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     /**
-     * Deletes the Prodotto with the provided id
+     * Deletes the Prodotto for the provided id
      *
      * @param id of the {@link Prodotto Prodotto} to remove
      * @return HTTP 200 if deleted successfully, else 500

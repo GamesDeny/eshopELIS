@@ -50,7 +50,7 @@ public class Feedback {
     private Boolean isAccepted;
 
     /**
-     * date of subScription of the Feedback
+     * date of subscription of the Feedback
      */
     @Column
     private LocalDate subscriptionDate;
@@ -61,11 +61,6 @@ public class Feedback {
     @ManyToOne(optional = false)
     @JoinColumn(name = "utente_id")
     private Utente utente;
-
-    public Feedback(String oggetto, String descrizione) {
-        this.oggetto = oggetto;
-        this.descrizione = descrizione;
-    }
 
     /**
      * Returns an instance of Feedback from a {@link FeedbackDTO FeedbackDTO}

@@ -77,11 +77,11 @@ public enum ExceptionPhrases {
     INCONSISTENT_SIGLA,
 
     /**
-     * Exception for when quantita of a {@link Prodotto Prodotto} is Unsufficient when placing an order
+     * Exception for when quantita of a {@link Prodotto Prodotto} is Insufficient when placing an order
      *
      * @see ProdottoHelper
      */
-    UNSUFFICIENT_QUANTITA,
+    INSUFFICIENT_QUANTITA,
 
     /**
      * Exception for when Utente is too young (less than 16)

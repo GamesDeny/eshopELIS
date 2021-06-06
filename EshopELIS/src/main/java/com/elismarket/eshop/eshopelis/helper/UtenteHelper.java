@@ -1,5 +1,6 @@
 package com.elismarket.eshop.eshopelis.helper;
 
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.UtenteException;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
@@ -52,7 +53,7 @@ public class UtenteHelper {
      *
      * @param utente_id id of the user that needs to be searched
      * @return Utente found in the repository
-     * @throws UtenteException with {@link com.elismarket.eshop.eshopelis.exception.ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} phrase
+     * @throws UtenteException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} phrase
      */
     public Utente findById(Long utente_id) {
         return utenteCrud.findById(utente_id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));

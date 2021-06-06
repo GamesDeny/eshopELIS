@@ -65,11 +65,6 @@ public class Ordine {
     @JoinColumn(name = "pagamento_id")
     private Pagamento pagamento;
 
-    public Ordine(Boolean evaso, LocalDate dataEvasione) {
-        this.evaso = evaso;
-        this.dataEvasione = dataEvasione;
-    }
-
     /**
      * Returns an instance of Ordine from a {@link OrdineDTO OrdineDTO}
      *

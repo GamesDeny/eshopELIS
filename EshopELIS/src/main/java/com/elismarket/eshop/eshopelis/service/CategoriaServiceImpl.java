@@ -113,7 +113,7 @@ public class CategoriaServiceImpl implements CategoriaService {
     /**
      * Retrieves a Categoria for the provided item if exists
      *
-     * @param id of the {@link Categoria Cateforia} to retrieve
+     * @param id of the {@link Categoria Categoria} to retrieve
      * @return {@link Categoria Categoria} for provided id
      * @throws CategoriaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */

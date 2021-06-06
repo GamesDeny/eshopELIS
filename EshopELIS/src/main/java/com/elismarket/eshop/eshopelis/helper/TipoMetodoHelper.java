@@ -1,5 +1,6 @@
 package com.elismarket.eshop.eshopelis.helper;
 
+import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.TipoMetodoException;
 import com.elismarket.eshop.eshopelis.model.TipoMetodo;
 import com.elismarket.eshop.eshopelis.repository.TipoMetodoCrud;
@@ -28,7 +29,7 @@ public class TipoMetodoHelper {
      *
      * @param tipoPagamentoId id of the user that needs to be searched
      * @return Utente found in the repository
-     * @throws TipoMetodoException with {@link com.elismarket.eshop.eshopelis.exception.ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} phrase
+     * @throws TipoMetodoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} phrase
      */
     public TipoMetodo findById(Long tipoPagamentoId) {
         return tipoMetodoCrud.findById(tipoPagamentoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name()));

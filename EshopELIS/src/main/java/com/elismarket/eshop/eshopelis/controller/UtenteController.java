@@ -98,7 +98,7 @@ public class UtenteController {
      * @param userId of the {@link Utente Utente}
      * @return retrieved Utente
      */
-    @GetMapping("/id/{id}")
+    @GetMapping("/id/{userId}")
     public UtenteDTO getById(@PathVariable Long userId) {
         return utenteService.getById(userId);
     }
