@@ -56,7 +56,9 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
         prodottoHelper.decreaseQuantita(rigaOrdineDTO.prodotto_id, rigaOrdineDTO.quantitaProdotto);
-        return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(RigaOrdine.of(rigaOrdineDTO)));
+        RigaOrdine r = RigaOrdine.of(rigaOrdineDTO);
+        r.setProdotto(prodottoHelper.findById(rigaOrdineDTO.prodotto_id));
+        return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(r));
     }
 
     /**
