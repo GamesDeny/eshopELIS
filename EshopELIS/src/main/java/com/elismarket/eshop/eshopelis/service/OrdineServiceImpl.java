@@ -73,7 +73,6 @@ public class OrdineServiceImpl implements OrdineService {
         o.setEvaso(false);
         o.setPagamento(pagamentoHelper.findById(pagamentoId));
         o.setUtente(utenteHelper.findById(userId));
-        rigaOrdineHelper.linkRigheToOrdine(o.getId(), righeId);
 
         return Ordine.to(ordineCrud.saveAndFlush(o));
     }
