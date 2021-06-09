@@ -21,7 +21,6 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "feedback")
 public class Feedback {
 
     /**

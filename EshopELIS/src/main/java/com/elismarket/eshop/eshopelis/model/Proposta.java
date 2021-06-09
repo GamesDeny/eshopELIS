@@ -21,7 +21,6 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "proposta")
 public class Proposta {
 
     /**

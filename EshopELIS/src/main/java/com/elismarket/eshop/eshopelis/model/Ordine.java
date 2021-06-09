@@ -20,7 +20,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "ordine")
 public class Ordine {
 
     /**

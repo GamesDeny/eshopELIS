@@ -22,7 +22,6 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "prodotto")
 public class Prodotto {
 
     /**

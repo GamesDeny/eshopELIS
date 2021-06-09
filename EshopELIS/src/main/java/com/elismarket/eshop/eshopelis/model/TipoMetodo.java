@@ -22,7 +22,6 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tipo_metodo")
 public class TipoMetodo {
     /**
      * Primary key of the Entity

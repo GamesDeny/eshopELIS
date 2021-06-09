@@ -21,7 +21,6 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "riga_ordine")
 public class RigaOrdine {
 
     /**

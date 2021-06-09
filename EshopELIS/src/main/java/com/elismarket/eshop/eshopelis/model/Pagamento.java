@@ -22,7 +22,6 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "pagamento")
 public class Pagamento {
 
     /**
