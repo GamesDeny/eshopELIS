@@ -270,8 +270,9 @@ public class UtenteServiceImpl implements UtenteService {
     public UtenteDTO getLoginUtente(String username, String password) {
         if (Objects.isNull(username) || Objects.isNull(password))
             throw new UtenteException(MISSING_PARAMETERS.name());
+
         Utente u = utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password));
-        u.setLogged(true);
+        u.setLogged(Boolean.TRUE);
 
         return Utente.to(utenteCrud.saveAndFlush(u));
     }
@@ -286,7 +287,7 @@ public class UtenteServiceImpl implements UtenteService {
     @Override
     public Boolean getLogout(Long userId) {
         Utente u = utenteCrud.findById(userId).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
-        u.setLogged(false);
+        u.setLogged(Boolean.FALSE);
         utenteCrud.saveAndFlush(u);
         return true;
     }

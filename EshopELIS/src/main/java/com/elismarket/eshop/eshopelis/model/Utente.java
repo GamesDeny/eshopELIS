@@ -23,7 +23,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "utente)")
+@Table(name = "utente")
 public class Utente {
 
     /**
