@@ -9,66 +9,66 @@ import java.util.List;
 
 public class DBInteractions {
     @Autowired
-    CategoriaService categoriaService;
+    static CategoriaService categoriaService;
 
     @Autowired
-    FeedbackService feedbackService;
+    static FeedbackService feedbackService;
 
     @Autowired
-    OrdineService ordineService;
+    static OrdineService ordineService;
 
     @Autowired
-    PagamentoService pagamentoService;
+    static PagamentoService pagamentoService;
 
     @Autowired
-    PropostaService propostaService;
+    static PropostaService propostaService;
 
     @Autowired
-    ProdottoService prodottoService;
+    static ProdottoService prodottoService;
 
     @Autowired
-    RigaOrdineService rigaOrdineService;
+    static RigaOrdineService rigaOrdineService;
 
     @Autowired
-    TipoMetodoService tipoMetodoService;
+    static TipoMetodoService tipoMetodoService;
 
     @Autowired
-    UtenteService utenteService;
+    static UtenteService utenteService;
 
 
-    public CategoriaDTO addCategoria(Categoria categoria) {
+    public static CategoriaDTO addCategoria(Categoria categoria) {
         return categoriaService.addCategoria(Categoria.to(categoria));
     }
 
-    public FeedbackDTO addFeedback(Feedback feedback) {
+    public static FeedbackDTO addFeedback(Feedback feedback) {
         return feedbackService.addFeedback(Feedback.to(feedback));
     }
 
-    public OrdineDTO addOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe) {
+    public static OrdineDTO addOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe) {
         return ordineService.saveOrdine(userId, pagamentoId, righe);
     }
 
-    public PagamentoDTO addPagamento(Pagamento pagamento) {
+    public static PagamentoDTO addPagamento(Pagamento pagamento) {
         return pagamentoService.addPagamento(Pagamento.to(pagamento));
     }
 
-    public ProdottoDTO addProdotto(Prodotto prodotto) {
+    public static ProdottoDTO addProdotto(Prodotto prodotto) {
         return prodottoService.addProdotto(Prodotto.to(prodotto));
     }
 
-    public PropostaDTO addProposta(Long userId, Proposta proposta) {
+    public static PropostaDTO addProposta(Long userId, Proposta proposta) {
         return propostaService.addProposta(userId, Proposta.to(proposta));
     }
 
-    public RigaOrdineDTO addRigaOrdine(RigaOrdine rigaOrdine) {
+    public static RigaOrdineDTO addRigaOrdine(RigaOrdine rigaOrdine) {
         return rigaOrdineService.addRigaOrdine(RigaOrdine.to(rigaOrdine));
     }
 
-    public TipoMetodoDTO addTipoMetodo(TipoMetodo tipoMetodo) {
+    public static TipoMetodoDTO addTipoMetodo(TipoMetodo tipoMetodo) {
         return tipoMetodoService.addTipoMetodo(TipoMetodo.to(tipoMetodo));
     }
 
-    public UtenteDTO addUtente(Utente utente) {
+    public static UtenteDTO addUtente(Utente utente) {
         return utenteService.addUtente(Utente.to(utente));
     }
 }
