@@ -4,6 +4,7 @@ import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.OrdineException;
+import com.elismarket.eshop.eshopelis.exception.UtenteException;
 import com.elismarket.eshop.eshopelis.helper.PagamentoHelper;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
@@ -13,6 +14,7 @@ import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.OrdineService;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -111,9 +113,13 @@ public class OrdineServiceImpl implements OrdineService {
      * @param id of the {@link Ordine Ordine} to
      * @return HTTP status 200 if item is deleted otherwise 500
      * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean removeOrdine(Long id) {
+        if (Objects.isNull(id))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
         if (!ordineCrud.existsById(id))
             throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 
@@ -142,10 +148,14 @@ public class OrdineServiceImpl implements OrdineService {
      *
      * @return {@link OrdineDTO OrdineDTO}
      * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public OrdineDTO getById(Long id) {
-        if (!ordineCrud.findById(id).isPresent())
+        if (Objects.isNull(id))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
+        if (!ordineCrud.existsById(id))
             throw new OrdineException(CANNOT_FIND_ELEMENT.name());
         return Ordine.to(ordineCrud.findById(id).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name())));
     }
@@ -155,13 +165,13 @@ public class OrdineServiceImpl implements OrdineService {
      *
      * @param userId id of the {@link Utente Utente}
      * @return List of {@link OrdineDTO OrdineDTO}
-     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      * @throws OrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<OrdineDTO> getAllByUtente(Long userId) {
         if (Objects.isNull(userId))
-            throw new OrdineException(MISSING_PARAMETERS.name());
+            throw new UtenteException(MISSING_PARAMETERS.name());
 
         if (ordineCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
             throw new OrdineException(LIST_IS_EMPTY.name());
@@ -176,9 +186,13 @@ public class OrdineServiceImpl implements OrdineService {
      *
      * @param evaso value of evaso
      * @return List of {@link OrdineDTO OrdineDTO} evasi or not
+     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public List<OrdineDTO> getEvaso(Boolean evaso) {
+        if (Objects.isNull(evaso))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
         if (ordineCrud.findAllByEvaso(evaso).isEmpty())
             throw new OrdineException(LIST_IS_EMPTY.name());
 
@@ -192,10 +206,14 @@ public class OrdineServiceImpl implements OrdineService {
      *
      * @param dataEvasione dataEvasione of all Ordine
      * @return List {@link OrdineDTO OrdineDTO}
+     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      * @see Ordine#getDataEvasione()
      */
     @Override
     public List<OrdineDTO> getDataPrima(LocalDate dataEvasione) {
+        if (Objects.isNull(dataEvasione))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
         if (ordineCrud.findAllByDataEvasioneBefore(dataEvasione).isEmpty())
             throw new OrdineException(LIST_IS_EMPTY.name());
 
@@ -210,9 +228,13 @@ public class OrdineServiceImpl implements OrdineService {
      * @param dataInizio starting data
      * @param dataFine   final data
      * @return List {@link OrdineDTO OrdineDTO}
+     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public List<OrdineDTO> getDataTra(LocalDate dataInizio, LocalDate dataFine) {
+        if (Objects.isNull(dataInizio) || Objects.isNull(dataFine))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
         if (ordineCrud.findAllByDataEvasioneBetween(dataInizio, dataFine).isEmpty())
             throw new OrdineException(LIST_IS_EMPTY.name());
 
@@ -226,10 +248,14 @@ public class OrdineServiceImpl implements OrdineService {
      *
      * @param dataEvasione dataEvasione of all Ordine
      * @return List {@link OrdineDTO OrdineDTO}
+     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      * @see Ordine#getDataEvasione()
      */
     @Override
     public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {
+        if (Objects.isNull(dataEvasione))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
         if (ordineCrud.findAllByDataEvasioneAfter(dataEvasione).isEmpty())
             throw new OrdineException(LIST_IS_EMPTY.name());
 
@@ -244,9 +270,15 @@ public class OrdineServiceImpl implements OrdineService {
      * @param ordineId      id of {@link Ordine Ordine}
      * @param rigaOrdineDTO {@link RigaOrdine RigaOrdine} to add
      * @return the inserted data
+     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @see Checkers#rigaOrdineFieldsChecker(RigaOrdineDTO)
      */
     @Override
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
+        if (Objects.isNull(ordineId))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+        Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
+
         if (!ordineCrud.existsById(ordineId))
             throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 

@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
 /**
  * {@link Categoria Categoria} service class for interaction between DB and relative Controller
@@ -44,6 +43,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      *
      * @param categoriaDTO {@link CategoriaDTO CategoriaDTO} with required fields
      * @return the {@link Categoria Categoria} created
+     * @see Checkers#categoriaFieldsChecker(CategoriaDTO)
      */
     @Override
     public CategoriaDTO addCategoria(CategoriaDTO categoriaDTO) {
@@ -58,9 +58,14 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @param categoriaDTO {@link CategoriaDTO CategoriaDTO} with the informations to update
      * @return Updated CategoriaDTO
      * @throws CategoriaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @see Checkers#categoriaFieldsChecker(CategoriaDTO)
      */
     @Override
     public CategoriaDTO updateCategoria(Long categoriaId, CategoriaDTO categoriaDTO) {
+        if (Objects.isNull(categoriaId) || Objects.isNull(categoriaDTO))
+            throw new CategoriaException(MISSING_PARAMETERS.name());
+
         if (!categoriaCrud.existsById(categoriaId))
             throw new CategoriaException(CANNOT_FIND_ELEMENT.name());
 
@@ -84,9 +89,13 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @param id of the {@link Categoria Categoria} to delete
      * @return HTTP 200 if deleted successfully, else 500
      * @throws CategoriaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean deleteCategoria(Long id) {
+        if (Objects.isNull(id))
+            throw new CategoriaException(MISSING_PARAMETERS.name());
+
         if (!categoriaCrud.existsById(id))
             throw new CategoriaException(CANNOT_FIND_ELEMENT.name());
 
@@ -98,7 +107,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      * returns all Categoria in the DB
      *
      * @return List {@link Categoria Categoria}
-     * @throws CategoriaException with {@link ExceptionPhrases#LIST_IS_EMPTY} message
+     * @throws CategoriaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<CategoriaDTO> getAll() {
@@ -116,9 +125,12 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @param id of the {@link Categoria Categoria} to retrieve
      * @return {@link Categoria Categoria} for provided id
      * @throws CategoriaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public CategoriaDTO getById(Long id) {
+        if (Objects.isNull(id))
+            throw new CategoriaException(MISSING_PARAMETERS.name());
         return Categoria.to(categoriaCrud.findById(id).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
     }
 }

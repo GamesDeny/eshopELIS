@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
 
 /**
  * {@link RigaOrdine RigaOrdine} service class for interaction between DB and relative Controller
@@ -97,9 +96,13 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
      * @param id of the {@link RigaOrdine RigaOrdine} to remove
      * @return HTTP 200 if deleted successfully, else 500
      * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws RigaOrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean removeRigaOrdine(Long id) {
+        if (Objects.isNull(id))
+            throw new RigaOrdineException(MISSING_PARAMETERS.name());
+
         if (!rigaOrdineCrud.existsById(id))
             throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
 
@@ -129,10 +132,14 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
      * @param id for the {@link RigaOrdine RigaOrdine}
      * @return List {@link RigaOrdineDTO RigaOrdineDTO}
      * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws RigaOrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public RigaOrdineDTO getById(Long id) {
-        if (!rigaOrdineCrud.findById(id).isPresent())
+        if (Objects.isNull(id))
+            throw new RigaOrdineException(MISSING_PARAMETERS.name());
+
+        if (!rigaOrdineCrud.existsById(id))
             throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
         return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name())));
     }
