@@ -1,12 +1,15 @@
 package com.elismarket.eshop.eshopelis.ControllersTests;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
+
 
 @SpringBootTest
 public class CategoriaControllerTest {
+
+    @BeforeAll
 
     @Test
     public void testAddCategoria(){
