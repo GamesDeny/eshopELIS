@@ -20,7 +20,7 @@ public interface CategoriaService {
 
     Boolean deleteCategoria(Long id);
 
-    List<CategoriaDTO> getAll();
+     List<CategoriaDTO> getAll();
 
     CategoriaDTO getById(Long id);
 }
