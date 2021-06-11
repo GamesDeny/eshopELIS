@@ -35,8 +35,21 @@ public class CategoriaServiceTest {
 
     @Test
     public void testAddCategoria() {
+        //inizializzo una categoria di test e la aggiungo nel db
+        Categoria categoria = new Categoria();
+        categoria.setNome("pizza");
+        categoria.setId(1l);
+        List<CategoriaDTO> categoriaDTO=  new ArrayList<>();
+        categoriaDTO.add(Categoria.to(categoria));
 
+        //testo che il metodo funzioni
+        assertNotNull( categoriaService.addCategoria(categoriaDTO.get(0)));
+        assertTrue(categoriaService.getById(categoriaService.addCategoria(Categoria.to(categoria)).id) instanceof CategoriaDTO);
 
+        //testo che lanci l'eccezione con un oggetto vuoto
+        assertThrows(CategoriaException.class, ()->{
+            categoriaService.addCategoria(null);
+        });
     }
 
     @Test
@@ -44,7 +57,7 @@ public class CategoriaServiceTest {
         //inizializzo una categoria di test e la aggiungo nel db
         Categoria categoria = new Categoria();
         categoria.setNome("pizza");
-        long id = categoriaService.addCategoria(Categoria.to(categoria)).id;
+        categoria.setId(1l);
         //prendo dal db l'id della categoria generato
         List<CategoriaDTO> categoriaDTO=  new ArrayList<>();
         categoriaDTO.add(Categoria.to(categoria));
@@ -52,7 +65,7 @@ public class CategoriaServiceTest {
 
 
         //testo che ritorni un oggetto
-        assertNotNull(categoriaService.updateCategoria(id,categoriaDTO.get(0)));
+        assertNotNull(categoriaService.updateCategoria(1l,Categoria.to(categoria)));
 
         //testo che lanci l'eccezione in caso non gli passi nulla
         assertThrows(CategoriaException.class, ()->{
@@ -65,7 +78,7 @@ public class CategoriaServiceTest {
         });
         //testo che lanci l'eccezione in caso non gli passi un oggetto nullo come categoriaDTO
         assertThrows(CategoriaException.class, ()->{
-            categoriaService.updateCategoria(id,null);
+            categoriaService.updateCategoria(1l,null);
         });
 
 
