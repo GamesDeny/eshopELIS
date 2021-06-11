@@ -35,7 +35,7 @@ public class Categoria {
     /**
      * Name of the Categoria
      */
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
     /**

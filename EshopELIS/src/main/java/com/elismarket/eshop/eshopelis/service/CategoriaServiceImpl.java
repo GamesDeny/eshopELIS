@@ -49,7 +49,8 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public CategoriaDTO addCategoria(CategoriaDTO categoriaDTO) {
         Checkers.categoriaFieldsChecker(categoriaDTO);
-        return Categoria.to(categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO)));
+        Categoria categoria = categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO));
+        return Categoria.to(categoria);
     }
 
     /**
