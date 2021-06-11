@@ -1,8 +1,6 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
-import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
-import com.elismarket.eshop.eshopelis.exception.FeedbackException;
 import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.FeedbackCrud;
@@ -10,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
 /**
  * Helper class for {@link Feedback Feedback} entity
@@ -54,13 +50,9 @@ public class FeedbackHelper {
      *
      * @param utenteId     id for the {@link Utente Utente} to retrieve
      * @param feedbacks_id list of {@link Feedback Feedback} ids
-     * @throws FeedbackException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkUtenteToFeedbacks(Long utenteId, List<Long> feedbacks_id) {
         List<Feedback> result = feedbackCrud.findAllById(feedbacks_id);
-        if (result.isEmpty())
-            throw new FeedbackException(LIST_IS_EMPTY.name());
-
         result.forEach(feedback -> feedback.setUtente(utenteHelper.findById(utenteId)));
         feedbackCrud.saveAll(result);
     }

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
 /**
  * Helper class for {@link Pagamento Pagamento} entity
@@ -79,13 +78,9 @@ public class PagamentoHelper {
      *
      * @param utenteId     id for the {@link Utente Utente} to link to Pagamenti
      * @param pagamenti_id ids for the {@link Pagamento Pagamento} to be linked to the Utente
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkUtenteToPagamenti(Long utenteId, List<Long> pagamenti_id) {
         List<Pagamento> result = pagamentoCrud.findAllById(pagamenti_id);
-        if (result.isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
-
         result.forEach(pagamento -> pagamento.setUtente(utenteHelper.findById(utenteId)));
         pagamentoCrud.saveAll(result);
     }
@@ -95,13 +90,9 @@ public class PagamentoHelper {
      *
      * @param tipoPagamentoId id for the {@link TipoMetodo TipoMetodo} to link to Pagamenti
      * @param pagamenti_id    ids for the {@link Pagamento Pagamento} to be linked to the Metodo
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkMetodoToPagamento(Long tipoPagamentoId, List<Long> pagamenti_id) {
         List<Pagamento> result = pagamentoCrud.findAllById(pagamenti_id);
-        if (result.isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
-
         result.forEach(pagamento -> pagamento.setTipoMetodo(tipoMetodoHelper.findById(tipoPagamentoId)));
         pagamentoCrud.saveAll(result);
     }

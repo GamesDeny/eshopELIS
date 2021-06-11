@@ -2,8 +2,10 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
+import com.elismarket.eshop.eshopelis.exception.UtenteException;
 import com.elismarket.eshop.eshopelis.helper.CategoriaHelper;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
@@ -22,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link Prodotto Prodotto} service class for interaction between DB and relative Controller
@@ -129,9 +132,13 @@ public class ProdottoServiceImpl implements ProdottoService {
      * @param id of the {@link Prodotto Prodotto} to remove
      * @return HTTP 200 if deleted successfully, else 500
      * @throws ProdottoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean removeProdotto(Long id) {
+        if (Objects.isNull(id))
+            throw new ProdottoException(MISSING_PARAMETERS.name());
+
         if (!prodottoCrud.existsById(id))
             throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
@@ -143,12 +150,9 @@ public class ProdottoServiceImpl implements ProdottoService {
      * Retrieves all Prodotto
      *
      * @return List {@link ProdottoDTO ProdottoDTO}
-     * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<ProdottoDTO> getAll() {
-        if (prodottoCrud.findAll().isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAll().forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -160,9 +164,13 @@ public class ProdottoServiceImpl implements ProdottoService {
      *
      * @return {@link ProdottoDTO ProdottoDTO}
      * @throws ProdottoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public ProdottoDTO getById(Long id) {
+        if (Objects.isNull(id))
+            throw new ProdottoException(MISSING_PARAMETERS.name());
+
         if (!prodottoCrud.existsById(id))
             throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
@@ -174,16 +182,12 @@ public class ProdottoServiceImpl implements ProdottoService {
      *
      * @param userId id of {@link Utente Utente} that has an accepted Proposta
      * @return List {@link ProdottoDTO ProdottoDTO} of Proposta that became a Prodotto
-     * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
-     * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public List<ProdottoDTO> findAllByUtente(Long userId) {
         if (Objects.isNull(userId))
-            throw new ProdottoException(MISSING_PARAMETERS.name());
-
-        if (prodottoCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
+            throw new UtenteException(MISSING_PARAMETERS.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -191,17 +195,16 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     /**
-     * Retrieves all Prodotto where quantita less than the value
+     * Retrieves all Prodotto where quantita less than the value. if quantita is null then it equals to 0
      *
      * @param quantita value to compare
      * @return List {@link ProdottoDTO ProdottoDTO}
-     * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      * @see Prodotto#getQuantita()
      */
     @Override
     public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {
-        if (prodottoCrud.findAllByQuantitaLessThanEqual(quantita).isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
+        if (Objects.isNull(quantita))
+            quantita = 0;
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByQuantitaLessThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -213,14 +216,12 @@ public class ProdottoServiceImpl implements ProdottoService {
      *
      * @param categoriaId id of the Categoria to search
      * @return List {@link ProdottoDTO ProdottoDTO}
-     * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public List<ProdottoDTO> getProdottoByCategoria(Long categoriaId) {
         if (Objects.isNull(categoriaId))
-            throw new ProdottoException(MISSING_PARAMETERS.name());
-        if (prodottoCrud.findAllByCategoria(categoriaHelper.findById(categoriaId)).isEmpty())
-            throw new ProdottoException(MISSING_PARAMETERS.name());
+            throw new CategoriaException(MISSING_PARAMETERS.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByCategoria(categoriaHelper.findById(categoriaId)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -234,9 +235,15 @@ public class ProdottoServiceImpl implements ProdottoService {
      * @param rigaOrdineDTO {@link RigaOrdineDTO RigaOrdineDTO}
      * @return added RigaOrdine
      * @throws ProdottoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @see Checkers#rigaOrdineFieldsChecker(RigaOrdineDTO)
      */
     @Override
     public RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO) {
+        if (Objects.isNull(prodId))
+            throw new ProdottoException(MISSING_PARAMETERS.name());
+        Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
+
         if (!prodottoCrud.existsById(prodId))
             throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 

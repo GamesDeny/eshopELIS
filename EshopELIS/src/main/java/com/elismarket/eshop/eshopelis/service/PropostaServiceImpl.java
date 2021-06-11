@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link Proposta Proposta} service class for interaction between DB and relative Controller
@@ -114,9 +115,13 @@ public class PropostaServiceImpl implements PropostaService {
      * @param id of the {@link Proposta Proposta} to remove
      * @return HTTP 200 if deleted successfully, else 500
      * @throws PropostaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean removeProposta(Long id) {
+        if (Objects.isNull(id))
+            throw new PropostaException(MISSING_PARAMETERS.name());
+
         if (!propostaCrud.existsById(id))
             throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
@@ -130,10 +135,14 @@ public class PropostaServiceImpl implements PropostaService {
      * @param id of the {@link Proposta Proposta}
      * @return {@link PropostaDTO PropostaDTO}
      * @throws PropostaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public PropostaDTO findById(Long id) {
-        if (!propostaCrud.findById(id).isPresent())
+        if (Objects.isNull(id))
+            throw new PropostaException(MISSING_PARAMETERS.name());
+
+        if (!propostaCrud.existsById(id))
             throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
         return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
@@ -143,13 +152,9 @@ public class PropostaServiceImpl implements PropostaService {
      * Retrieves all Proposta
      *
      * @return List {@link PropostaDTO PropostaDTO}
-     * @throws PropostaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PropostaDTO> findAll() {
-
-        if (propostaCrud.findAll().isEmpty())
-            throw new PropostaException(LIST_IS_EMPTY.name());
 
         List<PropostaDTO> result = new ArrayList<>();
         propostaCrud.findAll().forEach(proposta -> result.add(Proposta.to(proposta)));
@@ -187,15 +192,11 @@ public class PropostaServiceImpl implements PropostaService {
      * @param userId id of {@link Utente Utente}
      * @return List {@link PropostaDTO PropostaDTO}
      * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
-     * @throws PropostaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PropostaDTO> findAllByUtente(Long userId) {
         if (Objects.isNull(userId))
             throw new PropostaException(MISSING_PARAMETERS.name());
-
-        if (propostaCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
-            throw new PropostaException(LIST_IS_EMPTY.name());
 
         List<PropostaDTO> result = new ArrayList<>();
         propostaCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(proposta -> result.add(Proposta.to(proposta)));

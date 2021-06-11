@@ -1,8 +1,6 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
-import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
-import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
 import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
@@ -11,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
 /**
  * Helper class for {@link RigaOrdine RigaORdine} entity
@@ -75,13 +71,9 @@ public class RigaOrdineHelper {
      *
      * @param ordineId       id of the {@link Ordine Ordine} to retrieve
      * @param righeOrdine_id ids {@link RigaOrdine rigaOrdine}
-     * @throws RigaOrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkRigheToOrdine(Long ordineId, List<Long> righeOrdine_id) {
         List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
-        if (result.isEmpty())
-            throw new RigaOrdineException(LIST_IS_EMPTY.name());
-
         result.forEach(rigaOrdine -> rigaOrdine.setOrdine(ordineHelper.findById(ordineId)));
         rigaOrdineCrud.saveAll(result);
     }
@@ -91,13 +83,9 @@ public class RigaOrdineHelper {
      *
      * @param prodottoId     if of {@link Prodotto Prodotto} to link to the righeOrdine_id
      * @param righeOrdine_id ids {@link RigaOrdine rigaOrdine}
-     * @throws RigaOrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkRigheToProdotto(Long prodottoId, List<Long> righeOrdine_id) {
         List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
-        if (result.isEmpty())
-            throw new RigaOrdineException(LIST_IS_EMPTY.name());
-
         result.forEach(riga -> riga.setProdotto(prodottoHelper.findById(prodottoId)));
         rigaOrdineCrud.saveAll(result);
     }

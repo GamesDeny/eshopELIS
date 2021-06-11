@@ -2,7 +2,6 @@ package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.model.Categoria;
-import com.elismarket.eshop.eshopelis.service.CategoriaServiceImpl;
 import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

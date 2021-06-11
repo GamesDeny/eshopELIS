@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link Feedback Feedback} service class for interaction between DB and relative Controller
@@ -44,10 +45,12 @@ public class FeedbackServiceImpl implements FeedbackService {
      *
      * @param feedbackDTO {@link FeedbackDTO FeedbackDTO} with the fields
      * @return DTO of created item
+     * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @see Checkers#feedbackFieldsChecker(FeedbackDTO)
      */
     @Override
     public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {
-        System.out.println(feedbackDTO);
+        Checkers.feedbackFieldsChecker(feedbackDTO);
         Feedback f = Feedback.of(feedbackDTO);
         f.setSubscriptionDate(LocalDate.now());
         f.setUtente(utenteHelper.findById(feedbackDTO.utente_id));
@@ -61,9 +64,14 @@ public class FeedbackServiceImpl implements FeedbackService {
      * @param feedbackDTO {@link FeedbackDTO FeedbackDTO} with the updated fields
      * @return DTO with updated item
      * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @see Checkers#feedbackFieldsChecker(FeedbackDTO)
      */
     @Override
     public FeedbackDTO updateFeedback(Long id, FeedbackDTO feedbackDTO) {
+        if (Objects.isNull(id) || Objects.isNull(feedbackDTO))
+            throw new FeedbackException(MISSING_PARAMETERS.name());
+
         if (!feedbackCrud.existsById(id))
             throw new FeedbackException(CANNOT_FIND_ELEMENT.name());
 
@@ -90,9 +98,13 @@ public class FeedbackServiceImpl implements FeedbackService {
      * @param id of the {@link Feedback Feedback} to
      * @return HTTP 200 if deleted successfully, else 500
      * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean deleteFeedback(Long id) {
+        if (Objects.isNull(id))
+            throw new FeedbackException(MISSING_PARAMETERS.name());
+
         if (!feedbackCrud.existsById(id))
             throw new FeedbackException(CANNOT_FIND_ELEMENT.name());
 
@@ -104,12 +116,9 @@ public class FeedbackServiceImpl implements FeedbackService {
      * Retrieves all Feedbacks
      *
      * @return List of {@link FeedbackDTO FeedbackDTO}
-     * @throws FeedbackException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<FeedbackDTO> getAll() {
-        if (feedbackCrud.findAll().isEmpty())
-            throw new FeedbackException(LIST_IS_EMPTY.name());
 
         List<FeedbackDTO> result = new ArrayList<>();
         feedbackCrud.findAll().forEach((feedback) -> result.add(Feedback.to(feedback)));
@@ -122,15 +131,12 @@ public class FeedbackServiceImpl implements FeedbackService {
      * @param userId id of the Utente
      * @return representation of all Feedback of a Utente
      * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
-     * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public List<FeedbackDTO> getAllByUtente(Long userId) {
         if (Objects.isNull(userId))
             throw new FeedbackException(MISSING_PARAMETERS.name());
-
-        if (feedbackCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
-            throw new FeedbackException(LIST_IS_EMPTY.name());
 
         List<FeedbackDTO> result = new ArrayList<>();
         feedbackCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(feedback -> result.add(Feedback.to(feedback)));
@@ -143,9 +149,13 @@ public class FeedbackServiceImpl implements FeedbackService {
      * @param id of the {@link Feedback Feedback} to retrieve
      * @return {@link FeedbackDTO FeedbackDTO} representation of retrieved item
      * @throws FeedbackException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public FeedbackDTO getById(Long id) {
+        if (Objects.isNull(id))
+            throw new FeedbackException(MISSING_PARAMETERS.name());
+
         return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException(CANNOT_FIND_ELEMENT.name())));
     }
 

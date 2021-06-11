@@ -113,9 +113,13 @@ public class PagamentoServiceImpl implements PagamentoService {
      * @param id of the {@link Pagamento Pagamento} to remove
      * @return HTTP status 200 if item is deleted otherwise 500
      * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean removePagamento(Long id) {
+        if (Objects.isNull(id))
+            throw new PagamentoException(MISSING_PARAMETERS.name());
+
         if (!pagamentoCrud.existsById(id))
             throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
 
@@ -127,12 +131,9 @@ public class PagamentoServiceImpl implements PagamentoService {
      * Returns all Pagamento
      *
      * @return List of {@link PagamentoDTO PagamentoDTO}
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PagamentoDTO> getAll() {
-        if (pagamentoCrud.findAll().isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         List<PagamentoDTO> result = new ArrayList<>();
         pagamentoCrud.findAll().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
@@ -144,9 +145,13 @@ public class PagamentoServiceImpl implements PagamentoService {
      *
      * @return {@link PagamentoDTO PagamentoDTO}
      * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public PagamentoDTO getById(Long id) {
+        if (Objects.isNull(id))
+            throw new PagamentoException(MISSING_PARAMETERS.name());
+
         if (!pagamentoCrud.existsById(id))
             throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
 
@@ -157,12 +162,9 @@ public class PagamentoServiceImpl implements PagamentoService {
      * Returns all Pagamento where contanti != null and greater than 0
      *
      * @return List {@link PagamentoDTO PagamentoDTO}
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PagamentoDTO> getByContanti() {
-        if (pagamentoCrud.findAllByContantiNotNullAndContantiGreaterThanEqual(0f).isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         List<PagamentoDTO> result = new ArrayList<>();
         pagamentoCrud.findAllByContantiNotNullAndContantiGreaterThanEqual(0f).forEach(pagamento -> result.add(Pagamento.to(pagamento)));
@@ -173,12 +175,9 @@ public class PagamentoServiceImpl implements PagamentoService {
      * Returns all Pagamento where PaypalMail != null
      *
      * @return List {@link PagamentoDTO PagamentoDTO}
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PagamentoDTO> getByPaypalMail() {
-        if (pagamentoCrud.findAllByPaypalMailNotNull().isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         List<PagamentoDTO> result = new ArrayList<>();
         pagamentoCrud.findAllByPaypalMailNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
@@ -192,9 +191,13 @@ public class PagamentoServiceImpl implements PagamentoService {
      * @param ordineDTO   {@link OrdineDTO OrdineDTO} of Ordine to add
      * @return added Ordine
      * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO ordineDTO) {
+        if (Objects.isNull(pagamentoId) || Objects.isNull(ordineDTO))
+            throw new PagamentoException(MISSING_PARAMETERS.name());
+
         if (!pagamentoCrud.existsById(pagamentoId))
             throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
         return ordineHelper.addOrdineToPagamento(pagamentoId, ordineDTO);

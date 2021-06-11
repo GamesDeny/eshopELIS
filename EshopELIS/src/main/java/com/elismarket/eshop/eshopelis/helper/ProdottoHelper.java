@@ -2,7 +2,6 @@ package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
-import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
 import com.elismarket.eshop.eshopelis.model.Categoria;
@@ -15,7 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.INSUFFICIENT_QUANTITA;
 
 /**
  * Helper class for {@link Prodotto Prodotto} entity
@@ -80,12 +80,9 @@ public class ProdottoHelper {
      *
      * @param utenteId    if for the {@link Utente Utente} to retrieve
      * @param prodotti_id list of {@link Prodotto Prodotto} to be linked
-     * @throws CategoriaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkUtenteToProdotti(Long utenteId, List<Long> prodotti_id) {
         List<Prodotto> result = prodottoCrud.findAllById(prodotti_id);
-        if (result.isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         result.forEach(prodotto -> prodotto.setUtente(utenteHelper.findById(utenteId)));
         prodottoCrud.saveAll(result);
@@ -96,13 +93,9 @@ public class ProdottoHelper {
      *
      * @param categoriaId if for the {@link Categoria Categoria} to retrieve
      * @param prodotti    list of {@link Prodotto Prodotto} to be linked
-     * @throws CategoriaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkCategoriaToProdotto(Long categoriaId, List<Long> prodotti) {
         List<Prodotto> result = prodottoCrud.findAllById(prodotti);
-        if (result.isEmpty())
-            throw new CategoriaException(LIST_IS_EMPTY.name());
-
         result.forEach(prodotto -> prodotto.setCategoria(categoriaHelper.findById(categoriaId)));
         prodottoCrud.saveAll(result);
     }

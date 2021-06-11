@@ -2,7 +2,6 @@ package com.elismarket.eshop.eshopelis.service;
 
 import com.elismarket.eshop.eshopelis.dto.TipoMetodoDTO;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
-import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
 import com.elismarket.eshop.eshopelis.exception.TipoMetodoException;
 import com.elismarket.eshop.eshopelis.helper.PagamentoHelper;
 import com.elismarket.eshop.eshopelis.model.TipoMetodo;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link TipoMetodo TipoMetodo} service class for interaction between DB and relative Controller
@@ -58,10 +57,14 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      * @param tipoMetodoId  of the {@link TipoMetodo TipoMetodo}
      * @param tipoMetodoDTO {@link TipoMetodoDTO TipoMetodoDTO} with updated fields
      * @return updated TipoMetodo
-     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws TipoMetodoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws TipoMetodoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public TipoMetodoDTO updateTipoMetodo(Long tipoMetodoId, TipoMetodoDTO tipoMetodoDTO) {
+        if (Objects.isNull(tipoMetodoId))
+            throw new TipoMetodoException(MISSING_PARAMETERS.name());
+
         if (!tipoMetodoCrud.existsById(tipoMetodoId))
             throw new TipoMetodoException(CANNOT_FIND_ELEMENT.name());
 
@@ -84,10 +87,14 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      *
      * @param id of the {@link TipoMetodo TipoMetodo}
      * @return HTTP 200 if deleted successfully, else 500
-     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws TipoMetodoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws TipoMetodoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public Boolean deleteTipoMetodo(Long id) {
+        if (Objects.isNull(id))
+            throw new TipoMetodoException(MISSING_PARAMETERS.name());
+
         if (!tipoMetodoCrud.existsById(id))
             throw new TipoMetodoException(CANNOT_FIND_ELEMENT.name());
 
@@ -99,12 +106,9 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      * Retrieves all TipoMetodo in DB
      *
      * @return List {@link TipoMetodoDTO TipoMetodoDTO}
-     * @throws RigaOrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<TipoMetodoDTO> getAll() {
-        if (tipoMetodoCrud.findAll().isEmpty())
-            throw new TipoMetodoException(LIST_IS_EMPTY.name());
 
         List<TipoMetodoDTO> result = new ArrayList<>();
         tipoMetodoCrud.findAll().forEach(tipoMetodo -> result.add(TipoMetodo.to(tipoMetodo)));
@@ -116,10 +120,14 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      *
      * @param id of the {@link TipoMetodo TipoMetodo}
      * @return retrieved TipoMetodo
-     * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws TipoMetodoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws TipoMetodoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public TipoMetodoDTO getById(Long id) {
+        if (Objects.isNull(id))
+            throw new TipoMetodoException(MISSING_PARAMETERS.name());
+
         return TipoMetodo.to(tipoMetodoCrud.findById(id).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name())));
     }
 
