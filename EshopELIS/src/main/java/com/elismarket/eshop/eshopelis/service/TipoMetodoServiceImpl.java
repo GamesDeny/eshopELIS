@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link TipoMetodo TipoMetodo} service class for interaction between DB and relative Controller
@@ -105,12 +106,9 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      * Retrieves all TipoMetodo in DB
      *
      * @return List {@link TipoMetodoDTO TipoMetodoDTO}
-     * @throws TipoMetodoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<TipoMetodoDTO> getAll() {
-        if (tipoMetodoCrud.findAll().isEmpty())
-            throw new TipoMetodoException(LIST_IS_EMPTY.name());
 
         List<TipoMetodoDTO> result = new ArrayList<>();
         tipoMetodoCrud.findAll().forEach(tipoMetodo -> result.add(TipoMetodo.to(tipoMetodo)));

@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link Prodotto Prodotto} service class for interaction between DB and relative Controller
@@ -149,12 +150,9 @@ public class ProdottoServiceImpl implements ProdottoService {
      * Retrieves all Prodotto
      *
      * @return List {@link ProdottoDTO ProdottoDTO}
-     * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<ProdottoDTO> getAll() {
-        if (prodottoCrud.findAll().isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAll().forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -184,16 +182,12 @@ public class ProdottoServiceImpl implements ProdottoService {
      *
      * @param userId id of {@link Utente Utente} that has an accepted Proposta
      * @return List {@link ProdottoDTO ProdottoDTO} of Proposta that became a Prodotto
-     * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
-     * @throws UtenteException   with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
     public List<ProdottoDTO> findAllByUtente(Long userId) {
         if (Objects.isNull(userId))
             throw new UtenteException(MISSING_PARAMETERS.name());
-
-        if (prodottoCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -205,16 +199,12 @@ public class ProdottoServiceImpl implements ProdottoService {
      *
      * @param quantita value to compare
      * @return List {@link ProdottoDTO ProdottoDTO}
-     * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      * @see Prodotto#getQuantita()
      */
     @Override
     public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {
         if (Objects.isNull(quantita))
             quantita = 0;
-
-        if (prodottoCrud.findAllByQuantitaLessThanEqual(quantita).isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByQuantitaLessThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -227,14 +217,11 @@ public class ProdottoServiceImpl implements ProdottoService {
      * @param categoriaId id of the Categoria to search
      * @return List {@link ProdottoDTO ProdottoDTO}
      * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
-     * @throws ProdottoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<ProdottoDTO> getProdottoByCategoria(Long categoriaId) {
         if (Objects.isNull(categoriaId))
             throw new CategoriaException(MISSING_PARAMETERS.name());
-        if (prodottoCrud.findAllByCategoria(categoriaHelper.findById(categoriaId)).isEmpty())
-            throw new ProdottoException(LIST_IS_EMPTY.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByCategoria(categoriaHelper.findById(categoriaId)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
@@ -244,12 +231,12 @@ public class ProdottoServiceImpl implements ProdottoService {
     /**
      * Adds a {@link RigaOrdine RigaOrdine} to a Prodotto
      *
-     * @see Checkers#rigaOrdineFieldsChecker(RigaOrdineDTO)
      * @param prodId        id of the {@link Prodotto Prodotto} to link to the RigaOrdine
      * @param rigaOrdineDTO {@link RigaOrdineDTO RigaOrdineDTO}
      * @return added RigaOrdine
      * @throws ProdottoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @see Checkers#rigaOrdineFieldsChecker(RigaOrdineDTO)
      */
     @Override
     public RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO) {

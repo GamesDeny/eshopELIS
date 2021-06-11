@@ -22,12 +22,6 @@ public enum ExceptionPhrases {
 
 
     /**
-     * Exception for a list is empty
-     */
-    LIST_IS_EMPTY,
-
-
-    /**
      * Exception for when a class cannot be retrieved
      */
     CANNOT_FIND_ELEMENT,

@@ -178,7 +178,6 @@ public class UtenteServiceImpl implements UtenteService {
      *
      * @return List {@link UtenteDTO UtenteDTO}
      * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
-     * @throws UtenteException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<UtenteDTO> getAll(String findby) {
@@ -186,20 +185,14 @@ public class UtenteServiceImpl implements UtenteService {
 
         switch (findby) {
             case "":
-                if (utenteCrud.findAll().isEmpty())
-                    throw new UtenteException(LIST_IS_EMPTY.name());
 
                 utenteCrud.findAll().forEach(utente -> result.add(Utente.to(utente)));
                 break;
             case "admin":
-                if (utenteCrud.findAllByIsAdmin(true).isEmpty())
-                    throw new UtenteException(LIST_IS_EMPTY.name());
 
                 utenteCrud.findAllByIsAdmin(true).forEach(utente -> result.add(Utente.to(utente)));
                 break;
             case "user":
-                if (utenteCrud.findAllByIsAdmin(false).isEmpty())
-                    throw new UtenteException(LIST_IS_EMPTY.name());
 
                 utenteCrud.findAllByIsAdmin(false).forEach(utente -> result.add(Utente.to(utente)));
 
@@ -354,8 +347,8 @@ public class UtenteServiceImpl implements UtenteService {
      * @param userId      of the {@link Utente Utente}
      * @param propostaDTO {@link PropostaDTO PropostaDTO} to link to the Utente
      * @return Added Proposta
-     * @throws UtenteException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
-     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws UtenteException   with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws UtenteException   with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
@@ -376,8 +369,8 @@ public class UtenteServiceImpl implements UtenteService {
      * @param userId      of the {@link Utente Utente}
      * @param prodottoDTO {@link ProdottoDTO ProdottoDTO} to link to the Utente
      * @return Added Prodotto
-     * @throws UtenteException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
-     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws UtenteException   with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws UtenteException   with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
@@ -398,8 +391,8 @@ public class UtenteServiceImpl implements UtenteService {
      * @param userId       of the {@link Utente Utente}
      * @param pagamentoDTO {@link PagamentoDTO PagamentoDTO} to link to the Utente
      * @return Added Pagamento
-     * @throws UtenteException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
-     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws UtenteException    with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
+     * @throws UtenteException    with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override

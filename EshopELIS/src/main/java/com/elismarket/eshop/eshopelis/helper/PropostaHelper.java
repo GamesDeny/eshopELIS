@@ -1,8 +1,6 @@
 package com.elismarket.eshop.eshopelis.helper;
 
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
-import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
-import com.elismarket.eshop.eshopelis.exception.PropostaException;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
@@ -10,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.LIST_IS_EMPTY;
 
 /**
  * Helper class for {@link Proposta Proposta} entity
@@ -53,13 +49,9 @@ public class PropostaHelper {
      *
      * @param utenteId    id of the {@link Utente Utente} to retrieve
      * @param proposte_id id of the {@link Proposta Proposta} to retrieve
-     * @throws PropostaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     public void linkUtenteToProposte(Long utenteId, List<Long> proposte_id) {
         List<Proposta> result = propostaCrud.findAllById(proposte_id);
-        if (result.isEmpty())
-            throw new PropostaException(LIST_IS_EMPTY.name());
-
         result.forEach(proposta -> proposta.setUtente(utenteHelper.findById(utenteId)));
         propostaCrud.saveAll(result);
     }

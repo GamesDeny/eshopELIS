@@ -131,12 +131,9 @@ public class PagamentoServiceImpl implements PagamentoService {
      * Returns all Pagamento
      *
      * @return List of {@link PagamentoDTO PagamentoDTO}
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PagamentoDTO> getAll() {
-        if (pagamentoCrud.findAll().isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         List<PagamentoDTO> result = new ArrayList<>();
         pagamentoCrud.findAll().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
@@ -165,12 +162,9 @@ public class PagamentoServiceImpl implements PagamentoService {
      * Returns all Pagamento where contanti != null and greater than 0
      *
      * @return List {@link PagamentoDTO PagamentoDTO}
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PagamentoDTO> getByContanti() {
-        if (pagamentoCrud.findAllByContantiNotNullAndContantiGreaterThanEqual(0f).isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         List<PagamentoDTO> result = new ArrayList<>();
         pagamentoCrud.findAllByContantiNotNullAndContantiGreaterThanEqual(0f).forEach(pagamento -> result.add(Pagamento.to(pagamento)));
@@ -181,12 +175,9 @@ public class PagamentoServiceImpl implements PagamentoService {
      * Returns all Pagamento where PaypalMail != null
      *
      * @return List {@link PagamentoDTO PagamentoDTO}
-     * @throws PagamentoException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<PagamentoDTO> getByPaypalMail() {
-        if (pagamentoCrud.findAllByPaypalMailNotNull().isEmpty())
-            throw new PagamentoException(LIST_IS_EMPTY.name());
 
         List<PagamentoDTO> result = new ArrayList<>();
         pagamentoCrud.findAllByPaypalMailNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));

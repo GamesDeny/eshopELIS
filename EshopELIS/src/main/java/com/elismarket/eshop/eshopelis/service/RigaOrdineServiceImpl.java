@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link RigaOrdine RigaOrdine} service class for interaction between DB and relative Controller
@@ -114,12 +115,9 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
      * Retrieves all RigaOrdine
      *
      * @return List {@link RigaOrdineDTO RigaOrdineDTO}
-     * @throws RigaOrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<RigaOrdineDTO> getAll() {
-        if (rigaOrdineCrud.findAll().isEmpty())
-            throw new RigaOrdineException(LIST_IS_EMPTY.name());
 
         List<RigaOrdineDTO> result = new ArrayList<>();
         rigaOrdineCrud.findAll().forEach(rigaOrdine -> result.add(RigaOrdine.to(rigaOrdine)));

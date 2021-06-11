@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link Ordine Ordine} service class for interaction between DB and relative Controller
@@ -131,12 +132,9 @@ public class OrdineServiceImpl implements OrdineService {
      * Returns all Ordine in the DB
      *
      * @return List of {@link OrdineDTO OrdineDTO}
-     * @throws OrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<OrdineDTO> getAll() {
-        if (ordineCrud.findAll().isEmpty())
-            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAll().forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -166,15 +164,11 @@ public class OrdineServiceImpl implements OrdineService {
      * @param userId id of the {@link Utente Utente}
      * @return List of {@link OrdineDTO OrdineDTO}
      * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
-     * @throws OrdineException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<OrdineDTO> getAllByUtente(Long userId) {
         if (Objects.isNull(userId))
             throw new UtenteException(MISSING_PARAMETERS.name());
-
-        if (ordineCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
-            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -192,9 +186,6 @@ public class OrdineServiceImpl implements OrdineService {
     public List<OrdineDTO> getEvaso(Boolean evaso) {
         if (Objects.isNull(evaso))
             throw new OrdineException(MISSING_PARAMETERS.name());
-
-        if (ordineCrud.findAllByEvaso(evaso).isEmpty())
-            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByEvaso(evaso).forEach(ordine -> result.add(Ordine.to(ordine)));
@@ -214,9 +205,6 @@ public class OrdineServiceImpl implements OrdineService {
         if (Objects.isNull(dataEvasione))
             throw new OrdineException(MISSING_PARAMETERS.name());
 
-        if (ordineCrud.findAllByDataEvasioneBefore(dataEvasione).isEmpty())
-            throw new OrdineException(LIST_IS_EMPTY.name());
-
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByDataEvasioneBefore(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
         return result;
@@ -235,9 +223,6 @@ public class OrdineServiceImpl implements OrdineService {
         if (Objects.isNull(dataInizio) || Objects.isNull(dataFine))
             throw new OrdineException(MISSING_PARAMETERS.name());
 
-        if (ordineCrud.findAllByDataEvasioneBetween(dataInizio, dataFine).isEmpty())
-            throw new OrdineException(LIST_IS_EMPTY.name());
-
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByDataEvasioneBetween(dataInizio, dataFine).forEach(ordine -> result.add(Ordine.to(ordine)));
         return result;
@@ -255,9 +240,6 @@ public class OrdineServiceImpl implements OrdineService {
     public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {
         if (Objects.isNull(dataEvasione))
             throw new OrdineException(MISSING_PARAMETERS.name());
-
-        if (ordineCrud.findAllByDataEvasioneAfter(dataEvasione).isEmpty())
-            throw new OrdineException(LIST_IS_EMPTY.name());
 
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAllByDataEvasioneAfter(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));

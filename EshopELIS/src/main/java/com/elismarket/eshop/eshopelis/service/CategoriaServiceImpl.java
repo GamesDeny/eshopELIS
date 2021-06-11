@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link Categoria Categoria} service class for interaction between DB and relative Controller
@@ -107,12 +108,9 @@ public class CategoriaServiceImpl implements CategoriaService {
      * returns all Categoria in the DB
      *
      * @return List {@link Categoria Categoria}
-     * @throws CategoriaException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<CategoriaDTO> getAll() {
-        if (categoriaCrud.findAll().isEmpty())
-            throw new CategoriaException(LIST_IS_EMPTY.name());
 
         List<CategoriaDTO> result = new ArrayList<>();
         categoriaCrud.findAll().forEach(categoria -> result.add(Categoria.to(categoria)));

@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
+import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
 
 /**
  * {@link Feedback Feedback} service class for interaction between DB and relative Controller
@@ -115,12 +116,9 @@ public class FeedbackServiceImpl implements FeedbackService {
      * Retrieves all Feedbacks
      *
      * @return List of {@link FeedbackDTO FeedbackDTO}
-     * @throws FeedbackException with {@link ExceptionPhrases#LIST_IS_EMPTY LIST_IS_EMPTY} message
      */
     @Override
     public List<FeedbackDTO> getAll() {
-        if (feedbackCrud.findAll().isEmpty())
-            throw new FeedbackException(LIST_IS_EMPTY.name());
 
         List<FeedbackDTO> result = new ArrayList<>();
         feedbackCrud.findAll().forEach((feedback) -> result.add(Feedback.to(feedback)));
@@ -139,9 +137,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     public List<FeedbackDTO> getAllByUtente(Long userId) {
         if (Objects.isNull(userId))
             throw new FeedbackException(MISSING_PARAMETERS.name());
-
-        if (feedbackCrud.findAllByUtente(utenteHelper.findById(userId)).isEmpty())
-            throw new FeedbackException(LIST_IS_EMPTY.name());
 
         List<FeedbackDTO> result = new ArrayList<>();
         feedbackCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(feedback -> result.add(Feedback.to(feedback)));
