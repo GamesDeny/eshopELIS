@@ -8,6 +8,7 @@ import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,8 +50,8 @@ public class CategoriaServiceImpl implements CategoriaService {
     @Override
     public CategoriaDTO addCategoria(CategoriaDTO categoriaDTO) {
         Checkers.categoriaFieldsChecker(categoriaDTO);
-        Categoria categoria = categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO));
-        return Categoria.to(categoria);
+        categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO));
+        return getByName(categoriaDTO.nome);
     }
 
     /**
@@ -131,5 +132,20 @@ public class CategoriaServiceImpl implements CategoriaService {
         if (Objects.isNull(id))
             throw new CategoriaException(MISSING_PARAMETERS.name());
         return Categoria.to(categoriaCrud.findById(id).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
+    }
+
+    /**
+     * Retrieves a Categoria for the provided name if exists
+     *
+     * @param name of the {@link Categoria Categoria} to retrieve
+     * @return {@link Categoria Categoria} for provided id
+     * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     */
+    @Override
+    public CategoriaDTO getByName(String name) {
+        if (Objects.isNull(name) || Strings.isBlank(name) || Strings.isEmpty(name))
+            throw new CategoriaException(MISSING_PARAMETERS.name());
+
+        return Categoria.to(categoriaCrud.findByNome(name));
     }
 }

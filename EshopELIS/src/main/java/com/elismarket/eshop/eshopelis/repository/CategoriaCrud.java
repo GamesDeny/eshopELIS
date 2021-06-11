@@ -10,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0
  */
 public interface CategoriaCrud extends JpaRepository<Categoria, Long> {
+    Categoria findByNome(String name);
 }

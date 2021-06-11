@@ -81,4 +81,15 @@ public class CategoriaController {
         return categoriaService.getById(id);
     }
 
+    /**
+     * Retrieves a Categoria for the provided item if exists
+     *
+     * @param name of the {@link Categoria Categoria} to retrieve
+     * @return {@link Categoria Categoria} for provided id
+     */
+    @GetMapping("/name/{name}")
+    public CategoriaDTO getCategoriaByNome(@PathVariable String name) {
+        return categoriaService.getByName(name);
+    }
+
 }

@@ -23,4 +23,6 @@ public interface CategoriaService {
     List<CategoriaDTO> getAll();
 
     CategoriaDTO getById(Long id);
+
+    CategoriaDTO getByName(String name);
 }
