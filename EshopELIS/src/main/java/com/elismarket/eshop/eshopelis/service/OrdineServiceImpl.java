@@ -101,9 +101,8 @@ public class OrdineServiceImpl implements OrdineService {
 
         Ordine save = Ordine.of(ordineDTO);
         save.setPagamento(Objects.isNull(ordineDTO.pagamento_id) ? o.getPagamento() : pagamentoHelper.findById(ordineDTO.pagamento_id));
-        ordineCrud.saveAndFlush(save);
 
-        return Ordine.to(ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name())));
+        return Ordine.to(ordineCrud.saveAndFlush(save));
     }
 
     /**

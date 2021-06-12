@@ -4,7 +4,6 @@ import com.elismarket.eshop.eshopelis.dto.TipoMetodoDTO;
 import com.elismarket.eshop.eshopelis.exception.TipoMetodoException;
 import com.elismarket.eshop.eshopelis.repository.TipoMetodoCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.TipoMetodoService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ public class TipoMetodoControllerTest {
         deleteDb();
     }
 
-    @AfterEach
     public void deleteDb() {
         tipoMetodoCrud.deleteAll();
     }
@@ -49,6 +47,10 @@ public class TipoMetodoControllerTest {
 
         assertThrows(TipoMetodoException.class, () -> {
             tipoMetodoService.addTipoMetodo(null);
+        });
+
+        assertThrows(TipoMetodoException.class, () -> {
+            tipoMetodoService.addTipoMetodo(new TipoMetodoDTO());
         });
     }
 
@@ -72,6 +74,10 @@ public class TipoMetodoControllerTest {
         updated = tipoMetodoService.updateTipoMetodo(id, updated);
         assertNotNull(updated);
         assertEquals("carta", tipoMetodoService.getById(id).nome);
+
+        assertThrows(TipoMetodoException.class, () -> {
+            tipoMetodoService.updateTipoMetodo(id, new TipoMetodoDTO());
+        });
     }
 
     @Test

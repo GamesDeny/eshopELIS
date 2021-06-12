@@ -87,9 +87,8 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         Feedback save = Feedback.of(feedbackDTO);
         save.setUtente(Objects.isNull(feedbackDTO.utente_id) ? f.getUtente() : utenteHelper.findById(feedbackDTO.utente_id));
-        feedbackCrud.saveAndFlush(save);
 
-        return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException(CANNOT_FIND_ELEMENT.name())));
+        return Feedback.to(feedbackCrud.saveAndFlush(save));
     }
 
     /**

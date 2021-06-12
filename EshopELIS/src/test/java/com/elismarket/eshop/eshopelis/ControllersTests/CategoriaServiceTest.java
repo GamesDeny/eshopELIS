@@ -5,7 +5,6 @@ import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class CategoriaServiceTest {
 
-
     @Autowired
     CategoriaService categoriaService;
 
@@ -32,7 +30,6 @@ public class CategoriaServiceTest {
         deleteDb();
     }
 
-    @AfterEach
     public void deleteDb() {
         categoriaCrud.deleteAll();
     }
@@ -52,6 +49,11 @@ public class CategoriaServiceTest {
         //testo che lanci l'eccezione con un oggetto vuoto
         assertThrows(CategoriaException.class, () -> {
             categoriaService.addCategoria(null);
+        });
+
+        //testo che lanci l'eccezione con parametri mancanti
+        assertThrows(CategoriaException.class, () -> {
+            categoriaService.addCategoria(new CategoriaDTO());
         });
     }
 
@@ -88,6 +90,10 @@ public class CategoriaServiceTest {
             categoriaService.updateCategoria(2L, updatedCat);
         });
 
+        //testo che lanci l'eccezione con parametri mancanti
+        assertThrows(CategoriaException.class, () -> {
+            categoriaService.updateCategoria(id, new CategoriaDTO());
+        });
 
         //testo che lanci l'eccezione in caso non gli passi un oggetto nullo come categoriaDTO
         assertNotNull(categoriaService.updateCategoria(id, updatedCat));
@@ -116,7 +122,7 @@ public class CategoriaServiceTest {
 
 
         //testo che la funzione dato un id
-        assertTrue(categoriaService.deleteCategoria(id));
+        assertFalse(categoriaService.deleteCategoria(id));
     }
 
     @Test
@@ -154,9 +160,6 @@ public class CategoriaServiceTest {
         CategoriaDTO categoriaDTO = categoriaService.addCategoria(Categoria.to(categoria));
         final Long id = categoriaDTO.id;
 
-        //testo che ritorni un oggetto
-        assertNotNull(categoriaService.getById(id));
-        assertEquals("Altro", categoriaDTO.nome);
 
         //testo che lanci l'eccezione in caso non gli passi nulla
         assertThrows(CategoriaException.class, () -> {
@@ -168,7 +171,9 @@ public class CategoriaServiceTest {
             categoriaService.getById(82L);
         });
 
-
+        //testo che ritorni un oggetto
+        assertNotNull(categoriaService.getById(id));
+        assertEquals("Altro", categoriaDTO.nome);
     }
 
 

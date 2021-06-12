@@ -68,17 +68,16 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         if (!tipoMetodoCrud.existsById(tipoMetodoId))
             throw new TipoMetodoException(CANNOT_FIND_ELEMENT.name());
 
+        Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
+
         TipoMetodo c = tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name()));
 
         tipoMetodoDTO.id = tipoMetodoId;
         tipoMetodoDTO.nome = Objects.isNull(tipoMetodoDTO.nome) ? c.getNome() : tipoMetodoDTO.nome;
 
         Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
-        TipoMetodo save = TipoMetodo.of(tipoMetodoDTO);
 
-        tipoMetodoCrud.saveAndFlush(save);
-
-        return TipoMetodo.to(tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name())));
+        return TipoMetodo.to(tipoMetodoCrud.saveAndFlush(TipoMetodo.of(tipoMetodoDTO)));
     }
 
     /**

@@ -101,12 +101,11 @@ public class PropostaServiceImpl implements PropostaService {
 
         Proposta save = Proposta.of(propostaDTO);
         save.setUtente(Objects.isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
-        propostaCrud.saveAndFlush(save);
 
         if (propostaDTO.isAccettato)
             prodottoHelper.addProdotto(propostaDTO);
 
-        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
+        return Proposta.to(propostaCrud.saveAndFlush(save));
     }
 
     /**

@@ -102,9 +102,7 @@ public class PagamentoServiceImpl implements PagamentoService {
         save.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
         save.setOrdine(ordineHelper.findById(pagamentoDTO.ordine_id));
 
-        pagamentoCrud.saveAndFlush(save);
-
-        return Pagamento.to(pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name())));
+        return Pagamento.to(pagamentoCrud.saveAndFlush(save));
     }
 
     /**

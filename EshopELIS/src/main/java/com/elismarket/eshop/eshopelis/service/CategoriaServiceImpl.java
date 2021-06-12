@@ -70,17 +70,15 @@ public class CategoriaServiceImpl implements CategoriaService {
         if (!categoriaCrud.existsById(categoriaId))
             throw new CategoriaException(CANNOT_FIND_ELEMENT.name());
 
+        Checkers.categoriaFieldsChecker(categoriaDTO);
         Categoria c = categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name()));
 
         categoriaDTO.id = categoriaId;
         categoriaDTO.nome = Objects.isNull(categoriaDTO.nome) ? c.getNome() : categoriaDTO.nome;
 
         Checkers.categoriaFieldsChecker(categoriaDTO);
-        Categoria save = Categoria.of(categoriaDTO);
 
-        categoriaCrud.saveAndFlush(save);
-
-        return Categoria.to(categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
+        return Categoria.to(categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO)));
     }
 
     /**

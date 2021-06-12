@@ -113,10 +113,7 @@ public class UtenteServiceImpl implements UtenteService {
 
         Checkers.utenteFieldsChecker(utenteDTO);
 
-        Utente save = Utente.of(utenteDTO);
-        utenteCrud.saveAndFlush(save);
-
-        return Utente.to(utenteCrud.findById(utenteDTO.id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name())));
+        return Utente.to(utenteCrud.saveAndFlush(Utente.of(utenteDTO)));
     }
 
     /**
