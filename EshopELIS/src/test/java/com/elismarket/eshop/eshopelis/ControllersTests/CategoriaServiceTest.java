@@ -5,6 +5,7 @@ import com.elismarket.eshop.eshopelis.exception.CategoriaException;
 import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class CategoriaServiceTest {
         deleteDb();
     }
 
+    @AfterEach
     public void deleteDb() {
         categoriaCrud.deleteAll();
     }

@@ -4,6 +4,7 @@ import com.elismarket.eshop.eshopelis.dto.TipoMetodoDTO;
 import com.elismarket.eshop.eshopelis.exception.TipoMetodoException;
 import com.elismarket.eshop.eshopelis.repository.TipoMetodoCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.TipoMetodoService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class TipoMetodoControllerTest {
         deleteDb();
     }
 
+    @AfterEach
     public void deleteDb() {
         tipoMetodoCrud.deleteAll();
     }

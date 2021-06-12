@@ -2,6 +2,7 @@ package com.elismarket.eshop.eshopelis.ControllersTests;
 
 import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.OrdineService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class OrdineControllerTest {
         deleteDb();
     }
 
+    @AfterEach
     public void deleteDb() {
         ordineCrud.deleteAll();
     }

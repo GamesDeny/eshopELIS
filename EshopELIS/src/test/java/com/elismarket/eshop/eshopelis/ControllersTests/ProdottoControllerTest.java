@@ -2,6 +2,7 @@ package com.elismarket.eshop.eshopelis.ControllersTests;
 
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ProdottoControllerTest {
         deleteDb();
     }
 
+    @AfterEach
     public void deleteDb() {
         prodottoCrud.deleteAll();
     }
