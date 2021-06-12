@@ -158,7 +158,7 @@ public class UtenteServiceImpl implements UtenteService {
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         utenteCrud.deleteById(id);
 
-        return !utenteCrud.existsById(id);
+        return utenteCrud.existsById(id);
     }
 
     /**

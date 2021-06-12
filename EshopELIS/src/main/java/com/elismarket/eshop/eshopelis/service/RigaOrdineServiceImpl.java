@@ -108,7 +108,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
             throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
 
         rigaOrdineCrud.deleteById(id);
-        return !rigaOrdineCrud.existsById(id);
+        return rigaOrdineCrud.existsById(id);
     }
 
     /**

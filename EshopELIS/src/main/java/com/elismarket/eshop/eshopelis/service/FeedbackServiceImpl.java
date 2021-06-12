@@ -109,7 +109,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             throw new FeedbackException(CANNOT_FIND_ELEMENT.name());
 
         feedbackCrud.deleteById(id);
-        return !feedbackCrud.existsById(id);
+        return feedbackCrud.existsById(id);
     }
 
     /**

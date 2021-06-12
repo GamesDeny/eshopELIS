@@ -124,7 +124,7 @@ public class PagamentoServiceImpl implements PagamentoService {
             throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
 
         pagamentoCrud.deleteById(id);
-        return !pagamentoCrud.existsById(id);
+        return pagamentoCrud.existsById(id);
     }
 
     /**

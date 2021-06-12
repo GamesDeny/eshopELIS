@@ -57,7 +57,7 @@ public class CategoriaController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> deleteCategoria(@PathVariable Long id) {
-        return categoriaService.deleteCategoria(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return categoriaService.deleteCategoria(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**

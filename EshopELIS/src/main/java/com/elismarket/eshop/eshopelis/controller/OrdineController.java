@@ -65,7 +65,7 @@ public class OrdineController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeOrdine(@PathVariable Long id) {
-        return ordineService.removeOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return ordineService.removeOrdine(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**

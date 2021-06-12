@@ -57,7 +57,7 @@ public class UtenteController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeRigaOrdine(@PathVariable Long id) {
-        return utenteService.removeUtente(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return utenteService.removeUtente(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**
@@ -155,7 +155,7 @@ public class UtenteController {
      */
     @PostMapping(path = "/logout/{userId}")
     public ResponseEntity<Object> getLogout(@PathVariable Long userId) {
-        return utenteService.getLogout(userId) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return utenteService.getLogout(userId) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**

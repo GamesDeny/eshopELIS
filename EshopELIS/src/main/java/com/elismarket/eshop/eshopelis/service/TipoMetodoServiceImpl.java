@@ -98,7 +98,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
             throw new TipoMetodoException(CANNOT_FIND_ELEMENT.name());
 
         tipoMetodoCrud.deleteById(id);
-        return !tipoMetodoCrud.existsById(id);
+        return tipoMetodoCrud.existsById(id);
     }
 
     /**

@@ -60,7 +60,7 @@ public class PagamentoController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removePagamento(@PathVariable Long id) {
-        return pagamentoService.removePagamento(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return pagamentoService.removePagamento(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**

@@ -123,7 +123,7 @@ public class OrdineServiceImpl implements OrdineService {
             throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 
         ordineCrud.deleteById(id);
-        return !ordineCrud.existsById(id);
+        return ordineCrud.existsById(id);
     }
 
     /**

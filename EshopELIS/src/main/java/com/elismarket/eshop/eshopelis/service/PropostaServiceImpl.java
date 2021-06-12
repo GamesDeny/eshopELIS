@@ -126,7 +126,7 @@ public class PropostaServiceImpl implements PropostaService {
             throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
         propostaCrud.deleteById(id);
-        return !propostaCrud.existsById(id);
+        return propostaCrud.existsById(id);
     }
 
     /**

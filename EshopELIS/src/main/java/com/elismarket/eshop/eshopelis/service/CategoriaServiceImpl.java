@@ -100,7 +100,7 @@ public class CategoriaServiceImpl implements CategoriaService {
             throw new CategoriaException(CANNOT_FIND_ELEMENT.name());
 
         categoriaCrud.deleteById(id);
-        return !categoriaCrud.existsById(id);
+        return categoriaCrud.existsById(id);
     }
 
     /**

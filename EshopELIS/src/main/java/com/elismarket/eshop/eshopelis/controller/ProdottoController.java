@@ -61,7 +61,7 @@ public class ProdottoController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeProdotto(@PathVariable Long id) {
-        return prodottoService.removeProdotto(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return prodottoService.removeProdotto(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**
