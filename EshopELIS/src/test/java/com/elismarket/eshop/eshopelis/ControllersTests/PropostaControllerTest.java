@@ -1,39 +1,63 @@
 package com.elismarket.eshop.eshopelis.ControllersTests;
 
+import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
+import com.elismarket.eshop.eshopelis.service.interfaces.PropostaService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class PropostaControllerTest {
-    @Test
-    public void TestAddProposta(){
+    @Autowired
+    PropostaService propostaService;
 
-    }
-    @Test
-    public void TestUpdateProposta(){
+    @Autowired
+    PropostaCrud propostaCrud;
 
+    @BeforeEach
+    public void init() {
+        deleteDb();
     }
-    @Test
-    public void TestRemoveProposta(){
 
+    public void deleteDb() {
+        propostaCrud.deleteAll();
     }
-    @Test
-    public void TestFindById(){
 
-    }
     @Test
-    public void TestFindAll(){
-
-    }
-    @Test
-    public void TestFindAllByIsAccettato(){
-
-    }
-    @Test
-    public void TestFindAllByUtente(){
+    public void TestAddProposta() {
 
     }
 
+    @Test
+    public void TestUpdateProposta() {
+
+    }
+
+    @Test
+    public void TestRemoveProposta() {
+
+    }
+
+    @Test
+    public void TestFindById() {
+
+    }
+
+    @Test
+    public void TestFindAll() {
+
+    }
+
+    @Test
+    public void TestFindAllByIsAccettato() {
+
+    }
+
+    @Test
+    public void TestFindAllByUtente() {
+
+    }
 
 
 }

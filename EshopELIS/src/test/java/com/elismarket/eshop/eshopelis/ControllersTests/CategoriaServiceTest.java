@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CategoriaServiceTest {
 
 
-
     @Autowired
     CategoriaService categoriaService;
 
@@ -30,6 +29,10 @@ public class CategoriaServiceTest {
     @BeforeEach
     public void init() {
         deleteDb();
+    }
+
+    public void deleteDb() {
+        categoriaCrud.deleteAll();
     }
 
     @Test
@@ -100,12 +103,12 @@ public class CategoriaServiceTest {
 
 
         //testo che la funzione lanci un eccezione con un id non corretto
-        assertThrows(CategoriaException.class, ()->{
+        assertThrows(CategoriaException.class, () -> {
             categoriaService.deleteCategoria(5L);
         });
 
         //testo che la funzione lanci un eccezione con un id nullo
-        assertThrows(CategoriaException.class, ()->{
+        assertThrows(CategoriaException.class, () -> {
             categoriaService.deleteCategoria(null);
         });
 
@@ -119,8 +122,8 @@ public class CategoriaServiceTest {
         //inizializzo una categoria di test e la aggiungo nel db
         Categoria categoria = new Categoria();
         categoria.setNome("Altro");
-        List<CategoriaDTO> categoriaDTO=  new ArrayList<>();
-        List<Categoria> categorie =new ArrayList<>();
+        List<CategoriaDTO> categoriaDTO = new ArrayList<>();
+        List<Categoria> categorie = new ArrayList<>();
         categorie.add(categoria);
         categorie.add(categoria);
         categoriaDTO.add(Categoria.to(categoria));
@@ -159,15 +162,11 @@ public class CategoriaServiceTest {
         });
 
         //testo che lanci l'eccezione in caso non gli passi un id non presente
-        assertThrows(CategoriaException.class, ()->{
+        assertThrows(CategoriaException.class, () -> {
             categoriaService.getById(82L);
         });
 
 
-    }
-
-    public void deleteDb(){
-        categoriaCrud.deleteAll();
     }
 
 
