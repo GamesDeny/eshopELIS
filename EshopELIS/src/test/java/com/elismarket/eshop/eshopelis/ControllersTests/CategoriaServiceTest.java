@@ -32,7 +32,6 @@ public class CategoriaServiceTest {
         deleteDb();
     }
 
-
     @Test
     public void testAddCategoria() {
         //inizializzo una categoria di test e la aggiungo nel db
@@ -86,7 +85,7 @@ public class CategoriaServiceTest {
 
 
         //testo che lanci l'eccezione in caso non gli passi un oggetto nullo come categoriaDTO
-        assertNotNull(categoriaService.updateCategoria(1L, updatedCat));
+        assertNotNull(categoriaService.updateCategoria(id, updatedCat));
         assertEquals("Pulizia", categoriaService.getById(id).nome);
 
     }
@@ -102,7 +101,7 @@ public class CategoriaServiceTest {
 
         //testo che la funzione lanci un eccezione con un id non corretto
         assertThrows(CategoriaException.class, ()->{
-            categoriaService.deleteCategoria(5l);
+            categoriaService.deleteCategoria(5L);
         });
 
         //testo che la funzione lanci un eccezione con un id nullo
@@ -145,15 +144,17 @@ public class CategoriaServiceTest {
         //inizializzo una categoria di test e la aggiungo nel db
         Categoria categoria = new Categoria();
         categoria.setNome("Altro");
-        categoriaService.addCategoria(Categoria.to(categoria));
+
         //prendo dal db l'id della categoria generato
-        long id= categoriaService.getAll().get(0).id;
+        CategoriaDTO categoriaDTO = categoriaService.addCategoria(Categoria.to(categoria));
+        final Long id = categoriaDTO.id;
 
         //testo che ritorni un oggetto
         assertNotNull(categoriaService.getById(id));
+        assertEquals("Altro", categoriaDTO.nome);
 
         //testo che lanci l'eccezione in caso non gli passi nulla
-        assertThrows(CategoriaException.class, ()->{
+        assertThrows(CategoriaException.class, () -> {
             categoriaService.getById(null);
         });
 
@@ -167,7 +168,6 @@ public class CategoriaServiceTest {
 
     public void deleteDb(){
         categoriaCrud.deleteAll();
-
     }
 
 
