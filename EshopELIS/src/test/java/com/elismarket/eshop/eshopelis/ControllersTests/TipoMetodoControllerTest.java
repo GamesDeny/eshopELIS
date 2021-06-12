@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -50,7 +52,24 @@ public class TipoMetodoControllerTest {
 
     @Test
     public void TestUpdateTipoMetodo() {
+        //Creo oggetto da aggiungere
+        TipoMetodoDTO tipoMetodoDTO = new TipoMetodoDTO();
+        tipoMetodoDTO.nome = "contanti";
 
+        tipoMetodoDTO = tipoMetodoService.addTipoMetodo(tipoMetodoDTO);
+        assertNotNull(tipoMetodoDTO);
+        assertNotNull(tipoMetodoDTO.id);
+
+        final Long id = tipoMetodoDTO.id;
+
+        assertEquals("contanti", tipoMetodoService.getById(id).nome);
+
+        TipoMetodoDTO updated = new TipoMetodoDTO();
+        updated.nome = "carta";
+
+        updated = tipoMetodoService.updateTipoMetodo(id, updated);
+        assertNotNull(updated);
+        assertEquals("carta", tipoMetodoService.getById(id).nome);
     }
 
     @Test
@@ -74,12 +93,39 @@ public class TipoMetodoControllerTest {
 
     @Test
     public void TestGetAllTipoMetodo() {
+        //Creo oggetti da aggiungere
+        for (int i = 0; i < 5; i++) {
+            TipoMetodoDTO tipoMetodoDTO = new TipoMetodoDTO();
+            tipoMetodoDTO.nome = "contanti";
 
+            tipoMetodoDTO = tipoMetodoService.addTipoMetodo(tipoMetodoDTO);
+            assertNotNull(tipoMetodoDTO);
+            assertNotNull(tipoMetodoDTO.id);
+        }
+
+        List<TipoMetodoDTO> tipoMetodi = tipoMetodoService.getAll();
+        assertNotNull(tipoMetodi);
+        assertEquals(5, tipoMetodi.size());
     }
 
     @Test
     public void TestGetTipoMetodo() {
 
+        //Creo oggetto da aggiungere
+        TipoMetodoDTO tipoMetodoDTO = new TipoMetodoDTO();
+        tipoMetodoDTO.nome = "contanti";
+
+        tipoMetodoDTO = tipoMetodoService.addTipoMetodo(tipoMetodoDTO);
+        assertNotNull(tipoMetodoDTO);
+        assertNotNull(tipoMetodoDTO.id);
+
+        final Long id = tipoMetodoDTO.id;
+
+        assertThrows(TipoMetodoException.class, () -> {
+            tipoMetodoService.getById(null);
+        });
+
+        assertNotNull(tipoMetodoService.getById(id));
     }
 
 }

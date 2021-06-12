@@ -108,7 +108,6 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      */
     @Override
     public List<TipoMetodoDTO> getAll() {
-
         List<TipoMetodoDTO> result = new ArrayList<>();
         tipoMetodoCrud.findAll().forEach(tipoMetodo -> result.add(TipoMetodo.to(tipoMetodo)));
         return result;
