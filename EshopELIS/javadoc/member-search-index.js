@@ -848,6 +848,11 @@ memberSearchIndex = [{
     "l": "findByMail(String)",
     "url": "findByMail(java.lang.String)"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.repository",
+    "c": "CategoriaCrud",
+    "l": "findByNome(String)",
+    "url": "findByNome(java.lang.String)"
+}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "ProdottoController",
     "l": "findByQuantitaMinore(Integer)",
@@ -1168,6 +1173,16 @@ memberSearchIndex = [{
     "l": "getByMail(String)",
     "url": "getByMail(java.lang.String)"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.service",
+    "c": "CategoriaServiceImpl",
+    "l": "getByName(String)",
+    "url": "getByName(java.lang.String)"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.service.interfaces",
+    "c": "CategoriaService",
+    "l": "getByName(String)",
+    "url": "getByName(java.lang.String)"
+}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "ProdottoController",
     "l": "getByNomeCategoria(Long)",
@@ -1219,6 +1234,11 @@ memberSearchIndex = [{
     "c": "CategoriaController",
     "l": "getCategoria(Long)",
     "url": "getCategoria(java.lang.Long)"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.controller",
+    "c": "CategoriaController",
+    "l": "getCategoriaByNome(String)",
+    "url": "getCategoriaByNome(java.lang.String)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "OrdineController",
@@ -1498,10 +1518,6 @@ memberSearchIndex = [{
     "c": "PropostaHelper",
     "l": "linkUtenteToProposte(Long, List<Long>)",
     "url": "linkUtenteToProposte(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.exception",
-    "c": "ExceptionPhrases",
-    "l": "LIST_IS_EMPTY"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
