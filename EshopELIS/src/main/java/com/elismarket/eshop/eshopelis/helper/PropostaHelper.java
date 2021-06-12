@@ -7,8 +7,6 @@ import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * Helper class for {@link Proposta Proposta} entity
  *
@@ -44,15 +42,4 @@ public class PropostaHelper {
         return propostaCrud.saveAndFlush(p);
     }
 
-    /**
-     * links all the Proposta to the relative Utente
-     *
-     * @param utenteId    id of the {@link Utente Utente} to retrieve
-     * @param proposte_id id of the {@link Proposta Proposta} to retrieve
-     */
-    public void linkUtenteToProposte(Long utenteId, List<Long> proposte_id) {
-        List<Proposta> result = propostaCrud.findAllById(proposte_id);
-        result.forEach(proposta -> proposta.setUtente(utenteHelper.findById(utenteId)));
-        propostaCrud.saveAll(result);
-    }
 }

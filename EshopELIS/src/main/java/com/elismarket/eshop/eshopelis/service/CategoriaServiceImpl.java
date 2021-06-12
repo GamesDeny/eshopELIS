@@ -76,7 +76,6 @@ public class CategoriaServiceImpl implements CategoriaService {
         categoriaDTO.nome = Objects.isNull(categoriaDTO.nome) ? c.getNome() : categoriaDTO.nome;
 
         Checkers.categoriaFieldsChecker(categoriaDTO);
-        prodottoHelper.linkCategoriaToProdotto(categoriaId, categoriaDTO.prodotti);
         Categoria save = Categoria.of(categoriaDTO);
 
         categoriaCrud.saveAndFlush(save);

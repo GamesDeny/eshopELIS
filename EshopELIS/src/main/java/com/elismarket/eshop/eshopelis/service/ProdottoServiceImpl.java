@@ -117,9 +117,6 @@ public class ProdottoServiceImpl implements ProdottoService {
             save.setUtente(Objects.isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
 
         save.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
-
-        if (!Objects.isNull(prodottoDTO.righeOrdine_id))
-            rigaOrdineHelper.linkRigheToProdotto(prodottoId, prodottoDTO.righeOrdine_id);
         prodottoCrud.saveAndFlush(save);
 
         return Prodotto.to(prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name())));

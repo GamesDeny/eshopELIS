@@ -7,8 +7,6 @@ import com.elismarket.eshop.eshopelis.repository.FeedbackCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * Helper class for {@link Feedback Feedback} entity
  *
@@ -45,15 +43,4 @@ public class FeedbackHelper {
         return feedbackCrud.saveAndFlush(feedback);
     }
 
-    /**
-     * links all Feedbacks to the relative Utente
-     *
-     * @param utenteId     id for the {@link Utente Utente} to retrieve
-     * @param feedbacks_id list of {@link Feedback Feedback} ids
-     */
-    public void linkUtenteToFeedbacks(Long utenteId, List<Long> feedbacks_id) {
-        List<Feedback> result = feedbackCrud.findAllById(feedbacks_id);
-        result.forEach(feedback -> feedback.setUtente(utenteHelper.findById(utenteId)));
-        feedbackCrud.saveAll(result);
-    }
 }

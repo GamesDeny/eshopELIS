@@ -74,7 +74,6 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         tipoMetodoDTO.nome = Objects.isNull(tipoMetodoDTO.nome) ? c.getNome() : tipoMetodoDTO.nome;
 
         Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
-        pagamentoHelper.linkMetodoToPagamento(tipoMetodoId, tipoMetodoDTO.pagamenti_id);
         TipoMetodo save = TipoMetodo.of(tipoMetodoDTO);
 
         tipoMetodoCrud.saveAndFlush(save);

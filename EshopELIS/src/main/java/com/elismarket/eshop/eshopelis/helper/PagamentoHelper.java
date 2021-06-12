@@ -4,13 +4,10 @@ import com.elismarket.eshop.eshopelis.dto.PagamentoDTO;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.PagamentoException;
 import com.elismarket.eshop.eshopelis.model.Pagamento;
-import com.elismarket.eshop.eshopelis.model.TipoMetodo;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.PagamentoCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 
@@ -71,30 +68,6 @@ public class PagamentoHelper {
      */
     public Pagamento findById(Long pagamento_id) {
         return pagamentoCrud.findById(pagamento_id).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name()));
-    }
-
-    /**
-     * links Utente to the relatives Pagamenti
-     *
-     * @param utenteId     id for the {@link Utente Utente} to link to Pagamenti
-     * @param pagamenti_id ids for the {@link Pagamento Pagamento} to be linked to the Utente
-     */
-    public void linkUtenteToPagamenti(Long utenteId, List<Long> pagamenti_id) {
-        List<Pagamento> result = pagamentoCrud.findAllById(pagamenti_id);
-        result.forEach(pagamento -> pagamento.setUtente(utenteHelper.findById(utenteId)));
-        pagamentoCrud.saveAll(result);
-    }
-
-    /**
-     * links TipoMetodo to the relatives Pagamenti
-     *
-     * @param tipoPagamentoId id for the {@link TipoMetodo TipoMetodo} to link to Pagamenti
-     * @param pagamenti_id    ids for the {@link Pagamento Pagamento} to be linked to the Metodo
-     */
-    public void linkMetodoToPagamento(Long tipoPagamentoId, List<Long> pagamenti_id) {
-        List<Pagamento> result = pagamentoCrud.findAllById(pagamenti_id);
-        result.forEach(pagamento -> pagamento.setTipoMetodo(tipoMetodoHelper.findById(tipoPagamentoId)));
-        pagamentoCrud.saveAll(result);
     }
 
 }

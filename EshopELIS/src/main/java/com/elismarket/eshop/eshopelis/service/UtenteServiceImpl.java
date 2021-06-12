@@ -114,14 +114,6 @@ public class UtenteServiceImpl implements UtenteService {
         Checkers.utenteFieldsChecker(utenteDTO);
 
         Utente save = Utente.of(utenteDTO);
-        if (!Objects.isNull(utenteDTO.proposte_id))
-            propostaHelper.linkUtenteToProposte(userId, utenteDTO.proposte_id);
-        if (!Objects.isNull(utenteDTO.pagamenti_id))
-            pagamentoHelper.linkUtenteToPagamenti(userId, utenteDTO.pagamenti_id);
-        if (!Objects.isNull(utenteDTO.prodotti_id))
-            prodottoHelper.linkUtenteToProdotti(userId, utenteDTO.prodotti_id);
-        if (!Objects.isNull(utenteDTO.feedbacks_id))
-            feedbackHelper.linkUtenteToFeedbacks(userId, utenteDTO.feedbacks_id);
         utenteCrud.saveAndFlush(save);
 
         return Utente.to(utenteCrud.findById(utenteDTO.id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name())));

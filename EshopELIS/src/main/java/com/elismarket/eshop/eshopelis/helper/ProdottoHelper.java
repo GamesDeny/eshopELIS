@@ -4,15 +4,12 @@ import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
-import com.elismarket.eshop.eshopelis.model.Categoria;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.INSUFFICIENT_QUANTITA;
@@ -73,31 +70,6 @@ public class ProdottoHelper {
      */
     public Prodotto findById(Long prodottoId) {
         return prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
-    }
-
-    /**
-     * links Categoria to relative Prodotto
-     *
-     * @param utenteId    if for the {@link Utente Utente} to retrieve
-     * @param prodotti_id list of {@link Prodotto Prodotto} to be linked
-     */
-    public void linkUtenteToProdotti(Long utenteId, List<Long> prodotti_id) {
-        List<Prodotto> result = prodottoCrud.findAllById(prodotti_id);
-
-        result.forEach(prodotto -> prodotto.setUtente(utenteHelper.findById(utenteId)));
-        prodottoCrud.saveAll(result);
-    }
-
-    /**
-     * links Categoria to relative Prodotto
-     *
-     * @param categoriaId if for the {@link Categoria Categoria} to retrieve
-     * @param prodotti    list of {@link Prodotto Prodotto} to be linked
-     */
-    public void linkCategoriaToProdotto(Long categoriaId, List<Long> prodotti) {
-        List<Prodotto> result = prodottoCrud.findAllById(prodotti);
-        result.forEach(prodotto -> prodotto.setCategoria(categoriaHelper.findById(categoriaId)));
-        prodottoCrud.saveAll(result);
     }
 
     /**

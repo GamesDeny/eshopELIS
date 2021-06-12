@@ -8,8 +8,6 @@ import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 /**
  * Helper class for {@link RigaOrdine RigaORdine} entity
  *
@@ -66,28 +64,5 @@ public class RigaOrdineHelper {
         return rigaOrdineCrud.saveAndFlush(r);
     }
 
-    /**
-     * links all the RigaOrdine to the relative order
-     *
-     * @param ordineId       id of the {@link Ordine Ordine} to retrieve
-     * @param righeOrdine_id ids {@link RigaOrdine rigaOrdine}
-     */
-    public void linkRigheToOrdine(Long ordineId, List<Long> righeOrdine_id) {
-        List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
-        result.forEach(rigaOrdine -> rigaOrdine.setOrdine(ordineHelper.findById(ordineId)));
-        rigaOrdineCrud.saveAll(result);
-    }
-
-    /**
-     * Links the Prodotto retrieved with prodottoId to every RigaOrdine in righeOrdine_id
-     *
-     * @param prodottoId     if of {@link Prodotto Prodotto} to link to the righeOrdine_id
-     * @param righeOrdine_id ids {@link RigaOrdine rigaOrdine}
-     */
-    public void linkRigheToProdotto(Long prodottoId, List<Long> righeOrdine_id) {
-        List<RigaOrdine> result = rigaOrdineCrud.findAllById(righeOrdine_id);
-        result.forEach(riga -> riga.setProdotto(prodottoHelper.findById(prodottoId)));
-        rigaOrdineCrud.saveAll(result);
-    }
 
 }
