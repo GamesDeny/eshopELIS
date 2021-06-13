@@ -157,32 +157,6 @@ public class PagamentoServiceImpl implements PagamentoService {
     }
 
     /**
-     * Returns all Pagamento where contanti != null and greater than 0
-     *
-     * @return List {@link PagamentoDTO PagamentoDTO}
-     */
-    @Override
-    public List<PagamentoDTO> getByContanti() {
-
-        List<PagamentoDTO> result = new ArrayList<>();
-        pagamentoCrud.findAllByContantiNotNullAndContantiGreaterThanEqual(0f).forEach(pagamento -> result.add(Pagamento.to(pagamento)));
-        return result;
-    }
-
-    /**
-     * Returns all Pagamento where PaypalMail != null
-     *
-     * @return List {@link PagamentoDTO PagamentoDTO}
-     */
-    @Override
-    public List<PagamentoDTO> getByPaypalMail() {
-
-        List<PagamentoDTO> result = new ArrayList<>();
-        pagamentoCrud.findAllByPaypalMailNotNull().forEach(pagamento -> result.add(Pagamento.to(pagamento)));
-        return result;
-    }
-
-    /**
      * Adds an Ordine to a relative Pagamento
      *
      * @param pagamentoId id of {@link Pagamento Pagamento}

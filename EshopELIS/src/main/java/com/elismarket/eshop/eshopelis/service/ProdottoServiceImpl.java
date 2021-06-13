@@ -95,6 +95,9 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public ProdottoDTO updateProdotto(Long prodottoId, ProdottoDTO prodottoDTO) {
+        if (Objects.isNull(prodottoId) || Objects.isNull(prodottoDTO))
+            throw new ProdottoException(MISSING_PARAMETERS.name());
+
         if (!prodottoCrud.existsById(prodottoId))
             throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
@@ -187,23 +190,6 @@ public class ProdottoServiceImpl implements ProdottoService {
 
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAllByUtente(utenteHelper.findById(userId)).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
-        return result;
-    }
-
-    /**
-     * Retrieves all Prodotto where quantita less than the value. if quantita is null then it equals to 0
-     *
-     * @param quantita value to compare
-     * @return List {@link ProdottoDTO ProdottoDTO}
-     * @see Prodotto#getQuantita()
-     */
-    @Override
-    public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {
-        if (Objects.isNull(quantita))
-            quantita = 0;
-
-        List<ProdottoDTO> result = new ArrayList<>();
-        prodottoCrud.findAllByQuantitaLessThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
         return result;
     }
 

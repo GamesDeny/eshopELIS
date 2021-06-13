@@ -126,17 +126,6 @@ public class UtenteController {
     }
 
     /**
-     * Retrieves user related to the siglaResidenza
-     *
-     * @param siglaResidenza of the {@link Utente Utente}
-     * @return retrieved Utente
-     */
-    @GetMapping("/sigla/{siglaResidenza}")
-    public UtenteDTO getBySiglaResidenza(@PathVariable Integer siglaResidenza) {
-        return utenteService.getBySigla(siglaResidenza);
-    }
-
-    /**
      * Login for the Utente
      *
      * @param utenteDTO {@link UtenteDTO UtenteDTO} with username and password for login

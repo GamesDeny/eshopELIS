@@ -97,18 +97,6 @@ public class ProdottoController {
     }
 
     /**
-     * Retrieves all Prodotto where quantita less than value
-     *
-     * @param quantita value to compare
-     * @return List {@link ProdottoDTO ProdottoDTO}
-     * @see Prodotto#getQuantita()
-     */
-    @GetMapping("/all/quantita/minore/{quantita}")
-    public List<ProdottoDTO> findByQuantitaMinore(@PathVariable Integer quantita) {
-        return prodottoService.findByQuantitaMinore(quantita);
-    }
-
-    /**
      * Retrieves all Prodotto for a {@link Categoria Categoria}
      *
      * @param categoriaId id of the Categoria to search

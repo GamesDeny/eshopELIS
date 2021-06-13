@@ -142,7 +142,7 @@ public class RigaOrdineControllerTest {
         });
 
         assertThrows(RigaOrdineException.class, () -> {
-            rigaOrdineService.updateRigaOrdine(5L, updated);
+            rigaOrdineService.updateRigaOrdine(0L, updated);
         });
 
         rigaOrdineDTO = rigaOrdineService.updateRigaOrdine(id, updated);
@@ -225,7 +225,6 @@ public class RigaOrdineControllerTest {
             rigaOrdineDTO.quantitaProdotto = 1;
             righeDTO.add(rigaOrdineService.addRigaOrdine(rigaOrdineDTO));
             assertNotNull(righeDTO.get(i));
-            assertNotNull(righeDTO.get(i));
         }
 
         righeDTO = rigaOrdineService.getAll();
@@ -268,9 +267,6 @@ public class RigaOrdineControllerTest {
         assertNotNull(rigaOrdineDTO.id);
         final Long id = rigaOrdineDTO.id;
 
-        //testo che ritorni un oggetto
-        assertNotNull(rigaOrdineService.getById(id));
-
         //testo che lanci l'eccezione in caso non gli passi nulla
         assertThrows(RigaOrdineException.class, () -> {
             rigaOrdineService.getById(null);
@@ -278,8 +274,11 @@ public class RigaOrdineControllerTest {
 
         //testo che lanci l'eccezione in caso non gli passi un id non presente
         assertThrows(RigaOrdineException.class, () -> {
-            rigaOrdineService.getById(82L);
+            rigaOrdineService.getById(0L);
         });
+
+        //testo che ritorni un oggetto
+        assertNotNull(rigaOrdineService.getById(id));
     }
 
 

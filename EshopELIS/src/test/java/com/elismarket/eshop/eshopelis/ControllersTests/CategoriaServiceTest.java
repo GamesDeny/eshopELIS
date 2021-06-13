@@ -87,7 +87,7 @@ public class CategoriaServiceTest {
 
         //testo che lanci l'eccezione in caso gli passi un id non presente
         assertThrows(CategoriaException.class, () -> {
-            categoriaService.updateCategoria(2L, updatedCat);
+            categoriaService.updateCategoria(0L, updatedCat);
         });
 
         //testo che lanci l'eccezione con parametri mancanti
@@ -112,7 +112,7 @@ public class CategoriaServiceTest {
 
         //testo che la funzione lanci un eccezione con un id non corretto
         assertThrows(CategoriaException.class, () -> {
-            categoriaService.deleteCategoria(5L);
+            categoriaService.deleteCategoria(0L);
         });
 
         //testo che la funzione lanci un eccezione con un id nullo

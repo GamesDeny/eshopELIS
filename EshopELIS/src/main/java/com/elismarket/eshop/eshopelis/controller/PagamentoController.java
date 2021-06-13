@@ -85,26 +85,6 @@ public class PagamentoController {
     }
 
     /**
-     * Returns all Pagamento where contanti != null and greater than 0
-     *
-     * @return List {@link PagamentoDTO PagamentoDTO}
-     */
-    @GetMapping("/contanti")
-    public List<PagamentoDTO> getByContanti() {
-        return pagamentoService.getByContanti();
-    }
-
-    /**
-     * Returns all Pagamento where PaypalMail != null
-     *
-     * @return List {@link PagamentoDTO PagamentoDTO}
-     */
-    @GetMapping("/mail")
-    public List<PagamentoDTO> getByPaypalMail() {
-        return pagamentoService.getByPaypalMail();
-    }
-
-    /**
      * Adds an Ordine to a relative Pagamento
      *
      * @param pagamentoId id of {@link Pagamento Pagamento}
