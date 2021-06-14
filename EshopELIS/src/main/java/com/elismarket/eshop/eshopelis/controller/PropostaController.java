@@ -30,13 +30,12 @@ public class PropostaController {
     /**
      * Adds a new Proposta
      *
-     * @param userId      id of the {@link Utente Utente} that sent the Proposta
      * @param propostaDTO {@link PropostaDTO PropostaDTO} to add
      * @return Added Proposta
      */
-    @PostMapping("/add/{userId}")
-    public PropostaDTO addProposta(@PathVariable Long userId, @RequestBody PropostaDTO propostaDTO) {
-        return propostaService.addProposta(userId, propostaDTO);
+    @PostMapping("/add")
+    public PropostaDTO addProposta(@RequestBody PropostaDTO propostaDTO) {
+        return propostaService.addProposta(propostaDTO);
     }
 
     /**

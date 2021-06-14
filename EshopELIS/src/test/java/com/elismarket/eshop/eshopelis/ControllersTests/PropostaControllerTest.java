@@ -1,6 +1,5 @@
 package com.elismarket.eshop.eshopelis.ControllersTests;
 
-import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
 import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import com.elismarket.eshop.eshopelis.exception.PropostaException;
@@ -68,11 +67,6 @@ public class PropostaControllerTest {
 
     @Test
     public void TestAddProposta() {
-        CategoriaDTO categoriaDTO = new CategoriaDTO();
-        categoriaDTO.nome = "altro";
-        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
-        assertNotNull(categoriaDTO.id);
-
         UtenteDTO utenteDTO = creaUtente();
         assertNotNull(utenteDTO.id);
 
@@ -82,28 +76,24 @@ public class PropostaControllerTest {
         propostaDTO.descrizione = "molto grasso";
         propostaDTO.prezzoProposto = 1F;
         propostaDTO.quantita = 100;
-        propostaDTO.categoria_id = categoriaDTO.id;
-
-        final PropostaDTO insert = propostaDTO;
 
         assertThrows(PropostaException.class, () -> {
-            propostaService.addProposta(null, null);
+            propostaService.addProposta(null);
         });
 
         assertThrows(PropostaException.class, () -> {
-            propostaService.addProposta(utenteDTO.id, null);
+            propostaService.addProposta(new PropostaDTO());
         });
 
-        assertThrows(PropostaException.class, () -> {
-            propostaService.addProposta(null, insert);
-        });
-
+        //utente doesn't exist
+        PropostaDTO finalPropostaDTO = propostaDTO;
+        finalPropostaDTO.utente_id = 0L;
         assertThrows(UtenteException.class, () -> {
-            propostaService.addProposta(0L, insert);
+            propostaService.addProposta(finalPropostaDTO);
         });
 
-
-        propostaDTO = propostaService.addProposta(utenteDTO.id, propostaDTO);
+        propostaDTO.utente_id = utenteDTO.id;
+        propostaDTO = propostaService.addProposta(propostaDTO);
         assertNotNull(propostaDTO);
         assertNotNull(propostaDTO.id);
     }

@@ -70,7 +70,7 @@ public class Proposta {
     /**
      * All {@link Prodotto Prodotto} linked to the Proposta
      */
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
@@ -117,7 +117,6 @@ public class Proposta {
         p.quantita = proposta.getQuantita();
         p.isAccettato = proposta.getIsAccettato();
         p.submissionDate = proposta.getSubmissionDate();
-        p.categoria_id = proposta.getCategoria().getId();
         p.utente_id = proposta.getUtente().getId();
 
         return p;

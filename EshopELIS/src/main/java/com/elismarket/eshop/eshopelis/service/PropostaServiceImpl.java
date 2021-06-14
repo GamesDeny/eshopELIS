@@ -58,20 +58,15 @@ public class PropostaServiceImpl implements PropostaService {
     /**
      * Adds a new Proposta
      *
-     * @param userId      id of the {@link Utente Utente} that sent the Proposta
      * @param propostaDTO {@link PropostaDTO PropostaDTO} to add
      * @return Added Proposta
      * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} phrase
      */
     @Override
-    public PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO) {
-        if (Objects.isNull(userId))
-            throw new PropostaException(MISSING_PARAMETERS.name());
-
+    public PropostaDTO addProposta(PropostaDTO propostaDTO) {
         Checkers.propostaFieldsChecker(propostaDTO);
         Proposta p = Proposta.of(propostaDTO);
-        p.setUtente(utenteHelper.findById(userId));
-        p.setCategoria(categoriaHelper.findById(propostaDTO.categoria_id));
+        p.setUtente(utenteHelper.findById(propostaDTO.utente_id));
         p.setSubmissionDate(LocalDate.now());
 
         return Proposta.to(propostaCrud.saveAndFlush(p));

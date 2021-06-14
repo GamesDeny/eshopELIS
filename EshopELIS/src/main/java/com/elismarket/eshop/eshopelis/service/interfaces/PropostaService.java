@@ -14,7 +14,7 @@ import java.util.List;
  * @version 1.0
  */
 public interface PropostaService {
-    PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO);
+    PropostaDTO addProposta(PropostaDTO propostaDTO);
 
     PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO);
 

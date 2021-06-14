@@ -185,7 +185,8 @@ public class Checkers {
         if (Objects.isNull(propostaDTO.nome) || Strings.isBlank(propostaDTO.nome) ||
                 Objects.isNull(propostaDTO.descrizione) || Strings.isBlank(propostaDTO.descrizione) ||
                 Objects.isNull(propostaDTO.prezzoProposto) || propostaDTO.prezzoProposto < 0 ||
-                Objects.isNull(propostaDTO.quantita) || propostaDTO.quantita < 0)
+                Objects.isNull(propostaDTO.quantita) || propostaDTO.quantita < 0 ||
+                Objects.isNull(propostaDTO.utente_id))
             throw new PropostaException(MISSING_PARAMETERS.name());
     }
 
