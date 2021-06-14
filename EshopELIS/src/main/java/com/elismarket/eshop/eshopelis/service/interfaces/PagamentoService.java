@@ -25,10 +25,6 @@ public interface PagamentoService {
 
     List<PagamentoDTO> getAll();
 
-    List<PagamentoDTO> getByContanti();
-
-    List<PagamentoDTO> getByPaypalMail();
-
     PagamentoDTO getById(Long id);
 
     Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO pagamentoDTO);

@@ -57,7 +57,7 @@ public class TipoMetodoController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> deleteTipoMetodo(@PathVariable Long id) {
-        return tipoMetodoService.deleteTipoMetodo(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return tipoMetodoService.deleteTipoMetodo(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**

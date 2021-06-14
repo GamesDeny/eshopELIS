@@ -61,16 +61,20 @@ public class PropostaServiceImpl implements PropostaService {
      * @param userId      id of the {@link Utente Utente} that sent the Proposta
      * @param propostaDTO {@link PropostaDTO PropostaDTO} to add
      * @return Added Proposta
+     * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} phrase
      */
     @Override
     public PropostaDTO addProposta(Long userId, PropostaDTO propostaDTO) {
+        if (Objects.isNull(userId))
+            throw new PropostaException(MISSING_PARAMETERS.name());
+
         Checkers.propostaFieldsChecker(propostaDTO);
         Proposta p = Proposta.of(propostaDTO);
         p.setUtente(utenteHelper.findById(userId));
         p.setCategoria(categoriaHelper.findById(propostaDTO.categoria_id));
         p.setSubmissionDate(LocalDate.now());
 
-        return Proposta.to(propostaCrud.saveAndFlush(Proposta.of(propostaDTO)));
+        return Proposta.to(propostaCrud.saveAndFlush(p));
     }
 
     /**
@@ -101,12 +105,11 @@ public class PropostaServiceImpl implements PropostaService {
 
         Proposta save = Proposta.of(propostaDTO);
         save.setUtente(Objects.isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
-        propostaCrud.saveAndFlush(save);
 
         if (propostaDTO.isAccettato)
             prodottoHelper.addProdotto(propostaDTO);
 
-        return Proposta.to(propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name())));
+        return Proposta.to(propostaCrud.saveAndFlush(save));
     }
 
     /**
@@ -126,7 +129,7 @@ public class PropostaServiceImpl implements PropostaService {
             throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
         propostaCrud.deleteById(id);
-        return !propostaCrud.existsById(id);
+        return propostaCrud.existsById(id);
     }
 
     /**

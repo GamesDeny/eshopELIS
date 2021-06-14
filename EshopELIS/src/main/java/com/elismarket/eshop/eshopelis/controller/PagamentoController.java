@@ -60,7 +60,7 @@ public class PagamentoController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removePagamento(@PathVariable Long id) {
-        return pagamentoService.removePagamento(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return pagamentoService.removePagamento(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**
@@ -82,26 +82,6 @@ public class PagamentoController {
     @GetMapping("/id/{id}")
     public PagamentoDTO getById(@PathVariable Long id) {
         return pagamentoService.getById(id);
-    }
-
-    /**
-     * Returns all Pagamento where contanti != null and greater than 0
-     *
-     * @return List {@link PagamentoDTO PagamentoDTO}
-     */
-    @GetMapping("/contanti")
-    public List<PagamentoDTO> getByContanti() {
-        return pagamentoService.getByContanti();
-    }
-
-    /**
-     * Returns all Pagamento where PaypalMail != null
-     *
-     * @return List {@link PagamentoDTO PagamentoDTO}
-     */
-    @GetMapping("/mail")
-    public List<PagamentoDTO> getByPaypalMail() {
-        return pagamentoService.getByPaypalMail();
     }
 
     /**

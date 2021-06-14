@@ -57,7 +57,7 @@ public class RigaOrdineController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeRigaOrdine(@PathVariable Long id) {
-        return rigaOrdineService.removeRigaOrdine(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return rigaOrdineService.removeRigaOrdine(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**

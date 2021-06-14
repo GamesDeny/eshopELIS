@@ -61,7 +61,7 @@ public class ProdottoController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeProdotto(@PathVariable Long id) {
-        return prodottoService.removeProdotto(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return prodottoService.removeProdotto(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**
@@ -94,18 +94,6 @@ public class ProdottoController {
     @GetMapping("/all/utente/{userId}")
     public List<ProdottoDTO> findAllByUtente(@PathVariable Long userId) {
         return prodottoService.findAllByUtente(userId);
-    }
-
-    /**
-     * Retrieves all Prodotto where quantita less than value
-     *
-     * @param quantita value to compare
-     * @return List {@link ProdottoDTO ProdottoDTO}
-     * @see Prodotto#getQuantita()
-     */
-    @GetMapping("/all/quantita/minore/{quantita}")
-    public List<ProdottoDTO> findByQuantitaMinore(@PathVariable Integer quantita) {
-        return prodottoService.findByQuantitaMinore(quantita);
     }
 
     /**

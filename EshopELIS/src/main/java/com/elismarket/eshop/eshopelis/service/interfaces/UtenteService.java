@@ -28,8 +28,6 @@ public interface UtenteService {
 
     UtenteDTO getById(Long id);
 
-    UtenteDTO getBySigla(Integer siglaResidenza);
-
     UtenteDTO getLoginUtente(String username, String password);
 
     Boolean getLogout(Long userId);

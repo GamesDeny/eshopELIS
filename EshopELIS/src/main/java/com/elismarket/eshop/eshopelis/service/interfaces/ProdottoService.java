@@ -24,8 +24,6 @@ public interface ProdottoService {
 
     List<ProdottoDTO> getAll();
 
-    List<ProdottoDTO> findByQuantitaMinore(Integer quantita);
-
     ProdottoDTO getById(Long id);
 
     RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO);

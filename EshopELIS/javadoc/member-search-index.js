@@ -1,9 +1,4 @@
 memberSearchIndex = [{
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addCategoria(Categoria)",
-    "url": "addCategoria(com.elismarket.eshop.eshopelis.model.Categoria)"
-}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "CategoriaController",
     "l": "addCategoria(CategoriaDTO)",
@@ -18,11 +13,6 @@ memberSearchIndex = [{
     "c": "CategoriaService",
     "l": "addCategoria(CategoriaDTO)",
     "url": "addCategoria(com.elismarket.eshop.eshopelis.dto.CategoriaDTO)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addFeedback(Feedback)",
-    "url": "addFeedback(com.elismarket.eshop.eshopelis.model.Feedback)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "FeedbackController",
@@ -59,11 +49,6 @@ memberSearchIndex = [{
     "l": "addFeedbackToUser(Long, FeedbackDTO)",
     "url": "addFeedbackToUser(java.lang.Long,com.elismarket.eshop.eshopelis.dto.FeedbackDTO)"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addOrdine(Long, Long, List<RigaOrdineDTO>)",
-    "url": "addOrdine(java.lang.Long,java.lang.Long,java.util.List)"
-}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "OrdineController",
     "l": "addOrdine(Long, Long, List<RigaOrdineDTO>)",
@@ -88,11 +73,6 @@ memberSearchIndex = [{
     "c": "PagamentoService",
     "l": "addOrdineToPagamento(Long, OrdineDTO)",
     "url": "addOrdineToPagamento(java.lang.Long,com.elismarket.eshop.eshopelis.dto.OrdineDTO)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addPagamento(Pagamento)",
-    "url": "addPagamento(com.elismarket.eshop.eshopelis.model.Pagamento)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "PagamentoController",
@@ -128,11 +108,6 @@ memberSearchIndex = [{
     "c": "UtenteService",
     "l": "addPagamentoToUser(Long, PagamentoDTO)",
     "url": "addPagamentoToUser(java.lang.Long,com.elismarket.eshop.eshopelis.dto.PagamentoDTO)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addProdotto(Prodotto)",
-    "url": "addProdotto(com.elismarket.eshop.eshopelis.model.Prodotto)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "ProdottoController",
@@ -174,11 +149,6 @@ memberSearchIndex = [{
     "l": "addProdottoToUser(Long, ProdottoDTO)",
     "url": "addProdottoToUser(java.lang.Long,com.elismarket.eshop.eshopelis.dto.ProdottoDTO)"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addProposta(Long, Proposta)",
-    "url": "addProposta(java.lang.Long,com.elismarket.eshop.eshopelis.model.Proposta)"
-}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "PropostaController",
     "l": "addProposta(Long, PropostaDTO)",
@@ -213,11 +183,6 @@ memberSearchIndex = [{
     "c": "UtenteService",
     "l": "addPropostaToUser(Long, PropostaDTO)",
     "url": "addPropostaToUser(java.lang.Long,com.elismarket.eshop.eshopelis.dto.PropostaDTO)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addRigaOrdine(RigaOrdine)",
-    "url": "addRigaOrdine(com.elismarket.eshop.eshopelis.model.RigaOrdine)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "RigaOrdineController",
@@ -274,11 +239,6 @@ memberSearchIndex = [{
     "l": "addRigaOrdineToProdotto(Long, RigaOrdineDTO)",
     "url": "addRigaOrdineToProdotto(java.lang.Long,com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO)"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addTipoMetodo(TipoMetodo)",
-    "url": "addTipoMetodo(com.elismarket.eshop.eshopelis.model.TipoMetodo)"
-}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "TipoMetodoController",
     "l": "addTipoMetodo(TipoMetodoDTO)",
@@ -293,11 +253,6 @@ memberSearchIndex = [{
     "c": "TipoMetodoService",
     "l": "addTipoMetodo(TipoMetodoDTO)",
     "url": "addTipoMetodo(com.elismarket.eshop.eshopelis.dto.TipoMetodoDTO)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "addUtente(Utente)",
-    "url": "addUtente(com.elismarket.eshop.eshopelis.model.Utente)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "UtenteController",
@@ -349,6 +304,10 @@ memberSearchIndex = [{
     "l": "CategoriaController()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "categoriaCrud"
+}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "CategoriaHelper",
     "l": "categoriaCrud"
@@ -372,10 +331,6 @@ memberSearchIndex = [{
     "l": "categoriaFieldsChecker(CategoriaDTO)",
     "url": "categoriaFieldsChecker(com.elismarket.eshop.eshopelis.dto.CategoriaDTO)"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "categoriaHelper"
-}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "ProdottoHelper",
     "l": "categoriaHelper"
@@ -393,8 +348,8 @@ memberSearchIndex = [{
     "l": "CategoriaHelper()",
     "url": "%3Cinit%3E()"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
     "l": "categoriaService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
@@ -404,6 +359,11 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.service",
     "c": "CategoriaServiceImpl",
     "l": "CategoriaServiceImpl()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "CategoriaServiceTest()",
     "url": "%3Cinit%3E()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.utility",
@@ -428,55 +388,6 @@ memberSearchIndex = [{
     "c": "Pagamento",
     "l": "contanti"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "EshopElisApplicationTests",
-    "l": "contextLoads()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaCategoria(String)",
-    "url": "creaCategoria(java.lang.String)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaFeedback(String, Long)",
-    "url": "creaFeedback(java.lang.String,java.lang.Long)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaPagamento(Long)",
-    "url": "creaPagamento(java.lang.Long)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaProdotto(String, Long)",
-    "url": "creaProdotto(java.lang.String,java.lang.Long)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaProposta(String, Long, Long)",
-    "url": "creaProposta(java.lang.String,java.lang.Long,java.lang.Long)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaRigaOrdine(Long)",
-    "url": "creaRigaOrdine(java.lang.Long)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaTipoMetodo(String)",
-    "url": "creaTipoMetodo(java.lang.String)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "creaUtente(String, Boolean, Integer)",
-    "url": "creaUtente(java.lang.String,java.lang.Boolean,java.lang.Integer)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "CreazioneModel()",
-    "url": "%3Cinit%3E()"
-}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "OrdineDTO",
     "l": "dataEvasione"
@@ -497,11 +408,6 @@ memberSearchIndex = [{
     "c": "ExceptionPhrases",
     "l": "DATE_NOT_VALID"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "DBInteractions()",
-    "url": "%3Cinit%3E()"
-}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "ProdottoHelper",
     "l": "decreaseQuantita(Long, Integer)",
@@ -521,6 +427,10 @@ memberSearchIndex = [{
     "c": "CategoriaService",
     "l": "deleteCategoria(Long)",
     "url": "deleteCategoria(java.lang.Long)"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "deleteDb()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "FeedbackController",
@@ -598,11 +508,6 @@ memberSearchIndex = [{
     "l": "EshopElisApplication()",
     "url": "%3Cinit%3E()"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "EshopElisApplicationTests",
-    "l": "EshopElisApplicationTests()",
-    "url": "%3Cinit%3E()"
-}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "OrdineDTO",
     "l": "evaso"
@@ -624,6 +529,11 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "FeedbackController",
     "l": "FeedbackController()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "FeedbackControllerTest",
+    "l": "FeedbackControllerTest()",
     "url": "%3Cinit%3E()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.helper",
@@ -669,10 +579,6 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
     "l": "feedbacks_id"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "feedbackService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "FeedbackController",
@@ -847,11 +753,6 @@ memberSearchIndex = [{
     "c": "UtenteCrud",
     "l": "findByMail(String)",
     "url": "findByMail(java.lang.String)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.repository",
-    "c": "CategoriaCrud",
-    "l": "findByNome(String)",
-    "url": "findByNome(java.lang.String)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "ProdottoController",
@@ -1173,16 +1074,6 @@ memberSearchIndex = [{
     "l": "getByMail(String)",
     "url": "getByMail(java.lang.String)"
 }, {
-    "p": "com.elismarket.eshop.eshopelis.service",
-    "c": "CategoriaServiceImpl",
-    "l": "getByName(String)",
-    "url": "getByName(java.lang.String)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.service.interfaces",
-    "c": "CategoriaService",
-    "l": "getByName(String)",
-    "url": "getByName(java.lang.String)"
-}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "ProdottoController",
     "l": "getByNomeCategoria(Long)",
@@ -1234,11 +1125,6 @@ memberSearchIndex = [{
     "c": "CategoriaController",
     "l": "getCategoria(Long)",
     "url": "getCategoria(java.lang.Long)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.controller",
-    "c": "CategoriaController",
-    "l": "getCategoriaByNome(String)",
-    "url": "getCategoriaByNome(java.lang.String)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "OrdineController",
@@ -1435,6 +1321,10 @@ memberSearchIndex = [{
     "c": "ExceptionPhrases",
     "l": "INCONSISTENT_SIGLA"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "init()"
+}, {
     "p": "com.elismarket.eshop.eshopelis.exception",
     "c": "ExceptionPhrases",
     "l": "INSUFFICIENT_QUANTITA"
@@ -1478,46 +1368,6 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.model",
     "c": "Pagamento",
     "l": "isDefault"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "ProdottoHelper",
-    "l": "linkCategoriaToProdotto(Long, List<Long>)",
-    "url": "linkCategoriaToProdotto(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "PagamentoHelper",
-    "l": "linkMetodoToPagamento(Long, List<Long>)",
-    "url": "linkMetodoToPagamento(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "RigaOrdineHelper",
-    "l": "linkRigheToOrdine(Long, List<Long>)",
-    "url": "linkRigheToOrdine(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "RigaOrdineHelper",
-    "l": "linkRigheToProdotto(Long, List<Long>)",
-    "url": "linkRigheToProdotto(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "FeedbackHelper",
-    "l": "linkUtenteToFeedbacks(Long, List<Long>)",
-    "url": "linkUtenteToFeedbacks(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "PagamentoHelper",
-    "l": "linkUtenteToPagamenti(Long, List<Long>)",
-    "url": "linkUtenteToPagamenti(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "ProdottoHelper",
-    "l": "linkUtenteToProdotti(Long, List<Long>)",
-    "url": "linkUtenteToProdotti(java.lang.Long,java.util.List)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis.helper",
-    "c": "PropostaHelper",
-    "l": "linkUtenteToProposte(Long, List<Long>)",
-    "url": "linkUtenteToProposte(java.lang.Long,java.util.List)"
 }, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "UtenteDTO",
@@ -1696,6 +1546,11 @@ memberSearchIndex = [{
     "l": "OrdineController()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "OrdineControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "OrdineHelper",
     "l": "ordineCrud"
@@ -1734,10 +1589,6 @@ memberSearchIndex = [{
     "c": "OrdineHelper",
     "l": "OrdineHelper()",
     "url": "%3Cinit%3E()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "ordineService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "OrdineController",
@@ -1790,6 +1641,11 @@ memberSearchIndex = [{
     "l": "PagamentoController()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "PagamentoControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "PagamentoHelper",
     "l": "pagamentoCrud"
@@ -1837,10 +1693,6 @@ memberSearchIndex = [{
     "c": "PagamentoHelper",
     "l": "PagamentoHelper()",
     "url": "%3Cinit%3E()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "pagamentoService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "PagamentoController",
@@ -1930,6 +1782,11 @@ memberSearchIndex = [{
     "l": "ProdottoController()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "ProdottoControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "ProdottoHelper",
     "l": "prodottoCrud"
@@ -1952,10 +1809,6 @@ memberSearchIndex = [{
     "c": "Checkers",
     "l": "prodottoFieldsChecker(ProdottoDTO)",
     "url": "prodottoFieldsChecker(com.elismarket.eshop.eshopelis.dto.ProdottoDTO)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "prodottoHelper"
 }, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "CategoriaHelper",
@@ -1994,10 +1847,6 @@ memberSearchIndex = [{
     "l": "ProdottoHelper()",
     "url": "%3Cinit%3E()"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "prodottoService"
-}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "ProdottoController",
     "l": "prodottoService"
@@ -2019,6 +1868,11 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "PropostaController",
     "l": "PropostaController()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "PropostaControllerTest()",
     "url": "%3Cinit%3E()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.helper",
@@ -2056,10 +1910,6 @@ memberSearchIndex = [{
     "c": "PropostaHelper",
     "l": "PropostaHelper()",
     "url": "%3Cinit%3E()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "propostaService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "PropostaController",
@@ -2198,6 +2048,11 @@ memberSearchIndex = [{
     "l": "RigaOrdineController()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "RigaOrdineControllerTest",
+    "l": "RigaOrdineControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "RigaOrdineHelper",
     "l": "rigaOrdineCrud"
@@ -2242,10 +2097,6 @@ memberSearchIndex = [{
     "l": "RigaOrdineHelper()",
     "url": "%3Cinit%3E()"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "rigaOrdineService"
-}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "RigaOrdineController",
     "l": "rigaOrdineService"
@@ -2270,10 +2121,6 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.dto",
     "c": "ProdottoDTO",
     "l": "righeOrdine_id"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "EshopElisApplicationTests",
-    "l": "saveAllModels()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.service",
     "c": "OrdineServiceImpl",
@@ -2335,6 +2182,286 @@ memberSearchIndex = [{
     "c": "Feedback",
     "l": "subscriptionDate"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "testAddCategoria()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "FeedbackControllerTest",
+    "l": "testAddFeedback()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestAddFeedbackToUser()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestAddOrdineToPagamento()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestAddPagamento()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestAddPagamentoToUser()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestAddProdotto()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestAddProdottoToUser()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "TestAddProposta()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestAddPropostaToUser()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "RigaOrdineControllerTest",
+    "l": "TestAddRigaOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestAddRigaOrdineToOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestAddRigaOrdineToProdotto()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "TipoMetodoControllerTest",
+    "l": "TestAddTipoMetodo()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestAddUtente()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "testDeleteCategoria()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "FeedbackControllerTest",
+    "l": "testDeleteFeedback()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "TipoMetodoControllerTest",
+    "l": "TestDeleteTipoMetodo()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "TestFindAll()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "TestFindAllByIsAccettato()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestFindAllByUtente()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "TestFindAllByUtente()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "TestFindById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestFindByQuantitaMinore()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "FeedbackControllerTest",
+    "l": "testGetAll()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestGetAll()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestGetAll()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestGetAll()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "RigaOrdineControllerTest",
+    "l": "TestGetAll()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetAll()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetAllAdmin()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "FeedbackControllerTest",
+    "l": "testGetAllByUtente()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "testGetAllCategoria()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "TipoMetodoControllerTest",
+    "l": "TestGetAllTipoMetodo()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetAllUsers()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestGetByContanti()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "FeedbackControllerTest",
+    "l": "testGetById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestGetById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestGetById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestGetById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "RigaOrdineControllerTest",
+    "l": "TestGetById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetById()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetByMail()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestGetByPaypalMail()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetByUsername()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "testGetCategoria()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestGetDataDopo()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestGetDataPrima()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestGetEvaso()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetLoginUtente()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestGetProdottoByCategoria()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestGetSiglaResidenza()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "TipoMetodoControllerTest",
+    "l": "TestGetTipoMetodo()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestGgetAllByUtente()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestRemoveOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestRemovePagamento()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestRemoveProdotto()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "TestRemoveProposta()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "RigaOrdineControllerTest",
+    "l": "TestRemoveRigaOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestRemoveRigaOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestSaveOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "CategoriaServiceTest",
+    "l": "testUpdateCategoria()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "FeedbackControllerTest",
+    "l": "testUpdateFeedback()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "OrdineControllerTest",
+    "l": "TestUpdateOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PagamentoControllerTest",
+    "l": "TestupdatePagamento()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "ProdottoControllerTest",
+    "l": "TestUpdateProdotto()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "PropostaControllerTest",
+    "l": "TestUpdateProposta()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "RigaOrdineControllerTest",
+    "l": "TestUpdateRigaOrdine()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "TipoMetodoControllerTest",
+    "l": "TestUpdateTipoMetodo()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "TestUpdateUtente()"
+}, {
     "p": "com.elismarket.eshop.eshopelis.model",
     "c": "Pagamento",
     "l": "tipoMetodo"
@@ -2351,6 +2478,11 @@ memberSearchIndex = [{
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "TipoMetodoController",
     "l": "TipoMetodoController()",
+    "url": "%3Cinit%3E()"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "TipoMetodoControllerTest",
+    "l": "TipoMetodoControllerTest()",
     "url": "%3Cinit%3E()"
 }, {
     "p": "com.elismarket.eshop.eshopelis.helper",
@@ -2376,10 +2508,6 @@ memberSearchIndex = [{
     "l": "tipoMetodoFieldsChecker(TipoMetodoDTO)",
     "url": "tipoMetodoFieldsChecker(com.elismarket.eshop.eshopelis.dto.TipoMetodoDTO)"
 }, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "tipoMetodoHelper"
-}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "PagamentoHelper",
     "l": "tipoMetodoHelper"
@@ -2392,10 +2520,6 @@ memberSearchIndex = [{
     "c": "TipoMetodoHelper",
     "l": "TipoMetodoHelper()",
     "url": "%3Cinit%3E()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "tipoMetodoService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "TipoMetodoController",
@@ -2652,6 +2776,11 @@ memberSearchIndex = [{
     "l": "UtenteController()",
     "url": "%3Cinit%3E()"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "c": "UtenteControllerTest",
+    "l": "UtenteControllerTest()",
+    "url": "%3Cinit%3E()"
+}, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "UtenteHelper",
     "l": "utenteCrud"
@@ -2674,10 +2803,6 @@ memberSearchIndex = [{
     "c": "Checkers",
     "l": "utenteFieldsChecker(UtenteDTO)",
     "url": "utenteFieldsChecker(com.elismarket.eshop.eshopelis.dto.UtenteDTO)"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "CreazioneModel",
-    "l": "utenteHelper"
 }, {
     "p": "com.elismarket.eshop.eshopelis.helper",
     "c": "FeedbackHelper",
@@ -2719,10 +2844,6 @@ memberSearchIndex = [{
     "c": "UtenteHelper",
     "l": "UtenteHelper()",
     "url": "%3Cinit%3E()"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "c": "DBInteractions",
-    "l": "utenteService"
 }, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "c": "UtenteController",

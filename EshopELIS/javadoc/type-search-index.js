@@ -19,21 +19,21 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
 }, {
     "p": "com.elismarket.eshop.eshopelis.service",
     "l": "CategoriaServiceImpl"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "CategoriaServiceTest"
 }, {"p": "com.elismarket.eshop.eshopelis.utility", "l": "Checkers"}, {
     "p": "com.elismarket.eshop.eshopelis",
-    "l": "CreazioneModel"
-}, {"p": "com.elismarket.eshop.eshopelis", "l": "DBInteractions"}, {
-    "p": "com.elismarket.eshop.eshopelis",
     "l": "EshopElisApplication"
-}, {
-    "p": "com.elismarket.eshop.eshopelis",
-    "l": "EshopElisApplicationTests"
 }, {
     "p": "com.elismarket.eshop.eshopelis.exception",
     "l": "ExceptionPhrases"
 }, {"p": "com.elismarket.eshop.eshopelis.model", "l": "Feedback"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "FeedbackController"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "FeedbackControllerTest"
 }, {"p": "com.elismarket.eshop.eshopelis.repository", "l": "FeedbackCrud"}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "l": "FeedbackDTO"
@@ -52,6 +52,9 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
 }, {"p": "com.elismarket.eshop.eshopelis.model", "l": "Ordine"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "OrdineController"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "OrdineControllerTest"
 }, {"p": "com.elismarket.eshop.eshopelis.repository", "l": "OrdineCrud"}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "l": "OrdineDTO"
@@ -70,6 +73,9 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
 }, {"p": "com.elismarket.eshop.eshopelis.model", "l": "Pagamento"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "PagamentoController"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "PagamentoControllerTest"
 }, {"p": "com.elismarket.eshop.eshopelis.repository", "l": "PagamentoCrud"}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "l": "PagamentoDTO"
@@ -88,6 +94,9 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
 }, {"p": "com.elismarket.eshop.eshopelis.model", "l": "Prodotto"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "ProdottoController"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "ProdottoControllerTest"
 }, {"p": "com.elismarket.eshop.eshopelis.repository", "l": "ProdottoCrud"}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "l": "ProdottoDTO"
@@ -106,6 +115,9 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
 }, {"p": "com.elismarket.eshop.eshopelis.model", "l": "Proposta"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "PropostaController"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "PropostaControllerTest"
 }, {"p": "com.elismarket.eshop.eshopelis.repository", "l": "PropostaCrud"}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "l": "PropostaDTO"
@@ -124,6 +136,9 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
 }, {"p": "com.elismarket.eshop.eshopelis.model", "l": "RigaOrdine"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "RigaOrdineController"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "RigaOrdineControllerTest"
 }, {
     "p": "com.elismarket.eshop.eshopelis.repository",
     "l": "RigaOrdineCrud"
@@ -146,6 +161,9 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "TipoMetodoController"
 }, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "TipoMetodoControllerTest"
+}, {
     "p": "com.elismarket.eshop.eshopelis.repository",
     "l": "TipoMetodoCrud"
 }, {"p": "com.elismarket.eshop.eshopelis.dto", "l": "TipoMetodoDTO"}, {
@@ -163,6 +181,9 @@ typeSearchIndex = [{"l": "All Classes", "url": "allclasses-index.html"}, {
 }, {"p": "com.elismarket.eshop.eshopelis.model", "l": "Utente"}, {
     "p": "com.elismarket.eshop.eshopelis.controller",
     "l": "UtenteController"
+}, {
+    "p": "com.elismarket.eshop.eshopelis.ControllersTests",
+    "l": "UtenteControllerTest"
 }, {"p": "com.elismarket.eshop.eshopelis.repository", "l": "UtenteCrud"}, {
     "p": "com.elismarket.eshop.eshopelis.dto",
     "l": "UtenteDTO"

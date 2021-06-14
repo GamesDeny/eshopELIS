@@ -59,7 +59,7 @@ public class PropostaController {
      */
     @DeleteMapping("/remove/{id}")
     public ResponseEntity<Object> removeProposta(@RequestParam Long id) {
-        return propostaService.removeProposta(id) ? ResponseEntity.status(200).build() : ResponseEntity.status(500).build();
+        return propostaService.removeProposta(id) ? ResponseEntity.status(500).build() : ResponseEntity.status(200).build();
     }
 
     /**

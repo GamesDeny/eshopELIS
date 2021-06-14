@@ -71,6 +71,9 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
      */
     @Override
     public RigaOrdineDTO updateRigaOrdine(Long id, RigaOrdineDTO rigaOrdineDTO) {
+        if (Objects.isNull(id) || Objects.isNull(rigaOrdineDTO))
+            throw new RigaOrdineException(MISSING_PARAMETERS.name());
+
         if (!rigaOrdineCrud.existsById(id))
             throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
 
@@ -86,9 +89,8 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         RigaOrdine save = RigaOrdine.of(rigaOrdineDTO);
         save.setOrdine(Objects.isNull(rigaOrdineDTO.ordine_id) ? r.getOrdine() : ordineHelper.findById(rigaOrdineDTO.ordine_id));
         save.setProdotto(Objects.isNull(rigaOrdineDTO.prodotto_id) ? r.getProdotto() : prodottoHelper.findById(rigaOrdineDTO.prodotto_id));
-        rigaOrdineCrud.saveAndFlush(save);
 
-        return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name())));
+        return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(save));
     }
 
     /**
@@ -108,7 +110,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
             throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
 
         rigaOrdineCrud.deleteById(id);
-        return !rigaOrdineCrud.existsById(id);
+        return rigaOrdineCrud.existsById(id);
     }
 
     /**
