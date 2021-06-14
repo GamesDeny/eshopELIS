@@ -195,23 +195,6 @@ public class ProdottoServiceImpl implements ProdottoService {
     }
 
     /**
-     * Retrieves all Prodotto where quantita less than the value. if quantita is null then it equals to 0
-     *
-     * @param quantita value to compare
-     * @return List {@link ProdottoDTO ProdottoDTO}
-     * @see Prodotto#getQuantita()
-     */
-    @Override
-    public List<ProdottoDTO> findByQuantitaMinore(Integer quantita) {
-        if (Objects.isNull(quantita))
-            quantita = 0;
-
-        List<ProdottoDTO> result = new ArrayList<>();
-        prodottoCrud.findAllByQuantitaLessThanEqual(quantita).forEach(prodotto -> result.add(Prodotto.to(prodotto)));
-        return result;
-    }
-
-    /**
      * Retrieves all Prodotto for a {@link Categoria Categoria}
      *
      * @param categoriaId id of the Categoria to search

@@ -49,7 +49,8 @@ public class ProdottoControllerTest {
         prodottoCrud.deleteAll();
     }
 
-    private ProdottoDTO creaProdotto() {
+    @Test
+    public void TestAddProdotto() {
         CategoriaDTO categoriaDTO = new CategoriaDTO();
         categoriaDTO.nome = "IT";
 
@@ -65,12 +66,6 @@ public class ProdottoControllerTest {
         prodottoDTO.sconto = 0;
         prodottoDTO.image = ".";
         prodottoDTO.categoria_id = categoriaDTO.id;
-        return prodottoDTO;
-    }
-
-    @Test
-    public void TestAddProdotto() {
-        ProdottoDTO prodottoDTO = prodottoService.addProdotto(creaProdotto());
 
         prodottoDTO = prodottoService.addProdotto(prodottoDTO);
         assertNotNull(prodottoDTO);
@@ -88,10 +83,26 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestUpdateProdotto() {
-        ProdottoDTO prodottoDTO = prodottoService.addProdotto(creaProdotto());
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
         final Long id = prodottoDTO.id;
 
-        ProdottoDTO updated = creaProdotto();
+        ProdottoDTO updated = prodottoDTO;
         updated.nome = "updated";
 
         //testo che lanci l'eccezione in caso non gli passi nulla
@@ -128,7 +139,23 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestRemoveProdotto() {
-        ProdottoDTO prodottoDTO = prodottoService.addProdotto(creaProdotto());
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
         final Long id = prodottoDTO.id;
 
         assertThrows(ProdottoException.class, () -> {
@@ -144,11 +171,27 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestGetAll() {
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+
         List<ProdottoDTO> prodsDTO = new ArrayList<>();
         List<Prodotto> prods;
 
         for (int i = 0; i < 5; i++)
-            prodsDTO.add(prodottoService.addProdotto(creaProdotto()));
+            prodsDTO.add(prodottoService.addProdotto(prodottoDTO));
 
         prodsDTO = prodottoService.getAll();
         prods = prodottoCrud.findAll();
@@ -160,7 +203,23 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestGetById() {
-        ProdottoDTO prodottoDTO = prodottoService.addProdotto(creaProdotto());
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
         final Long id = prodottoDTO.id;
 
         assertNotNull(id);
@@ -178,7 +237,23 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestFindAllByUtente() {
-        ProdottoDTO prodottoDTO = creaProdotto();
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
 
         UtenteDTO utente = new UtenteDTO();
         utente.isAdmin = Boolean.TRUE;
@@ -212,13 +287,27 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestGetProdottoByCategoria() {
-        CategoriaDTO c = categoriaService.getAll().get(0);
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
 
-        for (int i = 0; i < 5; i++) {
-            ProdottoDTO prodottoDTO = creaProdotto();
-            prodottoDTO.categoria_id = c.id;
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
+
+        for (int i = 0; i < 5; i++)
             prodottoService.addProdotto(prodottoDTO);
-        }
+
 
         assertThrows(CategoriaException.class, () -> {
             prodottoService.getProdottoByCategoria(null);
@@ -228,7 +317,7 @@ public class ProdottoControllerTest {
             prodottoService.getProdottoByCategoria(0L);
         });
 
-        List<ProdottoDTO> prods = prodottoService.getProdottoByCategoria(c.id);
+        List<ProdottoDTO> prods = prodottoService.getProdottoByCategoria(categoriaDTO.id);
         assertNotNull(prods);
         assertEquals(5, prods.size());
     }

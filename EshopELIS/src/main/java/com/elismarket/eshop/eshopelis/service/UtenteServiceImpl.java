@@ -240,28 +240,6 @@ public class UtenteServiceImpl implements UtenteService {
     }
 
     /**
-     * Retrieves user related to the siglaResidenza
-     *
-     * @param siglaResidenza of the {@link Utente Utente}
-     * @return retrieved Utente
-     * @throws UtenteException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
-     * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
-     * @throws UtenteException with {@link ExceptionPhrases#INCONSISTENT_SIGLA INCONSISTENT_SIGLA} message
-     */
-    @Override
-    public UtenteDTO getBySigla(Integer siglaResidenza) {
-        if (Objects.isNull(siglaResidenza))
-            throw new UtenteException(MISSING_PARAMETERS.name());
-
-        if (Checkers.siglaChecker(siglaResidenza))
-            throw new UtenteException(INCONSISTENT_SIGLA.name());
-
-        if (Objects.isNull(utenteCrud.findBySiglaResidenza(siglaResidenza)))
-            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
-        return Utente.to(utenteCrud.findBySiglaResidenza(siglaResidenza));
-    }
-
-    /**
      * Retrieves user related to the username
      *
      * @param userId of the {@link Utente Utente}
