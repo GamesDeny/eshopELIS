@@ -10,7 +10,10 @@ import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
 import com.elismarket.eshop.eshopelis.exception.UtenteException;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
+import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
+import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
+import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
 import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
 import com.elismarket.eshop.eshopelis.service.interfaces.UtenteService;
@@ -40,6 +43,15 @@ public class ProdottoControllerTest {
     @Autowired
     UtenteService utenteService;
 
+    @Autowired
+    UtenteCrud utenteCrud;
+
+    @Autowired
+    CategoriaCrud categoriaCrud;
+
+    @Autowired
+    RigaOrdineCrud rigaOrdineCrud;
+
     @BeforeEach
     public void init() {
         deleteDb();
@@ -47,6 +59,9 @@ public class ProdottoControllerTest {
 
     public void deleteDb() {
         prodottoCrud.deleteAll();
+        utenteCrud.deleteAll();
+        categoriaCrud.deleteAll();
+        rigaOrdineCrud.deleteAll();
     }
 
     @Test
@@ -67,10 +82,6 @@ public class ProdottoControllerTest {
         prodottoDTO.image = ".";
         prodottoDTO.categoria_id = categoriaDTO.id;
 
-        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
-        assertNotNull(prodottoDTO);
-        assertNotNull(prodottoDTO.id);
-
         assertThrows(ProdottoException.class, () -> {
             prodottoService.addProdotto(null);
         });
@@ -78,6 +89,10 @@ public class ProdottoControllerTest {
         assertThrows(ProdottoException.class, () -> {
             prodottoService.addProdotto(new ProdottoDTO());
         });
+
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
+        assertNotNull(prodottoDTO);
+        assertNotNull(prodottoDTO.id);
 
     }
 
@@ -253,8 +268,6 @@ public class ProdottoControllerTest {
         prodottoDTO.image = ".";
         prodottoDTO.categoria_id = categoriaDTO.id;
 
-        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
-
         UtenteDTO utente = new UtenteDTO();
         utente.isAdmin = Boolean.TRUE;
         utente.nome = "z";
@@ -267,8 +280,8 @@ public class ProdottoControllerTest {
 
         utente = utenteService.addUtente(utente);
         assertNotNull(utente.id);
-
         prodottoDTO.utente_id = utente.id;
+
         for (int i = 0; i < 5; i++)
             prodottoService.addProdotto(prodottoDTO);
 
@@ -303,8 +316,6 @@ public class ProdottoControllerTest {
         prodottoDTO.image = ".";
         prodottoDTO.categoria_id = categoriaDTO.id;
 
-        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
-
         for (int i = 0; i < 5; i++)
             prodottoService.addProdotto(prodottoDTO);
 
@@ -324,11 +335,6 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestAddRigaOrdineToProdotto() {
-        RigaOrdineDTO rigaOrdineDTO = new RigaOrdineDTO();
-        rigaOrdineDTO.quantitaProdotto = 1;
-        rigaOrdineDTO.prezzoTotale = 1F;
-        rigaOrdineDTO.scontoApplicato = 0F;
-
         CategoriaDTO categoriaDTO = new CategoriaDTO();
         categoriaDTO.nome = "IT";
 
@@ -346,9 +352,14 @@ public class ProdottoControllerTest {
         prodottoDTO.categoria_id = categoriaDTO.id;
 
         prodottoDTO = prodottoService.addProdotto(prodottoDTO);
-
-        rigaOrdineDTO.prodotto_id = prodottoDTO.id;
+        assertNotNull(prodottoDTO.id);
         final Long id = prodottoDTO.id;
+
+        RigaOrdineDTO rigaOrdineDTO = new RigaOrdineDTO();
+        rigaOrdineDTO.quantitaProdotto = 1;
+        rigaOrdineDTO.prezzoTotale = 1F;
+        rigaOrdineDTO.scontoApplicato = 0F;
+        rigaOrdineDTO.prodotto_id = id;
 
         assertThrows(ProdottoException.class, () -> {
             prodottoService.addRigaOrdineToProdotto(null, null);

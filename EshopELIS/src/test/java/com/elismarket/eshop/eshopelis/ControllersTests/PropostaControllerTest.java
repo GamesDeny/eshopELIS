@@ -16,9 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class PropostaControllerTest {
@@ -100,33 +100,203 @@ public class PropostaControllerTest {
 
     @Test
     public void TestUpdateProposta() {
+        UtenteDTO utenteDTO = creaUtente();
+        assertNotNull(utenteDTO.id);
 
+        PropostaDTO propostaDTO = new PropostaDTO();
+        propostaDTO.image = "image";
+        propostaDTO.nome = "pinguino";
+        propostaDTO.descrizione = "molto grasso";
+        propostaDTO.prezzoProposto = 1F;
+        propostaDTO.quantita = 100;
+        propostaDTO.utente_id = utenteDTO.id;
+
+        propostaDTO = propostaService.addProposta(propostaDTO);
+        assertNotNull(propostaDTO);
+        assertNotNull(propostaDTO.id);
+        final Long id = propostaDTO.id;
+
+        PropostaDTO updated = propostaDTO;
+        updated.prezzoProposto = 2F;
+
+
+        assertThrows(PropostaException.class, () -> {
+            propostaService.updateProposta(null, null);
+        });
+
+        assertThrows(PropostaException.class, () -> {
+            propostaService.updateProposta(null, updated);
+        });
+
+        assertThrows(PropostaException.class, () -> {
+            propostaService.updateProposta(id, null);
+        });
+
+        assertThrows(PropostaException.class, () -> {
+            propostaService.updateProposta(0L, updated);
+        });
+
+        assertThrows(PropostaException.class, () -> {
+            propostaService.updateProposta(0L, new PropostaDTO());
+        });
+
+        propostaDTO = propostaService.updateProposta(id, updated);
+        assertNotNull(propostaDTO);
+        assertEquals(2F, propostaDTO.prezzoProposto);
     }
 
     @Test
     public void TestRemoveProposta() {
+        UtenteDTO utenteDTO = creaUtente();
+        assertNotNull(utenteDTO.id);
 
+        PropostaDTO propostaDTO = new PropostaDTO();
+        propostaDTO.image = "image";
+        propostaDTO.nome = "pinguino";
+        propostaDTO.descrizione = "molto grasso";
+        propostaDTO.prezzoProposto = 1F;
+        propostaDTO.quantita = 100;
+        propostaDTO.utente_id = utenteDTO.id;
+
+        propostaDTO = propostaService.addProposta(propostaDTO);
+        assertNotNull(propostaDTO);
+        assertNotNull(propostaDTO.id);
+        final Long id = propostaDTO.id;
     }
 
     @Test
     public void TestFindById() {
+        UtenteDTO utenteDTO = creaUtente();
+        assertNotNull(utenteDTO.id);
 
+        PropostaDTO propostaDTO = new PropostaDTO();
+        propostaDTO.image = "image";
+        propostaDTO.nome = "pinguino";
+        propostaDTO.descrizione = "molto grasso";
+        propostaDTO.prezzoProposto = 1F;
+        propostaDTO.quantita = 100;
+        propostaDTO.utente_id = utenteDTO.id;
+
+        propostaDTO = propostaService.addProposta(propostaDTO);
+        assertNotNull(propostaDTO);
+        assertNotNull(propostaDTO.id);
+        final Long id = propostaDTO.id;
     }
 
     @Test
     public void TestFindAll() {
+        UtenteDTO utenteDTO = creaUtente();
+        assertNotNull(utenteDTO.id);
 
+        PropostaDTO propostaDTO = new PropostaDTO();
+        propostaDTO.image = "image";
+        propostaDTO.nome = "pinguino";
+        propostaDTO.descrizione = "molto grasso";
+        propostaDTO.prezzoProposto = 1F;
+        propostaDTO.quantita = 100;
+        propostaDTO.utente_id = utenteDTO.id;
+
+        for (int i = 0; i < 5; i++) {
+            propostaDTO.quantita += i;
+            propostaDTO.nome += i;
+            propostaService.addProposta(propostaDTO);
+        }
+
+        List<PropostaDTO> all = propostaService.findAll();
+        assertNotNull(all);
+        assertEquals(5, all.size());
     }
 
     @Test
     public void TestFindAllByIsAccettato() {
+        UtenteDTO utenteDTO = creaUtente();
+        assertNotNull(utenteDTO.id);
+
+        PropostaDTO propostaDTO = new PropostaDTO();
+        propostaDTO.image = "image";
+        propostaDTO.nome = "pinguino";
+        propostaDTO.descrizione = "molto grasso";
+        propostaDTO.prezzoProposto = 1F;
+        propostaDTO.quantita = 100;
+        propostaDTO.utente_id = utenteDTO.id;
+        propostaDTO.isAccettato = true;
+
+        propostaDTO = propostaService.addProposta(propostaDTO);
+        assertNotNull(propostaDTO);
+        assertNotNull(propostaDTO.id);
+
+        PropostaDTO propostaDTO1 = new PropostaDTO();
+        propostaDTO1.image = "image";
+        propostaDTO1.nome = "pinguino";
+        propostaDTO1.descrizione = "molto grasso";
+        propostaDTO1.prezzoProposto = 1F;
+        propostaDTO1.quantita = 100;
+        propostaDTO1.utente_id = utenteDTO.id;
+        propostaDTO1.isAccettato = false;
+
+        propostaDTO1 = propostaService.addProposta(propostaDTO1);
+        assertNotNull(propostaDTO1);
+        assertNotNull(propostaDTO1.id);
+
+        PropostaDTO propostaDTO2 = new PropostaDTO();
+        propostaDTO2.image = "image";
+        propostaDTO2.nome = "pinguino";
+        propostaDTO2.descrizione = "molto grasso";
+        propostaDTO2.prezzoProposto = 1F;
+        propostaDTO2.quantita = 100;
+        propostaDTO2.utente_id = utenteDTO.id;
+
+        propostaDTO2 = propostaService.addProposta(propostaDTO2);
+        assertNotNull(propostaDTO2);
+        assertNotNull(propostaDTO2.id);
+
+        List<PropostaDTO> accettato = propostaService.findAllByIsAccettato(true);
+        List<PropostaDTO> notAccettato = propostaService.findAllByIsAccettato(false);
+        List<PropostaDTO> notProcessato = propostaService.findAllByIsAccettato(null);
+
+        assertNotNull(accettato);
+        assertNotNull(notAccettato);
+        assertNotNull(notProcessato);
+
+        assertEquals(1, accettato.size());
+        assertEquals(1, notAccettato.size());
+        assertEquals(1, notProcessato.size());
 
     }
 
     @Test
     public void TestFindAllByUtente() {
+        UtenteDTO utenteDTO = creaUtente();
+        assertNotNull(utenteDTO.id);
 
+        PropostaDTO propostaDTO = new PropostaDTO();
+        propostaDTO.image = "image";
+        propostaDTO.nome = "pinguino";
+        propostaDTO.descrizione = "molto grasso";
+        propostaDTO.prezzoProposto = 1F;
+        propostaDTO.quantita = 100;
+        propostaDTO.utente_id = utenteDTO.id;
+
+        for (int i = 0; i < 5; i++) {
+            propostaDTO.quantita += i;
+            propostaDTO.nome += i;
+            propostaService.addProposta(propostaDTO);
+        }
+
+        final Long id = utenteDTO.id;
+
+
+        assertThrows(UtenteException.class, () -> {
+            propostaService.findAllByUtente(0L);
+        });
+
+        assertThrows(PropostaException.class, () -> {
+            propostaService.findAllByUtente(null);
+        });
+
+        List<PropostaDTO> all = propostaService.findAllByUtente(id);
+        assertNotNull(all);
+        assertEquals(5, all.size());
     }
-
 
 }

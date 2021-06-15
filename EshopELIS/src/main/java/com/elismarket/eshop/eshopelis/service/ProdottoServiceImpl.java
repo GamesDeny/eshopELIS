@@ -95,6 +95,9 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public ProdottoDTO updateProdotto(Long prodottoId, ProdottoDTO prodottoDTO) {
+        if (Objects.isNull(prodottoId) || Objects.isNull(prodottoDTO))
+            throw new ProdottoException(MISSING_PARAMETERS.name());
+
         if (!prodottoCrud.existsById(prodottoId))
             throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 

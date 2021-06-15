@@ -82,6 +82,9 @@ public class PropostaServiceImpl implements PropostaService {
      */
     @Override
     public PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO) {
+        if (Objects.isNull(id) || Objects.isNull(propostaDTO))
+            throw new PropostaException(MISSING_PARAMETERS.name());
+
         if (!propostaCrud.existsById(id))
             throw new PropostaException(CANNOT_FIND_ELEMENT.name());
 
@@ -101,7 +104,7 @@ public class PropostaServiceImpl implements PropostaService {
         Proposta save = Proposta.of(propostaDTO);
         save.setUtente(Objects.isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
 
-        if (propostaDTO.isAccettato)
+        if (!Objects.isNull(propostaDTO.isAccettato) && propostaDTO.isAccettato)
             prodottoHelper.addProdotto(propostaDTO);
 
         return Proposta.to(propostaCrud.saveAndFlush(save));
