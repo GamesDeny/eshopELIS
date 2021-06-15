@@ -1,4 +1,4 @@
-# LI$SHOP
+# ELI$SHOP
 Eshop market for ELIS residence
 
 aumentare le funzionalità offerte e la complessità dei workflow interni. 
