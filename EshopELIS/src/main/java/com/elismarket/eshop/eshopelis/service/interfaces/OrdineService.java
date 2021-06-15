@@ -6,7 +6,6 @@ import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.service.OrdineServiceImpl;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -28,15 +27,11 @@ public interface OrdineService {
 
     List<OrdineDTO> getEvaso(Boolean evaso);
 
-    List<OrdineDTO> getDataPrima(LocalDate dataEvasione);
-
-    List<OrdineDTO> getDataTra(LocalDate dataEvasione1, LocalDate dataEvasione2);
-
-    List<OrdineDTO> getDataDopo(LocalDate dataEvasione);
-
     OrdineDTO getById(Long id);
 
     RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO);
 
     List<OrdineDTO> getAllByUtente(Long userId);
+
+    OrdineDTO evadiOrdine(Long id, OrdineDTO ordineDTO);
 }

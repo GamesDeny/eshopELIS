@@ -13,6 +13,7 @@ import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
  * @version 1.0
  */
 @Service
+@Transactional
 public class UtenteServiceImpl implements UtenteService {
 
     /**
@@ -89,9 +91,8 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public UtenteDTO updateUtente(Long userId, UtenteDTO utenteDTO) {
-        if (Objects.isNull(userId))
+        if (Objects.isNull(userId) || Objects.isNull(utenteDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
-
 
         duplicateChecker(utenteDTO);
 
@@ -122,9 +123,9 @@ public class UtenteServiceImpl implements UtenteService {
             prodottoHelper.linkUtenteToProdotti(userId, utenteDTO.prodotti_id);
         if (!Objects.isNull(utenteDTO.feedbacks_id))
             feedbackHelper.linkUtenteToFeedbacks(userId, utenteDTO.feedbacks_id);
-        utenteCrud.saveAndFlush(save);
 
-        return Utente.to(utenteCrud.findById(utenteDTO.id).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name())));
+
+        return Utente.to(utenteCrud.saveAndFlush(save));
     }
 
     /**

@@ -53,7 +53,7 @@ public class Ordine {
     /**
      * {@link Prodotto Prodotto} linked to the Ordine
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private Utente utente;
 

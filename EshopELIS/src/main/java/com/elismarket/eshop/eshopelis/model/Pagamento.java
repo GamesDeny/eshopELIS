@@ -72,7 +72,7 @@ public class Pagamento {
     /**
      * All {@link Prodotto Prodotto} linked to the Pagamento
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "pagamento", cascade = CascadeType.ALL)
     @JoinColumn(name = "ordine_id")
     private Ordine ordine;
 

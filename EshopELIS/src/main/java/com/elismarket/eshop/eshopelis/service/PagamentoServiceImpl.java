@@ -14,6 +14,7 @@ import com.elismarket.eshop.eshopelis.service.interfaces.PagamentoService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,20 +78,23 @@ public class PagamentoServiceImpl implements PagamentoService {
     /**
      * Updates an existing Pagamento
      *
-     * @param pagamentoID  of the {@link Pagamento Pagamento} to update
+     * @param pagamentoId  of the {@link Pagamento Pagamento} to update
      * @param pagamentoDTO {@link PagamentoDTO PagamentoDTO} of the Pagamento to update
      * @return DTO of updated item
      * @throws PagamentoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      * @throws PagamentoException with {@link ExceptionPhrases#INVALID_MAIL INVALID_MAIL} message
      */
     @Override
-    public PagamentoDTO updatePagamento(Long pagamentoID, PagamentoDTO pagamentoDTO) {
+    public PagamentoDTO updatePagamento(Long pagamentoId, PagamentoDTO pagamentoDTO) {
+        if (Objects.isNull(pagamentoId) || Objects.isNull(pagamentoDTO))
+            throw new PagamentoException(MISSING_PARAMETERS.name());
+
         if (!Objects.isNull(pagamentoDTO.paypalMail) && !Checkers.mailChecker(pagamentoDTO.paypalMail))
             throw new PagamentoException(INVALID_MAIL.name());
 
-        Pagamento p = pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name()));
+        Pagamento p = pagamentoCrud.findById(pagamentoId).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name()));
 
-        pagamentoDTO.id = pagamentoID;
+        pagamentoDTO.id = pagamentoId;
         pagamentoDTO.descrizione = Objects.isNull(pagamentoDTO.descrizione) ? p.getDescrizione() : pagamentoDTO.descrizione;
         pagamentoDTO.contanti = Objects.isNull(pagamentoDTO.contanti) ? p.getContanti() : pagamentoDTO.contanti;
         pagamentoDTO.paypalMail = Objects.isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail;
@@ -100,11 +104,8 @@ public class PagamentoServiceImpl implements PagamentoService {
         Pagamento save = Pagamento.of(pagamentoDTO);
         save.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
         save.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
-        save.setOrdine(ordineHelper.findById(pagamentoDTO.ordine_id));
 
-        pagamentoCrud.saveAndFlush(save);
-
-        return Pagamento.to(pagamentoCrud.findById(pagamentoID).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name())));
+        return Pagamento.to(pagamentoCrud.saveAndFlush(save));
     }
 
     /**
@@ -124,7 +125,7 @@ public class PagamentoServiceImpl implements PagamentoService {
             throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
 
         pagamentoCrud.deleteById(id);
-        return !pagamentoCrud.existsById(id);
+        return pagamentoCrud.existsById(id);
     }
 
     /**
@@ -168,12 +169,14 @@ public class PagamentoServiceImpl implements PagamentoService {
      * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO ordineDTO) {
         if (Objects.isNull(pagamentoId) || Objects.isNull(ordineDTO))
             throw new PagamentoException(MISSING_PARAMETERS.name());
 
         if (!pagamentoCrud.existsById(pagamentoId))
             throw new PagamentoException(CANNOT_FIND_ELEMENT.name());
+
         return ordineHelper.addOrdineToPagamento(pagamentoId, ordineDTO);
     }
 }

@@ -7,6 +7,7 @@ import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
  * @version 1.0
  */
 @Component
+@Transactional
 public class RigaOrdineHelper {
     /**
      * @see OrdineHelper
@@ -46,7 +48,6 @@ public class RigaOrdineHelper {
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
         RigaOrdine r = RigaOrdine.of(rigaOrdineDTO);
         Ordine o = ordineHelper.findById(ordineId);
-
         r.setOrdine(o);
         return rigaOrdineCrud.saveAndFlush(r);
     }
@@ -61,7 +62,6 @@ public class RigaOrdineHelper {
     public RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO) {
         RigaOrdine r = RigaOrdine.of(rigaOrdineDTO);
         Prodotto p = prodottoHelper.findById(prodId);
-
         r.setProdotto(p);
         return rigaOrdineCrud.saveAndFlush(r);
     }

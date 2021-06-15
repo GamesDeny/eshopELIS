@@ -17,6 +17,7 @@ import com.elismarket.eshop.eshopelis.service.interfaces.OrdineService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_
  * @version 1.0
  */
 @Service
+@Transactional
 public class OrdineServiceImpl implements OrdineService {
 
     /**
@@ -69,15 +71,21 @@ public class OrdineServiceImpl implements OrdineService {
      */
     @Override
     public OrdineDTO saveOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe) {
-        Ordine o = new Ordine();
-        List<Long> righeId = new ArrayList<>();
-        righe.forEach(rigaOrdineDTO -> righeId.add(rigaOrdineDTO.id));
+        if (Objects.isNull(userId) || Objects.isNull(pagamentoId) ||
+                Objects.isNull(righe) || righe.size() == 0)
+            throw new OrdineException(MISSING_PARAMETERS.name());
 
-        o.setEvaso(false);
+        Ordine o = new Ordine();
+        o.setEvaso(Boolean.FALSE);
         o.setPagamento(pagamentoHelper.findById(pagamentoId));
         o.setUtente(utenteHelper.findById(userId));
+        o = ordineCrud.saveAndFlush(o);
 
-        return Ordine.to(ordineCrud.saveAndFlush(o));
+        List<Long> righeId = new ArrayList<>();
+        righe.forEach(rigaOrdineDTO -> righeId.add(rigaOrdineDTO.id));
+        rigaOrdineHelper.linkRigheToOrdine(o.getId(), righeId);
+
+        return Ordine.to(o);
     }
 
     /**
@@ -90,6 +98,9 @@ public class OrdineServiceImpl implements OrdineService {
      */
     @Override
     public OrdineDTO updateOrdine(Long ordineId, OrdineDTO ordineDTO) {
+        if (Objects.isNull(ordineId) || Objects.isNull(ordineDTO))
+            throw new OrdineException(MISSING_PARAMETERS.name());
+
         if (!ordineCrud.existsById(ordineId))
             throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 
@@ -101,6 +112,7 @@ public class OrdineServiceImpl implements OrdineService {
 
         Ordine save = Ordine.of(ordineDTO);
         save.setPagamento(Objects.isNull(ordineDTO.pagamento_id) ? o.getPagamento() : pagamentoHelper.findById(ordineDTO.pagamento_id));
+        save.setUtente(Objects.isNull(ordineDTO.utente_id) ? o.getUtente() : utenteHelper.findById(ordineDTO.utente_id));
 
         return Ordine.to(ordineCrud.saveAndFlush(save));
     }
@@ -173,7 +185,7 @@ public class OrdineServiceImpl implements OrdineService {
     }
 
     /**
-     * Returns all ordini evasi depending on variable
+     * Returns all ordini evasi depending on variable (evaded if true else not evaded)
      *
      * @param evaso value of evaso
      * @return List of {@link OrdineDTO OrdineDTO} evasi or not
@@ -190,57 +202,25 @@ public class OrdineServiceImpl implements OrdineService {
     }
 
     /**
-     * Returns all Ordine where evaso = true, before a data
+     * Changes the status of an Ordine to evaded
      *
-     * @param dataEvasione dataEvasione of all Ordine
+     * @param id        the Ordine to evade
+     * @param ordineDTO DTO of the Ordine with missing informations
      * @return List {@link OrdineDTO OrdineDTO}
-     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} if ordine with given id doesn't exist
      * @see Ordine#getDataEvasione()
      */
     @Override
-    public List<OrdineDTO> getDataPrima(LocalDate dataEvasione) {
-        if (Objects.isNull(dataEvasione))
+    public OrdineDTO evadiOrdine(Long id, OrdineDTO ordineDTO) {
+        if (Objects.isNull(id) || Objects.isNull(ordineDTO))
             throw new OrdineException(MISSING_PARAMETERS.name());
 
-        List<OrdineDTO> result = new ArrayList<>();
-        ordineCrud.findAllByDataEvasioneBefore(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
-        return result;
-    }
-
-    /**
-     * Returns all Ordine where evaso = true, between two values
-     *
-     * @param dataInizio starting data
-     * @param dataFine   final data
-     * @return List {@link OrdineDTO OrdineDTO}
-     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
-     */
-    @Override
-    public List<OrdineDTO> getDataTra(LocalDate dataInizio, LocalDate dataFine) {
-        if (Objects.isNull(dataInizio) || Objects.isNull(dataFine))
-            throw new OrdineException(MISSING_PARAMETERS.name());
-
-        List<OrdineDTO> result = new ArrayList<>();
-        ordineCrud.findAllByDataEvasioneBetween(dataInizio, dataFine).forEach(ordine -> result.add(Ordine.to(ordine)));
-        return result;
-    }
-
-    /**
-     * Returns all Ordine where evaso = true, after a data
-     *
-     * @param dataEvasione dataEvasione of all Ordine
-     * @return List {@link OrdineDTO OrdineDTO}
-     * @throws OrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
-     * @see Ordine#getDataEvasione()
-     */
-    @Override
-    public List<OrdineDTO> getDataDopo(LocalDate dataEvasione) {
-        if (Objects.isNull(dataEvasione))
-            throw new OrdineException(MISSING_PARAMETERS.name());
-
-        List<OrdineDTO> result = new ArrayList<>();
-        ordineCrud.findAllByDataEvasioneAfter(dataEvasione).forEach(ordine -> result.add(Ordine.to(ordine)));
-        return result;
+        Ordine o = ordineCrud.findById(id).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name()));
+        o.setEvaso(Boolean.TRUE);
+        o.setDataEvasione(LocalDate.now());
+        o.setPagamento(pagamentoHelper.findById(ordineDTO.pagamento_id));
+        o.setUtente(utenteHelper.findById(ordineDTO.utente_id));
+        return Ordine.to(ordineCrud.saveAndFlush(o));
     }
 
     /**
@@ -256,11 +236,11 @@ public class OrdineServiceImpl implements OrdineService {
     public RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO) {
         if (Objects.isNull(ordineId))
             throw new OrdineException(MISSING_PARAMETERS.name());
-        Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
 
         if (!ordineCrud.existsById(ordineId))
             throw new OrdineException(CANNOT_FIND_ELEMENT.name());
 
+        Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
         return rigaOrdineHelper.addRigaOrdineToOrdine(ordineId, rigaOrdineDTO);
     }
 }

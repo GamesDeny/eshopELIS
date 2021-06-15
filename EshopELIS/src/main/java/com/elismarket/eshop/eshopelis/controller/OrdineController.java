@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -112,39 +111,16 @@ public class OrdineController {
     }
 
     /**
-     * Returns all Ordine where evaso = true, before a data
+     * Changes the status of an Ordine to evaded
      *
-     * @param data dataEvasione of all Ordine
+     * @param id        the Ordine to evade
+     * @param ordineDTO DTO of the Ordine with missing informations
      * @return List {@link OrdineDTO OrdineDTO}
      * @see Ordine#getDataEvasione()
      */
-    @GetMapping("/data/before/{data}")
-    public List<OrdineDTO> getDataPrima(@PathVariable LocalDate data) {
-        return ordineService.getDataPrima(data);
-    }
-
-    /**
-     * Returns all Ordine where evaso = true, between two values
-     *
-     * @param dataInizio starting data
-     * @param dataFine   final data
-     * @return List {@link OrdineDTO OrdineDTO}
-     */
-    @GetMapping("/data/between/{dataInizio}/{dataFine}")
-    public List<OrdineDTO> getDataTra(@PathVariable LocalDate dataInizio, @PathVariable LocalDate dataFine) {
-        return ordineService.getDataTra(dataInizio, dataFine);
-    }
-
-    /**
-     * Returns all Ordine where evaso = true, after a data
-     *
-     * @param data dataEvasione of all Ordine
-     * @return List {@link OrdineDTO OrdineDTO}
-     * @see Ordine#getDataEvasione()
-     */
-    @GetMapping("/data/after/{data}")
-    public List<OrdineDTO> getDataDopo(@PathVariable LocalDate data) {
-        return ordineService.getDataDopo(data);
+    @GetMapping("/evasione/{id}")
+    public OrdineDTO getEvadi(@PathVariable Long id, @RequestBody OrdineDTO ordineDTO) {
+        return ordineService.evadiOrdine(id, ordineDTO);
     }
 
     /**

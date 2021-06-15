@@ -62,11 +62,13 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      */
     @Override
     public TipoMetodoDTO updateTipoMetodo(Long tipoMetodoId, TipoMetodoDTO tipoMetodoDTO) {
-        if (Objects.isNull(tipoMetodoId))
+        if (Objects.isNull(tipoMetodoId) || Objects.isNull(tipoMetodoDTO))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());
 
         if (!tipoMetodoCrud.existsById(tipoMetodoId))
             throw new TipoMetodoException(CANNOT_FIND_ELEMENT.name());
+
+        Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
 
         TipoMetodo c = tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name()));
 
@@ -74,7 +76,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         tipoMetodoDTO.nome = Objects.isNull(tipoMetodoDTO.nome) ? c.getNome() : tipoMetodoDTO.nome;
 
         Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
-        pagamentoHelper.linkMetodoToPagamento(tipoMetodoId, tipoMetodoDTO.pagamenti_id);
+//        pagamentoHelper.linkMetodoToPagamento(tipoMetodoId, tipoMetodoDTO.pagamenti_id);
         TipoMetodo save = TipoMetodo.of(tipoMetodoDTO);
 
         tipoMetodoCrud.saveAndFlush(save);
@@ -99,7 +101,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
             throw new TipoMetodoException(CANNOT_FIND_ELEMENT.name());
 
         tipoMetodoCrud.deleteById(id);
-        return !tipoMetodoCrud.existsById(id);
+        return tipoMetodoCrud.existsById(id);
     }
 
     /**

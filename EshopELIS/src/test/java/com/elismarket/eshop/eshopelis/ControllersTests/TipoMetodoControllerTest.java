@@ -71,13 +71,22 @@ public class TipoMetodoControllerTest {
         TipoMetodoDTO updated = new TipoMetodoDTO();
         updated.nome = "carta";
 
-        updated = tipoMetodoService.updateTipoMetodo(id, updated);
-        assertNotNull(updated);
-        assertEquals("carta", tipoMetodoService.getById(id).nome);
+        assertThrows(TipoMetodoException.class, () -> {
+            tipoMetodoService.updateTipoMetodo(null, null);
+        });
 
         assertThrows(TipoMetodoException.class, () -> {
             tipoMetodoService.updateTipoMetodo(id, new TipoMetodoDTO());
         });
+
+        TipoMetodoDTO finalUpdated = updated;
+        assertThrows(TipoMetodoException.class, () -> {
+            tipoMetodoService.updateTipoMetodo(null, finalUpdated);
+        });
+
+        updated = tipoMetodoService.updateTipoMetodo(id, updated);
+        assertNotNull(updated);
+        assertEquals("carta", tipoMetodoService.getById(id).nome);
     }
 
     @Test

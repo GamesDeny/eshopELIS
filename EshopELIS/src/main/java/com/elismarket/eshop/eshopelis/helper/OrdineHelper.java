@@ -47,8 +47,8 @@ public class OrdineHelper {
     public Ordine addOrdineToPagamento(Long pagamentoId, OrdineDTO ordineDTO) {
         Ordine o = Ordine.of(ordineDTO);
         Pagamento p = pagamentoHelper.findById(pagamentoId);
-
         o.setPagamento(p);
+        o.setUtente(p.getUtente());
         return ordineCrud.saveAndFlush(o);
     }
 
