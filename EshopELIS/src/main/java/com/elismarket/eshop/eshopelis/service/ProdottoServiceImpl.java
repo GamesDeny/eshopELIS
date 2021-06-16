@@ -249,11 +249,7 @@ public class ProdottoServiceImpl implements ProdottoService {
 
         List<ProdottoDTO> prodotti = new ArrayList<>();
         List<RigaOrdine> righe = rigaOrdineHelper.getByOrdine(ordineId);
-        righe.forEach(riga -> prodotti.add(
-                Prodotto.to(
-                        prodottoCrud.findById(riga.getProdotto().getId()).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()))
-                )
-        ));
+        righe.forEach(riga -> prodotti.add(Prodotto.to(prodottoCrud.findById(riga.getProdotto().getId()).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name())))));
 
         return prodotti;
     }
