@@ -119,14 +119,13 @@ public class ProdottoController {
         return prodottoService.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);
     }
 
-
     /**
      * Returns all {@link Prodotto Prodotto} related to an Ordine
      *
      * @param ordineId id of the {@link Utente Utente}
      * @return List of the Prodotti related to the ordine
      */
-    @PostMapping("/get/ordine/{ordineId}")
+    @GetMapping("/get/ordine/{ordineId}")
     public List<ProdottoDTO> getProdottoOfOrdine(@PathVariable Long ordineId) {
         return prodottoService.getProdottoOfOrdine(ordineId);
     }
