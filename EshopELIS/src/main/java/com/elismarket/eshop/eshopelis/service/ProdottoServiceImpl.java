@@ -7,7 +7,7 @@ import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.ProdottoException;
 import com.elismarket.eshop.eshopelis.exception.UtenteException;
 import com.elismarket.eshop.eshopelis.helper.CategoriaHelper;
-import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
+import com.elismarket.eshop.eshopelis.helper.OrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.RigaOrdineHelper;
 import com.elismarket.eshop.eshopelis.helper.UtenteHelper;
 import com.elismarket.eshop.eshopelis.model.Categoria;
@@ -55,16 +55,16 @@ public class ProdottoServiceImpl implements ProdottoService {
     RigaOrdineHelper rigaOrdineHelper;
 
     /**
+     * @see OrdineHelper
+     */
+    @Autowired
+    OrdineHelper ordineHelper;
+
+    /**
      * @see CategoriaHelper
      */
     @Autowired
     CategoriaHelper categoriaHelper;
-
-    /**
-     * @see ProdottoHelper
-     */
-    @Autowired
-    ProdottoHelper prodottoHelper;
 
     /**
      * Adds a Prodotto
@@ -234,5 +234,27 @@ public class ProdottoServiceImpl implements ProdottoService {
             throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
         return rigaOrdineHelper.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);
+    }
+
+    /**
+     * Returns all {@link Prodotto Prodotto} related to an Order
+     *
+     * @param ordineId id of the {@link Utente Utente}
+     * @return List of the Prodotti related to the user
+     */
+    @Override
+    public List<ProdottoDTO> getProdottoOfOrdine(Long ordineId) {
+        if (Objects.isNull(ordineId))
+            throw new ProdottoException(MISSING_PARAMETERS.name());
+
+        List<ProdottoDTO> prodotti = new ArrayList<>();
+        List<RigaOrdine> righe = rigaOrdineHelper.getByOrdine(ordineId);
+        righe.forEach(riga -> prodotti.add(
+                Prodotto.to(
+                        prodottoCrud.findById(riga.getProdotto().getId()).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()))
+                )
+        ));
+
+        return prodotti;
     }
 }

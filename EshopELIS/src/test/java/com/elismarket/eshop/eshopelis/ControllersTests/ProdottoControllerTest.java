@@ -382,4 +382,8 @@ public class ProdottoControllerTest {
         assertEquals(rigaOrdine.getProdotto().getId(), id);
     }
 
+    @Test
+    public void TestGetProdottoOfOrdine() {
+
+    }
 }

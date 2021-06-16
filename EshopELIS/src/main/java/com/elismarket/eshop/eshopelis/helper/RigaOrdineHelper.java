@@ -90,4 +90,21 @@ public class RigaOrdineHelper {
         rigaOrdineCrud.saveAll(result);
     }
 
+    /**
+     * returns all the RigaOrdine in the DB
+     *
+     * @return all {@link RigaOrdine RigaOrdine} in the DB
+     */
+    public List<RigaOrdine> getAll() {
+        return rigaOrdineCrud.findAll();
+    }
+
+    /**
+     * returns all the RigaOrdine related to an Ordine
+     *
+     * @return all {@link RigaOrdine RigaOrdine} related to an {@link Ordine Ordine}
+     */
+    public List<RigaOrdine> getByOrdine(Long ordineId) {
+        return rigaOrdineCrud.findAllByOrdine(ordineHelper.findById(ordineId));
+    }
 }

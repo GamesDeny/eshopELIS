@@ -118,4 +118,16 @@ public class ProdottoController {
     public RigaOrdine addRigaOrdineToProdotto(@PathVariable Long prodId, @RequestBody RigaOrdineDTO rigaOrdineDTO) {
         return prodottoService.addRigaOrdineToProdotto(prodId, rigaOrdineDTO);
     }
+
+
+    /**
+     * Returns all {@link Prodotto Prodotto} ordered by an Utente
+     *
+     * @param utenteId id of the {@link Utente Utente}
+     * @return List of the Prodotti related to the user
+     */
+    @PostMapping("/get/prodotti/{utenteId}")
+    public List<ProdottoDTO> getProdottoOfOrdine(@PathVariable Long utenteId) {
+        return prodottoService.getProdottoOfOrdine(utenteId);
+    }
 }

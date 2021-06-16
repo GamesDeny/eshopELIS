@@ -1,7 +1,10 @@
 package com.elismarket.eshop.eshopelis.repository;
 
+import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * Jpa repository for {@link RigaOrdine RigaOrdine}
@@ -10,4 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0
  */
 public interface RigaOrdineCrud extends JpaRepository<RigaOrdine, Long> {
+    List<RigaOrdine> findAllByOrdine(Ordine ordine);
+
 }

@@ -17,7 +17,5 @@ public interface ProdottoCrud extends JpaRepository<Prodotto, Long> {
 
     List<Prodotto> findAllByCategoria(Categoria categoria);
 
-    List<Prodotto> findAllByQuantitaLessThanEqual(Integer quantita);
-
     List<Prodotto> findAllByUtente(Utente byId);
 }

@@ -31,4 +31,6 @@ public interface ProdottoService {
     List<ProdottoDTO> getProdottoByCategoria(Long categoriaId);
 
     List<ProdottoDTO> findAllByUtente(Long userId);
+
+    List<ProdottoDTO> getProdottoOfOrdine(Long utenteId);
 }

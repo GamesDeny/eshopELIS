@@ -144,7 +144,6 @@ public class OrdineServiceImpl implements OrdineService {
      */
     @Override
     public List<OrdineDTO> getAll() {
-
         List<OrdineDTO> result = new ArrayList<>();
         ordineCrud.findAll().forEach(ordine -> result.add(Ordine.to(ordine)));
         return result;
