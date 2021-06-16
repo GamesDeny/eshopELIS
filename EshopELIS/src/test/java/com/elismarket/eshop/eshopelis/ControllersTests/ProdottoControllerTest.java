@@ -1,22 +1,11 @@
 package com.elismarket.eshop.eshopelis.ControllersTests;
 
-import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
-import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
-import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
-import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
-import com.elismarket.eshop.eshopelis.exception.CategoriaException;
-import com.elismarket.eshop.eshopelis.exception.ProdottoException;
-import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
-import com.elismarket.eshop.eshopelis.exception.UtenteException;
+import com.elismarket.eshop.eshopelis.dto.*;
+import com.elismarket.eshop.eshopelis.exception.*;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
-import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
-import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
-import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
-import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
-import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
-import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
-import com.elismarket.eshop.eshopelis.service.interfaces.UtenteService;
+import com.elismarket.eshop.eshopelis.repository.*;
+import com.elismarket.eshop.eshopelis.service.interfaces.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +39,29 @@ public class ProdottoControllerTest {
     CategoriaCrud categoriaCrud;
 
     @Autowired
+    RigaOrdineService rigaOrdineService;
+
+    @Autowired
     RigaOrdineCrud rigaOrdineCrud;
+
+    @Autowired
+    TipoMetodoService tipoMetodoService;
+
+    @Autowired
+    TipoMetodoCrud tipoMetodoCrud;
+
+    @Autowired
+    PagamentoService pagamentoService;
+
+    @Autowired
+    PagamentoCrud pagamentoCrud;
+
+    @Autowired
+    OrdineService ordineService;
+
+    @Autowired
+    OrdineCrud ordineCrud;
+
 
     @BeforeEach
     public void init() {
@@ -62,6 +73,66 @@ public class ProdottoControllerTest {
         utenteCrud.deleteAll();
         categoriaCrud.deleteAll();
         rigaOrdineCrud.deleteAll();
+        pagamentoCrud.deleteAll();
+        tipoMetodoCrud.deleteAll();
+        ordineCrud.deleteAll();
+    }
+
+    private TipoMetodoDTO creaMetodo() {
+        TipoMetodoDTO tipoMetodoDTO = new TipoMetodoDTO();
+        tipoMetodoDTO.nome = "contanti";
+        return tipoMetodoService.addTipoMetodo(tipoMetodoDTO);
+    }
+
+    private UtenteDTO creaUtente() {
+        UtenteDTO utente = new UtenteDTO();
+        utente.isAdmin = Boolean.TRUE;
+        utente.nome = "z";
+        utente.cognome = "z";
+        utente.username = "z";
+        utente.password = "Zzzzz1";
+        utente.mail = "zzz@zzz.zzz";
+        utente.siglaResidenza = 100;
+        utente.dataNascita = LocalDate.of(2001, 1, 1);
+
+        return utenteService.addUtente(utente);
+    }
+
+    private PagamentoDTO creaPagamento() {
+        PagamentoDTO pagamentoDTO = new PagamentoDTO();
+        pagamentoDTO.descrizione = "pagamento";
+        pagamentoDTO.utente_id = creaUtente().id;
+        pagamentoDTO.tipoMetodo_id = creaMetodo().id;
+        return pagamentoService.addPagamento(pagamentoDTO);
+    }
+
+    private List<RigaOrdineDTO> creaRigheOrdine() {
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 1000;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
+
+        RigaOrdineDTO rigaOrdineDTO = new RigaOrdineDTO();
+        rigaOrdineDTO.quantitaProdotto = 1;
+        rigaOrdineDTO.prezzoTotale = 10F;
+        rigaOrdineDTO.scontoApplicato = 0F;
+        rigaOrdineDTO.prodotto_id = prodottoDTO.id;
+
+        for (int i = 0; i < 5; i++)
+            rigaOrdineService.addRigaOrdine(rigaOrdineDTO);
+
+        return rigaOrdineService.getAll();
     }
 
     @Test
@@ -384,6 +455,24 @@ public class ProdottoControllerTest {
 
     @Test
     public void TestGetProdottoOfOrdine() {
+        OrdineDTO ordineDTO = new OrdineDTO();
+        PagamentoDTO pagamentoDTO = creaPagamento();
+        ordineDTO.pagamento_id = pagamentoDTO.id;
+        ordineDTO.utente_id = pagamentoDTO.utente_id;
+        ordineDTO = ordineService.saveOrdine(pagamentoDTO.utente_id, pagamentoDTO.id, creaRigheOrdine());
+        assertNotNull(ordineDTO);
+        assertNotNull(ordineDTO.id);
+        final Long id = ordineDTO.id;
 
+        assertThrows(OrdineException.class, () -> {
+            prodottoService.getProdottoOfOrdine(null);
+        });
+
+
+        assertThrows(OrdineException.class, () -> {
+            prodottoService.getProdottoOfOrdine(0L);
+        });
+
+        prodottoService.getProdottoOfOrdine(id);
     }
 }

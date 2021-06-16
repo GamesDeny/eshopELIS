@@ -121,13 +121,13 @@ public class ProdottoController {
 
 
     /**
-     * Returns all {@link Prodotto Prodotto} ordered by an Utente
+     * Returns all {@link Prodotto Prodotto} related to an Ordine
      *
-     * @param utenteId id of the {@link Utente Utente}
-     * @return List of the Prodotti related to the user
+     * @param ordineId id of the {@link Utente Utente}
+     * @return List of the Prodotti related to the ordine
      */
-    @PostMapping("/get/prodotti/{utenteId}")
-    public List<ProdottoDTO> getProdottoOfOrdine(@PathVariable Long utenteId) {
-        return prodottoService.getProdottoOfOrdine(utenteId);
+    @PostMapping("/get/ordine/{ordineId}")
+    public List<ProdottoDTO> getProdottoOfOrdine(@PathVariable Long ordineId) {
+        return prodottoService.getProdottoOfOrdine(ordineId);
     }
 }
