@@ -464,7 +464,8 @@ public class ProdottoControllerTest {
         assertNotNull(ordineDTO.id);
         final Long id = ordineDTO.id;
 
-        assertThrows(OrdineException.class, () -> {
+
+        assertThrows(ProdottoException.class, () -> {
             prodottoService.getProdottoOfOrdine(null);
         });
 
@@ -473,6 +474,8 @@ public class ProdottoControllerTest {
             prodottoService.getProdottoOfOrdine(0L);
         });
 
-        prodottoService.getProdottoOfOrdine(id);
+        List<ProdottoDTO> prodotti = prodottoService.getProdottoOfOrdine(id);
+        assertNotNull(prodotti);
+        assertEquals(5, prodotti.size());
     }
 }
