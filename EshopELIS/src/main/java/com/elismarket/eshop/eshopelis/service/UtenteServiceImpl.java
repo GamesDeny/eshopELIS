@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static java.util.Objects.isNull;
 
 /**
  * {@link Utente Utente} service class for interaction between DB and relative Controller
@@ -71,7 +71,6 @@ public class UtenteServiceImpl implements UtenteService {
     public UtenteDTO addUtente(UtenteDTO utenteDTO) {
         Checkers.utenteFieldsChecker(utenteDTO);
         utenteDTO.logged = false;
-        utenteDTO.isAdmin = false;
         Utente u = Utente.of(utenteDTO);
 
         duplicateChecker(utenteDTO);
@@ -91,41 +90,55 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public UtenteDTO updateUtente(Long userId, UtenteDTO utenteDTO) {
-        if (Objects.isNull(userId) || Objects.isNull(utenteDTO))
+        if (isNull(userId) || isNull(utenteDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
-        duplicateChecker(utenteDTO);
+        if (!utenteCrud.existsById(userId))
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
+
+//        duplicateChecker(utenteDTO);
 
         Utente u = utenteCrud.findById(userId).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
 
         //cambio DTO con le informazioni aggiornate
-        utenteDTO.id = userId;
-        utenteDTO.username = Objects.isNull(utenteDTO.username) ? u.getUsername() : utenteDTO.username;
-        //faccio hashing prima di aggiornare
-        utenteDTO.password = Objects.isNull(utenteDTO.password) ? Utente.hashPassword(u.getPassword()) : Utente.hashPassword(utenteDTO.password);
-        utenteDTO.nome = Objects.isNull(utenteDTO.nome) ? u.getNome() : utenteDTO.nome;
-        utenteDTO.cognome = Objects.isNull(utenteDTO.cognome) ? u.getCognome() : utenteDTO.cognome;
-        utenteDTO.logged = Objects.isNull(utenteDTO.logged) ? u.getLogged() : utenteDTO.logged;
-        utenteDTO.isAdmin = Objects.isNull(utenteDTO.isAdmin) ? u.getIsAdmin() : utenteDTO.isAdmin;
-        utenteDTO.mail = Objects.isNull(utenteDTO.mail) ? u.getMail() : utenteDTO.mail;
-        utenteDTO.dataNascita = Objects.isNull(utenteDTO.dataNascita) ? u.getDataNascita() : utenteDTO.dataNascita;
-        utenteDTO.siglaResidenza = Objects.isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza;
+//        utenteDTO.id = userId;
+        utenteDTO.username = isNull(utenteDTO.username) ? u.getUsername() : utenteDTO.username;
+        utenteDTO.nome = isNull(utenteDTO.nome) ? u.getNome() : utenteDTO.nome;
+        utenteDTO.cognome = isNull(utenteDTO.cognome) ? u.getCognome() : utenteDTO.cognome;
+        utenteDTO.logged = isNull(utenteDTO.logged) ? u.getLogged() : utenteDTO.logged;
+        utenteDTO.isAdmin = isNull(utenteDTO.isAdmin) ? u.getIsAdmin() : utenteDTO.isAdmin;
         utenteDTO.logged = false;
 
-        Checkers.utenteFieldsChecker(utenteDTO);
+        if (!isNull(utenteDTO.password))
+            Checkers.passwordChecker(utenteDTO.password);
+        //faccio hashing prima di aggiornare
+        utenteDTO.password = isNull(utenteDTO.password) ? u.getPassword() : Utente.hashPassword(utenteDTO.password);
+
+        if (!isNull(utenteDTO.mail))
+            Checkers.mailChecker(utenteDTO.mail);
+        utenteDTO.mail = isNull(utenteDTO.mail) ? u.getMail() : utenteDTO.mail;
+
+        if (!isNull(utenteDTO.siglaResidenza))
+            Checkers.siglaChecker(utenteDTO.siglaResidenza);
+        utenteDTO.siglaResidenza = isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza;
+
+        if (!isNull(utenteDTO.dataNascita))
+            Checkers.birthDateChecker(utenteDTO.dataNascita);
+        utenteDTO.dataNascita = isNull(utenteDTO.dataNascita) ? u.getDataNascita() : utenteDTO.dataNascita;
+
 
         Utente save = Utente.of(utenteDTO);
-        if (!Objects.isNull(utenteDTO.proposte_id))
-            propostaHelper.linkUtenteToProposte(userId, utenteDTO.proposte_id);
-        if (!Objects.isNull(utenteDTO.pagamenti_id))
-            pagamentoHelper.linkUtenteToPagamenti(userId, utenteDTO.pagamenti_id);
-        if (!Objects.isNull(utenteDTO.prodotti_id))
-            prodottoHelper.linkUtenteToProdotti(userId, utenteDTO.prodotti_id);
-        if (!Objects.isNull(utenteDTO.feedbacks_id))
-            feedbackHelper.linkUtenteToFeedbacks(userId, utenteDTO.feedbacks_id);
 
-
-        return Utente.to(utenteCrud.saveAndFlush(save));
+//        if (!Objects.isNull(utenteDTO.proposte_id))
+//            propostaHelper.linkUtenteToProposte(userId, utenteDTO.proposte_id);
+//        if (!Objects.isNull(utenteDTO.pagamenti_id))
+//            pagamentoHelper.linkUtenteToPagamenti(userId, utenteDTO.pagamenti_id);
+//        if (!Objects.isNull(utenteDTO.prodotti_id))
+//            prodottoHelper.linkUtenteToProdotti(userId, utenteDTO.prodotti_id);
+//        if (!Objects.isNull(utenteDTO.feedbacks_id))
+//            feedbackHelper.linkUtenteToFeedbacks(userId, utenteDTO.feedbacks_id);
+        save = utenteCrud.save(save);
+        return Utente.to(save);
     }
 
     /**
@@ -138,15 +151,20 @@ public class UtenteServiceImpl implements UtenteService {
      * @throws UtenteException with {@link ExceptionPhrases#MAIL_OR_PASSWORD_INCONSISTENT MAIL_OR_PASSWORD_INCONSISTENT} message
      */
     private void duplicateChecker(UtenteDTO utenteDTO) {
-        if (!(Objects.isNull(utenteCrud.findByMail(utenteDTO.mail)) &&
-                Objects.isNull(utenteCrud.findByUsername(utenteDTO.username)) &&
-                Objects.isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza))))
+        if (!(isNull(utenteCrud.findByMail(utenteDTO.mail)) &&
+                isNull(utenteCrud.findByUsername(utenteDTO.username)) &&
+                isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza))))
             throw new UtenteException(DUPLICATE.name());
+
         else if (!Checkers.siglaChecker(utenteDTO.siglaResidenza))
             throw new UtenteException(INCONSISTENT_SIGLA.name());
+
         else if (!Checkers.birthDateChecker(utenteDTO.dataNascita))
             throw new UtenteException(DATE_NOT_VALID.name());
-        else if ((utenteDTO.password).equals(utenteDTO.mail) || !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password)))
+
+        else if (!isNull(utenteDTO.password) && !isNull(utenteDTO.mail) &&
+                ((utenteDTO.password).equals(utenteDTO.mail) ||
+                        !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password))))
             throw new UtenteException(MAIL_OR_PASSWORD_INCONSISTENT.name());
     }
 
@@ -160,7 +178,7 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public Boolean removeUtente(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
         if (!utenteCrud.existsById(id))
@@ -182,6 +200,9 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public List<UtenteDTO> getAll(String findby) {
+        if (isNull(findby))
+            throw new UtenteException(MISSING_PARAMETERS.name());
+
         List<UtenteDTO> result = new ArrayList<>();
 
         switch (findby) {
@@ -214,11 +235,12 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public UtenteDTO getByMail(String mail) {
-        if (Objects.isNull(mail) || Strings.isBlank(mail) || Strings.isEmpty(mail))
+        if (isNull(mail) || Strings.isBlank(mail) || Strings.isEmpty(mail))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(utenteCrud.findByMail(mail)))
+        if (isNull(utenteCrud.findByMail(mail)))
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
+
         return Utente.to(utenteCrud.findByMail(mail));
     }
 
@@ -232,10 +254,10 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public UtenteDTO getByUser(String username) {
-        if (Objects.isNull(username) || Strings.isBlank(username) || Strings.isEmpty(username))
+        if (isNull(username) || Strings.isBlank(username) || Strings.isEmpty(username))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(utenteCrud.findByUsername(username)))
+        if (isNull(utenteCrud.findByUsername(username)))
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         return Utente.to(utenteCrud.findByUsername(username));
     }
@@ -250,7 +272,7 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public UtenteDTO getById(Long userId) {
-        if (Objects.isNull(userId))
+        if (isNull(userId))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
         if (!utenteCrud.existsById(userId))
@@ -265,13 +287,17 @@ public class UtenteServiceImpl implements UtenteService {
      * @param password is the Password related to the username
      * @return Logged Utente
      * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
+     * @throws UtenteException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     @Override
     public UtenteDTO getLoginUtente(String username, String password) {
-        if (Objects.isNull(username) || Objects.isNull(password) ||
+        if (isNull(username) || isNull(password) ||
                 Strings.isEmpty(username) || Strings.isBlank(username) ||
                 Strings.isEmpty(password) || Strings.isBlank(password))
             throw new UtenteException(MISSING_PARAMETERS.name());
+
+        if (isNull(utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password))))
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
 
         Utente u = utenteCrud.findByUsernameAndPassword(username, Utente.hashPassword(password));
         u.setLogged(Boolean.TRUE);
@@ -289,12 +315,14 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public Boolean getLogout(Long userId) {
-        if (Objects.isNull(userId))
+        if (isNull(userId))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
         Utente u = utenteCrud.findById(userId).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
         u.setLogged(Boolean.FALSE);
-        utenteCrud.saveAndFlush(u);
+        if (utenteCrud.saveAndFlush(u).getLogged())
+            throw new UtenteException(LOGOUT_ERROR.name());
+
         return true;
     }
 
@@ -310,10 +338,8 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public Feedback addFeedbackToUser(Long userId, FeedbackDTO feedbackDTO) {
-        if (Objects.isNull(userId))
+        if (isNull(userId) || isNull(feedbackDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
-        if (Objects.isNull(feedbackDTO))
-            throw new FeedbackException(MISSING_PARAMETERS.name());
 
         if (!utenteCrud.existsById(userId))
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
@@ -332,10 +358,8 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO) {
-        if (Objects.isNull(userId))
+        if (isNull(userId) || isNull(propostaDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
-        if (Objects.isNull(propostaDTO))
-            throw new PropostaException(MISSING_PARAMETERS.name());
 
         if (!utenteCrud.existsById(userId))
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
@@ -354,10 +378,8 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public Prodotto addProdottoToUser(Long userId, ProdottoDTO prodottoDTO) {
-        if (Objects.isNull(userId))
+        if (isNull(userId) || isNull(prodottoDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
-        if (Objects.isNull(prodottoDTO))
-            throw new ProdottoException(MISSING_PARAMETERS.name());
 
         if (!utenteCrud.existsById(userId))
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
@@ -376,15 +398,13 @@ public class UtenteServiceImpl implements UtenteService {
      */
     @Override
     public Pagamento addPagamentoToUser(Long userId, PagamentoDTO pagamentoDTO) {
-        if (Objects.isNull(userId))
+        if (isNull(userId) || isNull(pagamentoDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
-        if (Objects.isNull(pagamentoDTO))
-            throw new PagamentoException(MISSING_PARAMETERS.name());
 
-        if (utenteCrud.existsById(userId))
-            return pagamentoHelper.addPagamentoToUser(userId, pagamentoDTO);
+        if (!utenteCrud.existsById(userId))
+            throw new UtenteException(CANNOT_FIND_ELEMENT.name());
 
-        throw new UtenteException(CANNOT_FIND_ELEMENT.name());
+        return pagamentoHelper.addPagamentoToUser(userId, pagamentoDTO);
     }
 
 }
