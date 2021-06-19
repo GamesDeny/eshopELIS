@@ -11,6 +11,7 @@ import com.elismarket.eshop.eshopelis.service.interfaces.RigaOrdineService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
      * @return added RigaOrdine
      */
     @Override
+    @Transactional
     public RigaOrdineDTO addRigaOrdine(RigaOrdineDTO rigaOrdineDTO) {
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
         prodottoHelper.decreaseQuantita(rigaOrdineDTO.prodotto_id, rigaOrdineDTO.quantitaProdotto);
@@ -70,6 +72,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
      * @throws RigaOrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     @Override
+    @Transactional
     public RigaOrdineDTO updateRigaOrdine(Long id, RigaOrdineDTO rigaOrdineDTO) {
         if (isNull(id) || isNull(rigaOrdineDTO))
             throw new RigaOrdineException(MISSING_PARAMETERS.name());
@@ -79,18 +82,16 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
 
         RigaOrdine r = rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name()));
 
-        rigaOrdineDTO.id = id;
-        rigaOrdineDTO.prezzoTotale = isNull(rigaOrdineDTO.prezzoTotale) ? r.getPrezzoTotale() : rigaOrdineDTO.prezzoTotale;
-        rigaOrdineDTO.quantitaProdotto = isNull(rigaOrdineDTO.quantitaProdotto) ? r.getQuantitaProdotto() : rigaOrdineDTO.quantitaProdotto;
-        rigaOrdineDTO.scontoApplicato = isNull(rigaOrdineDTO.scontoApplicato) ? r.getScontoApplicato() : rigaOrdineDTO.scontoApplicato;
+        r.setPrezzoTotale(isNull(rigaOrdineDTO.prezzoTotale) ? r.getPrezzoTotale() : rigaOrdineDTO.prezzoTotale);
+        r.setQuantitaProdotto(isNull(rigaOrdineDTO.quantitaProdotto) ? r.getQuantitaProdotto() : rigaOrdineDTO.quantitaProdotto);
+        r.setScontoApplicato(isNull(rigaOrdineDTO.scontoApplicato) ? r.getScontoApplicato() : rigaOrdineDTO.scontoApplicato);
 
-        Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
+        Checkers.rigaOrdineFieldsChecker(RigaOrdine.to(r));
 
-        RigaOrdine save = RigaOrdine.of(rigaOrdineDTO);
-        save.setOrdine(isNull(rigaOrdineDTO.ordine_id) ? r.getOrdine() : ordineHelper.findById(rigaOrdineDTO.ordine_id));
-        save.setProdotto(isNull(rigaOrdineDTO.prodotto_id) ? r.getProdotto() : prodottoHelper.findById(rigaOrdineDTO.prodotto_id));
+        r.setOrdine(isNull(rigaOrdineDTO.ordine_id) ? r.getOrdine() : ordineHelper.findById(rigaOrdineDTO.ordine_id));
+        r.setProdotto(isNull(rigaOrdineDTO.prodotto_id) ? r.getProdotto() : prodottoHelper.findById(rigaOrdineDTO.prodotto_id));
 
-        return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(save));
+        return RigaOrdine.to(rigaOrdineCrud.saveAndFlush(r));
     }
 
     /**
@@ -102,6 +103,7 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
      * @throws RigaOrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean removeRigaOrdine(Long id) {
         if (isNull(id))
             throw new RigaOrdineException(MISSING_PARAMETERS.name());

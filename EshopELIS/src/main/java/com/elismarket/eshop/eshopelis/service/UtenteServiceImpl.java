@@ -28,7 +28,6 @@ import static java.util.Objects.isNull;
  * @version 1.0
  */
 @Service
-@Transactional
 public class UtenteServiceImpl implements UtenteService {
 
     /**
@@ -68,6 +67,7 @@ public class UtenteServiceImpl implements UtenteService {
      * @return added {@link Utente Utente}
      */
     @Override
+    @Transactional
     public UtenteDTO addUtente(UtenteDTO utenteDTO) {
         Checkers.utenteFieldsChecker(utenteDTO);
         utenteDTO.logged = false;
@@ -89,6 +89,7 @@ public class UtenteServiceImpl implements UtenteService {
      * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public UtenteDTO updateUtente(Long userId, UtenteDTO utenteDTO) {
         if (isNull(userId) || isNull(utenteDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
@@ -100,34 +101,16 @@ public class UtenteServiceImpl implements UtenteService {
 
         Utente u = utenteCrud.findById(userId).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
 
-        //cambio DTO con le informazioni aggiornate
-//        utenteDTO.id = userId;
-        utenteDTO.username = isNull(utenteDTO.username) ? u.getUsername() : utenteDTO.username;
-        utenteDTO.nome = isNull(utenteDTO.nome) ? u.getNome() : utenteDTO.nome;
-        utenteDTO.cognome = isNull(utenteDTO.cognome) ? u.getCognome() : utenteDTO.cognome;
-        utenteDTO.logged = isNull(utenteDTO.logged) ? u.getLogged() : utenteDTO.logged;
-        utenteDTO.isAdmin = isNull(utenteDTO.isAdmin) ? u.getIsAdmin() : utenteDTO.isAdmin;
-        utenteDTO.logged = false;
-
-        if (!isNull(utenteDTO.password))
-            Checkers.passwordChecker(utenteDTO.password);
+        u.setUsername(isNull(utenteDTO.username) ? u.getUsername() : utenteDTO.username);
+        u.setNome(isNull(utenteDTO.nome) ? u.getNome() : utenteDTO.nome);
+        u.setCognome(isNull(utenteDTO.cognome) ? u.getCognome() : utenteDTO.cognome);
         //faccio hashing prima di aggiornare
-        utenteDTO.password = isNull(utenteDTO.password) ? u.getPassword() : Utente.hashPassword(utenteDTO.password);
-
-        if (!isNull(utenteDTO.mail))
-            Checkers.mailChecker(utenteDTO.mail);
-        utenteDTO.mail = isNull(utenteDTO.mail) ? u.getMail() : utenteDTO.mail;
-
-        if (!isNull(utenteDTO.siglaResidenza))
-            Checkers.siglaChecker(utenteDTO.siglaResidenza);
-        utenteDTO.siglaResidenza = isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza;
-
-        if (!isNull(utenteDTO.dataNascita))
-            Checkers.birthDateChecker(utenteDTO.dataNascita);
-        utenteDTO.dataNascita = isNull(utenteDTO.dataNascita) ? u.getDataNascita() : utenteDTO.dataNascita;
-
-
-        Utente save = Utente.of(utenteDTO);
+        u.setPassword(isNull(utenteDTO.password) ? u.getPassword() : Utente.hashPassword(utenteDTO.password));
+        u.setMail(isNull(utenteDTO.mail) ? u.getMail() : utenteDTO.mail);
+        u.setSiglaResidenza(isNull(utenteDTO.siglaResidenza) ? u.getSiglaResidenza() : utenteDTO.siglaResidenza);
+        u.setDataNascita(isNull(utenteDTO.dataNascita) ? u.getDataNascita() : utenteDTO.dataNascita);
+        u.setIsAdmin(isNull(utenteDTO.isAdmin) ? u.getIsAdmin() : utenteDTO.isAdmin);
+        u.setLogged(Boolean.FALSE);
 
 //        if (!isNull(utenteDTO.proposte_id))
 //            propostaHelper.linkUtenteToProposte(userId, utenteDTO.proposte_id);
@@ -137,8 +120,8 @@ public class UtenteServiceImpl implements UtenteService {
 //            prodottoHelper.linkUtenteToProdotti(userId, utenteDTO.prodotti_id);
 //        if (!isNull(utenteDTO.feedbacks_id))
 //            feedbackHelper.linkUtenteToFeedbacks(userId, utenteDTO.feedbacks_id);
-        save = utenteCrud.save(save);
-        return Utente.to(save);
+
+        return Utente.to(utenteCrud.saveAndFlush(u));
     }
 
     /**
@@ -152,15 +135,15 @@ public class UtenteServiceImpl implements UtenteService {
      */
     private void duplicateChecker(UtenteDTO utenteDTO) {
 
-        if (!(isNull(utenteDTO.mail) || (isNull(utenteCrud.findByMail(utenteDTO.mail))) &&
-                !(isNull(utenteDTO.username) || isNull(utenteCrud.findByUsername(utenteDTO.username))) &&
-                !(isNull(utenteDTO.siglaResidenza) || isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza)))))
+        if (!isNull(utenteDTO.mail) && !isNull(utenteCrud.findByMail(utenteDTO.mail)) &&
+                !isNull(utenteDTO.username) && !isNull(utenteCrud.findByUsername(utenteDTO.username)) &&
+                !isNull(utenteDTO.siglaResidenza) && !isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza)))
             throw new UtenteException(DUPLICATE.name());
 
-        else if (!(isNull(utenteDTO.siglaResidenza) || Checkers.siglaChecker(utenteDTO.siglaResidenza)))
+        else if (!isNull(utenteDTO.siglaResidenza) && !Checkers.siglaChecker(utenteDTO.siglaResidenza))
             throw new UtenteException(INCONSISTENT_SIGLA.name());
 
-        else if (!(isNull(utenteDTO.dataNascita) || Checkers.birthDateChecker(utenteDTO.dataNascita)))
+        else if (!isNull(utenteDTO.dataNascita) && !Checkers.birthDateChecker(utenteDTO.dataNascita))
             throw new UtenteException(DATE_NOT_VALID.name());
 
         else if (!(isNull(utenteDTO.password) || isNull(utenteDTO.mail)) &&
@@ -178,6 +161,7 @@ public class UtenteServiceImpl implements UtenteService {
      * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean removeUtente(Long id) {
         if (isNull(id))
             throw new UtenteException(MISSING_PARAMETERS.name());

@@ -204,7 +204,7 @@ public class OrdineControllerTest {
 
     }
 
-    @Test
+    //@Test
     //gli ordini piazzati non possono essere rimossi
     public void TestRemoveOrdine() {
         OrdineDTO ordineDTO = new OrdineDTO();

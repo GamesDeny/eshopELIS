@@ -19,6 +19,7 @@ import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      * @return Added Prodotto
      */
     @Override
+    @Transactional
     public ProdottoDTO addProdotto(ProdottoDTO prodottoDTO) {
         Checkers.prodottoFieldsChecker(prodottoDTO);
         Prodotto p = Prodotto.of(prodottoDTO);
@@ -94,6 +96,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      * @throws ProdottoException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     @Override
+    @Transactional
     public ProdottoDTO updateProdotto(Long prodottoId, ProdottoDTO prodottoDTO) {
         if (isNull(prodottoId) || isNull(prodottoDTO))
             throw new ProdottoException(MISSING_PARAMETERS.name());
@@ -103,29 +106,26 @@ public class ProdottoServiceImpl implements ProdottoService {
 
         Prodotto p = prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
 
-        prodottoDTO.id = prodottoId;
-        prodottoDTO.descrizione = isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione;
-        prodottoDTO.nome = isNull(prodottoDTO.nome) ? p.getNome() : prodottoDTO.nome;
-        prodottoDTO.quantita = isNull(prodottoDTO.quantita) ? p.getQuantita() : prodottoDTO.quantita;
-        prodottoDTO.image = isNull(prodottoDTO.image) ? p.getImage() : prodottoDTO.image;
-        prodottoDTO.maxOrd = isNull(prodottoDTO.maxOrd) ? p.getMaxOrd() : prodottoDTO.maxOrd;
-        prodottoDTO.minOrd = isNull(prodottoDTO.minOrd) ? p.getMinOrd() : prodottoDTO.minOrd;
-        prodottoDTO.prezzo = isNull(prodottoDTO.prezzo) ? p.getPrezzo() : prodottoDTO.prezzo;
-        prodottoDTO.sconto = isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto;
+        p.setDescrizione(isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione);
+        p.setNome(isNull(prodottoDTO.nome) ? p.getNome() : prodottoDTO.nome);
+        p.setQuantita(isNull(prodottoDTO.quantita) ? p.getQuantita() : prodottoDTO.quantita);
+        p.setImage(isNull(prodottoDTO.image) ? p.getImage() : prodottoDTO.image);
+        p.setMaxOrd(isNull(prodottoDTO.maxOrd) ? p.getMaxOrd() : prodottoDTO.maxOrd);
+        p.setMinOrd(isNull(prodottoDTO.minOrd) ? p.getMinOrd() : prodottoDTO.minOrd);
+        p.setPrezzo(isNull(prodottoDTO.prezzo) ? p.getPrezzo() : prodottoDTO.prezzo);
+        p.setSconto(isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto);
 
-        Checkers.prodottoFieldsChecker(prodottoDTO);
+        Checkers.prodottoFieldsChecker(Prodotto.to(p));
 
-        Prodotto save = Prodotto.of(prodottoDTO);
+        p.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
+
         if (!isNull(p.getUtente()))
-            save.setUtente(isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
-
-        save.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
+            p.setUtente(isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
 
         if (!isNull(prodottoDTO.righeOrdine_id))
             rigaOrdineHelper.linkRigheToProdotto(prodottoId, prodottoDTO.righeOrdine_id);
-        prodottoCrud.saveAndFlush(save);
 
-        return Prodotto.to(prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name())));
+        return Prodotto.to(prodottoCrud.saveAndFlush(p));
 
     }
 
@@ -138,6 +138,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean removeProdotto(Long id) {
         if (isNull(id))
             throw new ProdottoException(MISSING_PARAMETERS.name());

@@ -10,6 +10,7 @@ import com.elismarket.eshop.eshopelis.service.interfaces.FeedbackService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      * @see Checkers#feedbackFieldsChecker(FeedbackDTO)
      */
     @Override
+    @Transactional
     public FeedbackDTO addFeedback(FeedbackDTO feedbackDTO) {
         Checkers.feedbackFieldsChecker(feedbackDTO);
         Feedback f = Feedback.of(feedbackDTO);
@@ -68,6 +70,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      * @see Checkers#feedbackFieldsChecker(FeedbackDTO)
      */
     @Override
+    @Transactional
     public FeedbackDTO updateFeedback(Long id, FeedbackDTO feedbackDTO) {
         if (isNull(id) || isNull(feedbackDTO))
             throw new FeedbackException(MISSING_PARAMETERS.name());
@@ -77,18 +80,15 @@ public class FeedbackServiceImpl implements FeedbackService {
 
         Feedback f = feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException(CANNOT_FIND_ELEMENT.name()));
 
-        feedbackDTO.id = id;
-        feedbackDTO.descrizione = isNull(feedbackDTO.descrizione) ? f.getDescrizione() : feedbackDTO.descrizione;
-        feedbackDTO.oggetto = isNull(feedbackDTO.oggetto) ? f.getOggetto() : feedbackDTO.oggetto;
-        feedbackDTO.isAccepted = isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted;
-        feedbackDTO.subscriptionDate = isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate;
+        f.setDescrizione(isNull(feedbackDTO.descrizione) ? f.getDescrizione() : feedbackDTO.descrizione);
+        f.setOggetto(isNull(feedbackDTO.oggetto) ? f.getOggetto() : feedbackDTO.oggetto);
+        f.setIsAccepted(isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted);
+        f.setSubscriptionDate(isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate);
 
-        Checkers.feedbackFieldsChecker(feedbackDTO);
+        Checkers.feedbackFieldsChecker(Feedback.to(f));
+        f.setUtente(isNull(feedbackDTO.utente_id) ? f.getUtente() : utenteHelper.findById(feedbackDTO.utente_id));
 
-        Feedback save = Feedback.of(feedbackDTO);
-        save.setUtente(isNull(feedbackDTO.utente_id) ? f.getUtente() : utenteHelper.findById(feedbackDTO.utente_id));
-
-        return Feedback.to(feedbackCrud.saveAndFlush(save));
+        return Feedback.to(feedbackCrud.saveAndFlush(f));
     }
 
     /**
@@ -100,6 +100,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean deleteFeedback(Long id) {
         if (isNull(id))
             throw new FeedbackException(MISSING_PARAMETERS.name());

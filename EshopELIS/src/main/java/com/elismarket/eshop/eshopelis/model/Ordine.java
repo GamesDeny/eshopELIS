@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 /**
  * Ordine class with lombok methods (getter, setter, NAC, ToString)
  * The class is used as an entity for the DB
@@ -90,7 +92,7 @@ public class Ordine {
         ordineDTO.evaso = ordine.getEvaso();
         ordineDTO.dataEvasione = ordine.getDataEvasione();
         ordineDTO.pagamento_id = ordine.getPagamento().getId();
-        ordineDTO.utente_id = ordine.getUtente().getId();
+        ordineDTO.utente_id = !isNull(ordine.getUtente()) ? ordine.getUtente().getId() : null;
 
         return ordineDTO;
     }

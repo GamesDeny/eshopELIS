@@ -10,6 +10,7 @@ import com.elismarket.eshop.eshopelis.service.interfaces.TipoMetodoService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      * @return added TipoMetodo
      */
     @Override
+    @Transactional
     public TipoMetodoDTO addTipoMetodo(TipoMetodoDTO tipoMetodoDTO) {
         Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
         return TipoMetodo.to(tipoMetodoCrud.saveAndFlush(TipoMetodo.of(tipoMetodoDTO)));
@@ -61,6 +63,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      * @throws TipoMetodoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public TipoMetodoDTO updateTipoMetodo(Long tipoMetodoId, TipoMetodoDTO tipoMetodoDTO) {
         if (isNull(tipoMetodoId) || isNull(tipoMetodoDTO))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());
@@ -68,20 +71,15 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         if (!tipoMetodoCrud.existsById(tipoMetodoId))
             throw new TipoMetodoException(CANNOT_FIND_ELEMENT.name());
 
-        Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
+        TipoMetodo t = tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name()));
 
-        TipoMetodo c = tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name()));
+        t.setNome(isNull(tipoMetodoDTO.nome) ? t.getNome() : tipoMetodoDTO.nome);
 
-        tipoMetodoDTO.id = tipoMetodoId;
-        tipoMetodoDTO.nome = isNull(tipoMetodoDTO.nome) ? c.getNome() : tipoMetodoDTO.nome;
+        Checkers.tipoMetodoFieldsChecker(TipoMetodo.to(t));
 
-        Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
 //        pagamentoHelper.linkMetodoToPagamento(tipoMetodoId, tipoMetodoDTO.pagamenti_id);
-        TipoMetodo save = TipoMetodo.of(tipoMetodoDTO);
 
-        tipoMetodoCrud.saveAndFlush(save);
-
-        return TipoMetodo.to(tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name())));
+        return TipoMetodo.to(tipoMetodoCrud.saveAndFlush(t));
     }
 
     /**
@@ -93,6 +91,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      * @throws TipoMetodoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean deleteTipoMetodo(Long id) {
         if (isNull(id))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());

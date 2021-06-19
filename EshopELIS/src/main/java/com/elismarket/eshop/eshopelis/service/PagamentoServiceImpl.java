@@ -63,6 +63,7 @@ public class PagamentoServiceImpl implements PagamentoService {
      * @throws PagamentoException with {@link ExceptionPhrases#INVALID_MAIL INVALID_MAIL} message
      */
     @Override
+    @Transactional
     public PagamentoDTO addPagamento(PagamentoDTO pagamentoDTO) {
         Checkers.pagamentoFieldsChecker(pagamentoDTO);
         Pagamento p = Pagamento.of(pagamentoDTO);
@@ -85,6 +86,7 @@ public class PagamentoServiceImpl implements PagamentoService {
      * @throws PagamentoException with {@link ExceptionPhrases#INVALID_MAIL INVALID_MAIL} message
      */
     @Override
+    @Transactional
     public PagamentoDTO updatePagamento(Long pagamentoId, PagamentoDTO pagamentoDTO) {
         if (isNull(pagamentoId) || isNull(pagamentoDTO))
             throw new PagamentoException(MISSING_PARAMETERS.name());
@@ -94,18 +96,16 @@ public class PagamentoServiceImpl implements PagamentoService {
 
         Pagamento p = pagamentoCrud.findById(pagamentoId).orElseThrow(() -> new PagamentoException(CANNOT_FIND_ELEMENT.name()));
 
-        pagamentoDTO.id = pagamentoId;
-        pagamentoDTO.descrizione = isNull(pagamentoDTO.descrizione) ? p.getDescrizione() : pagamentoDTO.descrizione;
-        pagamentoDTO.contanti = isNull(pagamentoDTO.contanti) ? p.getContanti() : pagamentoDTO.contanti;
-        pagamentoDTO.paypalMail = isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail;
+        p.setDescrizione(isNull(pagamentoDTO.descrizione) ? p.getDescrizione() : pagamentoDTO.descrizione);
+        p.setContanti(isNull(pagamentoDTO.contanti) ? p.getContanti() : pagamentoDTO.contanti);
+        p.setPaypalMail(isNull(pagamentoDTO.paypalMail) ? p.getPaypalMail() : pagamentoDTO.paypalMail);
 
-        Checkers.pagamentoFieldsChecker(pagamentoDTO);
+        Checkers.pagamentoFieldsChecker(Pagamento.to(p));
 
-        Pagamento save = Pagamento.of(pagamentoDTO);
-        save.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
-        save.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
+        p.setUtente(utenteHelper.findById(pagamentoDTO.utente_id));
+        p.setTipoMetodo(tipoMetodoHelper.findById(pagamentoDTO.tipoMetodo_id));
 
-        return Pagamento.to(pagamentoCrud.saveAndFlush(save));
+        return Pagamento.to(pagamentoCrud.saveAndFlush(p));
     }
 
     /**
@@ -117,6 +117,7 @@ public class PagamentoServiceImpl implements PagamentoService {
      * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean removePagamento(Long id) {
         if (isNull(id))
             throw new PagamentoException(MISSING_PARAMETERS.name());

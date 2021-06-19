@@ -13,6 +13,7 @@ import com.elismarket.eshop.eshopelis.service.interfaces.PropostaService;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -63,6 +64,7 @@ public class PropostaServiceImpl implements PropostaService {
      * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} phrase
      */
     @Override
+    @Transactional
     public PropostaDTO addProposta(PropostaDTO propostaDTO) {
         Checkers.propostaFieldsChecker(propostaDTO);
         Proposta p = Proposta.of(propostaDTO);
@@ -81,6 +83,7 @@ public class PropostaServiceImpl implements PropostaService {
      * @throws PropostaException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     @Override
+    @Transactional
     public PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO) {
         if (isNull(id) || isNull(propostaDTO))
             throw new PropostaException(MISSING_PARAMETERS.name());
@@ -90,24 +93,22 @@ public class PropostaServiceImpl implements PropostaService {
 
         Proposta p = propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name()));
 
-        propostaDTO.id = id;
-        propostaDTO.prezzoProposto = isNull(propostaDTO.prezzoProposto) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto;
-        propostaDTO.nome = isNull(propostaDTO.nome) ? p.getNome() : propostaDTO.nome;
-        propostaDTO.descrizione = isNull(propostaDTO.descrizione) ? p.getDescrizione() : propostaDTO.descrizione;
-        propostaDTO.isAccettato = isNull(propostaDTO.isAccettato) ? p.getIsAccettato() : propostaDTO.isAccettato;
-        propostaDTO.motivoRifiuto = isNull(propostaDTO.motivoRifiuto) ? p.getMotivoRifiuto() : propostaDTO.motivoRifiuto;
-        propostaDTO.quantita = isNull(propostaDTO.quantita) ? p.getQuantita() : propostaDTO.quantita;
-        propostaDTO.submissionDate = isNull(propostaDTO.submissionDate) ? p.getSubmissionDate() : propostaDTO.submissionDate;
+        p.setPrezzoProposto(isNull(propostaDTO.prezzoProposto) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto);
+        p.setNome(isNull(propostaDTO.nome) ? p.getNome() : propostaDTO.nome);
+        p.setDescrizione(isNull(propostaDTO.descrizione) ? p.getDescrizione() : propostaDTO.descrizione);
+        p.setIsAccettato(isNull(propostaDTO.isAccettato) ? p.getIsAccettato() : propostaDTO.isAccettato);
+        p.setMotivoRifiuto(isNull(propostaDTO.motivoRifiuto) ? p.getMotivoRifiuto() : propostaDTO.motivoRifiuto);
+        p.setQuantita(isNull(propostaDTO.quantita) ? p.getQuantita() : propostaDTO.quantita);
+        p.setSubmissionDate(isNull(propostaDTO.submissionDate) ? p.getSubmissionDate() : propostaDTO.submissionDate);
 
-        Checkers.propostaFieldsChecker(propostaDTO);
+        Checkers.propostaFieldsChecker(Proposta.to(p));
 
-        Proposta save = Proposta.of(propostaDTO);
-        save.setUtente(isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
+        p.setUtente(isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
 
         if (!isNull(propostaDTO.isAccettato) && propostaDTO.isAccettato)
             prodottoHelper.addProdotto(propostaDTO);
 
-        return Proposta.to(propostaCrud.saveAndFlush(save));
+        return Proposta.to(propostaCrud.saveAndFlush(p));
     }
 
     /**
@@ -119,6 +120,7 @@ public class PropostaServiceImpl implements PropostaService {
      * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean removeProposta(Long id) {
         if (isNull(id))
             throw new PropostaException(MISSING_PARAMETERS.name());

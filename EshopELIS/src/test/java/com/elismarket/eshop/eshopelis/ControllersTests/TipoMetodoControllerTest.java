@@ -75,10 +75,6 @@ public class TipoMetodoControllerTest {
             tipoMetodoService.updateTipoMetodo(null, null);
         });
 
-        assertThrows(TipoMetodoException.class, () -> {
-            tipoMetodoService.updateTipoMetodo(id, new TipoMetodoDTO());
-        });
-
         TipoMetodoDTO finalUpdated = updated;
         assertThrows(TipoMetodoException.class, () -> {
             tipoMetodoService.updateTipoMetodo(null, finalUpdated);

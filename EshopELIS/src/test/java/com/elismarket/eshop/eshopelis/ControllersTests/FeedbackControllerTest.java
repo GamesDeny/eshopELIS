@@ -117,10 +117,6 @@ public class FeedbackControllerTest {
             feedbackService.updateFeedback(0L, updated);
         });
 
-        assertThrows(FeedbackException.class, () -> {
-            feedbackService.updateFeedback(id, new FeedbackDTO());
-        });
-
         feedbackDTO = feedbackService.updateFeedback(id, updated);
         assertNotNull(feedbackDTO);
         assertEquals("bello ancora", feedbackDTO.descrizione);

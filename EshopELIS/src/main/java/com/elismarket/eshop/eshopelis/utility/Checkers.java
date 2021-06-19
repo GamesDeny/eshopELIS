@@ -215,7 +215,7 @@ public class Checkers {
         if (isNull(categoriaDTO))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
-        if (isNull(categoriaDTO.nome) || Strings.isBlank(categoriaDTO.nome))
+        if (isNull(categoriaDTO.nome) || Strings.isBlank(categoriaDTO.nome) || Strings.isEmpty(categoriaDTO.nome))
             throw new CategoriaException(MISSING_PARAMETERS.name());
     }
 

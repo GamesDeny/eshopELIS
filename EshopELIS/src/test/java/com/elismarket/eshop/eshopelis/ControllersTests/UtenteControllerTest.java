@@ -139,6 +139,7 @@ public class UtenteControllerTest {
         });
 
         updated.siglaResidenza = 150;
+        updated.password = "Zzzzz1";
         utenteDTO = utenteService.updateUtente(id, updated);
         assertEquals("nuovo", utenteDTO.nome);
         assertEquals(150, utenteDTO.siglaResidenza);

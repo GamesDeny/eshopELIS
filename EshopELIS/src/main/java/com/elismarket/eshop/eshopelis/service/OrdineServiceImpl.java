@@ -34,7 +34,6 @@ import static java.util.Objects.isNull;
  * @version 1.0
  */
 @Service
-@Transactional
 public class OrdineServiceImpl implements OrdineService {
 
     /**
@@ -70,6 +69,7 @@ public class OrdineServiceImpl implements OrdineService {
      * @return added Ordine
      */
     @Override
+    @Transactional
     public OrdineDTO saveOrdine(Long userId, Long pagamentoId, List<RigaOrdineDTO> righe) {
         if (isNull(userId) || isNull(pagamentoId) ||
                 isNull(righe) || righe.size() == 0)
@@ -97,6 +97,7 @@ public class OrdineServiceImpl implements OrdineService {
      * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} message
      */
     @Override
+    @Transactional
     public OrdineDTO updateOrdine(Long ordineId, OrdineDTO ordineDTO) {
         if (isNull(ordineId) || isNull(ordineDTO))
             throw new OrdineException(MISSING_PARAMETERS.name());
@@ -106,15 +107,12 @@ public class OrdineServiceImpl implements OrdineService {
 
         Ordine o = ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name()));
 
-        ordineDTO.id = ordineId;
-        ordineDTO.evaso = isNull(ordineDTO.evaso) ? o.getEvaso() : ordineDTO.evaso;
-        ordineDTO.dataEvasione = isNull(ordineDTO.dataEvasione) ? o.getDataEvasione() : ordineDTO.dataEvasione;
+        o.setEvaso(isNull(ordineDTO.evaso) ? o.getEvaso() : ordineDTO.evaso);
+        o.setDataEvasione(isNull(ordineDTO.dataEvasione) ? o.getDataEvasione() : ordineDTO.dataEvasione);
+        o.setPagamento(isNull(ordineDTO.pagamento_id) ? o.getPagamento() : pagamentoHelper.findById(ordineDTO.pagamento_id));
+        o.setUtente(isNull(ordineDTO.utente_id) ? o.getUtente() : utenteHelper.findById(ordineDTO.utente_id));
 
-        Ordine save = Ordine.of(ordineDTO);
-        save.setPagamento(isNull(ordineDTO.pagamento_id) ? o.getPagamento() : pagamentoHelper.findById(ordineDTO.pagamento_id));
-        save.setUtente(isNull(ordineDTO.utente_id) ? o.getUtente() : utenteHelper.findById(ordineDTO.utente_id));
-
-        return Ordine.to(ordineCrud.saveAndFlush(save));
+        return Ordine.to(ordineCrud.saveAndFlush(o));
     }
 
     /**
@@ -126,6 +124,7 @@ public class OrdineServiceImpl implements OrdineService {
      * @throws UtenteException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean removeOrdine(Long id) {
         if (isNull(id))
             throw new OrdineException(MISSING_PARAMETERS.name());

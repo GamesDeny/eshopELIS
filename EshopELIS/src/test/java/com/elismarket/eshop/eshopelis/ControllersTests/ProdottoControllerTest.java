@@ -211,11 +211,6 @@ public class ProdottoControllerTest {
             prodottoService.updateProdotto(0L, updated);
         });
 
-        //testo che lanci l'eccezione con parametri mancanti
-        assertThrows(ProdottoException.class, () -> {
-            prodottoService.updateProdotto(id, new ProdottoDTO());
-        });
-
         //testo che lanci l'eccezione in caso non gli passi un oggetto nullo come categoriaDTO
         prodottoDTO = prodottoService.updateProdotto(id, updated);
         assertNotNull(prodottoDTO);

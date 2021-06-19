@@ -11,6 +11,7 @@ import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @see Checkers#categoriaFieldsChecker(CategoriaDTO)
      */
     @Override
+    @Transactional
     public CategoriaDTO addCategoria(CategoriaDTO categoriaDTO) {
         Checkers.categoriaFieldsChecker(categoriaDTO);
         return Categoria.to(categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO)));
@@ -64,6 +66,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @see Checkers#categoriaFieldsChecker(CategoriaDTO)
      */
     @Override
+    @Transactional
     public CategoriaDTO updateCategoria(Long categoriaId, CategoriaDTO categoriaDTO) {
         if (isNull(categoriaId) || isNull(categoriaDTO))
             throw new CategoriaException(MISSING_PARAMETERS.name());
@@ -71,15 +74,13 @@ public class CategoriaServiceImpl implements CategoriaService {
         if (!categoriaCrud.existsById(categoriaId))
             throw new CategoriaException(CANNOT_FIND_ELEMENT.name());
 
-        Checkers.categoriaFieldsChecker(categoriaDTO);
         Categoria c = categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name()));
 
-        categoriaDTO.id = categoriaId;
-        categoriaDTO.nome = isNull(categoriaDTO.nome) ? c.getNome() : categoriaDTO.nome;
+        c.setNome(isNull(categoriaDTO.nome) ? c.getNome() : categoriaDTO.nome);
 
-        Checkers.categoriaFieldsChecker(categoriaDTO);
+        Checkers.categoriaFieldsChecker(Categoria.to(c));
 
-        return Categoria.to(categoriaCrud.saveAndFlush(Categoria.of(categoriaDTO)));
+        return Categoria.to(categoriaCrud.saveAndFlush(c));
     }
 
     /**
@@ -91,6 +92,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     @Override
+    @Transactional
     public Boolean deleteCategoria(Long id) {
         if (isNull(id))
             throw new CategoriaException(MISSING_PARAMETERS.name());

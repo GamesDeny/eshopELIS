@@ -90,11 +90,6 @@ public class CategoriaServiceTest {
             categoriaService.updateCategoria(0L, updatedCat);
         });
 
-        //testo che lanci l'eccezione con parametri mancanti
-        assertThrows(CategoriaException.class, () -> {
-            categoriaService.updateCategoria(id, new CategoriaDTO());
-        });
-
         //testo che lanci l'eccezione in caso non gli passi un oggetto nullo come categoriaDTO
         assertNotNull(categoriaService.updateCategoria(id, updatedCat));
         assertEquals("Pulizia", categoriaService.getById(id).nome);
