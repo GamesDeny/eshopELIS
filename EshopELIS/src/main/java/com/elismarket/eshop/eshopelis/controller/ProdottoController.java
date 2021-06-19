@@ -125,7 +125,7 @@ public class ProdottoController {
      * @param ordineId id of the {@link Utente Utente}
      * @return List of the Prodotti related to the ordine
      */
-    @GetMapping("/get/ordine/{ordineId}")
+    @GetMapping("/all/ordine/{ordineId}")
     public List<ProdottoDTO> getProdottoOfOrdine(@PathVariable Long ordineId) {
         return prodottoService.getProdottoOfOrdine(ordineId);
     }
