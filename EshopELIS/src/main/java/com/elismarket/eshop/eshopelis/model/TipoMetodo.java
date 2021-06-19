@@ -22,18 +22,21 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TipoMetodo {
     /**
      * Primary key of the Entity
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     /**
      * Name for the TipoMetodo
      */
     @Column(nullable = false)
+    @EqualsAndHashCode.Include
     private String nome;
 
     /**

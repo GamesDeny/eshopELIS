@@ -21,6 +21,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Proposta {
 
     /**
@@ -28,14 +29,23 @@ public class Proposta {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     /**
-     * nome indicates the name of the Prodotto
-     * descrizione indicates a brief description of the Prodotto
+     * indicates the name of the Prodotto
      */
     @Column(nullable = false)
-    private String nome, descrizione;
+    @EqualsAndHashCode.Include
+    private String nome;
+
+
+    /**
+     * indicates a brief description of the Prodotto
+     */
+    @Column(nullable = false)
+    @EqualsAndHashCode.Include
+    private String descrizione;
 
     /**
      * If isAccettato = false there can be a comment to explain why

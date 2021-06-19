@@ -21,6 +21,7 @@ import static java.util.Objects.isNull;
 @Builder
 @Data
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 public class Ordine {
 
@@ -29,6 +30,7 @@ public class Ordine {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     /**

@@ -22,6 +22,7 @@ import static java.util.Objects.isNull;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class RigaOrdine {
 
     /**
@@ -29,6 +30,7 @@ public class RigaOrdine {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     /**

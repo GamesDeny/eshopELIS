@@ -23,6 +23,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Utente {
 
     /**
@@ -30,18 +31,21 @@ public class Utente {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     /**
      * Mail of the Utente
      */
     @Column(unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private String mail;
 
     /**
      * Username of the Utente
      */
     @Column(unique = true, nullable = false)
+    @EqualsAndHashCode.Include
     private String username;
 
     /**
@@ -65,13 +69,15 @@ public class Utente {
     /**
      * ELIS sigla of the residence for the Utente
      */
-    @Column(name = "sigla_residenza", nullable = false)
+    @Column(name = "sigla_residenza", nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     private Integer siglaResidenza;
 
     /**
      * birth date of the Utente
      */
     @Column(name = "data_nascita", nullable = false)
+    @EqualsAndHashCode.Include
     private LocalDate dataNascita;
 
     /**

@@ -22,6 +22,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Prodotto {
 
     /**
@@ -29,14 +30,22 @@ public class Prodotto {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     /**
-     * nome indicates the name of the Prodotto
-     * descrizione indicates a brief description for the Prodotto
+     * indicates the name of the Prodotto
      */
     @Column(nullable = false)
-    private String nome, descrizione;
+    @EqualsAndHashCode.Include
+    private String nome;
+
+    /**
+     * indicates a brief description for the Prodotto
+     */
+    @Column(nullable = false)
+    @EqualsAndHashCode.Include
+    private String descrizione;
 
     /**
      * Indicates the price of the Prodotto

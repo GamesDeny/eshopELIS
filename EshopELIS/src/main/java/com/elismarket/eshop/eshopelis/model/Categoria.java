@@ -22,6 +22,7 @@ import java.util.List;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Categoria {
 
     /**
@@ -29,6 +30,7 @@ public class Categoria {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
 
@@ -36,6 +38,7 @@ public class Categoria {
      * Name of the Categoria
      */
     @Column(nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     private String nome;
 
     /**

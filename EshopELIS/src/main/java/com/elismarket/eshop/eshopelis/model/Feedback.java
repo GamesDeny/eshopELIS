@@ -21,6 +21,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Feedback {
 
     /**
@@ -28,12 +29,14 @@ public class Feedback {
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     /**
      * Brief description of the Feedback
      */
     @Column(nullable = false)
+    @EqualsAndHashCode.Include
     private String oggetto;
 
     /**
