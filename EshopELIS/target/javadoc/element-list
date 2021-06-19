@@ -1,6 +1,5 @@
 com.elismarket.eshop.eshopelis
 com.elismarket.eshop.eshopelis.controller
-com.elismarket.eshop.eshopelis.ControllersTests
 com.elismarket.eshop.eshopelis.dto
 com.elismarket.eshop.eshopelis.exception
 com.elismarket.eshop.eshopelis.helper
