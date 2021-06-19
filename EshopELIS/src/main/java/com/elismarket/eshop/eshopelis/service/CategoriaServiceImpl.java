@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
+import static java.util.Objects.isNull;
 
 /**
  * {@link Categoria Categoria} service class for interaction between DB and relative Controller
@@ -65,7 +65,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     @Override
     public CategoriaDTO updateCategoria(Long categoriaId, CategoriaDTO categoriaDTO) {
-        if (Objects.isNull(categoriaId) || Objects.isNull(categoriaDTO))
+        if (isNull(categoriaId) || isNull(categoriaDTO))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
         if (!categoriaCrud.existsById(categoriaId))
@@ -75,7 +75,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         Categoria c = categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name()));
 
         categoriaDTO.id = categoriaId;
-        categoriaDTO.nome = Objects.isNull(categoriaDTO.nome) ? c.getNome() : categoriaDTO.nome;
+        categoriaDTO.nome = isNull(categoriaDTO.nome) ? c.getNome() : categoriaDTO.nome;
 
         Checkers.categoriaFieldsChecker(categoriaDTO);
 
@@ -92,7 +92,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     @Override
     public Boolean deleteCategoria(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
         if (!categoriaCrud.existsById(id))
@@ -125,7 +125,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     @Override
     public CategoriaDTO getById(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new CategoriaException(MISSING_PARAMETERS.name());
         return Categoria.to(categoriaCrud.findById(id).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name())));
     }
@@ -139,7 +139,7 @@ public class CategoriaServiceImpl implements CategoriaService {
      */
     @Override
     public CategoriaDTO getByName(String name) {
-        if (Objects.isNull(name) || Strings.isBlank(name) || Strings.isEmpty(name))
+        if (isNull(name) || Strings.isBlank(name) || Strings.isEmpty(name))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
         return Categoria.to(categoriaCrud.findByNome(name));

@@ -7,10 +7,9 @@ import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
+import static java.util.Objects.isNull;
 
 /**
  * Helper class for {@link Categoria Categoria} entity
@@ -40,7 +39,7 @@ public class CategoriaHelper {
      * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} message
      */
     public Categoria findById(Long categoriaId) {
-        if (Objects.isNull(categoriaId))
+        if (isNull(categoriaId))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
         return categoriaCrud.findById(categoriaId).orElseThrow(() -> new CategoriaException(CANNOT_FIND_ELEMENT.name()));

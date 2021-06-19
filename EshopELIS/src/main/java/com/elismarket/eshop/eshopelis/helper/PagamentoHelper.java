@@ -7,6 +7,7 @@ import com.elismarket.eshop.eshopelis.model.Pagamento;
 import com.elismarket.eshop.eshopelis.model.TipoMetodo;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.PagamentoCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,6 +56,8 @@ public class PagamentoHelper {
      * @return {@link Pagamento Pagamento} added to DB
      */
     public Pagamento addPagamentoToUser(Long utenteId, PagamentoDTO pagamentoDTO) {
+        Checkers.pagamentoFieldsChecker(pagamentoDTO);
+
         Pagamento p = Pagamento.of(pagamentoDTO);
         Utente u = utenteHelper.findById(utenteId);
 

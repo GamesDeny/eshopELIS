@@ -96,7 +96,7 @@ public class UtenteServiceImpl implements UtenteService {
         if (!utenteCrud.existsById(userId))
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
 
-//        duplicateChecker(utenteDTO);
+        duplicateChecker(utenteDTO);
 
         Utente u = utenteCrud.findById(userId).orElseThrow(() -> new UtenteException(CANNOT_FIND_ELEMENT.name()));
 
@@ -129,13 +129,13 @@ public class UtenteServiceImpl implements UtenteService {
 
         Utente save = Utente.of(utenteDTO);
 
-//        if (!Objects.isNull(utenteDTO.proposte_id))
+//        if (!isNull(utenteDTO.proposte_id))
 //            propostaHelper.linkUtenteToProposte(userId, utenteDTO.proposte_id);
-//        if (!Objects.isNull(utenteDTO.pagamenti_id))
+//        if (!isNull(utenteDTO.pagamenti_id))
 //            pagamentoHelper.linkUtenteToPagamenti(userId, utenteDTO.pagamenti_id);
-//        if (!Objects.isNull(utenteDTO.prodotti_id))
+//        if (!isNull(utenteDTO.prodotti_id))
 //            prodottoHelper.linkUtenteToProdotti(userId, utenteDTO.prodotti_id);
-//        if (!Objects.isNull(utenteDTO.feedbacks_id))
+//        if (!isNull(utenteDTO.feedbacks_id))
 //            feedbackHelper.linkUtenteToFeedbacks(userId, utenteDTO.feedbacks_id);
         save = utenteCrud.save(save);
         return Utente.to(save);
@@ -151,18 +151,19 @@ public class UtenteServiceImpl implements UtenteService {
      * @throws UtenteException with {@link ExceptionPhrases#MAIL_OR_PASSWORD_INCONSISTENT MAIL_OR_PASSWORD_INCONSISTENT} message
      */
     private void duplicateChecker(UtenteDTO utenteDTO) {
-        if (!(isNull(utenteCrud.findByMail(utenteDTO.mail)) &&
-                isNull(utenteCrud.findByUsername(utenteDTO.username)) &&
-                isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza))))
+
+        if (!(isNull(utenteDTO.mail) || (isNull(utenteCrud.findByMail(utenteDTO.mail))) &&
+                !(isNull(utenteDTO.username) || isNull(utenteCrud.findByUsername(utenteDTO.username))) &&
+                !(isNull(utenteDTO.siglaResidenza) || isNull(utenteCrud.findBySiglaResidenza(utenteDTO.siglaResidenza)))))
             throw new UtenteException(DUPLICATE.name());
 
-        else if (!Checkers.siglaChecker(utenteDTO.siglaResidenza))
+        else if (!(isNull(utenteDTO.siglaResidenza) || Checkers.siglaChecker(utenteDTO.siglaResidenza)))
             throw new UtenteException(INCONSISTENT_SIGLA.name());
 
-        else if (!Checkers.birthDateChecker(utenteDTO.dataNascita))
+        else if (!(isNull(utenteDTO.dataNascita) || Checkers.birthDateChecker(utenteDTO.dataNascita)))
             throw new UtenteException(DATE_NOT_VALID.name());
 
-        else if (!isNull(utenteDTO.password) && !isNull(utenteDTO.mail) &&
+        else if (!(isNull(utenteDTO.password) || isNull(utenteDTO.mail)) &&
                 ((utenteDTO.password).equals(utenteDTO.mail) ||
                         !(Checkers.mailChecker(utenteDTO.mail) && Checkers.passwordChecker(utenteDTO.password))))
             throw new UtenteException(MAIL_OR_PASSWORD_INCONSISTENT.name());
@@ -185,7 +186,7 @@ public class UtenteServiceImpl implements UtenteService {
             throw new UtenteException(CANNOT_FIND_ELEMENT.name());
         utenteCrud.deleteById(id);
 
-        return !utenteCrud.existsById(id);
+        return utenteCrud.existsById(id);
     }
 
     /**

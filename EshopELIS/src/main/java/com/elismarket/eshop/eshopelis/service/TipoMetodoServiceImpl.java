@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
+import static java.util.Objects.isNull;
 
 /**
  * {@link TipoMetodo TipoMetodo} service class for interaction between DB and relative Controller
@@ -62,7 +62,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      */
     @Override
     public TipoMetodoDTO updateTipoMetodo(Long tipoMetodoId, TipoMetodoDTO tipoMetodoDTO) {
-        if (Objects.isNull(tipoMetodoId) || Objects.isNull(tipoMetodoDTO))
+        if (isNull(tipoMetodoId) || isNull(tipoMetodoDTO))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());
 
         if (!tipoMetodoCrud.existsById(tipoMetodoId))
@@ -73,7 +73,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
         TipoMetodo c = tipoMetodoCrud.findById(tipoMetodoId).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name()));
 
         tipoMetodoDTO.id = tipoMetodoId;
-        tipoMetodoDTO.nome = Objects.isNull(tipoMetodoDTO.nome) ? c.getNome() : tipoMetodoDTO.nome;
+        tipoMetodoDTO.nome = isNull(tipoMetodoDTO.nome) ? c.getNome() : tipoMetodoDTO.nome;
 
         Checkers.tipoMetodoFieldsChecker(tipoMetodoDTO);
 //        pagamentoHelper.linkMetodoToPagamento(tipoMetodoId, tipoMetodoDTO.pagamenti_id);
@@ -94,7 +94,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      */
     @Override
     public Boolean deleteTipoMetodo(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());
 
         if (!tipoMetodoCrud.existsById(id))
@@ -127,7 +127,7 @@ public class TipoMetodoServiceImpl implements TipoMetodoService {
      */
     @Override
     public TipoMetodoDTO getById(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());
 
         return TipoMetodo.to(tipoMetodoCrud.findById(id).orElseThrow(() -> new TipoMetodoException(CANNOT_FIND_ELEMENT.name())));

@@ -4,7 +4,8 @@ import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 /**
  * RigaOrdine class with lombok methods (getter, setter, NAC, ToString)
@@ -88,7 +89,7 @@ public class RigaOrdine {
         r.prezzoTotale = rigaOrdine.getPrezzoTotale();
         r.scontoApplicato = rigaOrdine.getScontoApplicato();
         r.quantitaProdotto = rigaOrdine.getQuantitaProdotto();
-        r.ordine_id = Objects.isNull(r.ordine_id) ? null : rigaOrdine.getOrdine().getId();
+        r.ordine_id = isNull(r.ordine_id) ? null : rigaOrdine.getOrdine().getId();
         r.prodotto_id = rigaOrdine.getProdotto().getId();
 
         return r;

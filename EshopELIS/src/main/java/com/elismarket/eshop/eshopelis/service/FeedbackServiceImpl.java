@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
+import static java.util.Objects.isNull;
 
 /**
  * {@link Feedback Feedback} service class for interaction between DB and relative Controller
@@ -69,7 +69,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      */
     @Override
     public FeedbackDTO updateFeedback(Long id, FeedbackDTO feedbackDTO) {
-        if (Objects.isNull(id) || Objects.isNull(feedbackDTO))
+        if (isNull(id) || isNull(feedbackDTO))
             throw new FeedbackException(MISSING_PARAMETERS.name());
 
         if (!feedbackCrud.existsById(id))
@@ -78,15 +78,15 @@ public class FeedbackServiceImpl implements FeedbackService {
         Feedback f = feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException(CANNOT_FIND_ELEMENT.name()));
 
         feedbackDTO.id = id;
-        feedbackDTO.descrizione = Objects.isNull(feedbackDTO.descrizione) ? f.getDescrizione() : feedbackDTO.descrizione;
-        feedbackDTO.oggetto = Objects.isNull(feedbackDTO.oggetto) ? f.getOggetto() : feedbackDTO.oggetto;
-        feedbackDTO.isAccepted = Objects.isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted;
-        feedbackDTO.subscriptionDate = Objects.isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate;
+        feedbackDTO.descrizione = isNull(feedbackDTO.descrizione) ? f.getDescrizione() : feedbackDTO.descrizione;
+        feedbackDTO.oggetto = isNull(feedbackDTO.oggetto) ? f.getOggetto() : feedbackDTO.oggetto;
+        feedbackDTO.isAccepted = isNull(feedbackDTO.isAccepted) ? f.getIsAccepted() : feedbackDTO.isAccepted;
+        feedbackDTO.subscriptionDate = isNull(feedbackDTO.subscriptionDate) ? f.getSubscriptionDate() : feedbackDTO.subscriptionDate;
 
         Checkers.feedbackFieldsChecker(feedbackDTO);
 
         Feedback save = Feedback.of(feedbackDTO);
-        save.setUtente(Objects.isNull(feedbackDTO.utente_id) ? f.getUtente() : utenteHelper.findById(feedbackDTO.utente_id));
+        save.setUtente(isNull(feedbackDTO.utente_id) ? f.getUtente() : utenteHelper.findById(feedbackDTO.utente_id));
 
         return Feedback.to(feedbackCrud.saveAndFlush(save));
     }
@@ -101,7 +101,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      */
     @Override
     public Boolean deleteFeedback(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new FeedbackException(MISSING_PARAMETERS.name());
 
         if (!feedbackCrud.existsById(id))
@@ -134,7 +134,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      */
     @Override
     public List<FeedbackDTO> getAllByUtente(Long userId) {
-        if (Objects.isNull(userId))
+        if (isNull(userId))
             throw new FeedbackException(MISSING_PARAMETERS.name());
 
         List<FeedbackDTO> result = new ArrayList<>();
@@ -152,7 +152,7 @@ public class FeedbackServiceImpl implements FeedbackService {
      */
     @Override
     public FeedbackDTO getById(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new FeedbackException(MISSING_PARAMETERS.name());
 
         return Feedback.to(feedbackCrud.findById(id).orElseThrow(() -> new FeedbackException(CANNOT_FIND_ELEMENT.name())));

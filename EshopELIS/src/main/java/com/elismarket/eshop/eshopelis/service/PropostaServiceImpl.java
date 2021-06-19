@@ -17,10 +17,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
+import static java.util.Objects.isNull;
 
 /**
  * {@link Proposta Proposta} service class for interaction between DB and relative Controller
@@ -82,7 +82,7 @@ public class PropostaServiceImpl implements PropostaService {
      */
     @Override
     public PropostaDTO updateProposta(Long id, PropostaDTO propostaDTO) {
-        if (Objects.isNull(id) || Objects.isNull(propostaDTO))
+        if (isNull(id) || isNull(propostaDTO))
             throw new PropostaException(MISSING_PARAMETERS.name());
 
         if (!propostaCrud.existsById(id))
@@ -91,20 +91,20 @@ public class PropostaServiceImpl implements PropostaService {
         Proposta p = propostaCrud.findById(id).orElseThrow(() -> new PropostaException(CANNOT_FIND_ELEMENT.name()));
 
         propostaDTO.id = id;
-        propostaDTO.prezzoProposto = Objects.isNull(propostaDTO.prezzoProposto) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto;
-        propostaDTO.nome = Objects.isNull(propostaDTO.nome) ? p.getNome() : propostaDTO.nome;
-        propostaDTO.descrizione = Objects.isNull(propostaDTO.descrizione) ? p.getDescrizione() : propostaDTO.descrizione;
-        propostaDTO.isAccettato = Objects.isNull(propostaDTO.isAccettato) ? p.getIsAccettato() : propostaDTO.isAccettato;
-        propostaDTO.motivoRifiuto = Objects.isNull(propostaDTO.motivoRifiuto) ? p.getMotivoRifiuto() : propostaDTO.motivoRifiuto;
-        propostaDTO.quantita = Objects.isNull(propostaDTO.quantita) ? p.getQuantita() : propostaDTO.quantita;
-        propostaDTO.submissionDate = Objects.isNull(propostaDTO.submissionDate) ? p.getSubmissionDate() : propostaDTO.submissionDate;
+        propostaDTO.prezzoProposto = isNull(propostaDTO.prezzoProposto) ? p.getPrezzoProposto() : propostaDTO.prezzoProposto;
+        propostaDTO.nome = isNull(propostaDTO.nome) ? p.getNome() : propostaDTO.nome;
+        propostaDTO.descrizione = isNull(propostaDTO.descrizione) ? p.getDescrizione() : propostaDTO.descrizione;
+        propostaDTO.isAccettato = isNull(propostaDTO.isAccettato) ? p.getIsAccettato() : propostaDTO.isAccettato;
+        propostaDTO.motivoRifiuto = isNull(propostaDTO.motivoRifiuto) ? p.getMotivoRifiuto() : propostaDTO.motivoRifiuto;
+        propostaDTO.quantita = isNull(propostaDTO.quantita) ? p.getQuantita() : propostaDTO.quantita;
+        propostaDTO.submissionDate = isNull(propostaDTO.submissionDate) ? p.getSubmissionDate() : propostaDTO.submissionDate;
 
         Checkers.propostaFieldsChecker(propostaDTO);
 
         Proposta save = Proposta.of(propostaDTO);
-        save.setUtente(Objects.isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
+        save.setUtente(isNull(propostaDTO.utente_id) ? p.getUtente() : utenteHelper.findById(propostaDTO.utente_id));
 
-        if (!Objects.isNull(propostaDTO.isAccettato) && propostaDTO.isAccettato)
+        if (!isNull(propostaDTO.isAccettato) && propostaDTO.isAccettato)
             prodottoHelper.addProdotto(propostaDTO);
 
         return Proposta.to(propostaCrud.saveAndFlush(save));
@@ -120,7 +120,7 @@ public class PropostaServiceImpl implements PropostaService {
      */
     @Override
     public Boolean removeProposta(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new PropostaException(MISSING_PARAMETERS.name());
 
         if (!propostaCrud.existsById(id))
@@ -140,7 +140,7 @@ public class PropostaServiceImpl implements PropostaService {
      */
     @Override
     public PropostaDTO findById(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new PropostaException(MISSING_PARAMETERS.name());
 
         if (!propostaCrud.existsById(id))
@@ -171,7 +171,7 @@ public class PropostaServiceImpl implements PropostaService {
     public List<PropostaDTO> findAllByIsAccettato(Boolean isAccettato) {
         List<PropostaDTO> result = new ArrayList<>();
         //is not null? is accettato? true, else false else null
-        int scelta = !Objects.isNull(isAccettato) ? isAccettato ? 1 : 2 : 3;
+        int scelta = !isNull(isAccettato) ? isAccettato ? 1 : 2 : 3;
 
         switch (scelta) {
             case 1:
@@ -196,7 +196,7 @@ public class PropostaServiceImpl implements PropostaService {
      */
     @Override
     public List<PropostaDTO> findAllByUtente(Long userId) {
-        if (Objects.isNull(userId))
+        if (isNull(userId))
             throw new PropostaException(MISSING_PARAMETERS.name());
 
         List<PropostaDTO> result = new ArrayList<>();

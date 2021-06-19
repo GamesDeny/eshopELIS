@@ -4,6 +4,7 @@ import com.elismarket.eshop.eshopelis.dto.FeedbackDTO;
 import com.elismarket.eshop.eshopelis.model.Feedback;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.FeedbackCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,8 @@ public class FeedbackHelper {
      * @return {@link Feedback Feedback} added to the user
      */
     public Feedback addFeedbackToUser(Long utenteId, FeedbackDTO feedbackDTO) {
+        Checkers.feedbackFieldsChecker(feedbackDTO);
+
         Utente u = utenteHelper.findById(utenteId);
         Feedback feedback = Feedback.of(feedbackDTO);
         feedback.setUtente(u);

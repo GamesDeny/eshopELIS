@@ -4,9 +4,11 @@ import com.elismarket.eshop.eshopelis.dto.PropostaDTO;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.PropostaCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -37,9 +39,12 @@ public class PropostaHelper {
      * @return {@link Proposta Proposta} added to DB
      */
     public Proposta addPropostaToUser(Long userId, PropostaDTO propostaDTO) {
+        Checkers.propostaFieldsChecker(propostaDTO);
+
         Utente u = utenteHelper.findById(userId);
         Proposta p = Proposta.of(propostaDTO);
         p.setUtente(u);
+        p.setSubmissionDate(LocalDate.now());
 
         return propostaCrud.saveAndFlush(p);
     }

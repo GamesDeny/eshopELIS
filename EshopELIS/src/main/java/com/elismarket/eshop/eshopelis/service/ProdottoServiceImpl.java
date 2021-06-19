@@ -22,10 +22,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
+import static java.util.Objects.isNull;
 
 /**
  * {@link Prodotto Prodotto} service class for interaction between DB and relative Controller
@@ -79,7 +79,7 @@ public class ProdottoServiceImpl implements ProdottoService {
 
         p.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
 
-        if (!Objects.isNull(prodottoDTO.utente_id))
+        if (!isNull(prodottoDTO.utente_id))
             p.setUtente(utenteHelper.findById(prodottoDTO.utente_id));
 
         return Prodotto.to(prodottoCrud.saveAndFlush(p));
@@ -95,7 +95,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public ProdottoDTO updateProdotto(Long prodottoId, ProdottoDTO prodottoDTO) {
-        if (Objects.isNull(prodottoId) || Objects.isNull(prodottoDTO))
+        if (isNull(prodottoId) || isNull(prodottoDTO))
             throw new ProdottoException(MISSING_PARAMETERS.name());
 
         if (!prodottoCrud.existsById(prodottoId))
@@ -104,24 +104,24 @@ public class ProdottoServiceImpl implements ProdottoService {
         Prodotto p = prodottoCrud.findById(prodottoId).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
 
         prodottoDTO.id = prodottoId;
-        prodottoDTO.descrizione = Objects.isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione;
-        prodottoDTO.nome = Objects.isNull(prodottoDTO.nome) ? p.getNome() : prodottoDTO.nome;
-        prodottoDTO.quantita = Objects.isNull(prodottoDTO.quantita) ? p.getQuantita() : prodottoDTO.quantita;
-        prodottoDTO.image = Objects.isNull(prodottoDTO.image) ? p.getImage() : prodottoDTO.image;
-        prodottoDTO.maxOrd = Objects.isNull(prodottoDTO.maxOrd) ? p.getMaxOrd() : prodottoDTO.maxOrd;
-        prodottoDTO.minOrd = Objects.isNull(prodottoDTO.minOrd) ? p.getMinOrd() : prodottoDTO.minOrd;
-        prodottoDTO.prezzo = Objects.isNull(prodottoDTO.prezzo) ? p.getPrezzo() : prodottoDTO.prezzo;
-        prodottoDTO.sconto = Objects.isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto;
+        prodottoDTO.descrizione = isNull(prodottoDTO.descrizione) ? p.getDescrizione() : prodottoDTO.descrizione;
+        prodottoDTO.nome = isNull(prodottoDTO.nome) ? p.getNome() : prodottoDTO.nome;
+        prodottoDTO.quantita = isNull(prodottoDTO.quantita) ? p.getQuantita() : prodottoDTO.quantita;
+        prodottoDTO.image = isNull(prodottoDTO.image) ? p.getImage() : prodottoDTO.image;
+        prodottoDTO.maxOrd = isNull(prodottoDTO.maxOrd) ? p.getMaxOrd() : prodottoDTO.maxOrd;
+        prodottoDTO.minOrd = isNull(prodottoDTO.minOrd) ? p.getMinOrd() : prodottoDTO.minOrd;
+        prodottoDTO.prezzo = isNull(prodottoDTO.prezzo) ? p.getPrezzo() : prodottoDTO.prezzo;
+        prodottoDTO.sconto = isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto;
 
         Checkers.prodottoFieldsChecker(prodottoDTO);
 
         Prodotto save = Prodotto.of(prodottoDTO);
-        if (!Objects.isNull(p.getUtente()))
-            save.setUtente(Objects.isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
+        if (!isNull(p.getUtente()))
+            save.setUtente(isNull(prodottoDTO.utente_id) ? p.getUtente() : utenteHelper.findById(prodottoDTO.utente_id));
 
         save.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
 
-        if (!Objects.isNull(prodottoDTO.righeOrdine_id))
+        if (!isNull(prodottoDTO.righeOrdine_id))
             rigaOrdineHelper.linkRigheToProdotto(prodottoId, prodottoDTO.righeOrdine_id);
         prodottoCrud.saveAndFlush(save);
 
@@ -139,7 +139,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public Boolean removeProdotto(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new ProdottoException(MISSING_PARAMETERS.name());
 
         if (!prodottoCrud.existsById(id))
@@ -171,7 +171,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public ProdottoDTO getById(Long id) {
-        if (Objects.isNull(id))
+        if (isNull(id))
             throw new ProdottoException(MISSING_PARAMETERS.name());
 
         if (!prodottoCrud.existsById(id))
@@ -189,7 +189,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public List<ProdottoDTO> findAllByUtente(Long userId) {
-        if (Objects.isNull(userId))
+        if (isNull(userId))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
@@ -206,7 +206,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public List<ProdottoDTO> getProdottoByCategoria(Long categoriaId) {
-        if (Objects.isNull(categoriaId))
+        if (isNull(categoriaId))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
         List<ProdottoDTO> result = new ArrayList<>();
@@ -226,7 +226,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public RigaOrdine addRigaOrdineToProdotto(Long prodId, RigaOrdineDTO rigaOrdineDTO) {
-        if (Objects.isNull(prodId))
+        if (isNull(prodId))
             throw new ProdottoException(MISSING_PARAMETERS.name());
         Checkers.rigaOrdineFieldsChecker(rigaOrdineDTO);
 
@@ -244,7 +244,7 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public List<ProdottoDTO> getProdottoOfOrdine(Long ordineId) {
-        if (Objects.isNull(ordineId))
+        if (isNull(ordineId))
             throw new ProdottoException(MISSING_PARAMETERS.name());
 
         List<ProdottoDTO> prodotti = new ArrayList<>();

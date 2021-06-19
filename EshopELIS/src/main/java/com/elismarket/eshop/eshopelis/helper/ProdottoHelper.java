@@ -9,6 +9,7 @@ import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.Proposta;
 import com.elismarket.eshop.eshopelis.model.Utente;
 import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
+import com.elismarket.eshop.eshopelis.utility.Checkers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,6 +58,8 @@ public class ProdottoHelper {
      * @return {@link Prodotto Prodotto} linked to user
      */
     public Prodotto addProdottoToUser(Long utenteId, ProdottoDTO prodottoDTO) {
+        Checkers.prodottoFieldsChecker(prodottoDTO);
+
         Prodotto p = Prodotto.of(prodottoDTO);
         Utente u = utenteHelper.findById(utenteId);
 

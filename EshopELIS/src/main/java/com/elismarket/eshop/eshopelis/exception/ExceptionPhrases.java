@@ -4,6 +4,7 @@ import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import com.elismarket.eshop.eshopelis.helper.ProdottoHelper;
 import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.Utente;
+import com.elismarket.eshop.eshopelis.service.UtenteServiceImpl;
 import com.elismarket.eshop.eshopelis.utility.Checkers;
 
 import java.time.LocalDate;
@@ -89,5 +90,12 @@ public enum ExceptionPhrases {
      *
      * @see Checkers#birthDateChecker(LocalDate)
      */
-    TOO_OLD
+    TOO_OLD,
+
+    /**
+     * Exception for when something went wrong with logout
+     *
+     * @see UtenteServiceImpl#getLogout(Long)
+     */
+    LOGOUT_ERROR
 }

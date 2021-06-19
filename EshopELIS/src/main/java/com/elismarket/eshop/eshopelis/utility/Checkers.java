@@ -5,10 +5,10 @@ import com.elismarket.eshop.eshopelis.exception.*;
 import org.apache.logging.log4j.util.Strings;
 
 import java.time.LocalDate;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.*;
+import static java.util.Objects.isNull;
 
 /**
  * Checker class for various operations
@@ -105,13 +105,13 @@ public class Checkers {
      * @see #siglaChecker(Integer)
      */
     public static void utenteFieldsChecker(UtenteDTO utenteDTO) {
-        if (Objects.isNull(utenteDTO))
+        if (isNull(utenteDTO))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(utenteDTO.nome) || Strings.isBlank(utenteDTO.nome) ||
-                Objects.isNull(utenteDTO.cognome) || Strings.isBlank(utenteDTO.cognome) ||
-                Objects.isNull(utenteDTO.siglaResidenza) || Objects.isNull(utenteDTO.dataNascita) ||
-                Objects.isNull(utenteDTO.username) || Strings.isBlank(utenteDTO.username))
+        if (isNull(utenteDTO.nome) || Strings.isBlank(utenteDTO.nome) ||
+                isNull(utenteDTO.cognome) || Strings.isBlank(utenteDTO.cognome) ||
+                isNull(utenteDTO.siglaResidenza) || isNull(utenteDTO.dataNascita) ||
+                isNull(utenteDTO.username) || Strings.isBlank(utenteDTO.username))
             throw new UtenteException(MISSING_PARAMETERS.name());
 
         if (!mailChecker(utenteDTO.mail))
@@ -129,12 +129,12 @@ public class Checkers {
      * @throws FeedbackException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void feedbackFieldsChecker(FeedbackDTO feedbackDTO) {
-        if (Objects.isNull(feedbackDTO))
+        if (isNull(feedbackDTO))
             throw new FeedbackException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(feedbackDTO.oggetto) || Strings.isBlank(feedbackDTO.oggetto) ||
-                Objects.isNull(feedbackDTO.utente_id) ||
-                Objects.isNull(feedbackDTO.descrizione) || Strings.isBlank(feedbackDTO.descrizione))
+        if (isNull(feedbackDTO.oggetto) || Strings.isBlank(feedbackDTO.oggetto) ||
+                isNull(feedbackDTO.utente_id) ||
+                isNull(feedbackDTO.descrizione) || Strings.isBlank(feedbackDTO.descrizione))
             throw new FeedbackException(MISSING_PARAMETERS.name());
     }
 
@@ -145,10 +145,10 @@ public class Checkers {
      * @throws PagamentoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void pagamentoFieldsChecker(PagamentoDTO pagamentoDTO) {
-        if (Objects.isNull(pagamentoDTO))
+        if (isNull(pagamentoDTO))
             throw new PagamentoException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(pagamentoDTO.tipoMetodo_id))
+        if (isNull(pagamentoDTO.tipoMetodo_id) || isNull(pagamentoDTO.utente_id))
             throw new PagamentoException(MISSING_PARAMETERS.name());
     }
 
@@ -159,16 +159,16 @@ public class Checkers {
      * @throws ProdottoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void prodottoFieldsChecker(ProdottoDTO prodottoDTO) {
-        if (Objects.isNull(prodottoDTO))
+        if (isNull(prodottoDTO))
             throw new ProdottoException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(prodottoDTO.descrizione) || Strings.isBlank(prodottoDTO.descrizione) ||
-                Objects.isNull(prodottoDTO.nome) || Strings.isBlank(prodottoDTO.nome) ||
-                Objects.isNull(prodottoDTO.prezzo) || prodottoDTO.prezzo < 0 ||
-                Objects.isNull(prodottoDTO.quantita) || prodottoDTO.quantita < 0 ||
+        if (isNull(prodottoDTO.descrizione) || Strings.isBlank(prodottoDTO.descrizione) ||
+                isNull(prodottoDTO.nome) || Strings.isBlank(prodottoDTO.nome) ||
+                isNull(prodottoDTO.prezzo) || prodottoDTO.prezzo < 0 ||
+                isNull(prodottoDTO.quantita) || prodottoDTO.quantita < 0 ||
                 prodottoDTO.maxOrd < prodottoDTO.minOrd || prodottoDTO.maxOrd > prodottoDTO.quantita ||
-                prodottoDTO.minOrd < 1 || Objects.isNull(prodottoDTO.image) || Strings.isBlank(prodottoDTO.image) ||
-                Objects.isNull(prodottoDTO.categoria_id))
+                prodottoDTO.minOrd < 1 || isNull(prodottoDTO.image) || Strings.isBlank(prodottoDTO.image) ||
+                isNull(prodottoDTO.categoria_id))
             throw new ProdottoException(MISSING_PARAMETERS.name());
     }
 
@@ -179,14 +179,14 @@ public class Checkers {
      * @throws PropostaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void propostaFieldsChecker(PropostaDTO propostaDTO) {
-        if (Objects.isNull(propostaDTO))
+        if (isNull(propostaDTO))
             throw new PropostaException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(propostaDTO.nome) || Strings.isBlank(propostaDTO.nome) ||
-                Objects.isNull(propostaDTO.descrizione) || Strings.isBlank(propostaDTO.descrizione) ||
-                Objects.isNull(propostaDTO.prezzoProposto) || propostaDTO.prezzoProposto < 0 ||
-                Objects.isNull(propostaDTO.quantita) || propostaDTO.quantita < 0 ||
-                Objects.isNull(propostaDTO.utente_id))
+        if (isNull(propostaDTO.nome) || Strings.isBlank(propostaDTO.nome) ||
+                isNull(propostaDTO.descrizione) || Strings.isBlank(propostaDTO.descrizione) ||
+                isNull(propostaDTO.prezzoProposto) || propostaDTO.prezzoProposto < 0 ||
+                isNull(propostaDTO.quantita) || propostaDTO.quantita < 0 ||
+                isNull(propostaDTO.utente_id))
             throw new PropostaException(MISSING_PARAMETERS.name());
     }
 
@@ -197,11 +197,11 @@ public class Checkers {
      * @throws RigaOrdineException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void rigaOrdineFieldsChecker(RigaOrdineDTO rigaOrdineDTO) {
-        if (Objects.isNull(rigaOrdineDTO))
+        if (isNull(rigaOrdineDTO))
             throw new RigaOrdineException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(rigaOrdineDTO.prezzoTotale) || rigaOrdineDTO.prezzoTotale < 0 ||
-                Objects.isNull(rigaOrdineDTO.scontoApplicato) || rigaOrdineDTO.scontoApplicato < 0)
+        if (isNull(rigaOrdineDTO.prezzoTotale) || rigaOrdineDTO.prezzoTotale < 0 ||
+                isNull(rigaOrdineDTO.scontoApplicato) || rigaOrdineDTO.scontoApplicato < 0)
             throw new RigaOrdineException(MISSING_PARAMETERS.name());
     }
 
@@ -212,10 +212,10 @@ public class Checkers {
      * @throws CategoriaException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void categoriaFieldsChecker(CategoriaDTO categoriaDTO) {
-        if (Objects.isNull(categoriaDTO))
+        if (isNull(categoriaDTO))
             throw new CategoriaException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(categoriaDTO.nome) || Strings.isBlank(categoriaDTO.nome))
+        if (isNull(categoriaDTO.nome) || Strings.isBlank(categoriaDTO.nome))
             throw new CategoriaException(MISSING_PARAMETERS.name());
     }
 
@@ -226,10 +226,10 @@ public class Checkers {
      * @throws TipoMetodoException with {@link ExceptionPhrases#MISSING_PARAMETERS MISSING_PARAMETERS} exception
      */
     public static void tipoMetodoFieldsChecker(TipoMetodoDTO tipoMetodoDTO) {
-        if (Objects.isNull(tipoMetodoDTO))
+        if (isNull(tipoMetodoDTO))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());
 
-        if (Objects.isNull(tipoMetodoDTO.nome) || Strings.isBlank(tipoMetodoDTO.nome))
+        if (isNull(tipoMetodoDTO.nome) || Strings.isBlank(tipoMetodoDTO.nome))
             throw new TipoMetodoException(MISSING_PARAMETERS.name());
     }
 }
