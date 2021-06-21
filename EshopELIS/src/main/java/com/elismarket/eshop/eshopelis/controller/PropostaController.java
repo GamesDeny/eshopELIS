@@ -92,7 +92,6 @@ public class PropostaController {
         return propostaService.findAllByIsAccettato(null);
     }
 
-
     /**
      * Retrieves all Proposta that has not been accettato
      *
