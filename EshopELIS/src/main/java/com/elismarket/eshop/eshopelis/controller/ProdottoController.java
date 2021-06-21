@@ -65,6 +65,16 @@ public class ProdottoController {
     }
 
     /**
+     * Retrieves all Prodotto
+     *
+     * @return List {@link ProdottoDTO ProdottoDTO}
+     */
+    @GetMapping("/all")
+    public List<ProdottoDTO> getAll() {
+        return prodottoService.getAll();
+    }
+
+    /**
      * Retrieves Prodotto for provided id
      *
      * @param id of the {@link Prodotto Prodotto} to retrieve
@@ -73,16 +83,6 @@ public class ProdottoController {
     @GetMapping("/id/{id}")
     public ProdottoDTO getById(@PathVariable Long id) {
         return prodottoService.getById(id);
-    }
-
-    /**
-     * Retrieves all Prodotto
-     *
-     * @return List {@link ProdottoDTO ProdottoDTO}
-     */
-    @GetMapping("/all")
-    public List<ProdottoDTO> getAll() {
-        return prodottoService.getAll();
     }
 
     /**
