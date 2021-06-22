@@ -89,7 +89,7 @@ public class Utente {
     /**
      * indicates if the Utente is an admin
      */
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean isAdmin;
 
     /**

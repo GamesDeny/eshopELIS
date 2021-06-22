@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="EshopELIS:war exploded">
-    <output-path>$PROJECT_DIR$/EshopELIS/target/eshopelis-0.0.1-SNAPSHOT</output-path>
+    <output-path>$PROJECT_DIR$/EshopELIS/target/eshopelis-1.0.0</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -78,7 +78,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/EshopELIS/target/eshopelis-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/EshopELIS/target/eshopelis-1.0.0/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="EshopELIS/web/Web" />
     </root>
