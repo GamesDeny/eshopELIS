@@ -107,4 +107,13 @@ public class RigaOrdineHelper {
     public List<RigaOrdine> getByOrdine(Long ordineId) {
         return rigaOrdineCrud.findAllByOrdine(ordineHelper.findById(ordineId));
     }
+
+    /**
+     * Restores quantita for every RigaOrdine in the List
+     *
+     * @param righe List of {@link RigaOrdine RigaOrdine} to restore quantita
+     */
+    public void restoreQuantita(List<RigaOrdine> righe) {
+        righe.forEach(riga -> prodottoHelper.restoreQuantita(riga.getProdotto().getId(), riga.getQuantitaProdotto()));
+    }
 }

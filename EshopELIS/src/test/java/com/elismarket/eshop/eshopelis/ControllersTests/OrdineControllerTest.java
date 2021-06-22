@@ -304,10 +304,11 @@ public class OrdineControllerTest {
         assertEquals(5, ordiniNotEvasi.size());
         assertEquals(0, ordiniEvasi.size());
 
-        OrdineDTO temp;
+        OrdineDTO temp = new OrdineDTO();
         for (int i = 0; i < 5; i++) {
             temp = ordineService.saveOrdine(pagamentoDTO.utente_id, pagamentoDTO.id, righe);
-            ordineService.evadiOrdine(temp.id, temp);
+            temp.evaso = Boolean.TRUE;
+            ordineService.updateOrdine(temp.id, temp);
         }
 
         ordiniEvasi = ordineService.getEvaso(Boolean.TRUE);
@@ -316,7 +317,7 @@ public class OrdineControllerTest {
     }
 
     @Test
-    public void TestEvadiOrdine() {
+    public void TestSetEvadiFalse() {
         OrdineDTO ordineDTO = new OrdineDTO();
         PagamentoDTO pagamentoDTO = creaPagamento();
         ordineDTO.pagamento_id = pagamentoDTO.id;
@@ -324,29 +325,22 @@ public class OrdineControllerTest {
         ordineDTO = ordineService.saveOrdine(pagamentoDTO.utente_id, pagamentoDTO.id, creaRigheOrdine());
         assertNotNull(ordineDTO);
         assertNotNull(ordineDTO.id);
+        prodottoService.getProdottoOfOrdine(ordineDTO.id).forEach(prodottoDTO -> assertNotEquals(1000, prodottoDTO.quantita));
         final Long id = ordineDTO.id;
 
         assertThrows(OrdineException.class, () -> {
-            ordineService.evadiOrdine(null, null);
+            ordineService.setEvadiFalse(null);
         });
 
         assertThrows(OrdineException.class, () -> {
-            ordineService.evadiOrdine(id, null);
+            ordineService.setEvadiFalse(0L);
         });
 
-        OrdineDTO finalOrdineDTO = ordineDTO;
-        assertThrows(OrdineException.class, () -> {
-            ordineService.evadiOrdine(null, finalOrdineDTO);
-        });
-
-        assertThrows(OrdineException.class, () -> {
-            ordineService.evadiOrdine(0L, finalOrdineDTO);
-        });
-
-        ordineDTO = ordineService.evadiOrdine(id, ordineDTO);
+        ordineDTO = ordineService.setEvadiFalse(id);
         assertNotNull(ordineDTO);
         assertNotNull(ordineDTO.dataEvasione);
-        assertEquals(ordineDTO.evaso, Boolean.TRUE);
+        assertEquals(ordineDTO.evaso, Boolean.FALSE);
+        prodottoService.getProdottoOfOrdine(ordineDTO.id).forEach(prodottoDTO -> assertEquals(1000, prodottoDTO.quantita));
     }
 
     @Test

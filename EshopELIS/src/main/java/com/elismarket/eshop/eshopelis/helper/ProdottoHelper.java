@@ -141,4 +141,16 @@ public class ProdottoHelper {
         p.setQuantita(p.getQuantita() - quantitaProdotto);
         prodottoCrud.saveAndFlush(p);
     }
+
+    /**
+     * Restores quantita of a Prodotto to the value before order was placed
+     *
+     * @param id               of the {@link Prodotto Prodotto} to restore quantiat
+     * @param quantitaProdotto value of the quantita to restore
+     */
+    public void restoreQuantita(Long id, Integer quantitaProdotto) {
+        Prodotto p = prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
+        p.setQuantita(p.getQuantita() + quantitaProdotto);
+        prodottoCrud.saveAndFlush(p);
+    }
 }

@@ -29,9 +29,9 @@ public interface OrdineService {
 
     OrdineDTO getById(Long id);
 
+    OrdineDTO setEvadiFalse(Long id);
+
     RigaOrdine addRigaOrdineToOrdine(Long ordineId, RigaOrdineDTO rigaOrdineDTO);
 
     List<OrdineDTO> getAllByUtente(Long userId);
-
-    OrdineDTO evadiOrdine(Long id, OrdineDTO ordineDTO);
 }

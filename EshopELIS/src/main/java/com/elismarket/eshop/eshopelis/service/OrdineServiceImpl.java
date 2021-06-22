@@ -200,24 +200,25 @@ public class OrdineServiceImpl implements OrdineService {
     }
 
     /**
-     * Changes the status of an Ordine to evaded
+     * Sets isEvaso of Ordine to False and restores quantita
      *
-     * @param id        the Ordine to evade
-     * @param ordineDTO DTO of the Ordine with missing informations
+     * @param id the Ordine to evade
      * @return List {@link OrdineDTO OrdineDTO}
      * @throws OrdineException with {@link ExceptionPhrases#CANNOT_FIND_ELEMENT CANNOT_FIND_ELEMENT} if ordine with given id doesn't exist
      * @see Ordine#getDataEvasione()
      */
     @Override
-    public OrdineDTO evadiOrdine(Long id, OrdineDTO ordineDTO) {
-        if (isNull(id) || isNull(ordineDTO))
+    public OrdineDTO setEvadiFalse(Long id) {
+        if (isNull(id))
             throw new OrdineException(MISSING_PARAMETERS.name());
 
         Ordine o = ordineCrud.findById(id).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name()));
-        o.setEvaso(Boolean.TRUE);
+        o.setEvaso(Boolean.FALSE);
         o.setDataEvasione(LocalDate.now());
-        o.setPagamento(pagamentoHelper.findById(ordineDTO.pagamento_id));
-        o.setUtente(utenteHelper.findById(ordineDTO.utente_id));
+
+        List<RigaOrdine> righe = rigaOrdineHelper.getByOrdine(id);
+        rigaOrdineHelper.restoreQuantita(righe);
+
         return Ordine.to(ordineCrud.saveAndFlush(o));
     }
 

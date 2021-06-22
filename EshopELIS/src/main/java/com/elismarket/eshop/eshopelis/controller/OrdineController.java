@@ -111,16 +111,15 @@ public class OrdineController {
     }
 
     /**
-     * Changes the status of an Ordine to evaded
+     * Set isEvaso of an Ordine to false and restore quantita of the Prodotto in the Ordine
      *
-     * @param id        the Ordine to evade
-     * @param ordineDTO DTO of the Ordine with missing informations
+     * @param id the Ordine to evade
      * @return List {@link OrdineDTO OrdineDTO}
      * @see Ordine#getDataEvasione()
      */
     @GetMapping("/evasione/{id}")
-    public OrdineDTO getEvadi(@PathVariable Long id, @RequestBody OrdineDTO ordineDTO) {
-        return ordineService.evadiOrdine(id, ordineDTO);
+    public OrdineDTO getNotEvaded(@PathVariable Long id) {
+        return ordineService.setEvadiFalse(id);
     }
 
     /**
