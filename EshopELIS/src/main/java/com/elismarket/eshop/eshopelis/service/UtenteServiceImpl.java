@@ -70,7 +70,8 @@ public class UtenteServiceImpl implements UtenteService {
     @Transactional
     public UtenteDTO addUtente(UtenteDTO utenteDTO) {
         Checkers.utenteFieldsChecker(utenteDTO);
-        utenteDTO.logged = false;
+        utenteDTO.logged = Boolean.FALSE;
+        utenteDTO.isAdmin = Boolean.FALSE;
         Utente u = Utente.of(utenteDTO);
 
         duplicateChecker(utenteDTO);
@@ -308,7 +309,7 @@ public class UtenteServiceImpl implements UtenteService {
         if (utenteCrud.saveAndFlush(u).getLogged())
             throw new UtenteException(LOGOUT_ERROR.name());
 
-        return true;
+        return Boolean.TRUE;
     }
 
     /**

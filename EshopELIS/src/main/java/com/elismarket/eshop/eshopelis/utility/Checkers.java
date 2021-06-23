@@ -32,7 +32,7 @@ public class Checkers {
      */
     public static Boolean mailChecker(String email) {
         if (email == null)
-            return false;
+            return Boolean.FALSE;
 
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\" +
                 "[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\" +
@@ -89,7 +89,7 @@ public class Checkers {
             throw new UtenteException(TOO_YOUNG.name());
         if (LocalDate.now().getYear() - birthDate.getYear() > 90)
             throw new UtenteException(TOO_OLD.name());
-        return true;
+        return Boolean.TRUE;
     }
 
     /**

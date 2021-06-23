@@ -219,7 +219,7 @@ public class PropostaControllerTest {
         propostaDTO.prezzoProposto = 1F;
         propostaDTO.quantita = 100;
         propostaDTO.utente_id = utenteDTO.id;
-        propostaDTO.isAccettato = true;
+        propostaDTO.isAccettato = Boolean.TRUE;
 
         propostaDTO = propostaService.addProposta(propostaDTO);
         assertNotNull(propostaDTO);
@@ -232,7 +232,7 @@ public class PropostaControllerTest {
         propostaDTO1.prezzoProposto = 1F;
         propostaDTO1.quantita = 100;
         propostaDTO1.utente_id = utenteDTO.id;
-        propostaDTO1.isAccettato = false;
+        propostaDTO1.isAccettato = Boolean.FALSE;
 
         propostaDTO1 = propostaService.addProposta(propostaDTO1);
         assertNotNull(propostaDTO1);
