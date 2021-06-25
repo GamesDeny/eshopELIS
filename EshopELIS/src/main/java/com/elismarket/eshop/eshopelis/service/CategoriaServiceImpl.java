@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
@@ -114,6 +115,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         List<CategoriaDTO> result = new ArrayList<>();
         categoriaCrud.findAll().forEach(categoria -> result.add(Categoria.to(categoria)));
+        Collections.reverse(result);
         return result;
     }
 

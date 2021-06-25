@@ -14,6 +14,7 @@ import java.util.List;
  * @version 1.0
  */
 public interface OrdineCrud extends JpaRepository<Ordine, Long> {
+
     List<Ordine> findAllByEvaso(Boolean evaso);
 
     List<Ordine> findAllByDataEvasioneBefore(LocalDate dataEvasione);
