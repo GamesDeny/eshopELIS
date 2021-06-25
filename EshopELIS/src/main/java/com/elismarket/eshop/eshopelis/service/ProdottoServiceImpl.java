@@ -80,6 +80,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         Prodotto p = Prodotto.of(prodottoDTO);
 
         p.setCategoria(categoriaHelper.findById(prodottoDTO.categoria_id));
+        p.setIsDeleted(Boolean.FALSE);
 
         if (!isNull(prodottoDTO.utente_id))
             p.setUtente(utenteHelper.findById(prodottoDTO.utente_id));
@@ -114,6 +115,7 @@ public class ProdottoServiceImpl implements ProdottoService {
         p.setMinOrd(isNull(prodottoDTO.minOrd) ? p.getMinOrd() : prodottoDTO.minOrd);
         p.setPrezzo(isNull(prodottoDTO.prezzo) ? p.getPrezzo() : prodottoDTO.prezzo);
         p.setSconto(isNull(prodottoDTO.sconto) ? p.getSconto() : prodottoDTO.sconto);
+        p.setIsDeleted(isNull(prodottoDTO.isDeleted) ? p.getIsDeleted() : prodottoDTO.isDeleted);
 
         Checkers.prodottoFieldsChecker(Prodotto.to(p));
 
@@ -143,11 +145,17 @@ public class ProdottoServiceImpl implements ProdottoService {
         if (isNull(id))
             throw new ProdottoException(MISSING_PARAMETERS.name());
 
-        if (!prodottoCrud.existsById(id))
-            throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
+//        if (!prodottoCrud.existsById(id))
+//            throw new ProdottoException(CANNOT_FIND_ELEMENT.name());
 
-        prodottoCrud.deleteById(id);
-        return prodottoCrud.existsById(id);
+//        prodottoCrud.deleteById(id);
+//        return prodottoCrud.existsById(id);
+
+        Prodotto p = prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name()));
+        p.setIsDeleted(Boolean.TRUE);
+        prodottoCrud.saveAndFlush(p);
+
+        return !prodottoCrud.findById(id).orElseThrow(() -> new ProdottoException(CANNOT_FIND_ELEMENT.name())).getIsDeleted();
     }
 
     /**
@@ -157,7 +165,6 @@ public class ProdottoServiceImpl implements ProdottoService {
      */
     @Override
     public List<ProdottoDTO> getAll() {
-
         List<ProdottoDTO> result = new ArrayList<>();
         prodottoCrud.findAll().forEach(prodotto -> result.add(Prodotto.to(prodotto)));
         return result;

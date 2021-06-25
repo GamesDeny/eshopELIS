@@ -16,6 +16,7 @@ import java.util.List;
 public interface RigaOrdineCrud extends JpaRepository<RigaOrdine, Long> {
     List<RigaOrdine> findAllByOrdine(Ordine ordine);
 
+    //returns all RigaOrdine of all evaded Ordine
     @Query("SELECT r from RigaOrdine r join Ordine o on o.id = r.ordine.id where o.id in (select o from Ordine o where o.evaso = true)")
     List<RigaOrdine> findAllByOrdineEvaso();
 }

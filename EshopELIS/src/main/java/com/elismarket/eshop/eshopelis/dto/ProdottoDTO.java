@@ -20,6 +20,7 @@ public class ProdottoDTO {
     public Integer minOrd, maxOrd, sconto, quantita;
     public String image;
     public Long utente_id;
+    public Boolean isDeleted;
 
     public List<Long> righeOrdine_id;
     public Long categoria_id;

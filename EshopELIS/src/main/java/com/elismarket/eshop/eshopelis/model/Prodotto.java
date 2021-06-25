@@ -48,6 +48,12 @@ public class Prodotto {
     private String descrizione;
 
     /**
+     * indicates if a Prodotto is deleted or is still active
+     */
+    @Column(nullable = false)
+    private Boolean isDeleted;
+
+    /**
      * Indicates the price of the Prodotto
      */
     @Column(nullable = false)
@@ -114,6 +120,7 @@ public class Prodotto {
                 .sconto(prodottoDTO.sconto)
                 .quantita(prodottoDTO.quantita)
                 .image(prodottoDTO.image)
+                .isDeleted(prodottoDTO.isDeleted)
                 .build();
     }
 
@@ -136,6 +143,7 @@ public class Prodotto {
         p.quantita = prodotto.getQuantita();
         p.image = prodotto.getImage();
         p.categoria_id = prodotto.getCategoria().getId();
+        p.isDeleted = prodotto.getIsDeleted();
 
         return p;
     }
