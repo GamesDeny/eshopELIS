@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
@@ -144,6 +146,14 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
         if (!rigaOrdineCrud.existsById(id))
             throw new RigaOrdineException(CANNOT_FIND_ELEMENT.name());
         return RigaOrdine.to(rigaOrdineCrud.findById(id).orElseThrow(() -> new RigaOrdineException(CANNOT_FIND_ELEMENT.name())));
+    }
+
+    @Override
+    public Map<Long, Integer> getProdottoStatistics() {
+        Map<Long, Integer> map = new HashMap<>();
+        List<RigaOrdine> righe = rigaOrdineCrud.findAll();
+        righe.forEach(rigaOrdine -> map.put(rigaOrdine.getId(), rigaOrdine.getQuantitaProdotto() + (isNull(map.get(rigaOrdine.getId())) ? map.get(rigaOrdine.getId()) : 0)));
+        return map;
     }
 
 }

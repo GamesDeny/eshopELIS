@@ -1,6 +1,7 @@
 package com.elismarket.eshop.eshopelis.controller;
 
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.model.Prodotto;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.service.interfaces.RigaOrdineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * RestController for {@link RigaOrdine RigaOrdine} entity
@@ -81,4 +83,13 @@ public class RigaOrdineController {
         return rigaOrdineService.getById(id);
     }
 
+    /**
+     * Returns a json conatining id of the {@link Prodotto Prodotto} sold with the relative quantity
+     *
+     * @return Map of Id_prodotto: SoldQuantity
+     */
+    @GetMapping("/statistics")
+    public Map<Long, Integer> getProdottoStatistics() {
+        return rigaOrdineService.getProdottoStatistics();
+    }
 }

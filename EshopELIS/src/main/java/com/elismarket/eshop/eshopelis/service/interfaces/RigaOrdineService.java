@@ -5,6 +5,7 @@ import com.elismarket.eshop.eshopelis.model.RigaOrdine;
 import com.elismarket.eshop.eshopelis.service.RigaOrdineServiceImpl;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Service layer for the {@link RigaOrdine RigaOrdine} entity
@@ -23,4 +24,6 @@ public interface RigaOrdineService {
     List<RigaOrdineDTO> getAll();
 
     RigaOrdineDTO getById(Long id);
+
+    Map<Long, Integer> getProdottoStatistics();
 }

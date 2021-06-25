@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -281,5 +282,49 @@ public class RigaOrdineControllerTest {
         assertNotNull(rigaOrdineService.getById(id));
     }
 
+    @Test
+    public void TestGetProdottoStatistics() {
+        List<RigaOrdineDTO> righe = new ArrayList<>();
+
+
+        RigaOrdineDTO rigaOrdineDTO = new RigaOrdineDTO();
+        rigaOrdineDTO.quantitaProdotto = 1;
+        rigaOrdineDTO.prezzoTotale = 1F;
+        rigaOrdineDTO.scontoApplicato = 0F;
+
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+
+        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
+
+        rigaOrdineDTO.prodotto_id = prodottoDTO.id;
+
+        for (int i = 0; i < 5; i++)
+            righe.add(rigaOrdineService.addRigaOrdine(rigaOrdineDTO));
+
+        assertEquals(5, righe.size());
+
+        Map<Long, Integer> map = rigaOrdineService.getProdottoStatistics();
+        assertNotNull(map);
+        righe = rigaOrdineService.getAll();
+
+        for (int i = 0; i < 5; i++) {
+            System.out.println(map.get(righe.get(i).prodotto_id));
+            assertNotNull(map.get(righe.get(i).prodotto_id));
+        }
+    }
 
 }
