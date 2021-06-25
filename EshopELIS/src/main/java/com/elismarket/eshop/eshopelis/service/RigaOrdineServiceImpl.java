@@ -1,5 +1,6 @@
 package com.elismarket.eshop.eshopelis.service;
 
+import com.elismarket.eshop.eshopelis.dto.OrdineDTO;
 import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
 import com.elismarket.eshop.eshopelis.exception.ExceptionPhrases;
 import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
@@ -13,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.MISSING_PARAMETERS;
@@ -151,8 +149,40 @@ public class RigaOrdineServiceImpl implements RigaOrdineService {
     @Override
     public Map<Long, Integer> getProdottoStatistics() {
         Map<Long, Integer> map = new HashMap<>();
-        List<RigaOrdine> righe = rigaOrdineCrud.findAll();
-        righe.forEach(rigaOrdine -> map.put(rigaOrdine.getId(), rigaOrdine.getQuantitaProdotto() + (isNull(map.get(rigaOrdine.getId())) ? map.get(rigaOrdine.getId()) : 0)));
+        List<OrdineDTO> ordiniEvasi = ordineHelper.getOrdiniEvasi();
+        List<RigaOrdineDTO> righe = getAll();
+
+        Integer n = righe.size();
+        for (int i = 0; i < n; i++) {
+
+            if (isNull(righe.get(i).prodotto_id) || isNull(righe.get(i).ordine_id) || isNull(righe.get(i).quantitaProdotto)) {
+                righe.remove(i);
+                i--;
+                n--;
+                continue;
+            }
+
+            Boolean exists = Boolean.FALSE;
+
+            for (OrdineDTO o : ordiniEvasi)
+                if (Objects.equals(righe.get(i).ordine_id, o.id)) {
+                    exists = Boolean.TRUE;
+                    break;
+                }
+
+            if (!exists) {
+                righe.remove(i);
+                i--;
+                n--;
+            }
+        }
+
+        if (righe.size() > 0)
+            righe.forEach(rigaOrdine -> map.put(
+                    rigaOrdine.prodotto_id,
+                    rigaOrdine.quantitaProdotto +
+                            (isNull(map.get(rigaOrdine.prodotto_id)) ?
+                                    0 : map.get(rigaOrdine.prodotto_id))));
         return map;
     }
 

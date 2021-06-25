@@ -92,7 +92,7 @@ public class RigaOrdine {
         r.scontoApplicato = rigaOrdine.getScontoApplicato();
         r.quantitaProdotto = rigaOrdine.getQuantitaProdotto();
         r.ordine_id = isNull(r.ordine_id) ? null : rigaOrdine.getOrdine().getId();
-        r.prodotto_id = rigaOrdine.getProdotto().getId();
+        r.prodotto_id = isNull(rigaOrdine.getProdotto()) ? null : rigaOrdine.getProdotto().getId();
 
         return r;
     }

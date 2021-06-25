@@ -9,6 +9,9 @@ import com.elismarket.eshop.eshopelis.repository.OrdineCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.elismarket.eshop.eshopelis.exception.ExceptionPhrases.CANNOT_FIND_ELEMENT;
 
 /**
@@ -61,5 +64,16 @@ public class OrdineHelper {
      */
     public Ordine findById(Long ordineId) {
         return ordineCrud.findById(ordineId).orElseThrow(() -> new OrdineException(CANNOT_FIND_ELEMENT.name()));
+    }
+
+    /**
+     * Returns all evaded Ordine
+     *
+     * @return list of OrdineDTO evasi
+     */
+    public List<OrdineDTO> getOrdiniEvasi() {
+        List<OrdineDTO> ordini = new ArrayList<>();
+        ordineCrud.findAllByEvaso(Boolean.TRUE).forEach(ordine -> ordini.add(Ordine.to(ordine)));
+        return ordini;
     }
 }
