@@ -1,21 +1,16 @@
 package com.elismarket.eshop.eshopelis.ControllersTests;
 
-import com.elismarket.eshop.eshopelis.dto.CategoriaDTO;
-import com.elismarket.eshop.eshopelis.dto.ProdottoDTO;
-import com.elismarket.eshop.eshopelis.dto.RigaOrdineDTO;
+import com.elismarket.eshop.eshopelis.dto.*;
 import com.elismarket.eshop.eshopelis.exception.RigaOrdineException;
 import com.elismarket.eshop.eshopelis.model.RigaOrdine;
-import com.elismarket.eshop.eshopelis.repository.CategoriaCrud;
-import com.elismarket.eshop.eshopelis.repository.ProdottoCrud;
-import com.elismarket.eshop.eshopelis.repository.RigaOrdineCrud;
-import com.elismarket.eshop.eshopelis.service.interfaces.CategoriaService;
-import com.elismarket.eshop.eshopelis.service.interfaces.ProdottoService;
-import com.elismarket.eshop.eshopelis.service.interfaces.RigaOrdineService;
+import com.elismarket.eshop.eshopelis.repository.*;
+import com.elismarket.eshop.eshopelis.service.interfaces.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +26,12 @@ public class RigaOrdineControllerTest {
     RigaOrdineCrud rigaOrdineCrud;
 
     @Autowired
+    OrdineService ordineService;
+
+    @Autowired
+    OrdineCrud ordineCrud;
+
+    @Autowired
     ProdottoService prodottoService;
 
     @Autowired
@@ -42,6 +43,64 @@ public class RigaOrdineControllerTest {
     @Autowired
     CategoriaCrud categoriaCrud;
 
+    @Autowired
+    UtenteService utenteService;
+
+    @Autowired
+    UtenteCrud utenteCrud;
+
+    @Autowired
+    PagamentoService pagamentoService;
+
+    @Autowired
+    PagamentoCrud pagamentoCrud;
+
+    @Autowired
+    TipoMetodoService tipoMetodoService;
+
+    @Autowired
+    TipoMetodoCrud tipoMetodoCrud;
+
+    private TipoMetodoDTO creaMetodo() {
+        TipoMetodoDTO tipoMetodoDTO = new TipoMetodoDTO();
+        tipoMetodoDTO.nome = "contanti";
+        return tipoMetodoService.addTipoMetodo(tipoMetodoDTO);
+    }
+
+    private UtenteDTO creaUtente() {
+        UtenteDTO utente = new UtenteDTO();
+        utente.isAdmin = Boolean.TRUE;
+        utente.nome = "z";
+        utente.cognome = "z";
+        utente.username = "z";
+        utente.password = "Zzzzz1";
+        utente.mail = "zzz@zzz.zzz";
+        utente.siglaResidenza = 100;
+        utente.dataNascita = LocalDate.of(2001, 1, 1);
+
+        return utenteService.addUtente(utente);
+    }
+
+    private ProdottoDTO creaProdotto() {
+        CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.nome = "IT";
+        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
+        assertNotNull(categoriaDTO);
+        assertNotNull(categoriaDTO.id);
+
+        ProdottoDTO prodottoDTO = new ProdottoDTO();
+        prodottoDTO.nome = "VPN";
+        prodottoDTO.descrizione = "servizio VPN";
+        prodottoDTO.quantita = 10;
+        prodottoDTO.maxOrd = prodottoDTO.quantita;
+        prodottoDTO.prezzo = 1F;
+        prodottoDTO.minOrd = 1;
+        prodottoDTO.sconto = 0;
+        prodottoDTO.image = ".";
+        prodottoDTO.categoria_id = categoriaDTO.id;
+        return prodottoService.addProdotto(prodottoDTO);
+    }
+
     @BeforeEach
     public void init() {
         deleteDb();
@@ -51,6 +110,10 @@ public class RigaOrdineControllerTest {
         rigaOrdineCrud.deleteAll();
         categoriaCrud.deleteAll();
         prodottoCrud.deleteAll();
+        utenteCrud.deleteAll();
+        pagamentoCrud.deleteAll();
+        tipoMetodoCrud.deleteAll();
+        ordineCrud.deleteAll();
     }
 
     @Test
@@ -284,47 +347,51 @@ public class RigaOrdineControllerTest {
 
     @Test
     public void TestGetProdottoStatistics() {
-        List<RigaOrdineDTO> righe = new ArrayList<>();
+        UtenteDTO utenteDTO = creaUtente();
+        assertNotNull(utenteDTO);
+        assertNotNull(utenteDTO.id);
 
+        TipoMetodoDTO tipoMetodoDTO = creaMetodo();
+        assertNotNull(tipoMetodoDTO);
+        assertNotNull(tipoMetodoDTO.id);
+
+        PagamentoDTO pagamentoDTO = new PagamentoDTO();
+        pagamentoDTO.descrizione = "pagamento";
+        pagamentoDTO.utente_id = utenteDTO.id;
+        pagamentoDTO.tipoMetodo_id = tipoMetodoDTO.id;
+        pagamentoDTO = pagamentoService.addPagamento(pagamentoDTO);
+        assertNotNull(pagamentoDTO);
+        assertNotNull(pagamentoDTO.id);
+
+        ProdottoDTO prodottoDTO = creaProdotto();
+        assertNotNull(prodottoDTO);
+        assertNotNull(prodottoDTO.id);
+
+        List<RigaOrdineDTO> righe = new ArrayList<>();
 
         RigaOrdineDTO rigaOrdineDTO = new RigaOrdineDTO();
         rigaOrdineDTO.quantitaProdotto = 1;
         rigaOrdineDTO.prezzoTotale = 1F;
         rigaOrdineDTO.scontoApplicato = 0F;
-
-        CategoriaDTO categoriaDTO = new CategoriaDTO();
-        categoriaDTO.nome = "IT";
-
-        categoriaDTO = categoriaService.addCategoria(categoriaDTO);
-
-        ProdottoDTO prodottoDTO = new ProdottoDTO();
-        prodottoDTO.nome = "VPN";
-        prodottoDTO.descrizione = "servizio VPN";
-        prodottoDTO.quantita = 10;
-        prodottoDTO.maxOrd = prodottoDTO.quantita;
-        prodottoDTO.prezzo = 1F;
-        prodottoDTO.minOrd = 1;
-        prodottoDTO.sconto = 0;
-        prodottoDTO.image = ".";
-        prodottoDTO.categoria_id = categoriaDTO.id;
-
-        prodottoDTO = prodottoService.addProdotto(prodottoDTO);
-
         rigaOrdineDTO.prodotto_id = prodottoDTO.id;
 
-        for (int i = 0; i < 5; i++)
-            righe.add(rigaOrdineService.addRigaOrdine(rigaOrdineDTO));
-
+        for (int i = 0; i < 5; i++) {
+            RigaOrdineDTO temp = rigaOrdineService.addRigaOrdine(rigaOrdineDTO);
+            assertNotNull(temp);
+            assertNotNull(temp.id);
+            righe.add(temp);
+        }
         assertEquals(5, righe.size());
+
+        OrdineDTO ordineDTO = ordineService.saveOrdine(utenteDTO.id, pagamentoDTO.id, righe);
+        assertNotNull(ordineDTO);
+        assertNotNull(ordineDTO.id);
+        System.out.println(ordineDTO);
 
         Map<Long, Integer> map = rigaOrdineService.getProdottoStatistics();
         assertNotNull(map);
         righe = rigaOrdineService.getAll();
 
-        for (int i = 0; i < 5; i++) {
-            System.out.println(map.get(righe.get(i).prodotto_id));
-            assertNotNull(map.get(righe.get(i).prodotto_id));
-        }
     }
 
 }

@@ -7,6 +7,7 @@ import com.elismarket.eshop.eshopelis.dto.UtenteDTO;
 import com.elismarket.eshop.eshopelis.exception.PagamentoException;
 import com.elismarket.eshop.eshopelis.model.Ordine;
 import com.elismarket.eshop.eshopelis.repository.PagamentoCrud;
+import com.elismarket.eshop.eshopelis.repository.TipoMetodoCrud;
 import com.elismarket.eshop.eshopelis.repository.UtenteCrud;
 import com.elismarket.eshop.eshopelis.service.interfaces.PagamentoService;
 import com.elismarket.eshop.eshopelis.service.interfaces.TipoMetodoService;
@@ -33,6 +34,9 @@ public class PagamentoControllerTest {
     TipoMetodoService tipoMetodoService;
 
     @Autowired
+    TipoMetodoCrud tipoMetodoCrud;
+
+    @Autowired
     UtenteService utenteService;
 
     @Autowired
@@ -47,6 +51,7 @@ public class PagamentoControllerTest {
         pagamentoCrud.deleteAll();
         pagamentoCrud.deleteAll();
         utenteCrud.deleteAll();
+        tipoMetodoCrud.deleteAll();
     }
 
     private TipoMetodoDTO creaMetodo() {
